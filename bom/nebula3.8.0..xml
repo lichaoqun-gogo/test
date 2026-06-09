@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bom xmlns="http://cyclonedx.org/schema/bom/1.4" version="1" serialNumber="urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79">
+  <metadata>
+    <timestamp>2026-05-19T00:00:00Z</timestamp>
+    <tools>
+      <tool>
+        <vendor>NebulaGraph</vendor>
+        <name>Manual SBOM Generator</name>
+        <version>1.0</version>
+      </tool>
+    </tools>
+    <component type="application" bom-ref="NebulaGraph">
+      <name>NebulaGraph</name>
+      <version>3.8.0</version>
+      <description>A distributed, scalable, lightning-fast graph database</description>
+      <publisher>vesoft inc.</publisher>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <externalReferences>
+        <reference type="website">
+          <url>https://nebula-graph.io/</url>
+        </reference>
+        <reference type="vcs">
+          <url>https://github.com/vesoft-inc/nebula</url>
+        </reference>
+      </externalReferences>
+    </component>
+  </metadata>
+  <components>
+    <component type="library" bom-ref="Bzip2">
+      <name>Bzip2</name>
+      <description>A freely available, patent free high-quality data compressor</description>
+      <licenses>
+        <license>
+          <name>BSD-like license</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="DoubleConversion">
+      <name>DoubleConversion</name>
+      <description>Efficient binary-decimal and decimal-binary conversion routines</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Fatal">
+      <name>Fatal</name>
+      <description>Fast assertions for C++</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Fbthrift">
+      <name>Fbthrift</name>
+      <description>Facebook's branch of Apache Thrift</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Folly">
+      <name>Folly</name>
+      <description>Facebook Open Source Library</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Gflags">
+      <name>Gflags</name>
+      <description>Commandline flags module for C++</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Glog">
+      <name>Glog</name>
+      <description>Google logging library</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Googletest">
+      <name>Googletest</name>
+      <description>Google's C++ testing framework</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Jemalloc">
+      <name>Jemalloc</name>
+      <description>A general-purpose scalable concurrent malloc implementation</description>
+      <licenses>
+        <license>
+          <name>BSD-2-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Libevent">
+      <name>Libevent</name>
+      <description>An event notification library</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Proxygen">
+      <name>Proxygen</name>
+      <description>Facebook's HTTP libraries</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Rocksdb">
+      <name>RocksDB</name>
+      <description>A persistent key-value store for fast storage environments</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Snappy">
+      <name>Snappy</name>
+      <description>A fast compressor/decompressor</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Wangle">
+      <name>Wangle</name>
+      <description>Facebook's framework for building asynchronous services</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="ZLIB">
+      <name>ZLIB</name>
+      <description>Massively spiffy yet delicately unobtrusive compression library</description>
+      <licenses>
+        <license>
+          <name>ZLIB License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Zstd">
+      <name>Zstd</name>
+      <description>Fast lossless compression algorithm</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="OpenSSL">
+      <name>OpenSSL</name>
+      <description>Robust, commercial-grade, full-featured toolkit for TLS and SSL protocols</description>
+      <licenses>
+        <license>
+          <name>OpenSSL License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Boost">
+      <name>Boost</name>
+      <description>Peer-reviewed portable C++ source libraries</description>
+      <licenses>
+        <license>
+          <name>BSL-1.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Libunwind">
+      <name>Libunwind</name>
+      <description>A portable and efficient C programming interface to determine the call-chain of a program</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="BISON">
+      <name>BISON</name>
+      <description>A general-purpose parser generator</description>
+      <licenses>
+        <license>
+          <name>GPL-3.0-or-later</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="FLEX">
+      <name>FLEX</name>
+      <description>A fast lexical analyzer generator</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="LibLZMA">
+      <name>LibLZMA</name>
+      <description>Compression library with high compression ratio</description>
+      <licenses>
+        <license>
+          <name>Public Domain / LGPL-2.1+</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Fizz">
+      <name>Fizz</name>
+      <description>Facebook's TLS 1.3 implementation</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Sodium">
+      <name>libsodium</name>
+      <description>Modern, easy-to-use crypto library</description>
+      <licenses>
+        <license>
+          <name>ISC License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="Breakpad">
+      <name>Breakpad</name>
+      <description>Google's crash reporting library</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="setuptools">
+      <name>setuptools</name>
+      <version>59.6.0</version>
+      <description>Easily download, build, install, upgrade, and uninstall Python packages</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="wheel">
+      <name>wheel</name>
+      <version>0.37.1</version>
+      <description>A built-package format for Python</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest">
+      <name>pytest</name>
+      <version>5.3.2</version>
+      <description>Simple powerful testing with Python</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-html">
+      <name>pytest-html</name>
+      <version>2.0.1</version>
+      <description>Plugin for generating HTML reports for pytest results</description>
+      <licenses>
+        <license>
+          <name>MPL-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-metadata">
+      <name>pytest-metadata</name>
+      <version>1.8.0</version>
+      <description>Plugin for test session metadata</description>
+      <licenses>
+        <license>
+          <name>MPL-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-reportlog">
+      <name>pytest-reportlog</name>
+      <version>0.1.0</version>
+      <description>Plugin for generating test report logs</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-xdist">
+      <name>pytest-xdist</name>
+      <version>1.31.0</version>
+      <description>Plugin for distributed and parallel testing</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-benchmark">
+      <name>pytest-benchmark</name>
+      <version>3.2.3</version>
+      <description>Plugin for benchmarking</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-drop-dup-tests">
+      <name>pytest-drop-dup-tests</name>
+      <version>0.3.0</version>
+      <description>Plugin to drop duplicate tests</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-bdd">
+      <name>pytest-bdd</name>
+      <version>4.0.2</version>
+      <description>BDD plugin for pytest</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pytest-yapf3">
+      <name>pytest-yapf3</name>
+      <version>0.5.1</version>
+      <description>Plugin for yapf formatting checks</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="filelock">
+      <name>filelock</name>
+      <version>3.0.12</version>
+      <description>A platform independent file lock</description>
+      <licenses>
+        <license>
+          <name>Unlicense</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="ply">
+      <name>ply</name>
+      <version>3.10</version>
+      <description>Python Lex-Yacc</description>
+      <licenses>
+        <license>
+          <name>BSD-3-Clause</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="pyyaml">
+      <name>pyyaml</name>
+      <version>5.4</version>
+      <description>YAML parser and emitter for Python</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="fastcov">
+      <name>fastcov</name>
+      <version>1.13</version>
+      <description>Fast coverage report generator</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="deepdiff">
+      <name>deepdiff</name>
+      <version>5.7.0</version>
+      <description>Deep Difference and Search of any Python object</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="yapf">
+      <name>yapf</name>
+      <version>0.32.0</version>
+      <description>Yet Another Python Formatter</description>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+    </component>
+    <component type="library" bom-ref="tomli">
+      <name>tomli</name>
+      <version>1.2.3</version>
+      <description>Toml parser for Python</description>
+      <licenses>
+        <license>
+          <name>MIT License</name>
+        </license>
+      </licenses>
+    </component>
+  </components>
+  <dependencies>
+    <dependency ref="NebulaGraph">
+      <dependsOn ref="Bzip2"/>
+      <dependsOn ref="DoubleConversion"/>
+      <dependsOn ref="Fatal"/>
+      <dependsOn ref="Fbthrift"/>
+      <dependsOn ref="Folly"/>
+      <dependsOn ref="Gflags"/>
+      <dependsOn ref="Glog"/>
+      <dependsOn ref="Googletest"/>
+      <dependsOn ref="Jemalloc"/>
+      <dependsOn ref="Libevent"/>
+      <dependsOn ref="Proxygen"/>
+      <dependsOn ref="Rocksdb"/>
+      <dependsOn ref="Snappy"/>
+      <dependsOn ref="Wangle"/>
+      <dependsOn ref="ZLIB"/>
+      <dependsOn ref="Zstd"/>
+      <dependsOn ref="OpenSSL"/>
+      <dependsOn ref="Boost"/>
+      <dependsOn ref="Libunwind"/>
+      <dependsOn ref="BISON"/>
+      <dependsOn ref="FLEX"/>
+      <dependsOn ref="LibLZMA"/>
+      <dependsOn ref="Fizz"/>
+      <dependsOn ref="Sodium"/>
+      <dependsOn ref="Breakpad"/>
+    </dependency>
+  </dependencies>
+</bom>

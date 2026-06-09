@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bom xmlns="http://cyclonedx.org/schema/bom/1.1" serialNumber="urn:uuid:48938c44-30fb-4d50-ab4a-4f4cec3d705a" version="1">
+    <components>
+        <component type="library">
+            <group>net.sf.jopt-simple</group>
+            <name>jopt-simple</name>
+            <version>5.0.3</version>
+            <description>A Java library for parsing command line options</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">0a5ec84e23df9d7cfb4063bc55f2744c</hash>
+                <hash alg="SHA-1">cdd846cfc4e0f7eefafc02c0f5dce32b9303aa2a</hash>
+                <hash alg="SHA-256">6f45c00908265947c39221035250024f2caec9a15c1c8cf553ebeecee289f342</hash>
+                <hash alg="SHA-384">28213ace2a3aa596e28e0cac26dbd963a8da066948682e895af77108cc80a2ec8dd7261cbfffc175157717e8d99a1898</hash>
+                <hash alg="SHA-512">c69c688a723a7f46dc3142156977d00ca82bc25e3f6e32c66851720db9107dccd1b0e17751272ed1a0c874449d122e040f890214b0e60828239c57639579f996</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>MIT</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <publisher>JUnit</publisher>
+            <group>junit</group>
+            <name>junit</name>
+            <version>4.12</version>
+            <description>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">5b38c40c97fbd0adee29f91e60405584</hash>
+                <hash alg="SHA-1">2973d150c0dc1fefe998f834810d68f278ea58ec</hash>
+                <hash alg="SHA-256">59721f0805e223d84b90677887d9ff567dc534d7c502ca903c0c2b17f05c116a</hash>
+                <hash alg="SHA-384">e2f0c2db405e282d0f84a1766b9e8d9736d4377e292a5ef8457aec10384f9077005865167025b2779634d75bcb4d62cd</hash>
+                <hash alg="SHA-512">5974670c3d178a12da5929ba5dd9b4f5ff461bdc1b92618c2c36d53e88650df7adbf3c1684017bb082b477cb8f40f15dcf7526f06f06183f93118ba9ebeaccce</hash>
+            </hashes>
+            <purl>pkg:maven/junit/junit@4.12?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.hamcrest</group>
+            <name>hamcrest-core</name>
+            <version>1.3</version>
+            <description>This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">6393363b47ddcbba82321110c3e07519</hash>
+                <hash alg="SHA-1">42a25dc3219429f0e5d060061f71acb49bf010a0</hash>
+                <hash alg="SHA-256">66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9</hash>
+                <hash alg="SHA-384">4b5297d2a12cc32b824153afc83f1ba9f1869ca288330f0a2f759659d09e4c420eb6ba4a1efbfa0657b625edd41293d5</hash>
+                <hash alg="SHA-512">e237ae735aac4fa5a7253ec693191f42ef7ddce384c11d29fbf605981c0be077d086757409acad53cb5b9e53d86a07cc428d459ff0f5b00d32a8cbbca390be49</hash>
+            </hashes>
+            <purl>pkg:maven/org.hamcrest/hamcrest-core@1.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.apache.logging.log4j</group>
+            <name>log4j-api</name>
+            <version>2.6.2</version>
+            <description>The Apache Log4j API</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">cfe83fed6d54c335c1ec68518e62c485</hash>
+                <hash alg="SHA-1">bd1b74a5d170686362091c7cf596bbc3adf5c09b</hash>
+                <hash alg="SHA-256">a7ce4e774b0100ffa0f87a2456ea6768c42cb50795e931bb51dbcdbbce974ec8</hash>
+                <hash alg="SHA-384">06c96620fa624474588d33274700e7f6dff167b4769e5ca1eeee5b9821c88c2af7a918a46f2b1499861f77528a90b3a3</hash>
+                <hash alg="SHA-512">670b333c0627322561e875eac38b0e634645ef779603b6696c155f6cd522ac5366f168fbaaf490f31e817f2682d646d076462051e77ea6f6af9121c52b290cb2</hash>
+            </hashes>
+            <purl>pkg:maven/org.apache.logging.log4j/log4j-api@2.6.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.apache.logging.log4j</group>
+            <name>log4j-core</name>
+            <version>2.6.2</version>
+            <description>The Apache Log4j Implementation</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">472c8e1fbaa0e61520e025c255b5d168</hash>
+                <hash alg="SHA-1">00a91369f655eb1639c6aece5c5eb5108db18306</hash>
+                <hash alg="SHA-256">cf65f0d33640f2cd0a0b06dd86a5c6353938ccb25f4ffd14116b4884181e0392</hash>
+                <hash alg="SHA-384">e474ad20d8bad176b8dba9a1598904670d843c8e3d6f18cb4aff79bd3c0e4c71c7e43dedb2a46e49827d3ef92deeea80</hash>
+                <hash alg="SHA-512">6282906f1c5c033c4e0ac84d46e37a6e8747d1a17eea23cd50fa574b9332f6a48a87dcb56a054c26134a7de22f228c9ed7bff89b94d6ab94aab094d6e0b0b97f</hash>
+            </hashes>
+            <purl>pkg:maven/org.apache.logging.log4j/log4j-core@2.6.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.fasterxml.jackson.core</group>
+            <name>jackson-core</name>
+            <version>2.7.4</version>
+            <description>Core Jackson abstractions, basic JSON streaming API implementation</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">ee843372ee37ac64b585fa7d499502b2</hash>
+                <hash alg="SHA-1">b8f38a249116b66d804a5ca2b14a3459b7913a94</hash>
+                <hash alg="SHA-256">1357396efdd4cbbbf3a3f5cb97201ee9270f4188b6c10ee5762705f522c54694</hash>
+                <hash alg="SHA-384">5eca7b4d1aa5b6d13f3cda6523fef2c01ceabbe9a52efac1899c79720bbc77f7d23c604dbcbc63b33a73a59d1d429eb1</hash>
+                <hash alg="SHA-512">ebff4692c80aea8be13fccb999610e616d08b9f77513f72ec4d1f320d7e02fc9be06f5e4e228ec9745650544e3d3c8e24c97640dbc15692d49b1569f562aee58</hash>
+            </hashes>
+            <purl>pkg:maven/com.fasterxml.jackson.core/jackson-core@2.7.4?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.fasterxml.jackson.core</group>
+            <name>jackson-databind</name>
+            <version>2.7.4</version>
+            <description>General data-binding functionality for Jackson: works on core streaming API</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">54fc0540b2778ac9335c36b988d733a8</hash>
+                <hash alg="SHA-1">1e9c6f3659644aeac84872c3b62d8e363bf4c96d</hash>
+                <hash alg="SHA-256">36a2930d03247a785bda763be9b9b0559d895b2d333c1ae394ae9ff26aa90c03</hash>
+                <hash alg="SHA-384">5b5e600adceb13c1da5f52003231083d56102a09a0c92ab62ffea22976e5ebc10d6fcdc745cadc4d450546dc8225def1</hash>
+                <hash alg="SHA-512">6eaa08b6505d287641bbca88154c8c16ce3090bded9f115be7637bae5d5fd60325e14d6b224d18b5a79f1d6e2bc6df57f0ff8e7486d0277e0e28a0a1ce3bada0</hash>
+            </hashes>
+            <purl>pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.7.4?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.fasterxml.jackson.module</group>
+            <name>jackson-module-afterburner</name>
+            <version>2.7.4</version>
+            <description>Jackson (https://github.com/FasterXML/jackson) extension module used to enhance performance using bytecode generation to replace use of Reflection for field access and method calls</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">6feeec2d7b0a430f9e22b538b1179687</hash>
+                <hash alg="SHA-1">00c907df424e3d79c87ef97d6078281f74f1c5f8</hash>
+                <hash alg="SHA-256">7c0af5f1198615aeb06d2830b12f4638fef758ed2ca4494bcda37cc6164a0f1c</hash>
+                <hash alg="SHA-384">721a6ca2af54bb1bc7101586d145be5a59c9ca606c961ac25babd91a4208213eec973ef1047c08c583a9357e29323d26</hash>
+                <hash alg="SHA-512">ba8849f7ba3508cb3df5a841dc3d522c4d7d74d0133abfce258a286d271c3568416b81f1e6fbef8c650d2ea95b01fee29307a6df2d84b718443b6f31560ababc</hash>
+            </hashes>
+            <purl>pkg:maven/com.fasterxml.jackson.module/jackson-module-afterburner@2.7.4?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.fasterxml.jackson.dataformat</group>
+            <name>jackson-dataformat-cbor</name>
+            <version>2.7.4</version>
+            <description>Support for reading and writing Concise Binary Object Representation ([CBOR](https://www.rfc-editor.org/info/rfc7049) encoded data using Jackson abstractions (streaming API, data binding, tree model)</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">62ea38cbe02df627d63b730fc84a25eb</hash>
+                <hash alg="SHA-1">bd379f8d9152df26b024ea3e1c00b75bcce60d57</hash>
+                <hash alg="SHA-256">aa092e97084a821ba89abcfc59b5f05f08371138b5df9e0e669ca13c97bd61ea</hash>
+                <hash alg="SHA-384">f2c6fc786dabee27b55186b0c2ab7f4fdc8d64b49b52f4dd4c84fcd00233a83dd18e67edc655ae1c997eb5b4a50e4beb</hash>
+                <hash alg="SHA-512">afa6b7d4f1a9d341de553bb160ca39d368c8d8c01bf6f29f817983394ddd05a65822f609251fc880feb301056242eefe45675251adaf54537d0c16441c18bd0e</hash>
+            </hashes>
+            <purl>pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.7.4?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.fasterxml.jackson.core</group>
+            <name>jackson-annotations</name>
+            <version>2.7.0</version>
+            <description>Core annotations used for value types, used by Jackson data binding package.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">2e9c9dc87ffa5efd24c25ba50ff467ce</hash>
+                <hash alg="SHA-1">19f42c154ffc689f40a77613bc32caeb17d744e3</hash>
+                <hash alg="SHA-256">f775d20b6ad1ef122f453b2d7aeebb009523f7cdf89a674fe2f303221c95696b</hash>
+                <hash alg="SHA-384">40adc1ac94381174239189d8866a6e132ac919f400a0882077bd1259d80c33db80a915af94de6818528404438f3de734</hash>
+                <hash alg="SHA-512">4ddebb75ed79da4e765d8405294556cb333f98b41345e3f6f97d77e0a47b84668153e1e02f107b9cacee7d1fac0895c77d43b545dbb4259074436c08c7c7996a</hash>
+            </hashes>
+            <purl>pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.7.0?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.jruby</group>
+            <name>jruby-core</name>
+            <version>1.7.25</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">2a279ae042b5dd2d95253b5e2f32a17f</hash>
+                <hash alg="SHA-1">15b85a33ed4a982b382cc1690b476048a8266eaf</hash>
+                <hash alg="SHA-256">8ac610305edb6f045cfbbfa5cca7192d9160d3da42dba09abba64560559dfdcd</hash>
+                <hash alg="SHA-384">ed4e5d7be7bfbd45a721c767085445470755fe5a2b62dff13384dce1b56f73a6671673b4439fc21c0700cd35b07fd6d9</hash>
+                <hash alg="SHA-512">37aefdb4124d31b4047707371e568d0c750dc7200e80569681cd639b040d7cf8900ed0d8f7fa5e2a11ec0befc43c75867f784d29a107a226c44bdf4b78b198ce</hash>
+            </hashes>
+            <purl>pkg:maven/org.jruby/jruby-core@1.7.25?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.ow2.asm</group>
+            <name>asm</name>
+            <version>5.0.3</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">ccebee99fb8cdd50e1967680a2eac0ba</hash>
+                <hash alg="SHA-1">dcc2193db20e19e1feca8b1240dbbc4e190824fa</hash>
+                <hash alg="SHA-256">71c4f78e437b8fdcd9cc0dfd2abea8c089eb677005a6a5cff320206cc52b46cc</hash>
+                <hash alg="SHA-384">1421b54bd826aae1712c0e676cd7a02fe599baefeb8bfe9b7f57a58ebdad051de01972797f3a0d694ebb82622c2bbf49</hash>
+                <hash alg="SHA-512">d35bda1ecf09753572fd0582d2e79f07bbd563ca936d1238690d4bedaf57c68512580c49aba75d03fda41db27b84fc5cb276b8cfd990167ccc9dbecbc69f388d</hash>
+            </hashes>
+            <purl>pkg:maven/org.ow2.asm/asm@5.0.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.ow2.asm</group>
+            <name>asm-commons</name>
+            <version>5.0.3</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">49c4bd16df054f7b7376fcb80de5a225</hash>
+                <hash alg="SHA-1">a7111830132c7f87d08fe48cb0ca07630f8cb91c</hash>
+                <hash alg="SHA-256">18c1e092230233c9d29e46f21943d769bdb48130cc279e4b0e663f423948c2da</hash>
+                <hash alg="SHA-384">cf67d6185dab08278e741166de629c3ce74b46b7401e8dc25aec21d2c23a4b276e6e38be8e71846e55cdeb8731d59d43</hash>
+                <hash alg="SHA-512">702037de4cc53d3c4689d25223774384ce93372f4569d05e7e32e77a0d8a7efacaf3f574ee6e3ba5547f06431cb1595426da62f307d6fcf9321aaa9c4d7f6f77</hash>
+            </hashes>
+            <purl>pkg:maven/org.ow2.asm/asm-commons@5.0.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.ow2.asm</group>
+            <name>asm-analysis</name>
+            <version>5.0.3</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">f4bd5c076645f8004663cc35044fdb32</hash>
+                <hash alg="SHA-1">c7126aded0e8e13fed5f913559a0dd7b770a10f3</hash>
+                <hash alg="SHA-256">e8fa2a63462c96557dcd36c25525e1264b77366ff851cf0b94eb7592b290849d</hash>
+                <hash alg="SHA-384">9e22b8bc911d60cf8cc7158fbf9104cc09a2f1985ec4d14f5457016ed68dbad856e365819bd1facfe5dfe78ff83df0e0</hash>
+                <hash alg="SHA-512">1e5d21f7b878c21ff79648a1976395fb1a4a355dc5e71e48b31ede7d1312210e6b829e47b0c3630fb75c20c34d785bcbb5c6cd88e7bf281ddb13fe512e6f8291</hash>
+            </hashes>
+            <purl>pkg:maven/org.ow2.asm/asm-analysis@5.0.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.ow2.asm</group>
+            <name>asm-util</name>
+            <version>5.0.3</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">85b23e37383c7bb9200a2ad5067842e1</hash>
+                <hash alg="SHA-1">1512e5571325854b05fb1efce1db75fcced54389</hash>
+                <hash alg="SHA-256">2768edbfa2681b5077f08151de586a6d66b916703cda3ab297e58b41ae8f2362</hash>
+                <hash alg="SHA-384">b58244897b275773842858ea1483d9c3a5cc1aca549b964e9c354f9811e9a20fe692ff6dbd02b7bff11bf90786a2f053</hash>
+                <hash alg="SHA-512">4e4520640fbda565f6907b9e368801d4b7ed63e8613493ebc9f4e267808736aab607de7a0c5f410d7e4cf6f7b4fe467446ccddcc9b3ebb2ee6c95791dff1f8d0</hash>
+            </hashes>
+            <purl>pkg:maven/org.ow2.asm/asm-util@5.0.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.jruby.joni</group>
+            <name>joni</name>
+            <version>2.1.10</version>
+            <description>Java port of Oniguruma: http://www.geocities.jp/kosako3/oniguruma that uses byte arrays directly instead of java Strings and chars</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">79a234582b5e78056d23e796e508d6c9</hash>
+                <hash alg="SHA-1">8a4bed03d58bfad16c0d28e015ff04e5da303ed3</hash>
+                <hash alg="SHA-256">20e65c9831ce90fc6d54cf9e315e88aebe2439194bb00ae9f14d98dfb8fd5da7</hash>
+                <hash alg="SHA-384">970012b3132b98f4509140839985d8d7b0143e22a8e0fc44269ad79f2b59d18c3224ff4151c45891efd9455225c8f326</hash>
+                <hash alg="SHA-512">b81e95b71064f91af1d74122bfd1bd14af2fc119ec982b441ccad498131e1f1e89eb8968cd86d94178c137beb0581b0885448a7745b580cfb6e5128b6797b159</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>MIT</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/org.jruby.joni/joni@2.1.10?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-netdb</name>
+            <version>1.1.2</version>
+            <description>Lookup TCP and UDP services from java</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">2e3aea62c8a7da05c3bb4bf8cb3e568a</hash>
+                <hash alg="SHA-1">a6e3c355845885c58078b5b98f26022f20258e8a</hash>
+                <hash alg="SHA-256">dfe4d0fc88a3ea4e4c57de585fb72d7b5419517f8c524e344d9b4cf16ef84fb3</hash>
+                <hash alg="SHA-384">98e49c0a94361c4867ef86e6e51b10fdcb85f2d7a0cdeb7320760fadc5e411032b877c50a8b13d238a665ab4c67c3456</hash>
+                <hash alg="SHA-512">d82925447a649e03730d61d7efcf9d024512bfc9ccaf3cc8f6caa9261f067f5f127a26da6ada3c7602c396e21acad7ecc88ba6d88452a32fa2ef7ec09c5ac7ca</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-netdb@1.1.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-enxio</name>
+            <version>0.12</version>
+            <description>Native I/O access for java</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">d2064c46b53a64ebc64d0175c73e6fb1</hash>
+                <hash alg="SHA-1">f388b6eabf6597c1c2844452ae9d608ef01651ae</hash>
+                <hash alg="SHA-256">ff1120876df831c5edb7f5bec85cf61982ea9fe1e6829a8dfe47bbed12538547</hash>
+                <hash alg="SHA-384">d7557da11e21ac2799b153a0313eafa24d61708fdff78bc634246b766295586c032daac5f9538eebcbab28eb3f8add99</hash>
+                <hash alg="SHA-512">12fdb054679f6def99116afc739189dcb4f1f6cc0bf70cf78fa7052843c4c2e4f5e174c7c58828f1f2f6cee4be5cd2dba8155af61e3631a567e186e6e0fb13ff</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-enxio@0.12?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-x86asm</name>
+            <version>1.0.2</version>
+            <description>A pure-java X86 and X86_64 assembler</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">00670735acb2a9d1421b506dc7d338bc</hash>
+                <hash alg="SHA-1">006936bbd6c5b235665d87bd450f5e13b52d4b48</hash>
+                <hash alg="SHA-256">39f3675b910e6e9b93825f8284bec9f4ad3044cd20a6f7c8ff9e2f8695ebf21e</hash>
+                <hash alg="SHA-384">91839815885716f1202a824b195a475d4d7561690192b42cf05b8c6432556a3e7e2dab13b6e970986a97711fb7060844</hash>
+                <hash alg="SHA-512">e928926b01ce545144c1bbf160edee9b923773e32f9a399a71c2ab5e8325d9cbcfb41f41c8f008b80d1beab8da1c4b74845996479c07ed73bc131959911d4762</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>MIT</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-x86asm@1.0.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-unixsocket</name>
+            <version>0.12</version>
+            <description>Native I/O access for java</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">f1abb51ccfbd7abcdb0d33ad35331150</hash>
+                <hash alg="SHA-1">a6de84ede6ba5c579813aba1d94c46488115f02c</hash>
+                <hash alg="SHA-256">6fab4a98bdf80217c1268af14119c43583b898a44452e982f663aef633d3853f</hash>
+                <hash alg="SHA-384">4e708208d42aa51b904bd4372b3f8975b7930f4be46f6b7040c39a563be28e1f8f32f7a22467e6f85092b7e12af33bab</hash>
+                <hash alg="SHA-512">cb3c414a7d56e4b900520e3b449b116d456b09a09a2585ef163be5537db235aba926a6c80ea086cd4ff677b475bd9905e651e8aee4b669d7141d50cff0dd7e38</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-unixsocket@0.12?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-posix</name>
+            <version>3.0.29</version>
+            <description>Common cross-project/cross-platform POSIX APIs</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">bef579572d09f0d6e8b02f6430cb98db</hash>
+                <hash alg="SHA-1">bc3d222cb0eae5bc59f733ee8ca9d005e3d2666f</hash>
+                <hash alg="SHA-256">83922f3ec7be66540eef4ddc423bfc4dbf2ee520bb40e40d7b61bd5625d9e352</hash>
+                <hash alg="SHA-384">86b71ceefaf94187496626110827206db914f7816c23645d9b9f2b7e0e4de68e3ac6d6e497d5fdc766d489f4eaa79371</hash>
+                <hash alg="SHA-512">27cd2001b351f0fd4fd94d831c52b510877869116da14fdb5ea9a7f0faff5f2e1d5b8ce8035dce2d779704577667b3b536ae0239d795f1898693f6c8135ce88e</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <name>Common Public License - v 1.0</name>
+                </license>
+                <license>
+                    <name>GNU General Public License Version 2</name>
+                </license>
+                <license>
+                    <name>GNU Lesser General Public License Version 2.1</name>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-posix@3.0.29?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.jruby.extras</group>
+            <name>bytelist</name>
+            <version>1.0.11</version>
+            <description>Byte array based container</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">93632422a9c4d377e37d2f55070ab29c</hash>
+                <hash alg="SHA-1">922b99c627f639f26f8c20f3720673acec71a38d</hash>
+                <hash alg="SHA-256">21ff897c3168224a8cefdb8b94d309a5a121fb4ee7f618b6dec63edba98b2fa1</hash>
+                <hash alg="SHA-384">b34dd9f284dbdd1de4f3f443249e54879a7990c96d98a52c420db2a1c98a9f5015f0b12ad10620fab5c1078968b9fce4</hash>
+                <hash alg="SHA-512">3556e1c347bad9eccecbbb199870f8065b4dca7070e1f8b68b2b4b12aa6f99e48569d955874312bcf67ec59e1df951ceeb0d69c8c8128e8c1c8686b44fc70b6e</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>MIT</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/org.jruby.extras/bytelist@1.0.11?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-constants</name>
+            <version>0.9.1</version>
+            <description>A set of platform constants (e.g. errno values)</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">6e435651fc27bdf91f301f8886dbd0ca</hash>
+                <hash alg="SHA-1">097c07385c422974638c5cc00bfae849f276c753</hash>
+                <hash alg="SHA-256">a4e622c80a2c71d5ef4778a079568ef6c2acb766efa0b9509fdb6ac8840d4461</hash>
+                <hash alg="SHA-384">1387bac6596478b10dc243de66a844f08b037e4d781f8d98549858629d543e827ddf35545209c0937b6561fe1cef1f0d</hash>
+                <hash alg="SHA-512">2dfe9b818a2a9512ae375282b64035ac1e96ba3f3e3f7303d284509e52d65ade0f409f5dc09b864bad1ce02164daffeedc6b104913941c5d1ff761d20382fc06</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-constants@0.9.1?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.jruby.jcodings</group>
+            <name>jcodings</name>
+            <version>1.0.16</version>
+            <description>Byte based encoding support library for java</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">ae31b1567e75553eb76092175f2d98fc</hash>
+                <hash alg="SHA-1">9918bd7e6325e02131dbf4451549ce643285b121</hash>
+                <hash alg="SHA-256">7116b792094ce78d2a179c9373f0124f1bdbe646a32dbc24575f650f0dbafcdc</hash>
+                <hash alg="SHA-384">27815a9bf56740aa11ec5b12d4e3c4e91c80ac94d188a725e91fa46fc493540ff011b743fa734588ed50f11590c524c7</hash>
+                <hash alg="SHA-512">a3ea5206630ee695e599fba028588e84d3037adce5d1330ac2caefa62d69e5255e1bbe1671eaac407ee0a1fc7d9c27e693dbdc9167a4c711ffd1291d1fb9bdba</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>MIT</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/org.jruby.jcodings/jcodings@1.0.16?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-ffi</name>
+            <version>2.0.9</version>
+            <description>A library for invoking native functions from java</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">2958cd40d52189bbf2450f4ab6103af4</hash>
+                <hash alg="SHA-1">f1306974f7a56de98fb816f30d40fdc199590b63</hash>
+                <hash alg="SHA-256">852915716ffd99772995939b94047fd9d1877ee6408c6044834d3181a90cc2c7</hash>
+                <hash alg="SHA-384">36b79875bba8815480159e2b4cdc9442758d95bcb947fd13242273ba459dc48fd9ae95f030b0050fb72ef9a59e7428b2</hash>
+                <hash alg="SHA-512">e37924daa62895181bf0bbfb796a9132385a24321896bcc9680581d9a3c2169d07c312c9a738caf4f7ab12e4d5880ed9921e3cb2b7af21b4fbd8c84f8bc7896f</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-ffi@2.0.9?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jffi</name>
+            <version>1.2.11</version>
+            <description>Java Foreign Function Interface</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">553899bd8646e66e92c0eed8f9bb92af</hash>
+                <hash alg="SHA-1">a16bcbd28dac61941abebb02ef8358f5fa983893</hash>
+                <hash alg="SHA-256">3cb1347813572cc3b812dbcdedc53c226f76ce0d36cfc49baa337d05d8b720a6</hash>
+                <hash alg="SHA-384">f836cb5c13af90205f584d097436d6952078fae8e3a0c25085dc3750a8922b162b222261b43140766127af7a8b2689b0</hash>
+                <hash alg="SHA-512">08358abf158d734af67dff4807528836409f201c0606b34897758759f0f88b1758c845b41e310b840b038ef07137e3be3e8bfe2acc45a149cbb9ef98044a1612</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jffi@1.2.11?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jffi</name>
+            <version>1.2.11</version>
+            <description>Java Foreign Function Interface</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">bdcc34e0aff9816c88addf65898a88ee</hash>
+                <hash alg="SHA-1">148a58808b1470149dc8d2f21da1f9f0fff5b5cb</hash>
+                <hash alg="SHA-256">1ae80c1da040c5437e007169c320f94912a25ea91c95feb5d26f76d7a72dfed6</hash>
+                <hash alg="SHA-384">6811ee23bb9f0a5cb7d441569b72b85a63391a49885c77dd8caa9b74605f530b5ee7b9014e0a5b72f5a45abe0e5bbd8b</hash>
+                <hash alg="SHA-512">b96d39b499dfe7c20962ede5ad9ca2067eb34ce2f3e6041fe76edffbfc486dc67cb2cf0d2bd0c26e82203bdfac76964639346cf8cd43aaf8acfdcf4aa89329ca</hash>
+            </hashes>
+            <purl>pkg:maven/com.github.jnr/jffi@1.2.11?classifier=native&amp;type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.yaml</group>
+            <name>snakeyaml</name>
+            <version>1.13</version>
+            <description>YAML 1.1 parser and emitter for Java</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">88e239ab48632e2eab576ee86f56c47e</hash>
+                <hash alg="SHA-1">73cbb494a912866c4c831a178c3a2a9169f4eaad</hash>
+                <hash alg="SHA-256">eebdfdc186a16cc52301d05e63730d3cf60b4eca62d9259e945025580dc274a9</hash>
+                <hash alg="SHA-384">1e0181d4bc76eda72b1883412272dff386382e06fc2d00df7beeec98c74e16de7da82b881dfe91dc659c00a9ed5af9e6</hash>
+                <hash alg="SHA-512">5c6e7e927dc9416a7d4ad5f169d39839705f3cfaa063ed915e3aa22a014a343dbfb1d59e5c39cd61eb03f75342caa074d2e651ce49dfe0a86dbcd6c2ad6e52d3</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/org.yaml/snakeyaml@1.13?type=jar</purl>
+        </component>
+        <component type="library">
+            <publisher>jcraft</publisher>
+            <group>com.jcraft</group>
+            <name>jzlib</name>
+            <version>1.1.3</version>
+            <description>JZlib is a re-implementation of zlib in pure Java</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">386d3714fef534d21175d8885ae48bf7</hash>
+                <hash alg="SHA-1">c01428efa717624f7aabf4df319939dda9646b2d</hash>
+                <hash alg="SHA-256">89b1360f407381bf61fde411019d8cbd009ebb10cff715f3669017a031027560</hash>
+                <hash alg="SHA-384">e0fe861e00a6136b1c97ae781ef56068b0e30c22a64ba4186b1703fd543878920e809f32756323f0fa68afc25f64653e</hash>
+                <hash alg="SHA-512">339793df0001214aaadac2a5456c3cd54a0c09ba2c9e73cf13155adbfdf1c2a953f7336903e45e76a52ce6b48c5b7c78436667d7836e7354e02e85ba0908afd3</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <name>BSD</name>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.jcraft/jzlib@1.1.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.headius</group>
+            <name>invokebinder</name>
+            <version>1.2</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">3d5620e86f2d945496f53461e89c1f75</hash>
+                <hash alg="SHA-1">63f9ee6a2688a2f94915d0264398e511bc929ac4</hash>
+                <hash alg="SHA-256">fa394a38b21c5db8a646101a824902613a80daba4a95310484b83c60b9eb5cd4</hash>
+                <hash alg="SHA-384">a03391e8d8a48ae7b3aa5d0d72fb58af1187e7070130129ac98c218f8cbb37ed884ecb411291b371ed6e200318b1929e</hash>
+                <hash alg="SHA-512">a1c2905aecf80bbaacd88663f8448d6562ea3198498f1bfddd2998dc8f4473df10df628ed7741b0da4bc594c12284febdceab6439f2bf3bed120ef54bb212803</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.headius/invokebinder@1.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.martiansoftware</group>
+            <name>nailgun-server</name>
+            <version>0.9.1</version>
+            <description>Nailgun is a client, protocol, and server for running Java programs from the command line without incurring the JVM startup overhead. Programs run in the server (which is implemented in Java), and are triggered by the client (written in C), which handles all I/O. This project contains the SERVER ONLY.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">fd7cf19b2088d1a58eef8cfa4ee26906</hash>
+                <hash alg="SHA-1">d57ea0a6f6c1bb1b616c5b3b311b3726c6ff35ad</hash>
+                <hash alg="SHA-256">4518faa6bf4bd26fccdc4d85e1625dc679381a08d56872d8ad12151dda9cef25</hash>
+                <hash alg="SHA-384">6a4d4dd84b9e5c25bb33d134083a0efa6ffaedae196c00930ea584cf8fc41947ebe88137e8f6dd98ddf790e570ae6c5f</hash>
+                <hash alg="SHA-512">a3cb0804b9fa1f2faf8a31f5e2c3bef4f4d3daf7d4f99b054982411b3247f2d3b806a3e0671edf20289e65d2a6e15e9be1bfee8867d16c45198dfdb16e2333cf</hash>
+            </hashes>
+            <purl>pkg:maven/com.martiansoftware/nailgun-server@0.9.1?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.jruby</group>
+            <name>yecht</name>
+            <version>1.1</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">563a9b1315a89ec35d9010684af88ebf</hash>
+                <hash alg="SHA-1">49f801cec4e48bcb8feeac66c748e68fb68bd479</hash>
+                <hash alg="SHA-256">6f55102407698b652cebe94e60f2d13bfb56e3c791dcc61ca1322e92f81217ff</hash>
+                <hash alg="SHA-384">bcdb74ed887b8ebd986f57face1ec755ab2a63719c2b24438adf668df6dc7e0911922cc178017487907fb86a86d21e99</hash>
+                <hash alg="SHA-512">28eaeb89c2d7cd2a18b5b2a5da4ef5448393c5f54dc0dcb72e0e31ab1daadc6a6d9839254331bb9256544377114477ac573ebb1e91865d7b322445f1e1164cc7</hash>
+            </hashes>
+            <purl>pkg:maven/org.jruby/yecht@1.1?classifier=jruby&amp;type=jar</purl>
+        </component>
+        <component type="library">
+            <publisher>Joda.org</publisher>
+            <group>joda-time</group>
+            <name>joda-time</name>
+            <version>2.8.2</version>
+            <description>Date and time library to replace JDK date handling</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">59644e5f2e55a55ae8ccf2ca65a73b81</hash>
+                <hash alg="SHA-1">d27c24204c5e507b16fec01006b3d0f1ec42aed4</hash>
+                <hash alg="SHA-256">7c71ac7b4c0e6b7e49bcc93c135825d23f427aba62397b313c7fdcd2c19c42cb</hash>
+                <hash alg="SHA-384">8b2dc66b3e5c502d0ec65468baaade36014039e8dca10039582f4cd7cedbc0341ef6ebf7cc54b31fdb50bff027d60628</hash>
+                <hash alg="SHA-512">8b63bf74713e4efd6d19201635b994f5107535da0748295b88a816b19243c1ab7555a98b5e40d19327954061d789e8af78e63f4e891694782e64ebd00482dd15</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/joda-time/joda-time@2.8.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.headius</group>
+            <name>options</name>
+            <version>1.3</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">829c3e8481bf0f56124db62b74c52fa7</hash>
+                <hash alg="SHA-1">2ac25e39d50dafb9aa9e7b5c421b88480fe01317</hash>
+                <hash alg="SHA-256">bc3f9d0b187cdd7800909efd737a0466ffd029f0a8266137e40ee995ea5c215e</hash>
+                <hash alg="SHA-384">129de74bf7af0db1329961286a5bbdf27b599c6324a10ecb4330b169372dbae340d787e4b53989cf6c0c475887330c4e</hash>
+                <hash alg="SHA-512">82cdba35cf4c7158f96e455439960f8ac1a8396fa21b9defbbdf6da675b1bca21d9425a12774da740dcffc655af22135391c9b34602f1bd93c9a41e710bd5919</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.headius/options@1.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.ow2.asm</group>
+            <name>asm-tree</name>
+            <version>5.0.3</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">94abc9b0126e1ec2c12625dfce54e32e</hash>
+                <hash alg="SHA-1">287749b48ba7162fb67c93a026d690b29f410bed</hash>
+                <hash alg="SHA-256">347a7a9400f9964e87c91d3980e48eebdc8d024bc3b36f7f22189c662853a51c</hash>
+                <hash alg="SHA-384">3a50bc80460a2fe31234d36cc949a0f89882d64a2f60702a6aa63668a82f3b8dece257bd042b7276c1243362f2a7f21a</hash>
+                <hash alg="SHA-512">41fa352a4b1fcb482cc71a5cf8eb25770e16aeaa926ffc5c9ef5e09ffa29a19cf9f274d7d413839b889620607b16c649fb3df82a41347269fe77c8f0f0e861db</hash>
+            </hashes>
+            <purl>pkg:maven/org.ow2.asm/asm-tree@5.0.3?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.apache.logging.log4j</group>
+            <name>log4j-api</name>
+            <version>2.6.2</version>
+            <description>The Apache Log4j API</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">acf5df1fe0dee01ca604d109aa6e78cb</hash>
+                <hash alg="SHA-1">95ec045d2a3960bb2ed6953282b7886ec89d020b</hash>
+                <hash alg="SHA-256">d3fcdbf2f601292454a9f746d4b70db8132c92e0ef4aa723ecea6908203fe67f</hash>
+                <hash alg="SHA-384">292c9526fe3928dcce4b37ae50ed01ecfcd319b380de7d764086b749c230c809b02017d96cfbb66c807afb32d35c4c09</hash>
+                <hash alg="SHA-512">56844010aa715b5fda5a2b933728cad12540a876a0a2661470735744a01adf8cf77921dd2c8d451ddab7b0b44e8b2dd95b869115cbda0490727e2cb01e9f9426</hash>
+            </hashes>
+            <purl>pkg:maven/org.apache.logging.log4j/log4j-api@2.6.2?classifier=tests&amp;type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.apache.logging.log4j</group>
+            <name>log4j-core</name>
+            <version>2.6.2</version>
+            <description>The Apache Log4j Implementation</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">e102a06bdac68a67796c02a726dbf804</hash>
+                <hash alg="SHA-1">c054a92b9402df83ca52a32a7e6fbe272fdb73bb</hash>
+                <hash alg="SHA-256">0bdc488a4a468f81d04dc6e9c58d02bf8e9b08970593b32d7823b6f2157a166d</hash>
+                <hash alg="SHA-384">35a3cf56f5f95b7e219c0a7b3465b557de8659f827b2f568729267dfa9922ace61b2bffc011b63c214bc133ab04bfb4d</hash>
+                <hash alg="SHA-512">fb0d9eb2bc7b8703665044e07687571a7008761e0831285c4883116ee0c6b1d448fce3f449d8d2d42acdf45800ef76d25dd07d6a0437e6e51b925528e7bb742b</hash>
+            </hashes>
+            <purl>pkg:maven/org.apache.logging.log4j/log4j-core@2.6.2?classifier=tests&amp;type=jar</purl>
+        </component>
+        <component type="library">
+            <group>net.javacrumbs.json-unit</group>
+            <name>json-unit</name>
+            <version>1.9.0</version>
+            <description>Contains basic assertJsonEquals() and Hamcrest matchers.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">b1f81dc4739047050ceda9801a98023a</hash>
+                <hash alg="SHA-1">7489392f56f6f39fe7ea97ece762933c314a6dc4</hash>
+                <hash alg="SHA-256">c14e1966cb309901fbfb00e93b78ba1f2d2f00cdc58f693795c377487cecc06f</hash>
+                <hash alg="SHA-384">703786de780c9b2e1974e65ecce42f159652cbc2d9aa592a531afc9b2138e16d75e0f670cbbe8e6ccd5feb62c655102d</hash>
+                <hash alg="SHA-512">dc608d354dfe201a5703433f5b15686df41f5a733f72500fc6958c226c8f1a736d938552f98897f75db48bbf5f333be48590887cc43d48eeb4c78f074cc0eeb1</hash>
+            </hashes>
+            <purl>pkg:maven/net.javacrumbs.json-unit/json-unit@1.9.0?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.elasticsearch</group>
+            <name>securemock</name>
+            <version>1.2</version>
+            <description>Allows creating mocks in tests without having to grant dangerous permissions to all of your code.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">78810e2cbdfe1fb7efc2935d3c55d792</hash>
+                <hash alg="SHA-1">98201d4ad5ac93f6b415ae9172d52b5e7cda490e</hash>
+                <hash alg="SHA-256">dd54abf70274bdae8530ebac254c5e3378a550e276ce91e4248eb4a45249c68d</hash>
+                <hash alg="SHA-384">72e10c6d0718c1d1eef115f81055269d5d4c5be3c1e3ebdb885c7355ba10aef12a1aae7279ee9d9135c7a1449e97b9ff</hash>
+                <hash alg="SHA-512">24fe674aef040c5a2e26571e5ea4bdfa72a93b0910ae4d6ffb0deb6b92863728ca511d1444ab42f43046aee6f3a4b2a6165490445d616112d0afd4295edb00cd</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/org.elasticsearch/securemock@1.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>net.javacrumbs.json-unit</group>
+            <name>json-unit-core</name>
+            <version>1.9.0</version>
+            <description>Core classes for JSON unit</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">04d0de78197b1ea706c2cd88c5a45bed</hash>
+                <hash alg="SHA-1">e8e763f12d52a6066f316d33cf38d009fb2feec1</hash>
+                <hash alg="SHA-256">8944d5d936530262283ba5e8953edb1dd8c19dd2acc60b1753e7ddcce3af4e1e</hash>
+                <hash alg="SHA-384">908cc6eeb357058044602cc10e29b6482deed6f0b213d50b9d50c6ed315b6dc44fe53afbd023861e795dd10a1279eaa1</hash>
+                <hash alg="SHA-512">e6d87ef3268af26d5c3f6971f5877d57d86c67c164487b880a6c5777c19aa4cf4f2cfdab6c89a39d938422b90977fb7b2cd40cd47c262dd25c4b18f2b7fd28d8</hash>
+            </hashes>
+            <purl>pkg:maven/net.javacrumbs.json-unit/json-unit-core@1.9.0?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.slf4j</group>
+            <name>slf4j-api</name>
+            <version>1.7.5</version>
+            <description>The slf4j API</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">3b1ececad9ebc3fbad2953ccf4a070ca</hash>
+                <hash alg="SHA-1">6b262da268f8ad9eff941b25503a9198f0a0ac93</hash>
+                <hash alg="SHA-256">fe30825245d2336c859dc38d60c0fc5f3668dbf29cd586828d2b5667ec355b91</hash>
+                <hash alg="SHA-384">41e16b4c59b038e0963b8c2c02a860ecbed984ad66ad9f2c46e0ed80e870a73c422c2760cf3e089cdd65012437bfb8ef</hash>
+                <hash alg="SHA-512">fe8885069fbe999485e25fa5e019486f9661bdb99834df2ca2888981f47bd4a7685f83859a315f8e7dd208b7dd29717e2d108e6d8366755e6d971cac4cf9e437</hash>
+            </hashes>
+            <purl>pkg:maven/org.slf4j/slf4j-api@1.7.5?type=jar</purl>
+        </component>
+        <component type="library">
+            <publisher>Oracle</publisher>
+            <group>org.openjdk.jmh</group>
+            <name>jmh-core</name>
+            <version>1.18</version>
+            <description>The jmh is a Java harness for building, running, and analysing nano/micro/macro benchmarks written in Java and other languages targeting the JVM.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">c65ab579c17a02f7572f852c7d92392a</hash>
+                <hash alg="SHA-1">0174aa0077e9db596e53d7f9ec37556d9392d5a6</hash>
+                <hash alg="SHA-256">5dc9d52f38a16a7fa16420528b94e4c41068730e8382cce00129a66940e3ff6b</hash>
+                <hash alg="SHA-384">86615d865a38f74c0526fe3ab356e393c108361f659f18e1d77ab0d2c76ff6e60a2bf3f46259747cecad0aeb3019b7da</hash>
+                <hash alg="SHA-512">2c6fecd9b0f2d114cc826849eae626351ebf94b7bdb46c0e3d73e0c6bbfe996640bed5c3eb20d9235f20cff49dd9b7a341512fa9ab30a8f6ce3c70e5263c90ff</hash>
+            </hashes>
+            <purl>pkg:maven/org.openjdk.jmh/jmh-core@1.18?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.openjdk.jmh</group>
+            <name>jmh-generator-annprocess</name>
+            <version>1.18</version>
+            <description>JMH benchmark generator, based on annotation processors.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">07c6341fd422b96769553c527fc1ed24</hash>
+                <hash alg="SHA-1">b852fb028de645ad2852bbe998e084d253f450a5</hash>
+                <hash alg="SHA-256">7341295e83288786588990011f41e7ef9348ed607ad3150eacb2ee363f1037e1</hash>
+                <hash alg="SHA-384">801fef5c65d455dfd073317d499bf458e17315bfc161696df3007ee973edec13d37ba61925e3d5f8a22ebe5ff6bbc480</hash>
+                <hash alg="SHA-512">554d58fe550862aa07341668b37aa2bc8780630490c67e73512fc53bf8e4c570f6d8866bf0675a6d1503f680aa649303fb12aae6ede5edc73e65f41e01fb5387</hash>
+            </hashes>
+            <purl>pkg:maven/org.openjdk.jmh/jmh-generator-annprocess@1.18?type=jar</purl>
+        </component>
+        <component type="library">
+            <publisher>Oracle</publisher>
+            <group>org.openjdk.jmh</group>
+            <name>jmh-core-benchmarks</name>
+            <version>1.18</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">94a9d6094ac8819aec4374e58140d9d7</hash>
+                <hash alg="SHA-1">7d45d7d839852247a82ebff7bc0cb0a599a81b1d</hash>
+                <hash alg="SHA-256">73a87510413386e8a5ff7492e912a1f38b9ed611e8b5d997f306ae4951385d7a</hash>
+                <hash alg="SHA-384">88398a74f7b6b5d2bf9a581fcf0e2811fe877765fb49fc21c9b16c5f0985c20545b8431ef91d0cc9888227713743a722</hash>
+                <hash alg="SHA-512">63bf4c23bbc8c2197a8105de9bc2adba10d3a608cafc90eebbf6e53d1061e09848eed7e9b8edb92f51b7fe01d3e83ea9de03baeb19bd2c7dcf0c8cc8233e8994</hash>
+            </hashes>
+            <purl>pkg:maven/org.openjdk.jmh/jmh-core-benchmarks@1.18?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.google.guava</group>
+            <name>guava</name>
+            <version>21.0</version>
+            <description>Guava is a suite of core and expanded libraries that include utility classes, google's collections, io classes, and much much more. Guava has only one code dependency - javax.annotation, per the JSR-305 spec.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">ddc91fd850fa6177c91aab5d4e4d1fa6</hash>
+                <hash alg="SHA-1">3a3d111be1be1b745edfa7d91678a12d7ed38709</hash>
+                <hash alg="SHA-256">972139718abc8a4893fa78cba8cf7b2c903f35c97aaf44fa3031b0669948b480</hash>
+                <hash alg="SHA-384">4bbabef26e8911c07bc5a36776656dfc81fc3a34b6db36b023ef4ac4575d6b8ebbb55afea07087902466a025639ee7dc</hash>
+                <hash alg="SHA-512">6730a5f8f6b0c1a8fe7ca5e5836056e1109ffc0be9a285796f829927a75a54485ac923e45896a6ee713a40e217c3cf7a5fed52f6a1ff21db57f908216d151a2a</hash>
+            </hashes>
+            <purl>pkg:maven/com.google.guava/guava@21.0?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>commons-io</group>
+            <name>commons-io</name>
+            <version>2.5</version>
+            <description>The Apache Commons IO library contains utility classes, stream implementations, file filters, file comparators, endian transformation classes, and much more.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">e2d74794fba570ec2115fb9d5b05dc9b</hash>
+                <hash alg="SHA-1">2852e6e05fbb95076fc091f6d1780f1f8fe35e0f</hash>
+                <hash alg="SHA-256">a10418348d234968600ccb1d988efcbbd08716e1d96936ccc1880e7d22513474</hash>
+                <hash alg="SHA-384">ec0b9dbcd0d407401a8ec9a95e12933bff0593701420a4311ccce6b7ba1dd7ac21bbd3937ff55c3926110d19db419bb5</hash>
+                <hash alg="SHA-512">1f6bfc215da9ae661dbabba80a0f29101a2d5e49c7d0c6ed760d1cafea005b7f0ff177b3b741e75b8e59804b0280fa453a76940b97e52b800ec03042f1692b07</hash>
+            </hashes>
+            <purl>pkg:maven/commons-io/commons-io@2.5?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.apache.commons</group>
+            <name>commons-math3</name>
+            <version>3.2</version>
+            <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">aaa32530c0f744813570ff73db018698</hash>
+                <hash alg="SHA-1">ec2544ab27e110d2d431bdad7d538ed509b21e62</hash>
+                <hash alg="SHA-256">6268a9a0ea3e769fc493a21446664c0ef668e48c93d126791f6f3f757978fee2</hash>
+                <hash alg="SHA-384">3aea6a3c2bb79e64b96086bc6b7679780594ea1731f24ae7541e294595275150a12bd63bd4dfb3ddff29e1b672f68664</hash>
+                <hash alg="SHA-512">80fb66a51688c4247b957f9787921e5acb9144d71a4ab0b03b2c30f46427e50c53e6e31ca5ddb04dab2cf5e7c0eedae168103c719f8074be464918ab2e4d6e6d</hash>
+            </hashes>
+            <purl>pkg:maven/org.apache.commons/commons-math3@3.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>org.jruby</group>
+            <name>jruby-core</name>
+            <version>1.7.26</version>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">3fe5ee6b080572fed615944145ca36d2</hash>
+                <hash alg="SHA-1">1908aba40d7deda676ac87e32620afef0f86a10c</hash>
+                <hash alg="SHA-256">bd80d58abc56a03d1d22a4574418d332b98c4583f6298073091e19615ea8a4f8</hash>
+                <hash alg="SHA-384">f3de161b505f4e858c6b83b2d21fb4598cad9fa4f7b3158e8521531a620f93877a6ab72ab616ccd249f6c1562e359be1</hash>
+                <hash alg="SHA-512">26f24e87bdac2851ebb47e0d89b42d927794ef779e33383d9ea703eed79c02265a64854085bfb39e78c665ee2eda6736cf1bfed005132d014b7bfebb00aa604d</hash>
+            </hashes>
+            <purl>pkg:maven/org.jruby/jruby-core@1.7.26?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jnr-constants</name>
+            <version>0.9.2</version>
+            <description>A set of platform constants (e.g. errno values)</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">84713f3d10642c551c00c62afb01664e</hash>
+                <hash alg="SHA-1">9392eabda021cfc4ca202c762ddebf1b5afb147e</hash>
+                <hash alg="SHA-256">6267c24ccbc9ed4ad8e77e8ee1c1def503596f44aa84910f065b41b2d2bdaa36</hash>
+                <hash alg="SHA-384">4a40f94d5533c792586ce0e538f793a47858b424158b5df12b689cb4d8baf3d2f4cf9b34ca52eb1c911089ffab7c0a87</hash>
+                <hash alg="SHA-512">0320d8f993d6b3ac2034179cda73a78d098bf472889fbc8012f6f380ff20692dd36adb79023fa4a871ddc06616d19bed615c706e325e7df9d0502d9b3a18e789</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jnr-constants@0.9.2?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jffi</name>
+            <version>1.2.12</version>
+            <description>Java Foreign Function Interface</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">97a55b80fb96758e4c9cfdf17a6b668e</hash>
+                <hash alg="SHA-1">a9f12011e9f5c1b363ecf3b51998058a18a48d26</hash>
+                <hash alg="SHA-256">af1e72e4744319da465e1453bea61edebf727499127213fba169b7e093e9173a</hash>
+                <hash alg="SHA-384">67a5221b875c3f02715014a6451646e80096e2f591d584853dfce4a8eb59031af5c4d7e155c8cac7b52c569b4700c2fc</hash>
+                <hash alg="SHA-512">6bfd03b96b5dca23b8c62e64b02d32f8bf3e102389c52ba2bc3294470ad79d26d4b352e45835ea9b03ee7f00211f67a803c4fc73edacb3807711f68978fb822b</hash>
+            </hashes>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.github.jnr/jffi@1.2.12?type=jar</purl>
+        </component>
+        <component type="library">
+            <group>com.github.jnr</group>
+            <name>jffi</name>
+            <version>1.2.12</version>
+            <description>Java Foreign Function Interface</description>
+            <scope>required</scope>
+            <hashes>
+                <hash alg="MD5">02bdea1d2b515c82568e8277e5ed7d19</hash>
+                <hash alg="SHA-1">f3bd969534ea4a743cb736f09fb7ec2a35405bc1</hash>
+                <hash alg="SHA-256">0005fe926b4ba0883224adda58ff9111abcea6dea13b2141ee340b6108bafb9d</hash>
+                <hash alg="SHA-384">a3e199eb29573362afdbe7b9c46d45ed69507e4da945c3272b55f8580555479433c38345a1ca73f8df2e70d07794029d</hash>
+                <hash alg="SHA-512">1528c5c7a6f04835b51b97bae83c1c1c6786236c24ec1db61280bc9a811c85f2bdda630a1bb6e98e89e82fd0757f83d7482def80102f8f272d5ad466b26bcfb1</hash>
+            </hashes>
+            <purl>pkg:maven/com.github.jnr/jffi@1.2.12?classifier=native&amp;type=jar</purl>
+        </component>
+    </components>
+</bom>
