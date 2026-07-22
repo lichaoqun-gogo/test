@@ -1,0 +1,3335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bom xmlns="http://cyclonedx.org/schema/bom/1.4" version="1">
+  <components>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>server</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-x-content</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-cli</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-core</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-secure-sm</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-geo</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-core</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-core@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-common</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-backward-codecs</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-grouping</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-grouping@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-highlighter</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-join</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-join@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-memory</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-memory@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-misc</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-misc@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-queries</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-queries@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-queryparser</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-sandbox</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-spatial</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-spatial@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-spatial-extras</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-spatial3d</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-suggest</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-suggest@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>com.carrotsearch</group>
+      <name>hppc</name>
+      <version>0.8.1</version>
+      <purl>pkg:maven/com.carrotsearch/hppc@0.8.1</purl>
+    </component>
+    <component type="library">
+      <group>joda-time</group>
+      <name>joda-time</name>
+      <version>2.10.3</version>
+      <purl>pkg:maven/joda-time/joda-time@2.10.3</purl>
+    </component>
+    <component type="library">
+      <group>com.tdunning</group>
+      <name>t-digest</name>
+      <version>3.2</version>
+      <purl>pkg:maven/com.tdunning/t-digest@3.2</purl>
+    </component>
+    <component type="library">
+      <group>org.hdrhistogram</group>
+      <name>HdrHistogram</name>
+      <version>2.1.9</version>
+      <purl>pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9</purl>
+    </component>
+    <component type="library">
+      <group>org.locationtech.spatial4j</group>
+      <name>spatial4j</name>
+      <version>0.7</version>
+      <purl>pkg:maven/org.locationtech.spatial4j/spatial4j@0.7</purl>
+    </component>
+    <component type="library">
+      <group>org.locationtech.jts</group>
+      <name>jts-core</name>
+      <version>1.15.0</version>
+      <purl>pkg:maven/org.locationtech.jts/jts-core@1.15.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-api</name>
+      <version>2.11.1</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-core</name>
+      <version>2.11.1</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>jna</name>
+      <version>4.5.1</version>
+      <purl>pkg:maven/org.elasticsearch/jna@4.5.1</purl>
+    </component>
+    <component type="library">
+      <group>net.sf.jopt-simple</group>
+      <name>jopt-simple</name>
+      <version>4.6</version>
+      <purl>pkg:maven/net.sf.jopt-simple/jopt-simple@4.6</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-math3</name>
+      <version>3.2</version>
+      <purl>pkg:maven/org.apache.commons/commons-math3@3.2</purl>
+    </component>
+    <component type="library">
+      <group>commons-codec</group>
+      <name>commons-codec</name>
+      <version>1.12</version>
+      <purl>pkg:maven/commons-codec/commons-codec@1.12</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-compress</name>
+      <version>1.19</version>
+      <purl>pkg:maven/org.apache.commons/commons-compress@1.19</purl>
+    </component>
+    <component type="library">
+      <group>com.netflix.nebula</group>
+      <name>gradle-extra-configurations-plugin</name>
+      <version>3.0.3</version>
+      <purl>pkg:maven/com.netflix.nebula/gradle-extra-configurations-plugin@3.0.3</purl>
+    </component>
+    <component type="library">
+      <group>com.netflix.nebula</group>
+      <name>nebula-publishing-plugin</name>
+      <version>4.4.4</version>
+      <purl>pkg:maven/com.netflix.nebula/nebula-publishing-plugin@4.4.4</purl>
+    </component>
+    <component type="library">
+      <group>com.netflix.nebula</group>
+      <name>nebula-core</name>
+      <version>3.0.0</version>
+      <purl>pkg:maven/com.netflix.nebula/nebula-core@3.0.0</purl>
+    </component>
+    <component type="library">
+      <group>com.netflix.nebula</group>
+      <name>gradle-info-plugin</name>
+      <version>3.0.3</version>
+      <purl>pkg:maven/com.netflix.nebula/gradle-info-plugin@3.0.3</purl>
+    </component>
+    <component type="library">
+      <group>org.eclipse.jgit</group>
+      <name>org.eclipse.jgit</name>
+      <version>3.2.0.201312181205-r</version>
+      <purl>pkg:maven/org.eclipse.jgit/org.eclipse.jgit@3.2.0.201312181205-r</purl>
+    </component>
+    <component type="library">
+      <group>com.perforce</group>
+      <name>p4java-jfrog</name>
+      <version>2011.1.297684</version>
+      <purl>pkg:maven/com.perforce/p4java-jfrog@2011.1.297684</purl>
+    </component>
+    <component type="library">
+      <group>com.netflix.nebula</group>
+      <name>gradle-contacts-plugin</name>
+      <version>2.2.0</version>
+      <purl>pkg:maven/com.netflix.nebula/gradle-contacts-plugin@2.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.tmatesoft.svnkit</group>
+      <name>svnkit</name>
+      <version>1.8.5</version>
+      <purl>pkg:maven/org.tmatesoft.svnkit/svnkit@1.8.5</purl>
+    </component>
+    <component type="library">
+      <group>com.jcraft</group>
+      <name>jsch</name>
+      <version>0.1.46</version>
+      <purl>pkg:maven/com.jcraft/jsch@0.1.46</purl>
+    </component>
+    <component type="library">
+      <group>com.googlecode.javaewah</group>
+      <name>JavaEWAH</name>
+      <version>0.5.6</version>
+      <purl>pkg:maven/com.googlecode.javaewah/JavaEWAH@0.5.6</purl>
+    </component>
+    <component type="library">
+      <group>com.perforce</group>
+      <name>p4java</name>
+      <version>2012.3.551082</version>
+      <purl>pkg:maven/com.perforce/p4java@2012.3.551082</purl>
+    </component>
+    <component type="library">
+      <group>com.jcraft</group>
+      <name>jzlib</name>
+      <version>1.1.1</version>
+      <purl>pkg:maven/com.jcraft/jzlib@1.1.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.rat</group>
+      <name>apache-rat</name>
+      <version>0.11</version>
+      <purl>pkg:maven/org.apache.rat/apache-rat@0.11</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.rat</group>
+      <name>apache-rat-tasks</name>
+      <version>0.11</version>
+      <purl>pkg:maven/org.apache.rat/apache-rat-tasks@0.11</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.rat</group>
+      <name>apache-rat-core</name>
+      <version>0.11</version>
+      <purl>pkg:maven/org.apache.rat/apache-rat-core@0.11</purl>
+    </component>
+    <component type="library">
+      <group>com.github.jengelman.gradle.plugins</group>
+      <name>shadow</name>
+      <version>4.0.3</version>
+      <purl>pkg:maven/com.github.jengelman.gradle.plugins/shadow@4.0.3</purl>
+    </component>
+    <component type="library">
+      <group>org.jdom</group>
+      <name>jdom2</name>
+      <version>2.0.6</version>
+      <purl>pkg:maven/org.jdom/jdom2@2.0.6</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm-commons</name>
+      <version>7.0-beta</version>
+      <purl>pkg:maven/org.ow2.asm/asm-commons@7.0-beta</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm</name>
+      <version>7.0-beta</version>
+      <purl>pkg:maven/org.ow2.asm/asm@7.0-beta</purl>
+    </component>
+    <component type="library">
+      <group>org.vafer</group>
+      <name>jdependency</name>
+      <version>2.1.1</version>
+      <purl>pkg:maven/org.vafer/jdependency@2.1.1</purl>
+    </component>
+    <component type="library">
+      <group>commons-io</group>
+      <name>commons-io</name>
+      <version>2.11.0</version>
+      <purl>pkg:maven/commons-io/commons-io@2.11.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.ant</group>
+      <name>ant</name>
+      <version>1.9.7</version>
+      <purl>pkg:maven/org.apache.ant/ant@1.9.7</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.plexus</group>
+      <name>plexus-utils</name>
+      <version>3.0.24</version>
+      <purl>pkg:maven/org.codehaus.plexus/plexus-utils@3.0.24</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-core</name>
+      <version>2.11.0</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-core@2.11.0</purl>
+    </component>
+    <component type="library">
+      <group>de.thetaphi</group>
+      <name>forbiddenapis</name>
+      <version>2.6</version>
+      <purl>pkg:maven/de.thetaphi/forbiddenapis@2.6</purl>
+    </component>
+    <component type="library">
+      <group>com.avast.gradle</group>
+      <name>gradle-docker-compose-plugin</name>
+      <version>0.8.12</version>
+      <purl>pkg:maven/com.avast.gradle/gradle-docker-compose-plugin@0.8.12</purl>
+    </component>
+    <component type="library">
+      <group>org.yaml</group>
+      <name>snakeyaml</name>
+      <version>1.23</version>
+      <purl>pkg:maven/org.yaml/snakeyaml@1.23</purl>
+    </component>
+    <component type="library">
+      <group>org.yaml</group>
+      <name>snakeyaml</name>
+      <version>1.17</version>
+      <purl>pkg:maven/org.yaml/snakeyaml@1.17</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-core</name>
+      <version>2.8.11</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.dataformat</group>
+      <name>jackson-dataformat-smile</name>
+      <version>2.8.11</version>
+      <purl>pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.8.11</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.dataformat</group>
+      <name>jackson-dataformat-yaml</name>
+      <version>2.8.11</version>
+      <purl>pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.8.11</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.dataformat</group>
+      <name>jackson-dataformat-cbor</name>
+      <version>2.8.11</version>
+      <purl>pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.8.11</purl>
+    </component>
+    <component type="library">
+      <group>net.sf.jopt-simple</group>
+      <name>jopt-simple</name>
+      <version>5.0.2</version>
+      <purl>pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.client</group>
+      <name>rest</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpclient</name>
+      <version>4.5.8</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpclient@4.5.8</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpcore</name>
+      <version>4.4.11</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpcore@4.4.11</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpasyncclient</name>
+      <version>4.1.4</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpcore-nio</name>
+      <version>4.4.11</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11</purl>
+    </component>
+    <component type="library">
+      <group>commons-codec</group>
+      <name>commons-codec</name>
+      <version>1.11</version>
+      <purl>pkg:maven/commons-codec/commons-codec@1.11</purl>
+    </component>
+    <component type="library">
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.1.3</version>
+      <purl>pkg:maven/commons-logging/commons-logging@1.1.3</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>client-benchmark-noop-api-plugin</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/client-benchmark-noop-api-plugin@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.client</group>
+      <name>transport</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.client/transport@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>reindex</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>transport-netty4</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>lang-mustache</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>percolator</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>parent-join</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>rank-eval</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>io.netty</group>
+      <name>netty-buffer</name>
+      <version>4.1.38.Final</version>
+      <purl>pkg:maven/io.netty/netty-buffer@4.1.38.Final</purl>
+    </component>
+    <component type="library">
+      <group>io.netty</group>
+      <name>netty-codec</name>
+      <version>4.1.38.Final</version>
+      <purl>pkg:maven/io.netty/netty-codec@4.1.38.Final</purl>
+    </component>
+    <component type="library">
+      <group>io.netty</group>
+      <name>netty-codec-http</name>
+      <version>4.1.38.Final</version>
+      <purl>pkg:maven/io.netty/netty-codec-http@4.1.38.Final</purl>
+    </component>
+    <component type="library">
+      <group>io.netty</group>
+      <name>netty-common</name>
+      <version>4.1.38.Final</version>
+      <purl>pkg:maven/io.netty/netty-common@4.1.38.Final</purl>
+    </component>
+    <component type="library">
+      <group>io.netty</group>
+      <name>netty-handler</name>
+      <version>4.1.38.Final</version>
+      <purl>pkg:maven/io.netty/netty-handler@4.1.38.Final</purl>
+    </component>
+    <component type="library">
+      <group>io.netty</group>
+      <name>netty-resolver</name>
+      <version>4.1.38.Final</version>
+      <purl>pkg:maven/io.netty/netty-resolver@4.1.38.Final</purl>
+    </component>
+    <component type="library">
+      <group>io.netty</group>
+      <name>netty-transport</name>
+      <version>4.1.38.Final</version>
+      <purl>pkg:maven/io.netty/netty-transport@4.1.38.Final</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-ssl-config</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>com.github.spullara.mustache.java</group>
+      <name>compiler</name>
+      <version>0.9.3</version>
+      <purl>pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>mapper-extras</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/mapper-extras@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>aggs-matrix-stats</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/aggs-matrix-stats@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>com.carrotsearch.randomizedtesting</group>
+      <name>randomizedtesting-runner</name>
+      <version>2.7.1</version>
+      <purl>pkg:maven/com.carrotsearch.randomizedtesting/randomizedtesting-runner@2.7.1</purl>
+    </component>
+    <component type="library">
+      <group>junit</group>
+      <name>junit</name>
+      <version>4.12</version>
+      <purl>pkg:maven/junit/junit@4.12</purl>
+    </component>
+    <component type="library">
+      <group>org.hamcrest</group>
+      <name>hamcrest</name>
+      <version>2.1</version>
+      <purl>pkg:maven/org.hamcrest/hamcrest@2.1</purl>
+    </component>
+    <component type="library">
+      <group>org.jruby.joni</group>
+      <name>joni</name>
+      <version>2.1.6</version>
+      <purl>pkg:maven/org.jruby.joni/joni@2.1.6</purl>
+    </component>
+    <component type="library">
+      <group>org.jruby.jcodings</group>
+      <name>jcodings</name>
+      <version>1.0.44</version>
+      <purl>pkg:maven/org.jruby.jcodings/jcodings@1.0.44</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-grok</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-grok@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-dissect</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-dissect@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>com.maxmind.geoip2</group>
+      <name>geoip2</name>
+      <version>2.9.0</version>
+      <purl>pkg:maven/com.maxmind.geoip2/geoip2@2.9.0</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-annotations</name>
+      <version>2.8.11</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.8.11</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-databind</name>
+      <version>2.8.11.3</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.8.11.3</purl>
+    </component>
+    <component type="library">
+      <group>com.maxmind.db</group>
+      <name>maxmind-db</name>
+      <version>1.2.2</version>
+      <purl>pkg:maven/com.maxmind.db/maxmind-db@1.2.2</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-expressions</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-expressions@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.antlr</group>
+      <name>antlr4-runtime</name>
+      <version>4.5.1-1</version>
+      <purl>pkg:maven/org.antlr/antlr4-runtime@4.5.1-1</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm</name>
+      <version>5.0.4</version>
+      <purl>pkg:maven/org.ow2.asm/asm@5.0.4</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm-commons</name>
+      <version>5.0.4</version>
+      <purl>pkg:maven/org.ow2.asm/asm-commons@5.0.4</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm-tree</name>
+      <version>5.0.4</version>
+      <purl>pkg:maven/org.ow2.asm/asm-tree@5.0.4</purl>
+    </component>
+    <component type="library">
+      <group>org.antlr</group>
+      <name>antlr4-runtime</name>
+      <version>4.5.3</version>
+      <purl>pkg:maven/org.antlr/antlr4-runtime@4.5.3</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm-debug-all</name>
+      <version>5.1</version>
+      <purl>pkg:maven/org.ow2.asm/asm-debug-all@5.1</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>spi</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/spi@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-icu</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-icu@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>com.ibm.icu</group>
+      <name>icu4j</name>
+      <version>62.1</version>
+      <purl>pkg:maven/com.ibm.icu/icu4j@62.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-kuromoji</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-kuromoji@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-nori</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-nori@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-phonetic</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-phonetic@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-smartcn</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-smartcn@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-stempel</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-stempel@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-analyzers-morfologik</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-analyzers-morfologik@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.carrot2</group>
+      <name>morfologik-stemming</name>
+      <version>2.1.1</version>
+      <purl>pkg:maven/org.carrot2/morfologik-stemming@2.1.1</purl>
+    </component>
+    <component type="library">
+      <group>org.carrot2</group>
+      <name>morfologik-fsa</name>
+      <version>2.1.1</version>
+      <purl>pkg:maven/org.carrot2/morfologik-fsa@2.1.1</purl>
+    </component>
+    <component type="library">
+      <group>ua.net.nlp</group>
+      <name>morfologik-ukrainian-search</name>
+      <version>3.7.5</version>
+      <purl>pkg:maven/ua.net.nlp/morfologik-ukrainian-search@3.7.5</purl>
+    </component>
+    <component type="library">
+      <group>com.microsoft.azure</group>
+      <name>azure-svc-mgmt-compute</name>
+      <version>0.9.3</version>
+      <purl>pkg:maven/com.microsoft.azure/azure-svc-mgmt-compute@0.9.3</purl>
+    </component>
+    <component type="library">
+      <group>com.microsoft.azure</group>
+      <name>azure-core</name>
+      <version>0.9.3</version>
+      <purl>pkg:maven/com.microsoft.azure/azure-core@0.9.3</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-1.2-api</name>
+      <version>2.11.1</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-1.2-api@2.11.1</purl>
+    </component>
+    <component type="library">
+      <group>commons-lang</group>
+      <name>commons-lang</name>
+      <version>2.6</version>
+      <purl>pkg:maven/commons-lang/commons-lang@2.6</purl>
+    </component>
+    <component type="library">
+      <group>commons-io</group>
+      <name>commons-io</name>
+      <version>2.4</version>
+      <purl>pkg:maven/commons-io/commons-io@2.4</purl>
+    </component>
+    <component type="library">
+      <group>javax.mail</group>
+      <name>mail</name>
+      <version>1.4.5</version>
+      <purl>pkg:maven/javax.mail/mail@1.4.5</purl>
+    </component>
+    <component type="library">
+      <group>javax.inject</group>
+      <name>javax.inject</name>
+      <version>1</version>
+      <purl>pkg:maven/javax.inject/javax.inject@1</purl>
+    </component>
+    <component type="library">
+      <group>com.sun.jersey</group>
+      <name>jersey-client</name>
+      <version>1.13</version>
+      <purl>pkg:maven/com.sun.jersey/jersey-client@1.13</purl>
+    </component>
+    <component type="library">
+      <group>com.sun.jersey</group>
+      <name>jersey-core</name>
+      <version>1.13</version>
+      <purl>pkg:maven/com.sun.jersey/jersey-core@1.13</purl>
+    </component>
+    <component type="library">
+      <group>com.sun.jersey</group>
+      <name>jersey-json</name>
+      <version>1.13</version>
+      <purl>pkg:maven/com.sun.jersey/jersey-json@1.13</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.jettison</group>
+      <name>jettison</name>
+      <version>1.1</version>
+      <purl>pkg:maven/org.codehaus.jettison/jettison@1.1</purl>
+    </component>
+    <component type="library">
+      <group>com.sun.xml.bind</group>
+      <name>jaxb-impl</name>
+      <version>2.2.3-1</version>
+      <purl>pkg:maven/com.sun.xml.bind/jaxb-impl@2.2.3-1</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.jackson</group>
+      <name>jackson-core-asl</name>
+      <version>1.9.2</version>
+      <purl>pkg:maven/org.codehaus.jackson/jackson-core-asl@1.9.2</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.jackson</group>
+      <name>jackson-mapper-asl</name>
+      <version>1.9.2</version>
+      <purl>pkg:maven/org.codehaus.jackson/jackson-mapper-asl@1.9.2</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.jackson</group>
+      <name>jackson-jaxrs</name>
+      <version>1.9.2</version>
+      <purl>pkg:maven/org.codehaus.jackson/jackson-jaxrs@1.9.2</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.jackson</group>
+      <name>jackson-xc</name>
+      <version>1.9.2</version>
+      <purl>pkg:maven/org.codehaus.jackson/jackson-xc@1.9.2</purl>
+    </component>
+    <component type="library">
+      <group>javax.xml.bind</group>
+      <name>jaxb-api</name>
+      <version>2.2.2</version>
+      <purl>pkg:maven/javax.xml.bind/jaxb-api@2.2.2</purl>
+    </component>
+    <component type="library">
+      <group>com.amazonaws</group>
+      <name>aws-java-sdk-ec2</name>
+      <version>1.11.562</version>
+      <purl>pkg:maven/com.amazonaws/aws-java-sdk-ec2@1.11.562</purl>
+    </component>
+    <component type="library">
+      <group>com.amazonaws</group>
+      <name>aws-java-sdk-core</name>
+      <version>1.11.562</version>
+      <purl>pkg:maven/com.amazonaws/aws-java-sdk-core@1.11.562</purl>
+    </component>
+    <component type="library">
+      <group>com.google.apis</group>
+      <name>google-api-services-compute</name>
+      <version>v1-rev160-1.23.0</version>
+      <purl>pkg:maven/com.google.apis/google-api-services-compute@v1-rev160-1.23.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.api-client</group>
+      <name>google-api-client</name>
+      <version>1.23.0</version>
+      <purl>pkg:maven/com.google.api-client/google-api-client@1.23.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.oauth-client</group>
+      <name>google-oauth-client</name>
+      <version>1.23.0</version>
+      <purl>pkg:maven/com.google.oauth-client/google-oauth-client@1.23.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.http-client</group>
+      <name>google-http-client</name>
+      <version>1.23.0</version>
+      <purl>pkg:maven/com.google.http-client/google-http-client@1.23.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.http-client</group>
+      <name>google-http-client-jackson2</name>
+      <version>1.23.0</version>
+      <purl>pkg:maven/com.google.http-client/google-http-client-jackson2@1.23.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.code.findbugs</group>
+      <name>jsr305</name>
+      <version>1.3.9</version>
+      <purl>pkg:maven/com.google.code.findbugs/jsr305@1.3.9</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.tika</group>
+      <name>tika-core</name>
+      <version>1.22</version>
+      <purl>pkg:maven/org.apache.tika/tika-core@1.22</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.tika</group>
+      <name>tika-parsers</name>
+      <version>1.22</version>
+      <purl>pkg:maven/org.apache.tika/tika-parsers@1.22</purl>
+    </component>
+    <component type="library">
+      <group>org.tukaani</group>
+      <name>xz</name>
+      <version>1.8</version>
+      <purl>pkg:maven/org.tukaani/xz@1.8</purl>
+    </component>
+    <component type="library">
+      <group>commons-io</group>
+      <name>commons-io</name>
+      <version>2.6</version>
+      <purl>pkg:maven/commons-io/commons-io@2.6</purl>
+    </component>
+    <component type="library">
+      <group>org.slf4j</group>
+      <name>slf4j-api</name>
+      <version>1.6.2</version>
+      <purl>pkg:maven/org.slf4j/slf4j-api@1.6.2</purl>
+    </component>
+    <component type="library">
+      <group>com.googlecode.juniversalchardet</group>
+      <name>juniversalchardet</name>
+      <version>1.0.3</version>
+      <purl>pkg:maven/com.googlecode.juniversalchardet/juniversalchardet@1.0.3</purl>
+    </component>
+    <component type="library">
+      <group>org.ccil.cowan.tagsoup</group>
+      <name>tagsoup</name>
+      <version>1.2.1</version>
+      <purl>pkg:maven/org.ccil.cowan.tagsoup/tagsoup@1.2.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.pdfbox</group>
+      <name>pdfbox</name>
+      <version>2.0.16</version>
+      <purl>pkg:maven/org.apache.pdfbox/pdfbox@2.0.16</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.pdfbox</group>
+      <name>fontbox</name>
+      <version>2.0.16</version>
+      <purl>pkg:maven/org.apache.pdfbox/fontbox@2.0.16</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.pdfbox</group>
+      <name>jempbox</name>
+      <version>1.8.16</version>
+      <purl>pkg:maven/org.apache.pdfbox/jempbox@1.8.16</purl>
+    </component>
+    <component type="library">
+      <group>org.bouncycastle</group>
+      <name>bcmail-jdk15on</name>
+      <version>1.61</version>
+      <purl>pkg:maven/org.bouncycastle/bcmail-jdk15on@1.61</purl>
+    </component>
+    <component type="library">
+      <group>org.bouncycastle</group>
+      <name>bcprov-jdk15on</name>
+      <version>1.61</version>
+      <purl>pkg:maven/org.bouncycastle/bcprov-jdk15on@1.61</purl>
+    </component>
+    <component type="library">
+      <group>org.bouncycastle</group>
+      <name>bcpkix-jdk15on</name>
+      <version>1.61</version>
+      <purl>pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.61</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.poi</group>
+      <name>poi-ooxml</name>
+      <version>4.0.1</version>
+      <purl>pkg:maven/org.apache.poi/poi-ooxml@4.0.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.poi</group>
+      <name>poi</name>
+      <version>4.0.1</version>
+      <purl>pkg:maven/org.apache.poi/poi@4.0.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.poi</group>
+      <name>poi-ooxml-schemas</name>
+      <version>4.0.1</version>
+      <purl>pkg:maven/org.apache.poi/poi-ooxml-schemas@4.0.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.xmlbeans</group>
+      <name>xmlbeans</name>
+      <version>3.0.1</version>
+      <purl>pkg:maven/org.apache.xmlbeans/xmlbeans@3.0.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-collections4</name>
+      <version>4.1</version>
+      <purl>pkg:maven/org.apache.commons/commons-collections4@4.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.poi</group>
+      <name>poi-scratchpad</name>
+      <version>4.0.1</version>
+      <purl>pkg:maven/org.apache.poi/poi-scratchpad@4.0.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-compress</name>
+      <version>1.18</version>
+      <purl>pkg:maven/org.apache.commons/commons-compress@1.18</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.james</group>
+      <name>apache-mime4j-core</name>
+      <version>0.8.3</version>
+      <purl>pkg:maven/org.apache.james/apache-mime4j-core@0.8.3</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.james</group>
+      <name>apache-mime4j-dom</name>
+      <version>0.8.3</version>
+      <purl>pkg:maven/org.apache.james/apache-mime4j-dom@0.8.3</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-lang3</name>
+      <version>3.9</version>
+      <purl>pkg:maven/org.apache.commons/commons-lang3@3.9</purl>
+    </component>
+    <component type="library">
+      <group>com.microsoft.azure</group>
+      <name>azure-storage</name>
+      <version>8.0.0</version>
+      <purl>pkg:maven/com.microsoft.azure/azure-storage@8.0.0</purl>
+    </component>
+    <component type="library">
+      <group>com.microsoft.azure</group>
+      <name>azure-keyvault-core</name>
+      <version>1.0.0</version>
+      <purl>pkg:maven/com.microsoft.azure/azure-keyvault-core@1.0.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>20.0</version>
+      <purl>pkg:maven/com.google.guava/guava@20.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-lang3</name>
+      <version>3.4</version>
+      <purl>pkg:maven/org.apache.commons/commons-lang3@3.4</purl>
+    </component>
+    <component type="library">
+      <group>com.google.cloud</group>
+      <name>google-cloud-storage</name>
+      <version>1.77.0</version>
+      <purl>pkg:maven/com.google.cloud/google-cloud-storage@1.77.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.cloud</group>
+      <name>google-cloud-core</name>
+      <version>1.77.0</version>
+      <purl>pkg:maven/com.google.cloud/google-cloud-core@1.77.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>26.0-jre</version>
+      <purl>pkg:maven/com.google.guava/guava@26.0-jre</purl>
+    </component>
+    <component type="library">
+      <group>com.google.http-client</group>
+      <name>google-http-client</name>
+      <version>1.30.1</version>
+      <purl>pkg:maven/com.google.http-client/google-http-client@1.30.1</purl>
+    </component>
+    <component type="library">
+      <group>com.google.api</group>
+      <name>api-common</name>
+      <version>1.8.1</version>
+      <purl>pkg:maven/com.google.api/api-common@1.8.1</purl>
+    </component>
+    <component type="library">
+      <group>com.google.api</group>
+      <name>gax</name>
+      <version>1.45.0</version>
+      <purl>pkg:maven/com.google.api/gax@1.45.0</purl>
+    </component>
+    <component type="library">
+      <group>org.threeten</group>
+      <name>threetenbp</name>
+      <version>1.3.3</version>
+      <purl>pkg:maven/org.threeten/threetenbp@1.3.3</purl>
+    </component>
+    <component type="library">
+      <group>com.google.protobuf</group>
+      <name>protobuf-java-util</name>
+      <version>3.7.1</version>
+      <purl>pkg:maven/com.google.protobuf/protobuf-java-util@3.7.1</purl>
+    </component>
+    <component type="library">
+      <group>com.google.protobuf</group>
+      <name>protobuf-java</name>
+      <version>3.7.1</version>
+      <purl>pkg:maven/com.google.protobuf/protobuf-java@3.7.1</purl>
+    </component>
+    <component type="library">
+      <group>com.google.code.gson</group>
+      <name>gson</name>
+      <version>2.7</version>
+      <purl>pkg:maven/com.google.code.gson/gson@2.7</purl>
+    </component>
+    <component type="library">
+      <group>com.google.api.grpc</group>
+      <name>proto-google-common-protos</name>
+      <version>1.16.0</version>
+      <purl>pkg:maven/com.google.api.grpc/proto-google-common-protos@1.16.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.api.grpc</group>
+      <name>proto-google-iam-v1</name>
+      <version>0.12.0</version>
+      <purl>pkg:maven/com.google.api.grpc/proto-google-iam-v1@0.12.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.cloud</group>
+      <name>google-cloud-core-http</name>
+      <version>1.77.0</version>
+      <purl>pkg:maven/com.google.cloud/google-cloud-core-http@1.77.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.auth</group>
+      <name>google-auth-library-credentials</name>
+      <version>0.16.1</version>
+      <purl>pkg:maven/com.google.auth/google-auth-library-credentials@0.16.1</purl>
+    </component>
+    <component type="library">
+      <group>com.google.auth</group>
+      <name>google-auth-library-oauth2-http</name>
+      <version>0.16.1</version>
+      <purl>pkg:maven/com.google.auth/google-auth-library-oauth2-http@0.16.1</purl>
+    </component>
+    <component type="library">
+      <group>com.google.oauth-client</group>
+      <name>google-oauth-client</name>
+      <version>1.28.0</version>
+      <purl>pkg:maven/com.google.oauth-client/google-oauth-client@1.28.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.api-client</group>
+      <name>google-api-client</name>
+      <version>1.28.0</version>
+      <purl>pkg:maven/com.google.api-client/google-api-client@1.28.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.http-client</group>
+      <name>google-http-client-appengine</name>
+      <version>1.29.2</version>
+      <purl>pkg:maven/com.google.http-client/google-http-client-appengine@1.29.2</purl>
+    </component>
+    <component type="library">
+      <group>com.google.http-client</group>
+      <name>google-http-client-jackson2</name>
+      <version>1.29.2</version>
+      <purl>pkg:maven/com.google.http-client/google-http-client-jackson2@1.29.2</purl>
+    </component>
+    <component type="library">
+      <group>com.google.api</group>
+      <name>gax-httpjson</name>
+      <version>0.62.0</version>
+      <purl>pkg:maven/com.google.api/gax-httpjson@0.62.0</purl>
+    </component>
+    <component type="library">
+      <group>io.grpc</group>
+      <name>grpc-context</name>
+      <version>1.12.0</version>
+      <purl>pkg:maven/io.grpc/grpc-context@1.12.0</purl>
+    </component>
+    <component type="library">
+      <group>io.opencensus</group>
+      <name>opencensus-api</name>
+      <version>0.18.0</version>
+      <purl>pkg:maven/io.opencensus/opencensus-api@0.18.0</purl>
+    </component>
+    <component type="library">
+      <group>io.opencensus</group>
+      <name>opencensus-contrib-http-util</name>
+      <version>0.18.0</version>
+      <purl>pkg:maven/io.opencensus/opencensus-contrib-http-util@0.18.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.apis</group>
+      <name>google-api-services-storage</name>
+      <version>v1-rev20190426-1.28.0</version>
+      <purl>pkg:maven/com.google.apis/google-api-services-storage@v1-rev20190426-1.28.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-client</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-client@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-common</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-common@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-annotations</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-annotations@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-auth</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-auth@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-hdfs</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-hdfs@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-hdfs-client</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-hdfs-client@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.htrace</group>
+      <name>htrace-core4</name>
+      <version>4.0.1-incubating</version>
+      <purl>pkg:maven/org.apache.htrace/htrace-core4@4.0.1-incubating</purl>
+    </component>
+    <component type="library">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>11.0.2</version>
+      <purl>pkg:maven/com.google.guava/guava@11.0.2</purl>
+    </component>
+    <component type="library">
+      <group>com.google.protobuf</group>
+      <name>protobuf-java</name>
+      <version>2.5.0</version>
+      <purl>pkg:maven/com.google.protobuf/protobuf-java@2.5.0</purl>
+    </component>
+    <component type="library">
+      <group>commons-cli</group>
+      <name>commons-cli</name>
+      <version>1.2</version>
+      <purl>pkg:maven/commons-cli/commons-cli@1.2</purl>
+    </component>
+    <component type="library">
+      <group>commons-collections</group>
+      <name>commons-collections</name>
+      <version>3.2.2</version>
+      <purl>pkg:maven/commons-collections/commons-collections@3.2.2</purl>
+    </component>
+    <component type="library">
+      <group>commons-configuration</group>
+      <name>commons-configuration</name>
+      <version>1.6</version>
+      <purl>pkg:maven/commons-configuration/commons-configuration@1.6</purl>
+    </component>
+    <component type="library">
+      <group>javax.servlet</group>
+      <name>servlet-api</name>
+      <version>2.5</version>
+      <purl>pkg:maven/javax.servlet/servlet-api@2.5</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-slf4j-impl</name>
+      <version>2.11.1</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1</purl>
+    </component>
+    <component type="library">
+      <group>com.amazonaws</group>
+      <name>aws-java-sdk-s3</name>
+      <version>1.11.562</version>
+      <purl>pkg:maven/com.amazonaws/aws-java-sdk-s3@1.11.562</purl>
+    </component>
+    <component type="library">
+      <group>com.amazonaws</group>
+      <name>jmespath-java</name>
+      <version>1.11.562</version>
+      <purl>pkg:maven/com.amazonaws/jmespath-java@1.11.562</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>elasticsearch-nio</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/elasticsearch-nio@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.client</group>
+      <name>sniffer</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.client/sniffer@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-test-framework</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-test-framework@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.lucene</group>
+      <name>lucene-codecs</name>
+      <version>8.2.0</version>
+      <purl>pkg:maven/org.apache.lucene/lucene-codecs@8.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>securemock</name>
+      <version>1.2</version>
+      <purl>pkg:maven/org.elasticsearch/securemock@1.2</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>mocksocket</name>
+      <version>1.2</version>
+      <purl>pkg:maven/org.elasticsearch/mocksocket@1.2</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm-debug-all</name>
+      <version>5.0.4</version>
+      <purl>pkg:maven/org.ow2.asm/asm-debug-all@5.0.4</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>core</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/core@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>com.unboundid</group>
+      <name>unboundid-ldapsdk</name>
+      <version>4.0.8</version>
+      <purl>pkg:maven/com.unboundid/unboundid-ldapsdk@4.0.8</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>transport-nio</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/transport-nio@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch</group>
+      <name>java-version-checker</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch/java-version-checker@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>org.bouncycastle</group>
+      <name>bcpg-fips</name>
+      <version>1.0.3</version>
+      <purl>pkg:maven/org.bouncycastle/bcpg-fips@1.0.3</purl>
+    </component>
+    <component type="library">
+      <group>org.bouncycastle</group>
+      <name>bc-fips</name>
+      <version>1.0.1</version>
+      <purl>pkg:maven/org.bouncycastle/bc-fips@1.0.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-minicluster</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-minicluster@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-yarn-server-tests</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-yarn-server-tests@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-mapreduce-client-jobclient</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-jobclient@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-mapreduce-client-hs</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-hs@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-mapreduce-client-app</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-app@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-mapreduce-client-core</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-core@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.hadoop</group>
+      <name>hadoop-yarn-api</name>
+      <version>2.8.1</version>
+      <purl>pkg:maven/org.apache.hadoop/hadoop-yarn-api@2.8.1</purl>
+    </component>
+    <component type="library">
+      <group>net.sf.supercsv</group>
+      <name>super-csv</name>
+      <version>2.4.0</version>
+      <purl>pkg:maven/net.sf.supercsv/super-csv@2.4.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-core</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-core@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-saml-api</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-saml-api@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-saml-impl</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-saml-impl@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-messaging-api</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-messaging-api@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-messaging-impl</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-messaging-impl@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-security-api</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-security-api@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-security-impl</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-security-impl@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-profile-api</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-profile-api@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-profile-impl</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-profile-impl@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-xmlsec-api</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-xmlsec-api@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-xmlsec-impl</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-xmlsec-impl@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-soap-api</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-soap-api@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-soap-impl</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-soap-impl@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-storage-api</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-storage-api@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.opensaml</group>
+      <name>opensaml-storage-impl</name>
+      <version>3.3.0</version>
+      <purl>pkg:maven/org.opensaml/opensaml-storage-impl@3.3.0</purl>
+    </component>
+    <component type="library">
+      <group>net.shibboleth.utilities</group>
+      <name>java-support</name>
+      <version>7.3.0</version>
+      <purl>pkg:maven/net.shibboleth.utilities/java-support@7.3.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.santuario</group>
+      <name>xmlsec</name>
+      <version>2.0.8</version>
+      <purl>pkg:maven/org.apache.santuario/xmlsec@2.0.8</purl>
+    </component>
+    <component type="library">
+      <group>io.dropwizard.metrics</group>
+      <name>metrics-core</name>
+      <version>3.2.2</version>
+      <purl>pkg:maven/io.dropwizard.metrics/metrics-core@3.2.2</purl>
+    </component>
+    <component type="library">
+      <group>org.cryptacular</group>
+      <name>cryptacular</name>
+      <version>1.2.0</version>
+      <purl>pkg:maven/org.cryptacular/cryptacular@1.2.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpclient-cache</name>
+      <version>4.5.8</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpclient-cache@4.5.8</purl>
+    </component>
+    <component type="library">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>19.0</version>
+      <purl>pkg:maven/com.google.guava/guava@19.0</purl>
+    </component>
+    <component type="library">
+      <group>com.nimbusds</group>
+      <name>oauth2-oidc-sdk</name>
+      <version>6.5</version>
+      <purl>pkg:maven/com.nimbusds/oauth2-oidc-sdk@6.5</purl>
+    </component>
+    <component type="library">
+      <group>com.nimbusds</group>
+      <name>nimbus-jose-jwt</name>
+      <version>4.41.2</version>
+      <purl>pkg:maven/com.nimbusds/nimbus-jose-jwt@4.41.2</purl>
+    </component>
+    <component type="library">
+      <group>com.nimbusds</group>
+      <name>lang-tag</name>
+      <version>1.4.4</version>
+      <purl>pkg:maven/com.nimbusds/lang-tag@1.4.4</purl>
+    </component>
+    <component type="library">
+      <group>com.sun.mail</group>
+      <name>jakarta.mail</name>
+      <version>1.6.3</version>
+      <purl>pkg:maven/com.sun.mail/jakarta.mail@1.6.3</purl>
+    </component>
+    <component type="library">
+      <group>net.jcip</group>
+      <name>jcip-annotations</name>
+      <version>1.0</version>
+      <purl>pkg:maven/net.jcip/jcip-annotations@1.0</purl>
+    </component>
+    <component type="library">
+      <group>net.minidev</group>
+      <name>json-smart</name>
+      <version>2.3</version>
+      <purl>pkg:maven/net.minidev/json-smart@2.3</purl>
+    </component>
+    <component type="library">
+      <group>net.minidev</group>
+      <name>accessors-smart</name>
+      <version>1.2</version>
+      <purl>pkg:maven/net.minidev/accessors-smart@1.2</purl>
+    </component>
+    <component type="library">
+      <group>org.ow2.asm</group>
+      <name>asm</name>
+      <version>7.1</version>
+      <purl>pkg:maven/org.ow2.asm/asm@7.1</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.plugin</group>
+      <name>sql-action</name>
+      <version>7.4.2-SNAPSHOT</version>
+      <purl>pkg:maven/org.elasticsearch.plugin/sql-action@7.4.2-SNAPSHOT</purl>
+    </component>
+    <component type="library">
+      <group>com.googlecode.owasp-java-html-sanitizer</group>
+      <name>owasp-java-html-sanitizer</name>
+      <version>r239</version>
+      <purl>pkg:maven/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer@r239</purl>
+    </component>
+    <component type="library">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>16.0.1</version>
+      <purl>pkg:maven/com.google.guava/guava@16.0.1</purl>
+    </component>
+    <component type="library">
+      <group>com.sun.activation</group>
+      <name>jakarta.activation</name>
+      <version>1.2.1</version>
+      <purl>pkg:maven/com.sun.activation/jakarta.activation@1.2.1</purl>
+    </component>
+    <component type="library">
+      <group>org.jline</group>
+      <name>jline-terminal</name>
+      <version>3.10.0</version>
+      <purl>pkg:maven/org.jline/jline-terminal@3.10.0</purl>
+    </component>
+    <component type="library">
+      <group>org.jline</group>
+      <name>jline-terminal-jna</name>
+      <version>3.10.0</version>
+      <purl>pkg:maven/org.jline/jline-terminal-jna@3.10.0</purl>
+    </component>
+    <component type="library">
+      <group>org.jline</group>
+      <name>jline-reader</name>
+      <version>3.10.0</version>
+      <purl>pkg:maven/org.jline/jline-reader@3.10.0</purl>
+    </component>
+    <component type="library">
+      <group>org.jline</group>
+      <name>jline-style</name>
+      <version>3.10.0</version>
+      <purl>pkg:maven/org.jline/jline-style@3.10.0</purl>
+    </component>
+  </components>
+  <dependencies>
+    <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-secure-sm@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-geo@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-analyzers-common@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-backward-codecs@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-grouping@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-highlighter@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-join@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-memory@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-misc@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queries@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-queryparser@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-sandbox@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial-extras@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-spatial3d@8.2.0"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-suggest@8.2.0"/>
+      <dependency ref="pkg:maven/com.carrotsearch/hppc@0.8.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.tdunning/t-digest@3.2"/>
+      <dependency ref="pkg:maven/org.hdrhistogram/HdrHistogram@2.1.9"/>
+      <dependency ref="pkg:maven/org.locationtech.spatial4j/spatial4j@0.7"/>
+      <dependency ref="pkg:maven/org.locationtech.jts/jts-core@1.15.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/jna@4.5.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.netflix.nebula/nebula-publishing-plugin@4.4.4">
+      <dependency ref="pkg:maven/com.netflix.nebula/nebula-core@3.0.0"/>
+      <dependency ref="pkg:maven/com.netflix.nebula/nebula-core@3.0.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.netflix.nebula/nebula-publishing-plugin@4.4.4">
+      <dependency ref="pkg:maven/com.netflix.nebula/nebula-core@3.0.0"/>
+      <dependency ref="pkg:maven/com.netflix.nebula/nebula-core@3.0.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.netflix.nebula/gradle-info-plugin@3.0.3">
+      <dependency ref="pkg:maven/org.eclipse.jgit/org.eclipse.jgit@3.2.0.201312181205-r"/>
+      <dependency ref="pkg:maven/com.perforce/p4java-jfrog@2011.1.297684"/>
+      <dependency ref="pkg:maven/com.netflix.nebula/gradle-contacts-plugin@2.2.0"/>
+      <dependency ref="pkg:maven/org.tmatesoft.svnkit/svnkit@1.8.5"/>
+      <dependency ref="pkg:maven/org.eclipse.jgit/org.eclipse.jgit@3.2.0.201312181205-r"/>
+      <dependency ref="pkg:maven/com.perforce/p4java-jfrog@2011.1.297684"/>
+      <dependency ref="pkg:maven/com.netflix.nebula/gradle-contacts-plugin@2.2.0"/>
+      <dependency ref="pkg:maven/org.tmatesoft.svnkit/svnkit@1.8.5"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.netflix.nebula/gradle-info-plugin@3.0.3">
+      <dependency ref="pkg:maven/org.eclipse.jgit/org.eclipse.jgit@3.2.0.201312181205-r"/>
+      <dependency ref="pkg:maven/com.perforce/p4java-jfrog@2011.1.297684"/>
+      <dependency ref="pkg:maven/com.netflix.nebula/gradle-contacts-plugin@2.2.0"/>
+      <dependency ref="pkg:maven/org.tmatesoft.svnkit/svnkit@1.8.5"/>
+      <dependency ref="pkg:maven/org.eclipse.jgit/org.eclipse.jgit@3.2.0.201312181205-r"/>
+      <dependency ref="pkg:maven/com.perforce/p4java-jfrog@2011.1.297684"/>
+      <dependency ref="pkg:maven/com.netflix.nebula/gradle-contacts-plugin@2.2.0"/>
+      <dependency ref="pkg:maven/org.tmatesoft.svnkit/svnkit@1.8.5"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.eclipse.jgit/org.eclipse.jgit@3.2.0.201312181205-r">
+      <dependency ref="pkg:maven/com.jcraft/jsch@0.1.46"/>
+      <dependency ref="pkg:maven/com.googlecode.javaewah/JavaEWAH@0.5.6"/>
+      <dependency ref="pkg:maven/com.jcraft/jsch@0.1.46"/>
+      <dependency ref="pkg:maven/com.googlecode.javaewah/JavaEWAH@0.5.6"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.eclipse.jgit/org.eclipse.jgit@3.2.0.201312181205-r">
+      <dependency ref="pkg:maven/com.jcraft/jsch@0.1.46"/>
+      <dependency ref="pkg:maven/com.googlecode.javaewah/JavaEWAH@0.5.6"/>
+      <dependency ref="pkg:maven/com.jcraft/jsch@0.1.46"/>
+      <dependency ref="pkg:maven/com.googlecode.javaewah/JavaEWAH@0.5.6"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.perforce/p4java@2012.3.551082">
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.1"/>
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.perforce/p4java@2012.3.551082">
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.1"/>
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.rat/apache-rat@0.11">
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-tasks@0.11"/>
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-core@0.11"/>
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-tasks@0.11"/>
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-core@0.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.rat/apache-rat@0.11">
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-tasks@0.11"/>
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-core@0.11"/>
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-tasks@0.11"/>
+      <dependency ref="pkg:maven/org.apache.rat/apache-rat-core@0.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.github.jengelman.gradle.plugins/shadow@4.0.3">
+      <dependency ref="pkg:maven/org.jdom/jdom2@2.0.6"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm-commons@7.0-beta"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm@7.0-beta"/>
+      <dependency ref="pkg:maven/org.vafer/jdependency@2.1.1"/>
+      <dependency ref="pkg:maven/commons-io/commons-io@2.11.0"/>
+      <dependency ref="pkg:maven/org.apache.ant/ant@1.9.7"/>
+      <dependency ref="pkg:maven/org.codehaus.plexus/plexus-utils@3.0.24"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.0"/>
+      <dependency ref="pkg:maven/org.jdom/jdom2@2.0.6"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm-commons@7.0-beta"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm@7.0-beta"/>
+      <dependency ref="pkg:maven/org.vafer/jdependency@2.1.1"/>
+      <dependency ref="pkg:maven/commons-io/commons-io@2.11.0"/>
+      <dependency ref="pkg:maven/org.apache.ant/ant@1.9.7"/>
+      <dependency ref="pkg:maven/org.codehaus.plexus/plexus-utils@3.0.24"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.github.jengelman.gradle.plugins/shadow@4.0.3">
+      <dependency ref="pkg:maven/org.jdom/jdom2@2.0.6"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm-commons@7.0-beta"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm@7.0-beta"/>
+      <dependency ref="pkg:maven/org.vafer/jdependency@2.1.1"/>
+      <dependency ref="pkg:maven/commons-io/commons-io@2.11.0"/>
+      <dependency ref="pkg:maven/org.apache.ant/ant@1.9.7"/>
+      <dependency ref="pkg:maven/org.codehaus.plexus/plexus-utils@3.0.24"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.0"/>
+      <dependency ref="pkg:maven/org.jdom/jdom2@2.0.6"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm-commons@7.0-beta"/>
+      <dependency ref="pkg:maven/org.ow2.asm/asm@7.0-beta"/>
+      <dependency ref="pkg:maven/org.vafer/jdependency@2.1.1"/>
+      <dependency ref="pkg:maven/commons-io/commons-io@2.11.0"/>
+      <dependency ref="pkg:maven/org.apache.ant/ant@1.9.7"/>
+      <dependency ref="pkg:maven/org.codehaus.plexus/plexus-utils@3.0.24"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.avast.gradle/gradle-docker-compose-plugin@0.8.12">
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.23"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.23"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.avast.gradle/gradle-docker-compose-plugin@0.8.12">
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.23"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.23"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.17"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.17"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.8.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.17"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@1.17"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.8.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.8.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-cli@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.2"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/transport@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/transport@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/percolator@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/parent-join@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/rank-eval@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/reindex@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/lang-mustache@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+      <dependency ref="pkg:maven/com.github.spullara.mustache.java/compiler@0.9.3"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-grok@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-grok@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.6"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/spi@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/spi@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-ssl-config@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-nio@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-nio@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/sniffer@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/sniffer@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.elasticsearch.client/rest@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/core@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-1.2-api@2.11.1"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.unboundid/unboundid-ldapsdk@4.0.8"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-nio@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-1.2-api@2.11.1"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.unboundid/unboundid-ldapsdk@4.0.8"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-nio@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/core@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-1.2-api@2.11.1"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.unboundid/unboundid-ldapsdk@4.0.8"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-nio@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.8"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.11"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.4"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.1.3"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-1.2-api@2.11.1"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.unboundid/unboundid-ldapsdk@4.0.8"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-netty4@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-nio@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.hadoop/hadoop-minicluster@2.8.1">
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-common@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-hdfs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-server-tests@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-jobclient@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-hs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-app@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-core@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-api@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-common@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-hdfs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-server-tests@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-jobclient@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-hs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-app@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-core@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-api@2.8.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.hadoop/hadoop-minicluster@2.8.1">
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-common@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-hdfs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-server-tests@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-jobclient@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-hs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-app@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-core@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-api@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-common@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-hdfs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-server-tests@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-jobclient@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-hs@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-app@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-mapreduce-client-core@2.8.1"/>
+      <dependency ref="pkg:maven/org.apache.hadoop/hadoop-yarn-api@2.8.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-nio@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-nio@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-nio@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/transport-nio@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-nio@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/io.netty/netty-buffer@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-codec-http@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-common@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-handler@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-resolver@4.1.38.Final"/>
+      <dependency ref="pkg:maven/io.netty/netty-transport@4.1.38.Final"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-nio@7.4.2-SNAPSHOT"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/sql-action@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.plugin/sql-action@7.4.2-SNAPSHOT">
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.elasticsearch/server@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-core@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.elasticsearch/elasticsearch-x-content@7.4.2-SNAPSHOT"/>
+      <dependency ref="pkg:maven/org.apache.lucene/lucene-core@8.2.0"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.8.11"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1">
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1">
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+    </dependency>
+  </dependencies>
+</bom>

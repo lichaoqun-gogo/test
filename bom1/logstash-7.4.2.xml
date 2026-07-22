@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bom xmlns="http://cyclonedx.org/schema/bom/1.4" version="1">
+  <components>
+    <component type="library">
+      <group>gradle.plugin.com.github.jk1</group>
+      <name>gradle-license-report</name>
+      <version>0.7.1</version>
+      <purl>pkg:maven/gradle.plugin.com.github.jk1/gradle-license-report@0.7.1</purl>
+    </component>
+    <component type="library">
+      <group>net.sf.jopt-simple</group>
+      <name>jopt-simple</name>
+      <version>5.0.3</version>
+      <purl>pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpclient</name>
+      <version>4.5.3</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpclient@4.5.3</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpcore</name>
+      <version>4.4.6</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpcore@4.4.6</purl>
+    </component>
+    <component type="library">
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.2</version>
+      <purl>pkg:maven/commons-logging/commons-logging@1.2</purl>
+    </component>
+    <component type="library">
+      <group>commons-codec</group>
+      <name>commons-codec</name>
+      <version>1.10</version>
+      <purl>pkg:maven/commons-codec/commons-codec@1.10</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-compress</name>
+      <version>1.14</version>
+      <purl>pkg:maven/org.apache.commons/commons-compress@1.14</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-lang3</name>
+      <version>3.6</version>
+      <purl>pkg:maven/org.apache.commons/commons-lang3@3.6</purl>
+    </component>
+    <component type="library">
+      <group>commons-io</group>
+      <name>commons-io</name>
+      <version>2.5</version>
+      <purl>pkg:maven/commons-io/commons-io@2.5</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-core</name>
+      <version>2.7.4</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-core@2.7.4</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-databind</name>
+      <version>2.7.4</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.7.4</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-annotations</name>
+      <version>2.7.0</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.7.0</purl>
+    </component>
+    <component type="library">
+      <group>org.elasticsearch.client</group>
+      <name>rest</name>
+      <version>5.5.0</version>
+      <purl>pkg:maven/org.elasticsearch.client/rest@5.5.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpasyncclient</name>
+      <version>4.1.2</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.2</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.httpcomponents</group>
+      <name>httpcore-nio</name>
+      <version>4.4.5</version>
+      <purl>pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.5</purl>
+    </component>
+    <component type="library">
+      <group>org.openjdk.jmh</group>
+      <name>jmh-core</name>
+      <version>1.18</version>
+      <purl>pkg:maven/org.openjdk.jmh/jmh-core@1.18</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-math3</name>
+      <version>3.2</version>
+      <purl>pkg:maven/org.apache.commons/commons-math3@3.2</purl>
+    </component>
+    <component type="library">
+      <group>commons-io</group>
+      <name>commons-io</name>
+      <version>2.6</version>
+      <purl>pkg:maven/commons-io/commons-io@2.6</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.commons</group>
+      <name>commons-csv</name>
+      <version>1.5</version>
+      <purl>pkg:maven/org.apache.commons/commons-csv@1.5</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-core</name>
+      <version>2.9.9</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-databind</name>
+      <version>2.9.9</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-annotations</name>
+      <version>2.9.9</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-api</name>
+      <version>2.11.1</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-core</name>
+      <version>2.11.1</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1</purl>
+    </component>
+    <component type="library">
+      <group>org.reflections</group>
+      <name>reflections</name>
+      <version>0.9.11</version>
+      <purl>pkg:maven/org.reflections/reflections@0.9.11</purl>
+    </component>
+    <component type="library">
+      <group>org.javassist</group>
+      <name>javassist</name>
+      <version>3.24.0-GA</version>
+      <purl>pkg:maven/org.javassist/javassist@3.24.0-GA</purl>
+    </component>
+    <component type="library">
+      <group>commons-codec</group>
+      <name>commons-codec</name>
+      <version>1.11</version>
+      <purl>pkg:maven/commons-codec/commons-codec@1.11</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.core</group>
+      <name>jackson-databind</name>
+      <version>2.9.9.3</version>
+      <purl>pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9.3</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.janino</group>
+      <name>janino</name>
+      <version>3.0.11</version>
+      <purl>pkg:maven/org.codehaus.janino/janino@3.0.11</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.janino</group>
+      <name>commons-compiler</name>
+      <version>3.0.11</version>
+      <purl>pkg:maven/org.codehaus.janino/commons-compiler@3.0.11</purl>
+    </component>
+    <component type="library">
+      <group>com.fasterxml.jackson.dataformat</group>
+      <name>jackson-dataformat-cbor</name>
+      <version>2.9.9</version>
+      <purl>pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.9.9</purl>
+    </component>
+    <component type="library">
+      <group>org.jruby</group>
+      <name>jruby-complete</name>
+      <version>9.2.8.0</version>
+      <purl>pkg:maven/org.jruby/jruby-complete@9.2.8.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>22.0</version>
+      <purl>pkg:maven/com.google.guava/guava@22.0</purl>
+    </component>
+    <component type="library">
+      <group>com.google.code.findbugs</group>
+      <name>jsr305</name>
+      <version>1.3.9</version>
+      <purl>pkg:maven/com.google.code.findbugs/jsr305@1.3.9</purl>
+    </component>
+    <component type="library">
+      <group>com.google.errorprone</group>
+      <name>error_prone_annotations</name>
+      <version>2.0.18</version>
+      <purl>pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18</purl>
+    </component>
+    <component type="library">
+      <group>com.google.j2objc</group>
+      <name>j2objc-annotations</name>
+      <version>1.1</version>
+      <purl>pkg:maven/com.google.j2objc/j2objc-annotations@1.1</purl>
+    </component>
+    <component type="library">
+      <group>org.codehaus.mojo</group>
+      <name>animal-sniffer-annotations</name>
+      <version>1.14</version>
+      <purl>pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14</purl>
+    </component>
+    <component type="library">
+      <group>com.google.googlejavaformat</group>
+      <name>google-java-format</name>
+      <version>1.1</version>
+      <purl>pkg:maven/com.google.googlejavaformat/google-java-format@1.1</purl>
+    </component>
+    <component type="library">
+      <group>org.eclipse.jdt</group>
+      <name>org.eclipse.jdt.core</name>
+      <version>3.10.0</version>
+      <purl>pkg:maven/org.eclipse.jdt/org.eclipse.jdt.core@3.10.0</purl>
+    </component>
+    <component type="library">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-slf4j-impl</name>
+      <version>2.11.1</version>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1</purl>
+    </component>
+    <component type="library">
+      <group>org.slf4j</group>
+      <name>slf4j-api</name>
+      <version>1.7.25</version>
+      <purl>pkg:maven/org.slf4j/slf4j-api@1.7.25</purl>
+    </component>
+    <component type="library">
+      <group>org.logstash</group>
+      <name>logstash-core</name>
+      <version>7.4.2</version>
+      <purl>pkg:maven/org.logstash/logstash-core@7.4.2</purl>
+    </component>
+    <component type="library">
+      <group>org.openjdk.jmh</group>
+      <name>jmh-generator-annprocess</name>
+      <version>1.18</version>
+      <purl>pkg:maven/org.openjdk.jmh/jmh-generator-annprocess@1.18</purl>
+    </component>
+    <component type="library">
+      <group>org.openjdk.jmh</group>
+      <name>jmh-core-benchmarks</name>
+      <version>1.18</version>
+      <purl>pkg:maven/org.openjdk.jmh/jmh-core-benchmarks@1.18</purl>
+    </component>
+    <component type="library">
+      <group>org.jruby</group>
+      <name>jruby-core</name>
+      <version>9.2.8.0</version>
+      <purl>pkg:maven/org.jruby/jruby-core@9.2.8.0</purl>
+    </component>
+    <component type="library">
+      <group>com.github.jnr</group>
+      <name>jnr-netdb</name>
+      <version>1.1.6</version>
+      <purl>pkg:maven/com.github.jnr/jnr-netdb@1.1.6</purl>
+    </component>
+    <component type="library">
+      <group>com.github.jnr</group>
+      <name>jnr-unixsocket</name>
+      <version>0.23</version>
+      <purl>pkg:maven/com.github.jnr/jnr-unixsocket@0.23</purl>
+    </component>
+    <component type="library">
+      <group>com.github.jnr</group>
+      <name>jnr-enxio</name>
+      <version>0.21</version>
+      <purl>pkg:maven/com.github.jnr/jnr-enxio@0.21</purl>
+    </component>
+    <component type="library">
+      <group>com.github.jnr</group>
+      <name>jnr-posix</name>
+      <version>3.0.50</version>
+      <purl>pkg:maven/com.github.jnr/jnr-posix@3.0.50</purl>
+    </component>
+    <component type="library">
+      <group>com.github.jnr</group>
+      <name>jnr-constants</name>
+      <version>0.9.12</version>
+      <purl>pkg:maven/com.github.jnr/jnr-constants@0.9.12</purl>
+    </component>
+    <component type="library">
+      <group>com.github.jnr</group>
+      <name>jffi</name>
+      <version>1.2.19</version>
+      <purl>pkg:maven/com.github.jnr/jffi@1.2.19</purl>
+    </component>
+    <component type="library">
+      <group>org.jruby.joni</group>
+      <name>joni</name>
+      <version>2.1.29</version>
+      <purl>pkg:maven/org.jruby.joni/joni@2.1.29</purl>
+    </component>
+    <component type="library">
+      <group>org.jruby.jcodings</group>
+      <name>jcodings</name>
+      <version>1.0.44</version>
+      <purl>pkg:maven/org.jruby.jcodings/jcodings@1.0.44</purl>
+    </component>
+    <component type="library">
+      <group>org.jruby</group>
+      <name>dirgra</name>
+      <version>0.3</version>
+      <purl>pkg:maven/org.jruby/dirgra@0.3</purl>
+    </component>
+    <component type="library">
+      <group>com.headius</group>
+      <name>invokebinder</name>
+      <version>1.11</version>
+      <purl>pkg:maven/com.headius/invokebinder@1.11</purl>
+    </component>
+    <component type="library">
+      <group>com.headius</group>
+      <name>options</name>
+      <version>1.4</version>
+      <purl>pkg:maven/com.headius/options@1.4</purl>
+    </component>
+    <component type="library">
+      <group>com.jcraft</group>
+      <name>jzlib</name>
+      <version>1.1.3</version>
+      <purl>pkg:maven/com.jcraft/jzlib@1.1.3</purl>
+    </component>
+    <component type="library">
+      <group>com.martiansoftware</group>
+      <name>nailgun-server</name>
+      <version>0.9.1</version>
+      <purl>pkg:maven/com.martiansoftware/nailgun-server@0.9.1</purl>
+    </component>
+    <component type="library">
+      <group>joda-time</group>
+      <name>joda-time</name>
+      <version>2.10.1</version>
+      <purl>pkg:maven/joda-time/joda-time@2.10.1</purl>
+    </component>
+    <component type="library">
+      <group>com.headius</group>
+      <name>backport9</name>
+      <version>1.3</version>
+      <purl>pkg:maven/com.headius/backport9@1.3</purl>
+    </component>
+    <component type="library">
+      <group>javax.annotation</group>
+      <name>javax.annotation-api</name>
+      <version>1.3.1</version>
+      <purl>pkg:maven/javax.annotation/javax.annotation-api@1.3.1</purl>
+    </component>
+  </components>
+  <dependencies>
+    <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.3">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.3">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.7.4">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.7.4"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.7.0"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.7.4"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.7.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.7.4">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.7.4"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.7.0"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.7.4"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.7.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/rest@5.5.0">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.2"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.5"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.2"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.5"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.elasticsearch.client/rest@5.5.0">
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.2"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.5"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpclient@4.5.3"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore@4.4.6"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.10"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpasyncclient@4.1.2"/>
+      <dependency ref="pkg:maven/org.apache.httpcomponents/httpcore-nio@4.4.5"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18">
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18">
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+      <dependency ref="pkg:maven/net.sf.jopt-simple/jopt-simple@5.0.3"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-math3@3.2"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1">
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1">
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.reflections/reflections@0.9.11">
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.reflections/reflections@0.9.11">
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9.3">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9.3">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.codehaus.janino/janino@3.0.11">
+      <dependency ref="pkg:maven/org.codehaus.janino/commons-compiler@3.0.11"/>
+      <dependency ref="pkg:maven/org.codehaus.janino/commons-compiler@3.0.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.codehaus.janino/janino@3.0.11">
+      <dependency ref="pkg:maven/org.codehaus.janino/commons-compiler@3.0.11"/>
+      <dependency ref="pkg:maven/org.codehaus.janino/commons-compiler@3.0.11"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.9.9">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.9.9">
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.guava/guava@22.0">
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.guava/guava@22.0">
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@1.3.9"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.18"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@1.1"/>
+      <dependency ref="pkg:maven/org.codehaus.mojo/animal-sniffer-annotations@1.14"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.googlejavaformat/google-java-format@1.1">
+      <dependency ref="pkg:maven/org.eclipse.jdt/org.eclipse.jdt.core@3.10.0"/>
+      <dependency ref="pkg:maven/org.eclipse.jdt/org.eclipse.jdt.core@3.10.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.googlejavaformat/google-java-format@1.1">
+      <dependency ref="pkg:maven/org.eclipse.jdt/org.eclipse.jdt.core@3.10.0"/>
+      <dependency ref="pkg:maven/org.eclipse.jdt/org.eclipse.jdt.core@3.10.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1">
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.slf4j/slf4j-api@1.7.25"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1">
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.slf4j/slf4j-api@1.7.25"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.logstash/logstash-core@7.4.2">
+      <dependency ref="pkg:maven/gradle.plugin.com.github.jk1/gradle-license-report@0.7.1"/>
+      <dependency ref="pkg:maven/com.google.guava/guava@22.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.reflections/reflections@0.9.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/org.codehaus.janino/janino@3.0.11"/>
+      <dependency ref="pkg:maven/org.jruby/jruby-complete@9.2.8.0"/>
+      <dependency ref="pkg:maven/com.google.googlejavaformat/google-java-format@1.1"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+      <dependency ref="pkg:maven/gradle.plugin.com.github.jk1/gradle-license-report@0.7.1"/>
+      <dependency ref="pkg:maven/com.google.guava/guava@22.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.reflections/reflections@0.9.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/org.codehaus.janino/janino@3.0.11"/>
+      <dependency ref="pkg:maven/org.jruby/jruby-complete@9.2.8.0"/>
+      <dependency ref="pkg:maven/com.google.googlejavaformat/google-java-format@1.1"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.logstash/logstash-core@7.4.2">
+      <dependency ref="pkg:maven/gradle.plugin.com.github.jk1/gradle-license-report@0.7.1"/>
+      <dependency ref="pkg:maven/com.google.guava/guava@22.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.reflections/reflections@0.9.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/org.codehaus.janino/janino@3.0.11"/>
+      <dependency ref="pkg:maven/org.jruby/jruby-complete@9.2.8.0"/>
+      <dependency ref="pkg:maven/com.google.googlejavaformat/google-java-format@1.1"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+      <dependency ref="pkg:maven/gradle.plugin.com.github.jk1/gradle-license-report@0.7.1"/>
+      <dependency ref="pkg:maven/com.google.guava/guava@22.0"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.11.1"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.11.1"/>
+      <dependency ref="pkg:maven/org.reflections/reflections@0.9.11"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.11"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.9.3"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.9"/>
+      <dependency ref="pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.9"/>
+      <dependency ref="pkg:maven/org.codehaus.janino/janino@3.0.11"/>
+      <dependency ref="pkg:maven/org.jruby/jruby-complete@9.2.8.0"/>
+      <dependency ref="pkg:maven/com.google.googlejavaformat/google-java-format@1.1"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.24.0-GA"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.openjdk.jmh/jmh-generator-annprocess@1.18">
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.openjdk.jmh/jmh-generator-annprocess@1.18">
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core-benchmarks@1.18">
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core-benchmarks@1.18">
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+      <dependency ref="pkg:maven/org.openjdk.jmh/jmh-core@1.18"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.jruby/jruby-core@9.2.8.0">
+      <dependency ref="pkg:maven/com.github.jnr/jnr-netdb@1.1.6"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-unixsocket@0.23"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-enxio@0.21"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-posix@3.0.50"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-constants@0.9.12"/>
+      <dependency ref="pkg:maven/com.github.jnr/jffi@1.2.19"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.29"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby/dirgra@0.3"/>
+      <dependency ref="pkg:maven/com.headius/invokebinder@1.11"/>
+      <dependency ref="pkg:maven/com.headius/options@1.4"/>
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.3"/>
+      <dependency ref="pkg:maven/com.martiansoftware/nailgun-server@0.9.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.1"/>
+      <dependency ref="pkg:maven/com.headius/backport9@1.3"/>
+      <dependency ref="pkg:maven/javax.annotation/javax.annotation-api@1.3.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.1"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-netdb@1.1.6"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-unixsocket@0.23"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-enxio@0.21"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-posix@3.0.50"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-constants@0.9.12"/>
+      <dependency ref="pkg:maven/com.github.jnr/jffi@1.2.19"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.29"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby/dirgra@0.3"/>
+      <dependency ref="pkg:maven/com.headius/invokebinder@1.11"/>
+      <dependency ref="pkg:maven/com.headius/options@1.4"/>
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.3"/>
+      <dependency ref="pkg:maven/com.martiansoftware/nailgun-server@0.9.1"/>
+      <dependency ref="pkg:maven/com.headius/backport9@1.3"/>
+      <dependency ref="pkg:maven/javax.annotation/javax.annotation-api@1.3.1"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.jruby/jruby-core@9.2.8.0">
+      <dependency ref="pkg:maven/com.github.jnr/jnr-netdb@1.1.6"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-unixsocket@0.23"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-enxio@0.21"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-posix@3.0.50"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-constants@0.9.12"/>
+      <dependency ref="pkg:maven/com.github.jnr/jffi@1.2.19"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.29"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby/dirgra@0.3"/>
+      <dependency ref="pkg:maven/com.headius/invokebinder@1.11"/>
+      <dependency ref="pkg:maven/com.headius/options@1.4"/>
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.3"/>
+      <dependency ref="pkg:maven/com.martiansoftware/nailgun-server@0.9.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.1"/>
+      <dependency ref="pkg:maven/com.headius/backport9@1.3"/>
+      <dependency ref="pkg:maven/javax.annotation/javax.annotation-api@1.3.1"/>
+      <dependency ref="pkg:maven/joda-time/joda-time@2.10.1"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-netdb@1.1.6"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-unixsocket@0.23"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-enxio@0.21"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-posix@3.0.50"/>
+      <dependency ref="pkg:maven/com.github.jnr/jnr-constants@0.9.12"/>
+      <dependency ref="pkg:maven/com.github.jnr/jffi@1.2.19"/>
+      <dependency ref="pkg:maven/org.jruby.joni/joni@2.1.29"/>
+      <dependency ref="pkg:maven/org.jruby.jcodings/jcodings@1.0.44"/>
+      <dependency ref="pkg:maven/org.jruby/dirgra@0.3"/>
+      <dependency ref="pkg:maven/com.headius/invokebinder@1.11"/>
+      <dependency ref="pkg:maven/com.headius/options@1.4"/>
+      <dependency ref="pkg:maven/com.jcraft/jzlib@1.1.3"/>
+      <dependency ref="pkg:maven/com.martiansoftware/nailgun-server@0.9.1"/>
+      <dependency ref="pkg:maven/com.headius/backport9@1.3"/>
+      <dependency ref="pkg:maven/javax.annotation/javax.annotation-api@1.3.1"/>
+    </dependency>
+  </dependencies>
+</bom>

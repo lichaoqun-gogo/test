@@ -1,0 +1,1589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bom serialNumber="urn:uuid:a133415b-83b5-4d96-8335-994ab8b89b1e" version="1" xmlns="http://cyclonedx.org/schema/bom/1.3">
+  <metadata>
+    <timestamp>2026-07-17T10:41:47Z</timestamp>
+    <tools>
+      <tool>
+        <vendor>CycloneDX</vendor>
+        <name>CycloneDX Maven plugin</name>
+        <version>2.5.3</version>
+        <hashes>
+          <hash alg="MD5">4f7d894200ad695fc9f0aad66d7da40a</hash>
+          <hash alg="SHA-1">c044d9b726650cbea3adeb5cc1715c67d8356c0a</hash>
+          <hash alg="SHA-256">b9a385e430e1f5efd9b835a084c195dde4d5e1bc79e469a8187ec58275c15313</hash>
+          <hash alg="SHA-384">d96f68ef4b8830d70dc2eb5f2de5211d96b70dd1169da641f34474265c06a5321b63d2c80fe2d82d74c767391225e480</hash>
+          <hash alg="SHA-512">1d7d1129cdc8604772b3c454d8dff98d936f85af705c95705e3263a038c0bb58fdd58c0b90efa3f56b4ce8ef9c84d3154b74b8451e0470f856f4d688489704b0</hash>
+        </hashes>
+      </tool>
+    </tools>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-all@4.9.8?type=pom">
+      <publisher>Apache Software Foundation</publisher>
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-all</name>
+      <version>4.9.8</version>
+      <description>The Apache Software Foundation provides support for the Apache community of open-source software projects.
+    The Apache projects are characterized by a collaborative, consensus based development process, an open and
+    pragmatic software license, and a desire to create high quality software that leads the way in its field.
+    We consider ourselves not simply a group of projects sharing a server, but rather a community of developers
+    and users.</description>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-all@4.9.8?type=pom</purl>
+      <externalReferences><reference type="website"><url>http://www.apache.org</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference><reference type="issue-tracker"><url>https://issues.apache.org/jira/browse/RocketMQ</url></reference></externalReferences>
+    </component>
+  </metadata>
+  <components>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-logging@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-logging</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">be8578e18d00be68dd38fe43ca6eaee9</hash>
+        <hash alg="SHA-1">dc3f3b83b8cb96cb3f4594ccb678262af7decdd2</hash>
+        <hash alg="SHA-256">7a45167fb930bc30ed98034849a844385aefad8d6a3cef6f315d9ff85df8bb03</hash>
+        <hash alg="SHA-384">37d6a4e0c999fa5ce444061ada4172515a4ad2cd321881936c58dfb5074dad43f40f0f5e811ffd7099bc926ad55c9ba8</hash>
+        <hash alg="SHA-512">c4e859b1c772be1bc3fe1986365c22d754332a9d272a9c60999491f44b2c9a2461238580c6796d6c4485e3a8787552c4b5330acd420649565ec1324be9539569</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-logging@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.slf4j/slf4j-api@1.7.7?type=jar">
+      <publisher>QOS.ch</publisher>
+      <group>org.slf4j</group>
+      <name>slf4j-api</name>
+      <version>1.7.7</version>
+      <description>The slf4j API</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">ca4280bf93d64367723ae5c8d42dd0b9</hash>
+        <hash alg="SHA-1">2b8019b6249bb05d81d3a3094e468753e2b21311</hash>
+        <hash alg="SHA-256">69980c038ca1b131926561591617d9c25fabfc7b29828af91597ca8570cf35fe</hash>
+        <hash alg="SHA-384">1b59a922a63fa73baff42db7e9eeab1525c71cd8f9d3b7ea208f310792aa7f334fe7d45c8dbbe4bf8bd664dd49ed39d2</hash>
+        <hash alg="SHA-512">c47d0d78388022e38bd60fd6e613ab4ceb9cad6b2567a3d36153aefc832864a99de1f6cdcd52959f73231e5b933fd9172353434e5fd83777703f41cb40fc97a7</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>MIT</id>
+          <url>https://opensource.org/licenses/MIT</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.slf4j/slf4j-api@1.7.7?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://www.qos.ch</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference><reference type="vcs"><url>https://github.com/ceki/slf4j</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-remoting</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">7250814bd240d5efa8b9796747ad0038</hash>
+        <hash alg="SHA-1">e9e99f321d9baff0df033dffac26e5239970683d</hash>
+        <hash alg="SHA-256">e7e0ebd1765b757ee9f53f01daea7ed150428ca0483dc6ee13725ccb4979f5ea</hash>
+        <hash alg="SHA-384">05d00a6a451d89d9357db751ae0893b3f357112a8a0d573b5fbd4d6956a66cdaca131d754efb4844b1499ed94a31c8ac</hash>
+        <hash alg="SHA-512">2567c3ac104eb13202fee0a4e414fccbce062380a252e0c60042b894acd01a801c7630cb6cd222702321d4f9e6bbf94ce125651ad7d764ba4328d017de4b18cb</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.alibaba/fastjson@1.2.69_noneautotype?type=jar">
+      <publisher>Alibaba Group</publisher>
+      <group>com.alibaba</group>
+      <name>fastjson</name>
+      <version>1.2.69_noneautotype</version>
+      <description>Fastjson is a JSON processor (JSON parser + JSON generator) written in Java</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">c8af84e112126be13edbfddbfb719e4b</hash>
+        <hash alg="SHA-1">18acb083c7f08c86eacbc5fb42ce54db5604025d</hash>
+        <hash alg="SHA-256">6d6a42c8a9861f74892ff282694f673683a2b69c7bb622afc46f0a74e8377a7a</hash>
+        <hash alg="SHA-384">f703043b81e3e4bd242ae9edf09cca62da85a060f03dc178048c56fdb3dd5ca2b84a0e209e15021138ef4a6e9b59dd57</hash>
+        <hash alg="SHA-512">09b36910176d0ec2a67ffc04b2bfa844703d8e66ebef593adfbe144497eb049dfb278bd39f0c80b04aed49cd74264efc4aa4a3dde5f6f237fd139688438dc316</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.alibaba/fastjson@1.2.69_noneautotype?type=jar</purl>
+      <externalReferences><reference type="website"><url>https://github.com/alibaba</url></reference><reference type="vcs"><url>https://github.com/alibaba/fastjson</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.netty/netty-all@4.1.65.Final?type=jar">
+      <publisher>The Netty Project</publisher>
+      <group>io.netty</group>
+      <name>netty-all</name>
+      <version>4.1.65.Final</version>
+      <description>Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">6b1836a9748a74a68fb48e9151006c2f</hash>
+        <hash alg="SHA-1">d9b060190c20772eb05f6f98d30f5fdb7077f317</hash>
+        <hash alg="SHA-256">e6cdae2b23e410b35128dac651b954aedd583bc10959a1e702c7dba7ac850d0e</hash>
+        <hash alg="SHA-384">2ea03080b0f74e5caea2aa064c7bbd987af541e34f1928c97eab1a2632607080ec994e56573f647eeee776da8f6be020</hash>
+        <hash alg="SHA-512">9474a419922c482d03b3cf09058841db4503db45315d036d1e998cc1d0a5c2b5cce9d67a579b3dd2ec1b40f3fce2344fc2a499417b17af12a1950f27eecbf9db</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.netty/netty-all@4.1.65.Final?type=jar</purl>
+      <externalReferences><reference type="website"><url>https://netty.io/</url></reference><reference type="vcs"><url>https://github.com/netty/netty</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-common</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">5809cd723e9f640955cbf4ecc799a9a8</hash>
+        <hash alg="SHA-1">858b13e0ac72f08d05220c63584328ca9961cbb9</hash>
+        <hash alg="SHA-256">1529d15216a18418045364211d2d1e492ca296dffd0e37751eb8f94a197a8092</hash>
+        <hash alg="SHA-384">6993b8a58693c48698998d2c7516bac9e8f859c934dc4b2f6d9087dffd3ccffedbc1a4ee6baae93583c38a8d783c2a28</hash>
+        <hash alg="SHA-512">6b5c001c67aad068e6a999bb1953db8fe56772cafb93eb644f3d1b8b9f51832dc6d0bc6dd75cda7a7d8c0ea050af8a67f9240a87efc3d0589498f516fc352148</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.commons/commons-lang3@3.4?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>org.apache.commons</group>
+      <name>commons-lang3</name>
+      <version>3.4</version>
+      <description>Apache Commons Lang, a package of Java utility classes for the
+  classes that are in java.lang's hierarchy, or are considered to be so
+  standard as to justify existence in java.lang.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">8667a442ee77e509fbe8176b94726eb2</hash>
+        <hash alg="SHA-1">5fe28b9518e58819180a43a850fbc0dd24b7c050</hash>
+        <hash alg="SHA-256">734c8356420cc8e30c795d64fd1fcd5d44ea9d90342a2cc3262c5158fbc6d98b</hash>
+        <hash alg="SHA-384">961bd98a9b176b23f6162fa26b887ea54e970815f6ad10c5f98c0d8a35d6f056c19a46889bb380947a741daf7bc264cd</hash>
+        <hash alg="SHA-512">b1b556692341a240f8b81f8f71b8b5c0225ccf857ce1b185e7fe6d7a9bb2a4d77823496cd6e2697a20386e7f3ba02d476a0e4ff38071367beb3090104544922d</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.commons/commons-lang3@3.4?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>http://issues.apache.org/jira/browse/LANG</url></reference><reference type="vcs"><url>http://svn.apache.org/viewvc/commons/proper/lang/tags/LANG_3_4</url></reference><reference type="build-system"><url>https://continuum-ci.apache.org/</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>http://www.apache.org/</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/commons-validator/commons-validator@1.7?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>commons-validator</group>
+      <name>commons-validator</name>
+      <version>1.7</version>
+      <description>Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
+    It may be used standalone or with a framework like Struts.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">4b6f22de69432bc03254b47310d59651</hash>
+        <hash alg="SHA-1">76069c915de3787f3ddd8726a56f47a95bfcbb0e</hash>
+        <hash alg="SHA-256">4d74f4ce4fb68b2617edad086df6defdf9338467d2377d2c62e69038e1c4f02f</hash>
+        <hash alg="SHA-384">7f6f1015b4d9f3aa26a06634eccc821ea4e3babb69432a41a212e134c670bdee6e3d9f0648bd2b62d7d6dfbee2ee5daf</hash>
+        <hash alg="SHA-512">4e303ab9e2132eaca8b4188aa91885a046a3b8e76f2895a9c7025c001e8d36e096a9f69abd05d83a508fa16d0d2ec089ea9f0dae261d049ff18724fad6a8f1b1</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/commons-validator/commons-validator@1.7?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>http://issues.apache.org/jira/browse/VALIDATOR</url></reference><reference type="vcs"><url>https://gitbox.apache.org/repos/asf/commons-validator</url></reference><reference type="build-system"><url>https://builds.apache.org/</url></reference><reference type="mailing-list"><url>https://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>https://www.apache.org/</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/commons-beanutils/commons-beanutils@1.9.4?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>commons-beanutils</group>
+      <name>commons-beanutils</name>
+      <version>1.9.4</version>
+      <description>Apache Commons BeanUtils provides an easy-to-use but flexible wrapper around reflection and introspection.</description>
+      <hashes>
+        <hash alg="MD5">07dc532ee316fe1f2f0323e9bd2f8df4</hash>
+        <hash alg="SHA-1">d52b9abcd97f38c81342bb7e7ae1eee9b73cba51</hash>
+        <hash alg="SHA-256">7d938c81789028045c08c065e94be75fc280527620d5bd62b519d5838532368a</hash>
+        <hash alg="SHA-384">dcd3845917b8fb189cf4034b0d7c6d266ec7110f85ffbd2711cdea9eb94b4fa3e1cee9120b484c6a120b82769230ed3a</hash>
+        <hash alg="SHA-512">7762b348caecead49038a38a89754ff7d9be6199324315495ba47cf24f52c06faadf9306d925c8fe47c587589a939c82e491e1c730267fdf354243a68c0f96ff</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/commons-beanutils/commons-beanutils@1.9.4?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>https://issues.apache.org/jira/browse/BEANUTILS</url></reference><reference type="vcs"><url>http://svn.apache.org/viewvc/commons/proper/beanutils/tags/BEANUTILS_1_9_3_RC3</url></reference><reference type="build-system"><url>https://builds.apache.org/</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>https://www.apache.org/</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/commons-digester/commons-digester@2.1?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>commons-digester</group>
+      <name>commons-digester</name>
+      <version>2.1</version>
+      <description>The Digester package lets you configure an XML to Java object mapping module
+    which triggers certain actions called rules whenever a particular 
+    pattern of nested XML elements is recognized.</description>
+      <hashes>
+        <hash alg="MD5">528445033f22da28f5047b6abcd1c7c9</hash>
+        <hash alg="SHA-1">73a8001e7a54a255eef0f03521ec1805dc738ca0</hash>
+        <hash alg="SHA-256">e0b2b980a84fc6533c5ce291f1917b32c507f62bcad64198fff44368c2196a3d</hash>
+        <hash alg="SHA-384">2aaaa152e6e5fa4c632065e18bb17f8a223de0713be0610b62939b179fccdd37645f2e3073896f455ea95566274e14c1</hash>
+        <hash alg="SHA-512">a2c822690786b41e0a02506c7aaf7e8a4b8251ea71d6978ee03e82b11ca242e49386d6da84dbc7182d5a6fb167822aed200da2d97e2f264d63ccf8f1b9681ac8</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/commons-digester/commons-digester@2.1?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>http://issues.apache.org/jira/browse/DIGESTER</url></reference><reference type="vcs"><url>http://svn.apache.org/viewvc/commons/proper/digester/tags/DIGESTER_2_1_RC2</url></reference><reference type="build-system"><url>http://vmbuild.apache.org/continuum/</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>http://www.apache.org/</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/commons-logging/commons-logging@1.2?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.2</version>
+      <description>Apache Commons Logging is a thin adapter allowing configurable bridging to other,
+    well known logging systems.</description>
+      <hashes>
+        <hash alg="MD5">040b4b4d8eac886f6b4a2a3bd2f31b00</hash>
+        <hash alg="SHA-1">4bfc12adfe4842bf07b657f0369c4cb522955686</hash>
+        <hash alg="SHA-256">daddea1ea0be0f56978ab3006b8ac92834afeefbd9b7e4e6316fca57df0fa636</hash>
+        <hash alg="SHA-384">ac20720d7156131478205f1b454395abf84cfc8da2f163301af32f63bd3c4764bd26cb54ed53800f33193ae591f3ce9c</hash>
+        <hash alg="SHA-512">ed00dbfabd9ae00efa26dd400983601d076fe36408b7d6520084b447e5d1fa527ce65bd6afdcb58506c3a808323d28e88f26cb99c6f5db9ff64f6525ecdfa557</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/commons-logging/commons-logging@1.2?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>http://issues.apache.org/jira/browse/LOGGING</url></reference><reference type="vcs"><url>http://svn.apache.org/repos/asf/commons/proper/logging/trunk</url></reference><reference type="build-system"><url>https://continuum-ci.apache.org/</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>http://www.apache.org/</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/commons-collections/commons-collections@3.2.2?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>commons-collections</group>
+      <name>commons-collections</name>
+      <version>3.2.2</version>
+      <description>Types that extend and augment the Java Collections Framework.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">f54a8510f834a1a57166970bfc982e94</hash>
+        <hash alg="SHA-1">8ad72fe39fa8c91eaaf12aadb21e0c3661fe26d5</hash>
+        <hash alg="SHA-256">eeeae917917144a68a741d4c0dff66aa5c5c5fd85593ff217bced3fc8ca783b8</hash>
+        <hash alg="SHA-384">dd4e99b3314bd3c1a1ee26296615d9e44dadf7a1f8a7bbba44fb95121803d331e36d4cca4260e7609af78a47ba3e4073</hash>
+        <hash alg="SHA-512">51c72f9aca7726f3c387095e66be85a6df97c74b00a25434b89188c1b8eab6e2b55accf7b9bd412430d22bd09324dec076e300b3d1fa39fccad471f0f2a3da16</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/commons-collections/commons-collections@3.2.2?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>http://issues.apache.org/jira/browse/COLLECTIONS</url></reference><reference type="vcs"><url>http://svn.apache.org/viewvc/commons/proper/collections/trunk</url></reference><reference type="build-system"><url>https://continuum-ci.apache.org/</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>http://www.apache.org/</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.github.luben/zstd-jni@1.5.2-2?type=jar">
+      <publisher>com.github.luben</publisher>
+      <group>com.github.luben</group>
+      <name>zstd-jni</name>
+      <version>1.5.2-2</version>
+      <description>JNI bindings for Zstd native library that provides fast and high compression lossless algorithm for Java and all JVM languages.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">2626877e26d340392122e63a2591025c</hash>
+        <hash alg="SHA-1">029a1d888c464328a03396b8035ad20fc85e7ad9</hash>
+        <hash alg="SHA-256">fedeb4c59d9593e84bc0b1cca30c90da7f3452e78d3a1b9d5dd7370efc474b1d</hash>
+        <hash alg="SHA-384">996234d2f032e08f4c136555d9d7bdc4ec3be20ba16c77708843aed24ff379227e5cce8d16111f720ed19526898d757d</hash>
+        <hash alg="SHA-512">654a20b51d274276c8a76c92b32aca3329e872f16b90672a56d58145519ff083a376f47e14ec7ee6e432bbd2778688916ae565ba2139ef9e5f9e264f244248f7</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>BSD-2-Clause</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.github.luben/zstd-jni@1.5.2-2?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.lz4/lz4-java@1.8.0?type=jar">
+      <group>org.lz4</group>
+      <name>lz4-java</name>
+      <version>1.8.0</version>
+      <description>Java ports and bindings of the LZ4 compression algorithm and the xxHash hashing algorithm</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">936a927700aa8fc3b75d21d7571171f6</hash>
+        <hash alg="SHA-1">4b986a99445e49ea5fbf5d149c4b63f6ed6c6780</hash>
+        <hash alg="SHA-256">d74a3334fb35195009b338a951f918203d6bbca3d1d359033dc33edd1cadc9ef</hash>
+        <hash alg="SHA-384">8e3f2acdbb41a00c4d9cc5f328e63fb626ac7c6c84e1bf9502e2fcc76a591b2b819b2d27b29925ff986b95c297b30e2c</hash>
+        <hash alg="SHA-512">98d59086a6021ca571d9c1d64b715e43044c730e1ac563f514c40cf44302615d30378b6d5cc69990446522de6260dc8e7b303e3990a3139dc326d058dfb6dbd9</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.lz4/lz4-java@1.8.0?type=jar</purl>
+      <externalReferences/>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-client</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">ac04f227e886cbdcb3f62fad8b8f4fa5</hash>
+        <hash alg="SHA-1">00997df85372dd5ece393ad8c67449b56f8ad872</hash>
+        <hash alg="SHA-256">7ad06afe1a272698ab6bc9b79938ac25286e1edb63041f0a35fff482ec93e2c1</hash>
+        <hash alg="SHA-384">845cc10908d2cc1a29a6cf350ae64e81b02e654708f125988789fd0970b7f51d3f00144e5c353907c00596bf9641ca6f</hash>
+        <hash alg="SHA-512">f37be709e4c4466c14be9fdb37b91d666207d0ad78a18b86d7cd2744349311ca4f7a20fbc59be4c48b4787daabd631e4149a17233a74e84d18bf2c2ec0c451b7</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.opentracing/opentracing-api@0.33.0?type=jar">
+      <publisher>OpenTracing</publisher>
+      <group>io.opentracing</group>
+      <name>opentracing-api</name>
+      <version>0.33.0</version>
+      <description>OpenTracing Java API</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">bfec41592934f8a1f3e782ff2967c985</hash>
+        <hash alg="SHA-1">67336cfb9d93779c02e1fda4c87801d352720eda</hash>
+        <hash alg="SHA-256">4534541b8e9f41a17bcdf1d09affe45b98c13574db6e529a93a58264b9472c7c</hash>
+        <hash alg="SHA-384">40cecdf9b5b85090c64750949de1c3c0e534904f6a82b4e325cfa8d54ed227c258e26e9b90ded0ecdd8ce06a2f4d76c3</hash>
+        <hash alg="SHA-512">931197ca33e509570e389cd163af96e277bb3635f019e34e2fc97d3fa9c34bb9042f25b2ba8aa59f8516cc044ec3e9584462601b8aa5f954bbc6ad88e5fbe5cd</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.opentracing/opentracing-api@0.33.0?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://opentracing.io/</url></reference><reference type="distribution"><url>https://api.bintray.com/maven/opentracing/maven/opentracing-java/;publish=1</url></reference><reference type="issue-tracker"><url>https://github.com/opentracing/opentracing-java/issues</url></reference><reference type="vcs"><url>https://github.com/opentracing/opentracing-java</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-store@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-store</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">bf405975f8af77a425d0e6743d08a1f2</hash>
+        <hash alg="SHA-1">dc625e49dd35d35c9995d4c38565519ec70b1fc4</hash>
+        <hash alg="SHA-256">c2f1017edb320b73743c51ac894db532ac60eb7f75cf87c94d9808a6e54a45da</hash>
+        <hash alg="SHA-384">d540ee38a358e664d661bfe5624b9851a2e39c35c0d143c6ae49251c8303162a5c0fdcd970695f754d2e7b70ada34964</hash>
+        <hash alg="SHA-512">1be9e2199f6300d0b14991f8a1d6cf60f555203570e9aafad8f9d1e3d358167d76f9efc8f7aaf306c265b677f0da159eb10ce3f3af164109c4253658f5c02292</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-store@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.openmessaging.storage/dledger@0.3.1.2?type=jar">
+      <group>io.openmessaging.storage</group>
+      <name>dledger</name>
+      <version>0.3.1.2</version>
+      <description>A raft-based java library for building high-available, high-durable, strong-consistent commitlog.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">13bb5cd74f7f4125a4aff12c9429b4d3</hash>
+        <hash alg="SHA-1">42ad16c6d9b1c861820bdc2dfc30ac70e53e6444</hash>
+        <hash alg="SHA-256">be88af3175fdd04bbc153e34ce910f35f7088b91bff2374eccf18f66545093b6</hash>
+        <hash alg="SHA-384">3ea5daf634b40b072a2bbb152cda2bb73896f979266b671f9d01996d526ca03a67e83e13ece69e41087a10585aaf9a98</hash>
+        <hash alg="SHA-512">c3463971c8d4a62fc9d990390b5ec22bf1fcb347b91fe3e2d8c9cc104083d43241a1f3df4cd91f76cf3e555b2faf59f4f7bf65ce8cf46cb6c695dae7ceb1168e</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/io.openmessaging.storage/dledger@0.3.1.2?type=jar</purl>
+      <externalReferences><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference><reference type="vcs"><url>http://svn.sonatype.org/spice/trunk/oss/oss-parent-9</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/net.java.dev.jna/jna@4.2.2?type=jar">
+      <group>net.java.dev.jna</group>
+      <name>jna</name>
+      <version>4.2.2</version>
+      <description>Java Native Access</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">78eb97e642452eb30aea5f76e52a7603</hash>
+        <hash alg="SHA-1">5012450aee579c3118ff09461d5ce210e0cdc2a9</hash>
+        <hash alg="SHA-256">1f38af54e06c6e6f6dbf39ba2c052b952dea5dddb4871127b34639ddeb11bdbe</hash>
+        <hash alg="SHA-384">8884d78c698d48e8b6543a199a23ef9a42affb7b4c6a5dc7ec5e2a4e613f5ab986df8ba0cc6e9da81d27d39268ae490d</hash>
+        <hash alg="SHA-512">e2594c5d95937a8675190750e29b73c10f496637e940b4444dd4a6f03f7f323a346481521881a6d54a826fd12df312bb21b1f07edcfa3a09141f8cf362f6a564</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <name>LGPL, version 2.1</name>
+          <url>http://www.gnu.org/licenses/licenses.html</url>
+        </license>
+        <license>
+          <name>ASL, version 2</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/net.java.dev.jna/jna@4.2.2?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/java-native-access/jna</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-srvutil</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">31d2e96cc4e1717bb75e08bf2a09b739</hash>
+        <hash alg="SHA-1">df912c43426871d459435776bf8cfd00f946eefc</hash>
+        <hash alg="SHA-256">d57d23045d8d99baa9c94f872ca6541d67f718689dfbd1079d82e6f69b659088</hash>
+        <hash alg="SHA-384">6f226ef339b5f1094e370c4eb93af5c81d08f42254f408ef14451b7907e0bfbcbd4aa4a5ccfcfaf7e0dbdd7f4707aa34</hash>
+        <hash alg="SHA-512">f2b23ffadfc5edeef266432c875371f04eb2af624e22c701fd1e9508ab6c5f75348fccfd7d5c463f71fe2798f130e598a88a5374079ac4f77035d1af7a005771</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/commons-cli/commons-cli@1.2?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>commons-cli</group>
+      <name>commons-cli</name>
+      <version>1.2</version>
+      <description>Commons CLI provides a simple API for presenting, processing and validating a command line interface.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">bfdcae1ff93f0c07d733f03bdce28c9e</hash>
+        <hash alg="SHA-1">2bf96b7aa8b611c177d329452af1dc933e14501c</hash>
+        <hash alg="SHA-256">e7cd8951956d349b568b7ccfd4f5b2529a8c113e67c32b028f52ffda371259d9</hash>
+        <hash alg="SHA-384">3e39c2926a3d022280dc6a706f0be11d073541500b641dfe485c7b054469a8a01902cbc8692e38ff976bc69fd974174f</hash>
+        <hash alg="SHA-512">0b8f4610d3a05a589026b1af605cf976f73e6fecb9b9cce9f572e5883ce0a78e8a9cfe48e06257bb68cb8eea080ffe84a2b0b73682036f85dbbb3c03cfdedfaa</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/commons-cli/commons-cli@1.2?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>http://issues.apache.org/jira/browse/CLI</url></reference><reference type="vcs"><url>http://svn.apache.org/viewvc/commons/proper/cli/branches/cli-1.x/</url></reference><reference type="build-system"><url>http://vmbuild.apache.org/continuum/</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>http://www.apache.org/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-filter@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-filter</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">4b86aa941d7cf96f5a9d7ff85947cbca</hash>
+        <hash alg="SHA-1">937500dcd76a03df07965adcaf75c86e0429143e</hash>
+        <hash alg="SHA-256">83464c68bf90e537b8f24d9d44d5d8101adaff805a9b334cbfd68f4c523d2ceb</hash>
+        <hash alg="SHA-384">cbf6f3e94f983b9d7c3fa9e6c3bcc8ba88c3472f9ded0639a41bfee09ac4686e5af697aee313899462b1671027ef43e5</hash>
+        <hash alg="SHA-512">2960e3e1c673b124b89d63374582dd3bb2e8454ae858259f004738d0a63f9faa723e86346e6d52670754d826e8216afe84635bc5868d9c2a9960a18bbe7c3a50</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-filter@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.guava/guava@32.0.1-jre?type=jar">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>32.0.1-jre</version>
+      <description>Guava is a suite of core and expanded libraries that include
+    utility classes, Google's collections, I/O classes, and
+    much more.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">6951895e804b36322214c95917e598d4</hash>
+        <hash alg="SHA-1">6e5d51a72d142f2d40a57dfb897188b36a95b489</hash>
+        <hash alg="SHA-256">bd7fa227591fb8509677d0d1122cf95158f3b8a9f45653f58281d879f6dc48c5</hash>
+        <hash alg="SHA-384">abad4556e073fb38062c636b6599ceed992302c7d98150e3842d32ce92f6aac7d630633c56efa581523d591361fcf898</hash>
+        <hash alg="SHA-512">5dbe7a697511cfbe44f3ffb954e32e997677ecc61f03bb7bb374f1b8fa4a931a95cd9d1f5288eb5d42e2aa380e3241b35059786c07edc48e5aa67c30cddad8a5</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.guava/guava@32.0.1-jre?type=jar</purl>
+      <externalReferences><reference type="build-system"><url>https://github.com/google/guava/actions</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference><reference type="issue-tracker"><url>https://github.com/google/guava/issues</url></reference><reference type="vcs"><url>https://github.com/google/guava</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.guava/failureaccess@1.0.1?type=jar">
+      <group>com.google.guava</group>
+      <name>failureaccess</name>
+      <version>1.0.1</version>
+      <description>Contains
+    com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
+    InternalFutures. Most users will never need to use this artifact. Its
+    classes is conceptually a part of Guava, but they're in this separate
+    artifact so that Android libraries can use them without pulling in all of
+    Guava (just as they can use ListenableFuture by depending on the
+    listenablefuture artifact).</description>
+      <hashes>
+        <hash alg="MD5">091883993ef5bfa91da01dcc8fc52236</hash>
+        <hash alg="SHA-1">1dcf1de382a0bf95a3d8b0849546c88bac1292c9</hash>
+        <hash alg="SHA-256">a171ee4c734dd2da837e4b16be9df4661afab72a41adaf31eb84dfdaf936ca26</hash>
+        <hash alg="SHA-384">67659dbd9647ec303d7f15128dc9dba19b98fd8d74758ee3b602451e32c855e236ccaafe08edf4bbfa245f981268440f</hash>
+        <hash alg="SHA-512">f8d59b808d6ba617252305b66d5590937da9b2b843d492d06b8d0b1b1f397e39f360d5817707797b979a5bf20bf21987b35333e7a15c44ed7401fea2d2119cae</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.guava/failureaccess@1.0.1?type=jar</purl>
+      <externalReferences><reference type="build-system"><url>https://travis-ci.org/google/guava</url></reference><reference type="issue-tracker"><url>https://github.com/google/guava/issues</url></reference><reference type="vcs"><url>https://github.com/google/guava</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava?type=jar">
+      <group>com.google.guava</group>
+      <name>listenablefuture</name>
+      <version>9999.0-empty-to-avoid-conflict-with-guava</version>
+      <description>An empty artifact that Guava depends on to signal that it is providing
+    ListenableFuture -- but is also available in a second "version" that
+    contains com.google.common.util.concurrent.ListenableFuture class, without
+    any other Guava classes. The idea is:
+
+    - If users want only ListenableFuture, they depend on listenablefuture-1.0.
+
+    - If users want all of Guava, they depend on guava, which, as of Guava
+    27.0, depends on
+    listenablefuture-9999.0-empty-to-avoid-conflict-with-guava. The 9999.0-...
+    version number is enough for some build systems (notably, Gradle) to select
+    that empty artifact over the "real" listenablefuture-1.0 -- avoiding a
+    conflict with the copy of ListenableFuture in guava itself. If users are
+    using an older version of Guava or a build system other than Gradle, they
+    may see class conflicts. If so, they can solve them by manually excluding
+    the listenablefuture artifact or manually forcing their build systems to
+    use 9999.0-....</description>
+      <hashes>
+        <hash alg="MD5">d094c22570d65e132c19cea5d352e381</hash>
+        <hash alg="SHA-1">b421526c5f297295adef1c886e5246c39d4ac629</hash>
+        <hash alg="SHA-256">b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99</hash>
+        <hash alg="SHA-384">caff9b74079f95832ca7f6029346b34b606051cc8c5a4389fac263511d277ada0c55f28b0d43011055b268c6eb7184d5</hash>
+        <hash alg="SHA-512">c5987a979174cbacae2e78b319f080420cc71bcdbcf7893745731eeb93c23ed13bff8d4599441f373f3a246023d33df03e882de3015ee932a74a774afdd0782f</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava?type=jar</purl>
+      <externalReferences><reference type="build-system"><url>https://travis-ci.org/google/guava</url></reference><reference type="issue-tracker"><url>https://github.com/google/guava/issues</url></reference><reference type="vcs"><url>https://github.com/google/guava</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.code.findbugs/jsr305@3.0.2?type=jar">
+      <group>com.google.code.findbugs</group>
+      <name>jsr305</name>
+      <version>3.0.2</version>
+      <description>JSR305 Annotations for Findbugs</description>
+      <hashes>
+        <hash alg="MD5">dd83accb899363c32b07d7a1b2e4ce40</hash>
+        <hash alg="SHA-1">25ea2e8b0c338a877313bd4672d3fe056ea78f0d</hash>
+        <hash alg="SHA-256">766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7</hash>
+        <hash alg="SHA-384">ca0b169d3eb2d0922dc031133a021f861a043bb3e405a88728215fd6ff00fa52fdc7347842dcc2031472e3726164bdc4</hash>
+        <hash alg="SHA-512">bb09db62919a50fa5b55906013be6ca4fc7acb2e87455fac5eaf9ede2e41ce8bbafc0e5a385a561264ea4cd71bbbd3ef5a45e02d63277a201d06a0ae1636f804</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.code.findbugs/jsr305@3.0.2?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://code.google.com/p/jsr-305/</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.checkerframework/checker-qual@3.33.0?type=jar">
+      <group>org.checkerframework</group>
+      <name>checker-qual</name>
+      <version>3.33.0</version>
+      <description>checker-qual contains annotations (type qualifiers) that a programmer
+writes to specify Java code for type-checking by the Checker Framework.</description>
+      <hashes>
+        <hash alg="MD5">fc9418b779d9d57dcd52197006cbdb9b</hash>
+        <hash alg="SHA-1">de2b60b62da487644fc11f734e73c8b0b431238f</hash>
+        <hash alg="SHA-256">e316255bbfcd9fe50d165314b85abb2b33cb2a66a93c491db648e498a82c2de1</hash>
+        <hash alg="SHA-384">ddf7a0f70421d1ed75e93c0a30434a4862c3905e433223e19861323cf0994e843392b746003040f10a7db6fc960b8aa6</hash>
+        <hash alg="SHA-512">049c446677b7b386f3fb501bf65e032bdf2b1b29a3f545848035fff2b683cd275380cf302e30eea641af7f0801f779bcda3d82a71d928e4176f564f796640a64</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>MIT</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.checkerframework/checker-qual@3.33.0?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/typetools/checker-framework.git</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.18.0?type=jar">
+      <publisher>Google LLC</publisher>
+      <group>com.google.errorprone</group>
+      <name>error_prone_annotations</name>
+      <version>2.18.0</version>
+      <description>Error Prone is a static analysis tool for Java that catches common programming mistakes at compile-time.</description>
+      <hashes>
+        <hash alg="MD5">64145d0e7fee5a69ed7b84cf402de998</hash>
+        <hash alg="SHA-1">89b684257096f548fa39a7df9fdaa409d4d4df91</hash>
+        <hash alg="SHA-256">9e6814cb71816988a4fd1b07a993a8f21bb7058d522c162b1de849e19bea54ae</hash>
+        <hash alg="SHA-384">7622eb33f83f03ab32b710b36c2fe836e24c5318f65fb8c0631a99507ca3ae65c2df8e33b63a5ce853b9cab6d9cb32e5</hash>
+        <hash alg="SHA-512">3cea86be94bb8ae40d21ad4bf7d7f6b2233e89593b7b741ad84c78840cd3837bb5136f52e62fe9ae0953d7b190c46ad3edc102dfa97b4c7ea472a80206bf5db7</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.errorprone/error_prone_annotations@2.18.0?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://www.google.com</url></reference><reference type="vcs"><url>https://github.com/google/error-prone</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.j2objc/j2objc-annotations@2.8?type=jar">
+      <group>com.google.j2objc</group>
+      <name>j2objc-annotations</name>
+      <version>2.8</version>
+      <description>A set of annotations that provide additional information to the J2ObjC
+    translator to modify the result of translation.</description>
+      <hashes>
+        <hash alg="MD5">c50af69b704dc91050efb98e0dff66d1</hash>
+        <hash alg="SHA-1">c85270e307e7b822f1086b93689124b89768e273</hash>
+        <hash alg="SHA-256">f02a95fa1a5e95edb3ed859fd0fb7df709d121a35290eff8b74dce2ab7f4d6ed</hash>
+        <hash alg="SHA-384">e6087ec31fec8289158496ad2ed6ce8472d5d513808a312e0782cedac3b86c37a62a63c0b5ea3839491d109fe9e148a1</hash>
+        <hash alg="SHA-512">f8263868a792b41707c9e7fe6fa5650a14cd93fbeafad20efe3772a3058fc933eb59782ec59e6eb9b9c569aa96da80134ae9fdf7547b69c44a97087efddceeff</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.j2objc/j2objc-annotations@2.8?type=jar</purl>
+      <externalReferences><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference><reference type="vcs"><url>http://svn.sonatype.org/spice/trunk/oss/oss-parent-9</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-acl@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-acl</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">8d56503941df841aa9bcf0c645ceb21f</hash>
+        <hash alg="SHA-1">85abd30ba9ed319df55fe1f41c057672c05c3a72</hash>
+        <hash alg="SHA-256">9ce257a2ddc6b7a896045a1ea2eb4449e056ff71e766965509294f5a12f33c42</hash>
+        <hash alg="SHA-384">a915b7a30f397b96f4a1db33f28fbefe229c0f15ea9a4f073019b8dd31e9704d324e92f07ad39aa2b29b8baa5c38b256</hash>
+        <hash alg="SHA-512">e5630675d3e8532d3387eece1edcbd45bb1dc1934bb50c3d3f1074af20741ce68e3748db4f8aa72fef8a9f4d184b4e2df1a8503ac2e055b6d4ae64e7bf1026b0</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-acl@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.yaml/snakeyaml@2.0?type=jar">
+      <group>org.yaml</group>
+      <name>snakeyaml</name>
+      <version>2.0</version>
+      <description>YAML 1.1 parser and emitter for Java</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">caf24b81b9d57e6d4f68b1ccd36e00a3</hash>
+        <hash alg="SHA-1">3aab2116756442bf0d4cd1c089b24d34c3baa253</hash>
+        <hash alg="SHA-256">880c9d896e4b74a06c549c15ca496450165d6909fa15d7e662bee8f6a66d7afa</hash>
+        <hash alg="SHA-384">63c0ec40f4e3f24786031fb8a9477071c86e69247dce283ff725e328e26fba7bdfbb0ab52027b9b0988b3978703a95fe</hash>
+        <hash alg="SHA-512">93567558444365c436027bd1064b67ae99abde77fa89b33ac7c586ab83e4dbf02b7610669fd00ccd258bca6ba3fa078954c92d918b989317dce7bf9ce18836b8</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.yaml/snakeyaml@2.0?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>https://bitbucket.org/snakeyaml/snakeyaml/issues</url></reference><reference type="vcs"><url>https://bitbucket.org/snakeyaml/snakeyaml/src</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/commons-codec/commons-codec@1.9?type=jar">
+      <publisher>The Apache Software Foundation</publisher>
+      <group>commons-codec</group>
+      <name>commons-codec</name>
+      <version>1.9</version>
+      <description>The Apache Commons Codec package contains simple encoder and decoders for
+     various formats such as Base64 and Hexadecimal.  In addition to these
+     widely used encoders and decoders, the codec package also maintains a
+     collection of phonetic encoding utilities.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">75615356605c8128013da9e3ac62a249</hash>
+        <hash alg="SHA-1">9ce04e34240f674bc72680f8b843b1457383161a</hash>
+        <hash alg="SHA-256">ad19d2601c3abf0b946b5c3a4113e226a8c1e3305e395b90013b78dd94a723ce</hash>
+        <hash alg="SHA-384">29ef73a57b1f0ed729409d4a0200f1c9a444a4f6ac355c5c8f09e7acb23fdb6dca3074009b916fb6ec073f7cccc0adbf</hash>
+        <hash alg="SHA-512">b65531ead8500493e3dd14a860224851b80f438fc53bf8868b443a0557d839a2b0c868e4fedcf99579ae04b6b2bbd8cdb37f9921ad785983c37569aa9d2e8102</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/commons-codec/commons-codec@1.9?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>http://issues.apache.org/jira/browse/CODEC</url></reference><reference type="vcs"><url>http://svn.apache.org/viewvc/commons/proper/codec/trunk</url></reference><reference type="build-system"><url>http://vmbuild.apache.org/continuum/</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/commons-user/</url></reference><reference type="website"><url>http://www.apache.org/</url></reference><reference type="distribution"><url>https://repository.apache.org/service/local/staging/deploy/maven2</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-broker@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-broker</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">edf8b115e4665917ad5f402b67208c98</hash>
+        <hash alg="SHA-1">82ffbeeea36eb54011813cf584c3aad8802b1e5c</hash>
+        <hash alg="SHA-256">811db360753b0a6d10e7cc9d7ce74ddb8be024a7bfd48da1a65d0028382046da</hash>
+        <hash alg="SHA-384">8184991c7de7224bda1ec6fe6019f03c9622728411fce7aba2449d580e2a00f02600a2daa4609083450e2a9955bceab2</hash>
+        <hash alg="SHA-512">05841386a02817e147583c78a195422accf0ef3949afe6ff964ba200d8beffddd92e295a70d893f3065f4fe32df06d80f20de710301e853e769b80fecb61ff75</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-broker@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/ch.qos.logback/logback-classic@1.2.10?type=jar">
+      <publisher>QOS.ch</publisher>
+      <group>ch.qos.logback</group>
+      <name>logback-classic</name>
+      <version>1.2.10</version>
+      <description>logback-classic module</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">98021917df75e0a36d0398f7352e5e4f</hash>
+        <hash alg="SHA-1">f69d97ef3335c6ab82fc21dfb77ac613f90c1221</hash>
+        <hash alg="SHA-256">3160ae988af82c8bf3024ddbe034a82da98bb186fd09e76c50543c5b9da5cc5e</hash>
+        <hash alg="SHA-384">a2bdcf38059b68cba0aacc900f43152f1e32c87a49c9e16fedf3aa5b4af22ffa967ea86d1888a437753a2a9428e5cdd5</hash>
+        <hash alg="SHA-512">8718b07d2629d89df0131b44df0ca7ace79a30ec43871fa9f004273fc9327ebd7ae8ac658daaa9e808e9bc3e0660c40dd8ce5bbd197d24e9b868f26e32957734</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>EPL-1.0</id>
+        </license>
+        <license>
+          <name>GNU Lesser General Public License</name>
+          <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/ch.qos.logback/logback-classic@1.2.10?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://www.qos.ch</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference><reference type="vcs"><url>https://github.com/ceki/logback</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/ch.qos.logback/logback-core@1.2.10?type=jar">
+      <publisher>QOS.ch</publisher>
+      <group>ch.qos.logback</group>
+      <name>logback-core</name>
+      <version>1.2.10</version>
+      <description>logback-core module</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">697b37f140ce9ac35a4ca3eaf4059f1a</hash>
+        <hash alg="SHA-1">5328406bfcae7bcdcc86810fcb2920d2c297170d</hash>
+        <hash alg="SHA-256">ba51a3fe56691f9dd7fe742e4a73c3ab4aaaa32202c73409ba56f18687399a08</hash>
+        <hash alg="SHA-384">452313d0e5ee35aef136e7db604d58cf782009d4bc0f0bbf25ac5c314377b7c2db72f8ff1cfa9095f7808ca6ed36946a</hash>
+        <hash alg="SHA-512">8dd5175ab32120dccd48e44166f9f35df389385ac808b5ef18d43bd2ef98e43d440d982155f231883a963994644d4c0baf701ef6fd1ace2c6dab13f98d8c9d53</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>EPL-1.0</id>
+        </license>
+        <license>
+          <name>GNU Lesser General Public License</name>
+          <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/ch.qos.logback/logback-core@1.2.10?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://www.qos.ch</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference><reference type="vcs"><url>https://github.com/ceki/logback</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.javassist/javassist@3.20.0-GA?type=jar">
+      <publisher>Shigeru Chiba, www.javassist.org</publisher>
+      <group>org.javassist</group>
+      <name>javassist</name>
+      <version>3.20.0-GA</version>
+      <description>Javassist (JAVA programming ASSISTant) makes Java bytecode manipulation
+    simple.  It is a class library for editing bytecodes in Java.</description>
+      <scope>optional</scope>
+      <hashes>
+        <hash alg="MD5">a89dd7907d76e061ec2c07e762a74256</hash>
+        <hash alg="SHA-1">a9cbcdfb7e9f86fbc74d3afae65f2248bfbf82a0</hash>
+        <hash alg="SHA-256">d7691062fb779c2381640c8f72acba2c23873b01c243866d41c15dc4c8848ea2</hash>
+        <hash alg="SHA-384">a31e22ff81f02e0841c7f13a9dbb788dc563b7ac52f06b80ac193830664db0812c58b0499efc3f702a1978011fb69865</hash>
+        <hash alg="SHA-512">9a7b212f2f953a8a0bf21fd2ab9606b8d372e778189abdaf758cf4e7ca3a4287505d3e8c567a6f68446432f7403b1cca6960992442322e58cdb69f3e8169f464</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>MPL-1.1</id>
+        </license>
+        <license>
+          <id>LGPL-2.1-only</id>
+        </license>
+        <license>
+          <id>Apache-2.0</id>
+          <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.javassist/javassist@3.20.0-GA?type=jar</purl>
+      <externalReferences><reference type="distribution"><url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</url></reference><reference type="issue-tracker"><url>https://jira.jboss.org/jira/browse/JASSIST/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.69?type=jar">
+      <group>org.bouncycastle</group>
+      <name>bcpkix-jdk15on</name>
+      <version>1.69</version>
+      <description>The Bouncy Castle Java APIs for CMS, PKCS, EAC, TSP, CMP, CRMF, OCSP, and certificate generation. This jar contains APIs for JDK 1.5 and up. The APIs can be used in conjunction with a JCE/JCA provider such as the one provided with the Bouncy Castle Cryptography APIs.</description>
+      <scope>optional</scope>
+      <hashes>
+        <hash alg="MD5">c6f7fe841c62cbbeeede7510fe8d72ee</hash>
+        <hash alg="SHA-1">45c36fb72fafb0b688c6af795e6cc803f6f79ee5</hash>
+        <hash alg="SHA-256">408376d17aaa8789e7acd055fe404289a11fa335fd7c68a75329049fb7d28ed2</hash>
+        <hash alg="SHA-384">9daf985d6db451f013058054289131706f88ce215c70cc398ec675a376766000dc19c16fab837288b83b76251b5043c9</hash>
+        <hash alg="SHA-512">2ccc713292ae88eaa20ab3053c136226a03a383c21b6ec21a221042346309345e16c443fa481c8b5f0241519d750480d11c946f6ae3bcd7660159cd3f18e9e21</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <name>Bouncy Castle Licence</name>
+          <url>https://www.bouncycastle.org/licence.html</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.69?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>https://github.com/bcgit/bc-java/issues</url></reference><reference type="vcs"><url>https://github.com/bcgit/bc-java</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.bouncycastle/bcprov-jdk15on@1.69?type=jar">
+      <group>org.bouncycastle</group>
+      <name>bcprov-jdk15on</name>
+      <version>1.69</version>
+      <description>The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 and up.</description>
+      <hashes>
+        <hash alg="MD5">76388cd78560913812a26f6f44651f53</hash>
+        <hash alg="SHA-1">91e1628251cf3ca90093ce9d0fe67e5b7dab3850</hash>
+        <hash alg="SHA-256">e469bd39f936999f256002631003ff022a22951da9d5bd9789c7abfa9763a292</hash>
+        <hash alg="SHA-384">11139aaea863dfff41d8ededd4c67300fbd4435c7cd8d39fdbbd3dcbd1e3f6db45e3d400f59406ce7f52f94e44a9beb5</hash>
+        <hash alg="SHA-512">9c9e9dc57e55762afe1e7c72290ff8016e42aa368c735429a974ab519a6b22859ce371006764326c9672dd37a86f3755ddcfd703c23fce3631d28779de172d48</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <name>Bouncy Castle Licence</name>
+          <url>https://www.bouncycastle.org/licence.html</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.bouncycastle/bcprov-jdk15on@1.69?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>https://github.com/bcgit/bc-java/issues</url></reference><reference type="vcs"><url>https://github.com/bcgit/bc-java</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.bouncycastle/bcutil-jdk15on@1.69?type=jar">
+      <group>org.bouncycastle</group>
+      <name>bcutil-jdk15on</name>
+      <version>1.69</version>
+      <description>The Bouncy Castle Java APIs for ASN.1 extension and utility APIs used to support bcpkix and bctls. This jar contains APIs for JDK 1.5 and up.</description>
+      <hashes>
+        <hash alg="MD5">f6545cefd9d9276ead4b3ec321c7f995</hash>
+        <hash alg="SHA-1">c3edf93d346e97f64f041e448e7455c39c7eff64</hash>
+        <hash alg="SHA-256">29e40e2466d040d82a6f0e99635d0bc2bba3a94251cf7939cf0b69321caefc09</hash>
+        <hash alg="SHA-384">1ed568e116e35884c30aefcdbb2dab3ba4d33cd8bbefc24ddb4069481204f108ab3d2cd2f02ddf33ec3350fd2576e4d9</hash>
+        <hash alg="SHA-512">03df063250611bd4361478e09ec4adeb7571b948498ac83a3f7d74db156883d041a3638d187093dcb945d7864499edc818d8861365336d49eca88664300f459a</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <name>Bouncy Castle Licence</name>
+          <url>https://www.bouncycastle.org/licence.html</url>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.bouncycastle/bcutil-jdk15on@1.69?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>https://github.com/bcgit/bc-java/issues</url></reference><reference type="vcs"><url>https://github.com/bcgit/bc-java</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-tools@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-tools</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">24547a6f0398d27fcd0a35d1d6160afd</hash>
+        <hash alg="SHA-1">ed3c7625ab054b2675286d618808561772ea9695</hash>
+        <hash alg="SHA-256">b5da33dae1d60320b88c36b6bf77ca3f9d12aa7f2701d5a01e39d9155a8ad064</hash>
+        <hash alg="SHA-384">371a2691eb231e5a21d7746bfbc948fd56025dd17777bd8fcb7bba2342dc1754da711e730f748318afc452a5dd2ed1da</hash>
+        <hash alg="SHA-512">6d91ac1cd3e0d34a522049f95963e1c5f559bca162584ddd9e0e12f7f66e9f9e6cdfc64395a18fda9227994c8841fe8086b4e42409666c5d89df4e840bdac73a</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-tools@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-namesrv@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-namesrv</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">ccde35cd0713f0c23e0b9ced9ef61799</hash>
+        <hash alg="SHA-1">2fcb0d390c5dc524789bd38ea43791f0df0b85af</hash>
+        <hash alg="SHA-256">c4055347d2142da2e6abbe2327faa2006ae1f30118ce4d29d0ea0327eb9846ab</hash>
+        <hash alg="SHA-384">e909dfb9ca7b49a9115d056ca94842608c832508e4924f37f070364785141f30f1002c3e69139b26b104f2f14d2e3b5b</hash>
+        <hash alg="SHA-512">55598aed22611bf4e8e449823c8ca56864dc95a1547b49dafc8716bfb4f8dec18edffbeb3928b028b8cf4953380ffe1b3fc78dfa47c6cb197ac1290fe78c32e3</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-namesrv@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-test@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-test</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">110f0eac407b7b4321f444fdc2fa18f2</hash>
+        <hash alg="SHA-1">8c064619844c01935c7997a6d390a26be59ae3c4</hash>
+        <hash alg="SHA-256">3d325b0031d65dae92633704f1c16f199d18e6d55b3c943578eb290bdf995b2e</hash>
+        <hash alg="SHA-384">23ea95cdb9317988183f0318137c7628c196d5ed900cd22bd499c342ddb43c2893d238655b10a66447856ec10b063bc3</hash>
+        <hash alg="SHA-512">8117978cbda031f9cdbda7b545333ec8727f9d6d1bbf8a0d266e4a29bd232706cc682757d70e23b79dcf7d7fbf4b876dfd283b7a7bf24719717795b128832a60</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-test@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/log4j/log4j@1.2.17?type=jar">
+      <publisher>Apache Software Foundation</publisher>
+      <group>log4j</group>
+      <name>log4j</name>
+      <version>1.2.17</version>
+      <description>Apache Log4j 1.2</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">04a41f0a068986f0f73485cf507c0f40</hash>
+        <hash alg="SHA-1">5af35056b4d257e4b64b9e8069c0746e8b08629f</hash>
+        <hash alg="SHA-256">1d31696445697720527091754369082a6651bd49781b6005deb94e56753406f9</hash>
+        <hash alg="SHA-384">80b79d5872dec949dff23d221636b5faf312f08fbea2b5e2a8db84a5f5955e13864aff4a288935cb53d4da3d61defbe1</hash>
+        <hash alg="SHA-512">3f12937a69ba60d0f5e86265168d6a0d069ce20d95b99a3ace463987655e7c63053f4d7e36e32f2b53f86992b888ca477bf81253ad04c721896b397f94ee57fc</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/log4j/log4j@1.2.17?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://www.apache.org</url></reference><reference type="build-system"><url>http://vmgump.apache.org/gump/public/logging-log4j-12/logging-log4j-12/index.html</url></reference><reference type="issue-tracker"><url>https://issues.apache.org/bugzilla/describecomponents.cgi?product=Log4j</url></reference><reference type="mailing-list"><url>http://mail-archives.apache.org/mod_mbox/logging-log4j-user/</url></reference><reference type="vcs"><url>http://svn.apache.org/viewvc/logging/log4j/tags/v1_2_17_rc3</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.tomcat/annotations-api@6.0.53?type=jar">
+      <group>org.apache.tomcat</group>
+      <name>annotations-api</name>
+      <version>6.0.53</version>
+      <description>Annotations Package</description>
+      <scope>optional</scope>
+      <hashes>
+        <hash alg="MD5">96cf77b352b720ca302becfa94266625</hash>
+        <hash alg="SHA-1">94cfa8a6ebc6b36e966bff433d4eeebf933f3f41</hash>
+        <hash alg="SHA-256">253829d3c12b7381d1044fc22c6436cff025fe0d459e4a329413e560a7d0dd13</hash>
+        <hash alg="SHA-384">9707c3a62836776c24e8915293d62cde6737637890d7bcb11f9a364e09e00167091cab2ae777097d60ed2c86541c4648</hash>
+        <hash alg="SHA-512">9eb3be206924900ad068353013c3c2ae679dd92f8af80036fee1328cc04e3420a2ec03fe9bd57042aee04469e73d28fe618470b3b1702f8262419ed4e5d0e223</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.tomcat/annotations-api@6.0.53?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.truth/truth@0.30?type=jar">
+      <group>com.google.truth</group>
+      <name>truth</name>
+      <version>0.30</version>
+      <description>Parent metdata for Truth, a pure-java, strongly typed testing proposition framework.</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">705fd3ae256c9f332778ee1a893a251f</hash>
+        <hash alg="SHA-1">9d591b5a66eda81f0b88cf1c748ab8853d99b18b</hash>
+        <hash alg="SHA-256">f4a4c5e69c4994b750ce3ee80adbb2b7150fe39f057d7dff89832c8ca3af512e</hash>
+        <hash alg="SHA-384">50a9dd788408461f6bc4e2b4c321b91f86fa5c757f07520c09b404bc73e9bf1c36047f7b53696e121aa479bca3a9cb38</hash>
+        <hash alg="SHA-512">c99df11ae53bb25a19457548194aec11ac98c86a4add13f510e23ffae30146586a917ccc5f7510a0a1eaa4252e310148ca210ab945331b27a66299cf5195e1b1</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.truth/truth@0.30?type=jar</purl>
+      <externalReferences><reference type="build-system"><url>https://travis-ci.org/google/truth</url></reference><reference type="issue-tracker"><url>https://github.com/google/truth/issues</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.8?type=jar">
+      <group>com.google.errorprone</group>
+      <name>error_prone_annotations</name>
+      <version>2.0.8</version>
+      <description>Sonatype helps open source projects to set up Maven repositories on https://oss.sonatype.org/</description>
+      <hashes>
+        <hash alg="MD5">0469b69d854a64eb096c1b4668e9b2f4</hash>
+        <hash alg="SHA-1">54e2d56cb157df08cbf183149bcf50c9f5151ed4</hash>
+        <hash alg="SHA-256">51487b93d6e44ff928681769ef3831fedd5e195b61804ccee523c34295b5c3c5</hash>
+        <hash alg="SHA-384">18576d1ec86f4c75e36171fed72036097c1972b9b317b5d6abd2ea8eee95f187fb8a72229aa3f07ee71992f79b1311cb</hash>
+        <hash alg="SHA-512">1354f556a2d7b2ec9ea08950bc897479306a292cff7e2cecc73c4b4714d86b75a15a07b26c84742116a7dd722f38c06274ad2d5bd386394ffca10360ae8bf1ae</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/com.google.errorprone/error_prone_annotations@2.0.8?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/google/error-prone</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-distribution@4.9.8?type=pom">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-distribution</name>
+      <version>4.9.8</version>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-distribution@4.9.8?type=pom</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-openmessaging@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-openmessaging</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">590f6260b1b9cc966bbd2e504276684b</hash>
+        <hash alg="SHA-1">543aa6e8a90e3070f8bf48faf19a1608162d0f11</hash>
+        <hash alg="SHA-256">c5749dfde50ff9427529bba425d474e3d263fdee4518215e345c83cc61d5cc3f</hash>
+        <hash alg="SHA-384">9b68bd8d618695451248342e082a8358a35aa83338a8588500914c57d2ed313113cc59bb5b10e1d208b23f9600703244</hash>
+        <hash alg="SHA-512">38dcb9efac8ee477ff5d19592e37c4286da9bf5d16abc4e1d5b605a6dd031fa854e7d887aae10c70535a431b086d922cafa82fb0cbb41e4a0bb24c5636594ff7</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-openmessaging@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.openmessaging/openmessaging-api@0.3.1-alpha?type=jar">
+      <publisher>OpenMessaging</publisher>
+      <group>io.openmessaging</group>
+      <name>openmessaging-api</name>
+      <version>0.3.1-alpha</version>
+      <description>openmessaging specification for java</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">851af21dc68d6ba31d304aa408676610</hash>
+        <hash alg="SHA-1">5c27304d4c4aca7eb536c6a8ebf0ec30342dc323</hash>
+        <hash alg="SHA-256">db14dbbcc88aac8eec70d5f9f0d931cfb7b29a2efd5e19f5c117564184c171d3</hash>
+        <hash alg="SHA-384">5be915b5b0044970bdafda259bbaeb8221d54a3783ecd4f728522611d0181089c593a8675529f90fa4b513bc00fc8477</hash>
+        <hash alg="SHA-512">5599945e9778f81383751d4de2f343fee940efd94ab3f81140005f884709ab99680aa7cf6d2bfb902267142d222f198139c7259940aa0cb327084a51c721ea81</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.openmessaging/openmessaging-api@0.3.1-alpha?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://openmessaging.io/</url></reference><reference type="vcs"><url>https://github.com/openmessaging/openmessaging-java</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.rocketmq/rocketmq-example@4.9.8?type=jar">
+      <group>org.apache.rocketmq</group>
+      <name>rocketmq-example</name>
+      <version>4.9.8</version>
+      <hashes>
+        <hash alg="MD5">9643ca93e7fbe754727b483d80f0678b</hash>
+        <hash alg="SHA-1">ec2f299a1a3aa7c398fd53a53c487b64625febad</hash>
+        <hash alg="SHA-256">f81088cf69b7cce15de6602736bbe08f88774dbfb51456b6b8c1735e9c4c7c6c</hash>
+        <hash alg="SHA-384">d7f8bc5d100dc90bc0c98c619a7bc168990639c6f02815f8b6e8a46a083582b646e2c879137fa8645036d17a961e8eb9</hash>
+        <hash alg="SHA-512">b409959721b70f227fc0bc1e6e059102a2bb4b791d60f1a1d5ecee16d80fe6dba304a290b7a0c007a5dda200d51aa08eee0d7cf20f3b4d3f73718134048e4ce3</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/org.apache.rocketmq/rocketmq-example@4.9.8?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.jaegertracing/jaeger-core@1.6.0?type=jar">
+      <group>io.jaegertracing</group>
+      <name>jaeger-core</name>
+      <version>1.6.0</version>
+      <description>Jaeger Java bindings for OpenTracing API</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">3a51ce6223922dcfefe5ab4767f32a6e</hash>
+        <hash alg="SHA-1">001c572eb0ab754577b5856c63a3771f85def25c</hash>
+        <hash alg="SHA-256">915babfe2a54d1e696d51ba63b72356c207f735b3bf40191aa9bdf58c0c1777f</hash>
+        <hash alg="SHA-384">dcebcd3f2d2b8db0b25012049bd05528cf8c439efb1ca40730cea185428b36245b3c44b69083c7fdf4325806c15a2eca</hash>
+        <hash alg="SHA-512">950007d7e80c78bf6d864b0fff82fdbec531b18ec8c83e90f48a86f62e008ede7cee8a5fc1db564853b61ef6361dca347e04c026d42e4ea46636cccf852b0a73</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.jaegertracing/jaeger-core@1.6.0?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.opentracing/opentracing-util@0.33.0?type=jar">
+      <publisher>OpenTracing</publisher>
+      <group>io.opentracing</group>
+      <name>opentracing-util</name>
+      <version>0.33.0</version>
+      <description>OpenTracing utilities</description>
+      <scope>required</scope>
+      <hashes>
+        <hash alg="MD5">4256987096519a45c4b781fca070a15c</hash>
+        <hash alg="SHA-1">132630f17e198a1748f23ce33597efdf4a807fb9</hash>
+        <hash alg="SHA-256">22c5dfbb9b0e2f08f7371bf3d68372c7604c804d3129499b43f37a8877c4379e</hash>
+        <hash alg="SHA-384">78b82902617ad05d422f2fadf9bc8dc5278fb469c4f15b368dfa5df374e9554e7600666819df7583fa5491527240d913</hash>
+        <hash alg="SHA-512">fbba29ff3d6018561077e9539ad9b72876424600eca3addb6a26981a4a3e52cb3dfd30f27945aff2b6c222c42454ce3ba67597171fd809a74c65b920f3a47c7a</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.opentracing/opentracing-util@0.33.0?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://opentracing.io/</url></reference><reference type="distribution"><url>https://api.bintray.com/maven/opentracing/maven/opentracing-java/;publish=1</url></reference><reference type="issue-tracker"><url>https://github.com/opentracing/opentracing-java/issues</url></reference><reference type="vcs"><url>https://github.com/opentracing/opentracing-java</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.opentracing/opentracing-noop@0.33.0?type=jar">
+      <publisher>OpenTracing</publisher>
+      <group>io.opentracing</group>
+      <name>opentracing-noop</name>
+      <version>0.33.0</version>
+      <description>OpenTracing NoOp</description>
+      <hashes>
+        <hash alg="MD5">a65509c4cc3907bc0691c5141d3f1d2e</hash>
+        <hash alg="SHA-1">074b9950a587f53fbdb48c3f1f84f1ece8c10592</hash>
+        <hash alg="SHA-256">8529f91e10047b2b94cb21b50086a3d3913fa4da43594eddbd9ecf5917efe040</hash>
+        <hash alg="SHA-384">06cc99bd895a70373944254c106ae5d98ddd2ecab4e03e3069260ac464ee3222f784bb169d49c2a54e79b15a7f691e36</hash>
+        <hash alg="SHA-512">c727bcf20504fa72bfc07456bdde3b0b50988632d85c7af78df742efd90a431c125f5d644273203fa211a62fc4a282455cf281c7c82b82df4695afbc5488577f</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.opentracing/opentracing-noop@0.33.0?type=jar</purl>
+      <externalReferences><reference type="website"><url>http://opentracing.io/</url></reference><reference type="distribution"><url>https://api.bintray.com/maven/opentracing/maven/opentracing-java/;publish=1</url></reference><reference type="issue-tracker"><url>https://github.com/opentracing/opentracing-java/issues</url></reference><reference type="vcs"><url>https://github.com/opentracing/opentracing-java</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.google.code.gson/gson@2.8.6?type=jar">
+      <group>com.google.code.gson</group>
+      <name>gson</name>
+      <version>2.8.6</version>
+      <description>Gson JSON library</description>
+      <hashes>
+        <hash alg="MD5">310f5841387183aca7900fead98d4858</hash>
+        <hash alg="SHA-1">9180733b7df8542621dc12e21e87557e8c99b8cb</hash>
+        <hash alg="SHA-256">c8fb4839054d280b3033f800d1f5a97de2f028eb8ba2eb458ad287e536f3f25f</hash>
+        <hash alg="SHA-384">8289cd5863d035279a59fdf47febb53e39aec9bcb3da8bee14fc9911ee78d52e801f73ee3795cc00ab146baaf78f6181</hash>
+        <hash alg="SHA-512">902a1a5dce66303abff2ac4b8a2319035f718c42590c1ae593825cfb85a0003e52c3492fc7ae6b86eb3ed16656dc3fc6b918aa807b20b759d4753cb692031740</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.code.gson/gson@2.8.6?type=jar</purl>
+      <externalReferences><reference type="issue-tracker"><url>https://github.com/google/gson/issues</url></reference><reference type="vcs"><url>https://github.com/google/gson/</url></reference><reference type="distribution"><url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.jaegertracing/jaeger-client@1.6.0?type=jar">
+      <group>io.jaegertracing</group>
+      <name>jaeger-client</name>
+      <version>1.6.0</version>
+      <description>Jaeger Java bindings for OpenTracing API</description>
+      <scope>optional</scope>
+      <hashes>
+        <hash alg="MD5">9a296b1bc55577eed0e71a36fc190a23</hash>
+        <hash alg="SHA-1">f588b4ad67b01bc152f8310b81c34a4dcd068654</hash>
+        <hash alg="SHA-256">b28756ba0febb54c91c55bfa37cc40c5e84bd991011cd1de2b22a9085886faef</hash>
+        <hash alg="SHA-384">6ddbe8cbeb542db36d388dd8e20ac2eae19c71643c09ab8105e04d0c0d9251b9d863f4748a4a63532c870c25726a3533</hash>
+        <hash alg="SHA-512">dfb5e627e1d037146ca415fc40bfe5a0ae71ae71325ed012c0cefecfdbcd894ad69d1057534dbe9b17b7bb78fa0ec22c6e14eed8612468a929b6233985d60dc7</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.jaegertracing/jaeger-client@1.6.0?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.jaegertracing/jaeger-thrift@1.6.0?type=jar">
+      <group>io.jaegertracing</group>
+      <name>jaeger-thrift</name>
+      <version>1.6.0</version>
+      <description>Jaeger Java bindings for OpenTracing API</description>
+      <hashes>
+        <hash alg="MD5">3a90a8671886803fbd267a0980b469fc</hash>
+        <hash alg="SHA-1">2db813970bcc462fbf7c7fbd87a8adff0af54fe7</hash>
+        <hash alg="SHA-256">60e32a9f7106006730833f2ce7736dbee0b9fcd723b7cf34f266e2cab217ff54</hash>
+        <hash alg="SHA-384">b6a7dfcd92bb1987c075c780682775f3861e4fbec7f4122a9f59c9f8242c3b0ae71548d9198c463cefbdecf6095d0cef</hash>
+        <hash alg="SHA-512">dae673414c901f974a11a78e8b5ef416d457cdc3ade7df1f301b57b9bc932dab019213064bba2522c7933bf7eae1589ed8671029676f1b13909f87b7de8e2df7</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.jaegertracing/jaeger-thrift@1.6.0?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.thrift/libthrift@0.14.1?type=jar">
+      <group>org.apache.thrift</group>
+      <name>libthrift</name>
+      <version>0.14.1</version>
+      <description>Thrift is a software framework for scalable cross-language services development.</description>
+      <hashes>
+        <hash alg="MD5">ef7e068f5319c5a9deee83990e8ef557</hash>
+        <hash alg="SHA-1">85348a0c44c298bbec5ae747e67ae12e60b3aef6</hash>
+        <hash alg="SHA-256">5b3510fe72e6f0725e29cef6ebdb1eabacccc69d79fc4ed50b681600a87667ec</hash>
+        <hash alg="SHA-384">4cf645f0233fd1bb530afb6d92e13dfc05b98b22d7f8e90bf6026e72b9f0c392a263499ab63b05f27453d8fe52c150d0</hash>
+        <hash alg="SHA-512">392590d79e520a9ee07c9332be11c4295ea572c25aa5adbceccdede22085cc5d019c1510befce9dcc747ca9923c2267e4d23adb2276df227cf1fd79d6228158c</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.thrift/libthrift@0.14.1?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/apache/thrift</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.46?type=jar">
+      <group>org.apache.tomcat.embed</group>
+      <name>tomcat-embed-core</name>
+      <version>8.5.46</version>
+      <description>Core Tomcat implementation</description>
+      <hashes>
+        <hash alg="MD5">45378afdce63a61c488db97d2a6e9fbd</hash>
+        <hash alg="SHA-1">5d686394334d143f48251827435ab086a161e75e</hash>
+        <hash alg="SHA-256">be5f854448d2ee5d6e0036feb2b4f713163079a1b6b9a7a97508e55917ad35c2</hash>
+        <hash alg="SHA-384">5feffe14a4874d5d738e35e65b06ada607e67cef9b44c4e29feae1897bee63787faca034f4bde301b9e3e1ad60118232</hash>
+        <hash alg="SHA-512">f85371c45348625c5854e99cc6efcdedd2724cca20dbaa6c9a76141492a70e8c882a4b66de63b0d1cdd170e23f18f86efaa52bdafc05cc903d4b83f1ac4799a1</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.46?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.apache.tomcat/tomcat-annotations-api@8.5.46?type=jar">
+      <group>org.apache.tomcat</group>
+      <name>tomcat-annotations-api</name>
+      <version>8.5.46</version>
+      <description>Annotations Package</description>
+      <hashes>
+        <hash alg="MD5">24d29eeee84c155a9a9fe72bbd98c0b7</hash>
+        <hash alg="SHA-1">56c67699de192c603afd6f029e80e5ff8d98e7e9</hash>
+        <hash alg="SHA-256">6a6b46d0e6958644514c0ca3658b3b07e6123a682a20ee36d3795242735fabc3</hash>
+        <hash alg="SHA-384">f4bb78d0c7e12d733d46378b2ab75afb057a631d69957af5527dfbd89399f1c89c8562e56df95b2c691023987b6696e3</hash>
+        <hash alg="SHA-512">249c77fc30f1b054e35531aa5a52b242f05ef3e16f83f8c7751d766d490da5a8ea24f798605d35b8b1c8651834c50abd19c4ac0f93c483b020d7a90758ab832e</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.tomcat/tomcat-annotations-api@8.5.46?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/javax.annotation/javax.annotation-api@1.3.2?type=jar">
+      <publisher>GlassFish Community</publisher>
+      <group>javax.annotation</group>
+      <name>javax.annotation-api</name>
+      <version>1.3.2</version>
+      <description>Common Annotations for the JavaTM Platform API</description>
+      <hashes>
+        <hash alg="MD5">2ab1973eefffaa2aeec47d50b9e40b9d</hash>
+        <hash alg="SHA-1">934c04d3cfef185a8008e7bf34331b79730a9d43</hash>
+        <hash alg="SHA-256">e04ba5195bcd555dc95650f7cc614d151e4bcd52d29a10b8aa2197f3ab89ab9b</hash>
+        <hash alg="SHA-384">fc0058495e54efb6e05a34e3ff422e7c8347bcc77d6d9b87e9253424968dee6ef6a215c318d7e54f8705276be81f0682</hash>
+        <hash alg="SHA-512">679cf44c3b9d635b43ed122a555d570292c3f0937c33871c40438a1a53e2058c80578694ec9466eac9e280e19bfb7a95b261594cc4c1161c85dc97df6235e553</hash>
+      </hashes>
+      <licenses/>
+      <purl>pkg:maven/javax.annotation/javax.annotation-api@1.3.2?type=jar</purl>
+      <externalReferences><reference type="website"><url>https://javaee.github.io/glassfish</url></reference><reference type="issue-tracker"><url>https://github.com/javaee/javax.annotation/issues</url></reference><reference type="vcs"><url>https://github.com/javaee/javax.annotation</url></reference><reference type="distribution"><url>https://maven.java.net/service/local/staging/deploy/maven2/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.squareup.okhttp3/okhttp@4.9.0?type=jar">
+      <group>com.squareup.okhttp3</group>
+      <name>okhttp</name>
+      <version>4.9.0</version>
+      <description>Square鈥檚 meticulous HTTP client for Java and Kotlin.</description>
+      <hashes>
+        <hash alg="MD5">d67e576d60d23d71ed877257641be339</hash>
+        <hash alg="SHA-1">08e17601d3bdc8cf57902c154de021931d2c27c1</hash>
+        <hash alg="SHA-256">dbc2bb04ecb002b9f4046263ccad996f4a3d3c59a0cc98837e300a6700571f7c</hash>
+        <hash alg="SHA-384">f44eb14cd4e4014295af0c6d3bca0100c843fed7f8439f26e098b60063f782a19b508748b1f95c77e9194a76697651b8</hash>
+        <hash alg="SHA-512">7f142bcf9acae0796d65b75e6ae7ff8fa8983b1f96fd951ba95b1c274afbc9818ed5cbd2930d7fcb71072fd0e0fba573691e3ecf7773d6fbb9280aaf9c911c0e</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.squareup.okhttp3/okhttp@4.9.0?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/square/okhttp</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/com.squareup.okio/okio@2.8.0?type=jar">
+      <group>com.squareup.okio</group>
+      <name>okio</name>
+      <version>2.8.0</version>
+      <description>A modern I/O API for Java</description>
+      <hashes>
+        <hash alg="MD5">48756cee44c4f8403ebd07a8152ea5ba</hash>
+        <hash alg="SHA-1">49b64e09d81c0cc84b267edd0c2fd7df5a64c78c</hash>
+        <hash alg="SHA-256">4496b06e73982fcdd8a5393f46e5df2ce2fa4465df5895454cac68a32f09bbc8</hash>
+        <hash alg="SHA-384">f2ee6a0048c84f1065fa2da5d05b1ec57f74d94421988f284fc1e4a6fe89d8071eb4ff6640a32fc1d6695cd44ec37a20</hash>
+        <hash alg="SHA-512">41f347b5e111011f399f7467225e0c8ab94e94f4354537ad1a4d23c6a686ee88eecf4425f59e59a9cdf55aebfb8a26636557d0038a5bb8ceea064a6cf29fe1bf</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.squareup.okio/okio@2.8.0?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/square/okio/</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@1.4.0?type=jar">
+      <group>org.jetbrains.kotlin</group>
+      <name>kotlin-stdlib-common</name>
+      <version>1.4.0</version>
+      <description>Kotlin Common Standard Library</description>
+      <hashes>
+        <hash alg="MD5">bb9c0e85441f7188e229e61abf168210</hash>
+        <hash alg="SHA-1">1c752cce0ead8d504ccc88a4fed6471fd83ab0dd</hash>
+        <hash alg="SHA-256">8601e004d74d4be5e871f6c43a730b482ce4dff45082b08924d5d69d33c9f7d1</hash>
+        <hash alg="SHA-384">34d98e2533b1ddd4466dbae702204c12cd8978288395b002a434d4a44e25a5a301e11a837dbd827ee218688d0138a6eb</hash>
+        <hash alg="SHA-512">dfeb8a3f4f066e3de614d6ce98ee6a1caa04d43d8a02b8f63d1e4c2dae6131f68db4eb6d7e6450a7c23c4989919b5f40649f46a87a86fd7e9fa1485f738b5f10</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@1.4.0?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/JetBrains/kotlin</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@1.4.10?type=jar">
+      <group>org.jetbrains.kotlin</group>
+      <name>kotlin-stdlib</name>
+      <version>1.4.10</version>
+      <description>Kotlin Standard Library for JVM</description>
+      <hashes>
+        <hash alg="MD5">2598f9c67ccfec4cbf6cdc699cac5841</hash>
+        <hash alg="SHA-1">ea29e063d2bbe695be13e9d044dcfb0c7add398e</hash>
+        <hash alg="SHA-256">01ecb09782c042b931c1839acf21a188340b295d05400afd6e3415d4475b8daa</hash>
+        <hash alg="SHA-384">a80be3ddc24a7d838d4824fd979daee4946668d2900adc20e9dfb926fdb57676eb4a520fcb553bc40abb1dc1172c5026</hash>
+        <hash alg="SHA-512">6e1d5138bd557a0c25397d7ebf68cd1dc9e4b367a21655a334c2ea13f8a404b4da8c980888a0a139b3e1289be4e99299e21c33cfc3cc1bb5fade231918f651a1</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@1.4.10?type=jar</purl>
+      <externalReferences><reference type="vcs"><url>https://github.com/JetBrains/kotlin</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/org.jetbrains/annotations@13.0?type=jar">
+      <group>org.jetbrains</group>
+      <name>annotations</name>
+      <version>13.0</version>
+      <description>A set of annotations used for code inspection support and code documentation.</description>
+      <hashes>
+        <hash alg="MD5">f4fb462172517b46b6cd90003508515a</hash>
+        <hash alg="SHA-1">919f0dfe192fb4e063e7dacadee7f8bb9a2672a9</hash>
+        <hash alg="SHA-256">ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478</hash>
+        <hash alg="SHA-384">6bcde3a6e471d416522e6288474bc4f9115e2e8abf8ce5d300829bee4aa98dff73be7d8c6f0607f3d6d423c7f5abbf90</hash>
+        <hash alg="SHA-512">5622d0ffe410e7272e2bb9fae1006caedeb86d0c62d2d9f3929a3b3cdcdef1963218fcf0cede82e95ef9f4da3ed4a173fa055ee6e4038886376181e0423e02ff</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.jetbrains/annotations@13.0?type=jar</purl>
+      <externalReferences><reference type="distribution"><url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url></reference><reference type="vcs"><url>https://github.com/JetBrains/intellij-community</url></reference></externalReferences>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.jaegertracing/jaeger-tracerresolver@1.6.0?type=jar">
+      <group>io.jaegertracing</group>
+      <name>jaeger-tracerresolver</name>
+      <version>1.6.0</version>
+      <description>Jaeger Java bindings for OpenTracing API</description>
+      <hashes>
+        <hash alg="MD5">3093c0b854bd57c76b7447cfc1616492</hash>
+        <hash alg="SHA-1">c6d9c03e053547b70cf201cd67949e520503284c</hash>
+        <hash alg="SHA-256">89d3027e068c307194e2b09fa1a470b088acd9f953f5750702521119c49164d0</hash>
+        <hash alg="SHA-384">2d2caebe7be4fad3d65b78d7770660f539eef4d3a3f11eaa84479c70b17c8f8ea435831607a4c3e4988c244371060f0f</hash>
+        <hash alg="SHA-512">4e20c5f420b803873e1714101024ddd92f6b05cbda472383a0a6b31d7e193c71657563b46ddaefafb0b89a05441af750146e02a0401b1ebeb0babca6987f30e8</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.jaegertracing/jaeger-tracerresolver@1.6.0?type=jar</purl>
+    </component>
+    <component type="library" bom-ref="pkg:maven/io.opentracing.contrib/opentracing-tracerresolver@0.1.8?type=jar">
+      <group>io.opentracing.contrib</group>
+      <name>opentracing-tracerresolver</name>
+      <version>0.1.8</version>
+      <description>Resolver API for OpenTracing Tracer implementations.</description>
+      <hashes>
+        <hash alg="MD5">bdf12ded9b5616dbf97b222f586ed926</hash>
+        <hash alg="SHA-1">8caff3fab2abecf6a63eaee6c3f298e9aeb50c89</hash>
+        <hash alg="SHA-256">3e50e423e464f20f8e4030b8dfbf8ccf8c67f1ac25802af69d32e0e4f6974909</hash>
+        <hash alg="SHA-384">4e16bcf1bb707e46d66a718c254162d1d5e5c2954f28a6a1553d06cfbefb8ba6279b2a35c5060406cf731bd4b95577c0</hash>
+        <hash alg="SHA-512">5e4b91e5f0611e85d1a9ae63e6000cffe3fc9d8e15d08cdeaf1ad32d3b80a6f76e05bd61f8d282d0d2abf79592919bbcd77b1d5ba28d36ca0cdbbb7bd4474b9b</hash>
+      </hashes>
+      <licenses>
+        <license>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <purl>pkg:maven/io.opentracing.contrib/opentracing-tracerresolver@0.1.8?type=jar</purl>
+      <externalReferences><reference type="distribution"><url>https://api.bintray.com/maven/opentracing/maven/opentracing-tracerresolver/;publish=1</url></reference><reference type="issue-tracker"><url>https://github.com/opentracing-contrib/java-tracerresolver/issues</url></reference><reference type="vcs"><url>https://github.com/opentracing-contrib/java-tracerresolver</url></reference></externalReferences>
+    </component>
+  </components>
+  <dependencies>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-all@4.9.8?type=pom">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-logging@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-store@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-filter@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-acl@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-broker@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-tools@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-namesrv@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-test@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-distribution@4.9.8?type=pom"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-openmessaging@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-example@4.9.8?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-logging@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.slf4j/slf4j-api@1.7.7?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.slf4j/slf4j-api@1.7.7?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar">
+      <dependency ref="pkg:maven/com.alibaba/fastjson@1.2.69_noneautotype?type=jar"/>
+      <dependency ref="pkg:maven/io.netty/netty-all@4.1.65.Final?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-logging@4.9.8?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.alibaba/fastjson@1.2.69_noneautotype?type=jar"/>
+    <dependency ref="pkg:maven/io.netty/netty-all@4.1.65.Final?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-lang3@3.4?type=jar"/>
+      <dependency ref="pkg:maven/commons-validator/commons-validator@1.7?type=jar"/>
+      <dependency ref="pkg:maven/com.github.luben/zstd-jni@1.5.2-2?type=jar"/>
+      <dependency ref="pkg:maven/org.lz4/lz4-java@1.8.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.commons/commons-lang3@3.4?type=jar"/>
+    <dependency ref="pkg:maven/commons-validator/commons-validator@1.7?type=jar">
+      <dependency ref="pkg:maven/commons-beanutils/commons-beanutils@1.9.4?type=jar"/>
+      <dependency ref="pkg:maven/commons-digester/commons-digester@2.1?type=jar"/>
+      <dependency ref="pkg:maven/commons-logging/commons-logging@1.2?type=jar"/>
+      <dependency ref="pkg:maven/commons-collections/commons-collections@3.2.2?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/commons-beanutils/commons-beanutils@1.9.4?type=jar"/>
+    <dependency ref="pkg:maven/commons-digester/commons-digester@2.1?type=jar"/>
+    <dependency ref="pkg:maven/commons-logging/commons-logging@1.2?type=jar"/>
+    <dependency ref="pkg:maven/commons-collections/commons-collections@3.2.2?type=jar"/>
+    <dependency ref="pkg:maven/com.github.luben/zstd-jni@1.5.2-2?type=jar"/>
+    <dependency ref="pkg:maven/org.lz4/lz4-java@1.8.0?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-lang3@3.4?type=jar"/>
+      <dependency ref="pkg:maven/io.opentracing/opentracing-api@0.33.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.opentracing/opentracing-api@0.33.0?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-store@4.9.8?type=jar">
+      <dependency ref="pkg:maven/io.openmessaging.storage/dledger@0.3.1.2?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/net.java.dev.jna/jna@4.2.2?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.openmessaging.storage/dledger@0.3.1.2?type=jar"/>
+    <dependency ref="pkg:maven/net.java.dev.jna/jna@4.2.2?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/commons-cli/commons-cli@1.2?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/commons-cli/commons-cli@1.2?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-filter@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/com.google.guava/guava@32.0.1-jre?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.guava/guava@32.0.1-jre?type=jar">
+      <dependency ref="pkg:maven/com.google.guava/failureaccess@1.0.1?type=jar"/>
+      <dependency ref="pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava?type=jar"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@3.0.2?type=jar"/>
+      <dependency ref="pkg:maven/org.checkerframework/checker-qual@3.33.0?type=jar"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.18.0?type=jar"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@2.8?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.guava/failureaccess@1.0.1?type=jar"/>
+    <dependency ref="pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava?type=jar"/>
+    <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@3.0.2?type=jar"/>
+    <dependency ref="pkg:maven/org.checkerframework/checker-qual@3.33.0?type=jar"/>
+    <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.18.0?type=jar"/>
+    <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@2.8?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-acl@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-logging@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@2.0?type=jar"/>
+      <dependency ref="pkg:maven/commons-codec/commons-codec@1.9?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-lang3@3.4?type=jar"/>
+      <dependency ref="pkg:maven/commons-validator/commons-validator@1.7?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.yaml/snakeyaml@2.0?type=jar"/>
+    <dependency ref="pkg:maven/commons-codec/commons-codec@1.9?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-broker@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-common@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-store@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-remoting@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-filter@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-acl@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/ch.qos.logback/logback-classic@1.2.10?type=jar"/>
+      <dependency ref="pkg:maven/com.alibaba/fastjson@1.2.69_noneautotype?type=jar"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.20.0-GA?type=jar"/>
+      <dependency ref="pkg:maven/org.slf4j/slf4j-api@1.7.7?type=jar"/>
+      <dependency ref="pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.69?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/ch.qos.logback/logback-classic@1.2.10?type=jar">
+      <dependency ref="pkg:maven/ch.qos.logback/logback-core@1.2.10?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/ch.qos.logback/logback-core@1.2.10?type=jar"/>
+    <dependency ref="pkg:maven/org.javassist/javassist@3.20.0-GA?type=jar"/>
+    <dependency ref="pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.69?type=jar">
+      <dependency ref="pkg:maven/org.bouncycastle/bcprov-jdk15on@1.69?type=jar"/>
+      <dependency ref="pkg:maven/org.bouncycastle/bcutil-jdk15on@1.69?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.bouncycastle/bcprov-jdk15on@1.69?type=jar"/>
+    <dependency ref="pkg:maven/org.bouncycastle/bcutil-jdk15on@1.69?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-tools@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-acl@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/com.alibaba/fastjson@1.2.69_noneautotype?type=jar"/>
+      <dependency ref="pkg:maven/ch.qos.logback/logback-classic@1.2.10?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.commons/commons-lang3@3.4?type=jar"/>
+      <dependency ref="pkg:maven/org.yaml/snakeyaml@2.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-namesrv@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-tools@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/ch.qos.logback/logback-classic@1.2.10?type=jar"/>
+      <dependency ref="pkg:maven/org.slf4j/slf4j-api@1.7.7?type=jar"/>
+      <dependency ref="pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.69?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-test@4.9.8?type=jar">
+      <dependency ref="pkg:maven/log4j/log4j@1.2.17?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-broker@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-namesrv@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.tomcat/annotations-api@6.0.53?type=jar"/>
+      <dependency ref="pkg:maven/com.google.truth/truth@0.30?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-tools@4.9.8?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/log4j/log4j@1.2.17?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.tomcat/annotations-api@6.0.53?type=jar"/>
+    <dependency ref="pkg:maven/com.google.truth/truth@0.30?type=jar">
+      <dependency ref="pkg:maven/com.google.guava/guava@32.0.1-jre?type=jar"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.8?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.0.8?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-distribution@4.9.8?type=pom"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-openmessaging@4.9.8?type=jar">
+      <dependency ref="pkg:maven/io.openmessaging/openmessaging-api@0.3.1-alpha?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.openmessaging/openmessaging-api@0.3.1-alpha?type=jar"/>
+    <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-example@4.9.8?type=jar">
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-client@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-srvutil@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-openmessaging@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/org.apache.rocketmq/rocketmq-acl@4.9.8?type=jar"/>
+      <dependency ref="pkg:maven/ch.qos.logback/logback-classic@1.2.10?type=jar"/>
+      <dependency ref="pkg:maven/org.javassist/javassist@3.20.0-GA?type=jar"/>
+      <dependency ref="pkg:maven/io.jaegertracing/jaeger-core@1.6.0?type=jar"/>
+      <dependency ref="pkg:maven/io.jaegertracing/jaeger-client@1.6.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.jaegertracing/jaeger-core@1.6.0?type=jar">
+      <dependency ref="pkg:maven/io.opentracing/opentracing-api@0.33.0?type=jar"/>
+      <dependency ref="pkg:maven/io.opentracing/opentracing-util@0.33.0?type=jar"/>
+      <dependency ref="pkg:maven/com.google.code.gson/gson@2.8.6?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.opentracing/opentracing-util@0.33.0?type=jar">
+      <dependency ref="pkg:maven/io.opentracing/opentracing-noop@0.33.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.opentracing/opentracing-noop@0.33.0?type=jar"/>
+    <dependency ref="pkg:maven/com.google.code.gson/gson@2.8.6?type=jar"/>
+    <dependency ref="pkg:maven/io.jaegertracing/jaeger-client@1.6.0?type=jar">
+      <dependency ref="pkg:maven/io.jaegertracing/jaeger-thrift@1.6.0?type=jar"/>
+      <dependency ref="pkg:maven/io.jaegertracing/jaeger-tracerresolver@1.6.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.jaegertracing/jaeger-thrift@1.6.0?type=jar">
+      <dependency ref="pkg:maven/org.apache.thrift/libthrift@0.14.1?type=jar"/>
+      <dependency ref="pkg:maven/com.squareup.okhttp3/okhttp@4.9.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.thrift/libthrift@0.14.1?type=jar">
+      <dependency ref="pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.46?type=jar"/>
+      <dependency ref="pkg:maven/javax.annotation/javax.annotation-api@1.3.2?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.46?type=jar">
+      <dependency ref="pkg:maven/org.apache.tomcat/tomcat-annotations-api@8.5.46?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.tomcat/tomcat-annotations-api@8.5.46?type=jar"/>
+    <dependency ref="pkg:maven/javax.annotation/javax.annotation-api@1.3.2?type=jar"/>
+    <dependency ref="pkg:maven/com.squareup.okhttp3/okhttp@4.9.0?type=jar">
+      <dependency ref="pkg:maven/com.squareup.okio/okio@2.8.0?type=jar"/>
+      <dependency ref="pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@1.4.10?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.squareup.okio/okio@2.8.0?type=jar">
+      <dependency ref="pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@1.4.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@1.4.0?type=jar"/>
+    <dependency ref="pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@1.4.10?type=jar">
+      <dependency ref="pkg:maven/org.jetbrains/annotations@13.0?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.jetbrains/annotations@13.0?type=jar"/>
+    <dependency ref="pkg:maven/io.jaegertracing/jaeger-tracerresolver@1.6.0?type=jar">
+      <dependency ref="pkg:maven/io.opentracing.contrib/opentracing-tracerresolver@0.1.8?type=jar"/>
+    </dependency>
+    <dependency ref="pkg:maven/io.opentracing.contrib/opentracing-tracerresolver@0.1.8?type=jar"/>
+  </dependencies>
+</bom>
