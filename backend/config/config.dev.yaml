@@ -1,0 +1,41 @@
+# 开发环境配置 (APP_ENV=dev)
+server:
+  port: 8080
+  mode: debug
+
+database:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: ""
+  dbname: osm
+  charset: utf8mb4
+  parseTime: true
+  loc: Local
+  maxIdleConns: 10
+  maxOpenConns: 100
+
+# MinIO 对象存储配置
+minio:
+  endpoint: 127.0.0.1:9000
+  accessKeyId: minioadmin
+  secretAccessKey: minioadmin
+  useSSL: false
+  bucketName: osm
+
+log:
+  level: debug
+  format: json
+  filePath: logs/osm.log
+
+# 认证配置（开发环境：切换为 CAS 模式测试）
+auth:
+  mode: cas
+  cas:
+    serverURL: http://localhost:8443
+    serviceURL: http://localhost:8080/api/v1/auth/cas/callback
+    validateURL: http://localhost:8443/serviceValidate
+    frontendURL: http://localhost:3000
+  jwt:
+    secret: osm-jwt-secret-key-dev
+    expiry: 86400

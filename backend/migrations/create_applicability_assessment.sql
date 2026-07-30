@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS task_applicability_assessment (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  task_id BIGINT NOT NULL COMMENT '关联任务ID',
+  functionality_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '功能特性: fully_meet/deviation',
+  functionality_deviation MEDIUMTEXT COMMENT '功能特性偏差说明',
+  security_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '安全性',
+  security_deviation MEDIUMTEXT COMMENT '安全性偏差说明',
+  reliability_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '可靠性',
+  reliability_deviation MEDIUMTEXT COMMENT '可靠性偏差说明',
+  performance_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '性能效率',
+  performance_deviation MEDIUMTEXT COMMENT '性能效率偏差说明',
+  compatibility_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '兼容性',
+  compatibility_deviation MEDIUMTEXT COMMENT '兼容性偏差说明',
+  maintainability_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '可维护性',
+  maintainability_deviation MEDIUMTEXT COMMENT '可维护性偏差说明',
+  extensibility_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '可扩展性',
+  extensibility_deviation MEDIUMTEXT COMMENT '可扩展性偏差说明',
+  usability_status VARCHAR(20) NOT NULL DEFAULT '' COMMENT '易用性',
+  usability_deviation MEDIUMTEXT COMMENT '易用性偏差说明',
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  UNIQUE KEY uk_task_id (task_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='适用性评估表';

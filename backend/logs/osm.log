@@ -1,0 +1,31 @@
+2026/07/29 19:21:31 Logging to file: logs/osm.log
+2026/07/29 19:21:31 Warning: Failed to connect to MinIO: Get "http://127.0.0.1:9000/osm/?location=": dial tcp 127.0.0.1:9000: connect: connection refused (service will continue without file upload)
+2026/07/29 19:21:31 Warning: MinIO client is nil, file upload feature will be disabled
+2026/07/29 19:21:31 Server starting on :8080
+2026/07/29 19:25:11 [GET] 302 /api/v1/auth/cas/login 215.458µs
+2026/07/29 19:25:20 [GET] 302 /api/v1/auth/cas/callback 3.815708ms
+2026/07/29 19:25:20 [GET] 200 /api/v1/auth/me 67.666µs
+2026/07/29 19:25:20 [GET] 200 /api/v1/auth/menus 775.292µs
+2026/07/29 19:25:20 [GET] 200 /api/v1/asset/projects 794.5µs
+2026/07/29 19:25:20 [GET] 200 /api/v1/risk/defects 1.053042ms
+2026/07/29 19:25:23 [GET] 302 /api/v1/auth/cas/login 45µs
+2026/07/29 19:25:39 [GET] 302 /api/v1/auth/cas/callback 2.066292ms
+2026/07/29 19:25:39 [GET] 200 /api/v1/auth/me 40.208µs
+2026/07/29 19:25:39 [GET] 200 /api/v1/auth/menus 784.917µs
+2026/07/29 19:25:39 [GET] 200 /api/v1/asset/projects 645.291µs
+2026/07/29 19:25:39 [GET] 200 /api/v1/risk/defects 787.709µs
+2026/07/29 19:34:18 Logging to file: logs/osm.log
+2026/07/29 19:34:18 Warning: Failed to connect to MinIO: Get "http://127.0.0.1:9000/osm/?location=": dial tcp 127.0.0.1:9000: connect: connection refused (service will continue without file upload)
+2026/07/29 19:34:18 Warning: MinIO client is nil, file upload feature will be disabled
+2026/07/29 19:34:18 Server starting on :8080
+2026/07/29 19:34:30 [GET] 302 /api/v1/auth/cas/login 168.375µs
+2026/07/29 19:56:43 Logging to file: logs/osm.log
+2026/07/29 19:56:43 Warning: Failed to connect to MinIO: Get "http://127.0.0.1:9000/osm/?location=": dial tcp 127.0.0.1:9000: connect: connection refused (service will continue without file upload)
+2026/07/29 19:56:43 Warning: MinIO client is nil, file upload feature will be disabled
+2026/07/29 19:56:43 Server starting on :8080
+2026/07/29 19:59:11 [GET] 302 /api/v1/auth/cas/login 267.25µs
+2026/07/29 19:59:13 [GET] 302 /api/v1/auth/cas/callback 5.979709ms
+2026/07/29 19:59:13 [GET] 200 /api/v1/auth/me 177.792µs
+2026/07/29 19:59:13 [GET] 200 /api/v1/auth/menus 1.784917ms
+2026/07/29 19:59:13 [GET] 200 /api/v1/asset/projects 918.167µs
+2026/07/29 19:59:13 [GET] 200 /api/v1/risk/defects 1.525875ms
