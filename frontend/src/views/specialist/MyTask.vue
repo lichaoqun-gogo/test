@@ -93,8 +93,8 @@
             <el-table-column label="申请人" width="100" align="center">
               <template #default="{ row }">{{ row.applicant }}</template>
             </el-table-column>
-            <el-table-column label="申请时间" width="160">
-              <template #default="{ row }">{{ row.createdAt }}</template>
+            <el-table-column label="申请时间" width="180">
+              <template #default="{ row }">{{ formatTime(row.createdAt) }}</template>
             </el-table-column>
             <el-table-column label="操作" width="120" fixed="right">
               <template #default="{ row }">
@@ -132,8 +132,8 @@
                 <TaskStatusIndicator :status="row.status" />
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" width="160">
-              <template #default="{ row }">{{ row.createdAt }}</template>
+            <el-table-column label="创建时间" width="180">
+              <template #default="{ row }">{{ formatTime(row.createdAt) }}</template>
             </el-table-column>
             <el-table-column label="操作" width="180" fixed="right">
               <template #default="{ row }">
@@ -198,6 +198,7 @@ import TaskStatusIndicator from '@/components/operator/TaskStatusIndicator.vue'
 import TaskForm from '@/components/operator/TaskForm.vue'
 import ApprovalDialog from '@/components/business/ApprovalDialog.vue'
 import { taskApi } from '@/api'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const taskStore = useTaskStore()

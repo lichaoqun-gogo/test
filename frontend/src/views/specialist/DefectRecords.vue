@@ -60,7 +60,9 @@
               {{ row.assignee || '-' }}
             </template>
           </el-table-column>
-          <el-table-column prop="discoveredAt" label="发现时间" width="120" />
+          <el-table-column prop="discoveredAt" label="发现时间" width="180">
+            <template #default="{ row }">{{ formatTime(row.discoveredAt) }}</template>
+          </el-table-column>
           <el-table-column label="全局状态" width="100">
             <template #default="{ row }">
               <el-tag :type="statusTagType(row.status)" size="small">
@@ -92,7 +94,9 @@
           <el-table-column prop="defectTitle" label="缺陷标题" min-width="180" />
           <el-table-column prop="assignee" label="接收人" width="100" />
           <el-table-column prop="assignedBy" label="分配人" width="100" />
-          <el-table-column prop="assignedAt" label="分配时间" width="170" />
+          <el-table-column prop="assignedAt" label="分配时间" width="180">
+            <template #default="{ row }">{{ formatTime(row.assignedAt) }}</template>
+          </el-table-column>
           <el-table-column label="任务状态" width="100">
             <template #default="{ row }">
               <el-tag :type="recordStatusTagType(row.status)" size="small">
@@ -262,21 +266,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { EditPen, Plus } from '@element-plus/icons-vue'
-import {
-  mockDefectRecords,
-  mockAssignRecords,
-  DEFECT_SOURCE_LABELS,
-  DEFECT_STATUS_LABELS,
-  ASSIGN_METHOD_LABELS,
-  type DefectRecord,
-  type DefectStatus,
-  type DefectSource,
-  type AssignMethod,
-} from '@/mock/defects'
 import AssignDialog from '@/components/specialist/AssignDialog.vue'
+
+// 类型定义（清理 mock 后本地保留）
+type DefectRecord = any
+type DefectStatus = any
+type DefectSource = any
+type AssignMethod = any
 
 // 状态管理
 const activeTab = ref('defects')
@@ -302,38 +301,14 @@ const addBatchAssigneeDialogVisible = ref(false)
 const newBatchAssignee = ref('')
 const currentDefectId = ref('')
 
-// Mock数据：项目列表
-const mockProjectList = [
-  { name: '订单管理系统', dept: '技术研发部', owners: ['张三'] },
-  { name: '支付系统', dept: '技术研发部', owners: ['李四'] },
-  { name: '用户中心', dept: '平台研发部', owners: ['王五'] },
-  { name: '消息平台', dept: '平台研发部', owners: ['赵六'] },
-]
-
-// Mock数据：软件列表
-const mockSoftwareList = [
-  { name: 'Redis', version: '7.0', owners: ['张三'] },
-  { name: 'Spring Boot', version: '3.2', owners: ['李四'] },
-  { name: 'MySQL', version: '8.0', owners: ['王五'] },
-  { name: 'Nginx', version: '1.25', owners: ['赵六'] },
-]
-
-// Mock数据：处置人列表
-const mockAssigneeList = [
-  { name: '张三', dept: '技术研发部', role: '软件负责人' },
-  { name: '李四', dept: '平台研发部', role: '软件负责人' },
-  { name: '王五', dept: '运维部', role: '运维工程师' },
-  { name: '赵六', dept: '安全部', role: '软件负责人' },
-]
-
 // 筛选条件
 const filters = ref({
   status: '',
 })
 
 // 缺陷数据
-const defects = ref(mockDefectRecords)
-const assignRecords = ref(mockAssignRecords)
+const defects = ref<any[]>([])
+const assignRecords = ref<any[]>([])
 
 // 筛选后的缺陷列表
 const filteredDefects = computed(() => {
@@ -387,9 +362,9 @@ function openBatchDisposeDialog() {
     })
     
     batchDisposeForms.value[defect.id] = {
-      projectList: defect.defectType === 'dependency' ? [...mockProjectList] : [],
-      softwareList: defect.defectType === 'dependency' ? [...mockSoftwareList] : [],
-      assigneeList: defect.defectType === 'software' ? [...mockAssigneeList] : [],
+      projectList: [],
+      softwareList: [],
+      assigneeList: [],
     }
   })
   
@@ -407,9 +382,9 @@ function onBatchStatusChange() {
       const defect = selectedDefects.value.find(d => d.id === defectId)
       if (defect) {
         batchDisposeForms.value[defectId] = {
-          projectList: defect.defectType === 'dependency' ? [...mockProjectList] : [],
-          softwareList: defect.defectType === 'dependency' ? [...mockSoftwareList] : [],
-          assigneeList: defect.defectType === 'software' ? [...mockAssigneeList] : [],
+          projectList: [],
+          softwareList: [],
+          assigneeList: [],
         }
       }
     })
@@ -518,7 +493,7 @@ function handleBatchDispose() {
 
 // 工具函数
 function sourceLabel(source: string) {
-  return DEFECT_SOURCE_LABELS[source as DefectSource] || source
+  return source
 }
 
 function sourceTagType(source: string): 'danger' | 'info' | undefined {
@@ -601,6 +576,21 @@ function handleAssign(data: { assignee: string; assignMethod: AssignMethod }) {
     duration: 3000,
   })
 }
+
+// 加载缺陷列表
+async function loadDefects() {
+  // TODO: 对接后端 API 获取缺陷列表
+}
+
+// 加载分配记录
+async function loadAssignRecords() {
+  // TODO: 对接后端 API 获取分配记录
+}
+
+onMounted(() => {
+  loadDefects()
+  loadAssignRecords()
+})
 </script>
 
 <style scoped>

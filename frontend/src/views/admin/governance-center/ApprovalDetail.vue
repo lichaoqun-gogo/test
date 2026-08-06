@@ -13,7 +13,7 @@
         </el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="预评估结论">{{ approval?.preEvalConclusion }}</el-descriptions-item>
-      <el-descriptions-item label="提交时间">{{ approval?.submittedAt }}</el-descriptions-item>
+      <el-descriptions-item label="提交时间">{{ formatTime(approval?.submittedAt) }}</el-descriptions-item>
       <el-descriptions-item label="状态">
         <TicketStatusTag :status="approval?.status || 'pending'" />
       </el-descriptions-item>
@@ -73,6 +73,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { mockIntroductions } from '@/mock/admin'
 import { Download } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils/format'
 
 const route = useRoute()
 const router = useRouter()

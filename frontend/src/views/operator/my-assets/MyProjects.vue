@@ -21,7 +21,7 @@
       </el-table-column>
       <el-table-column label="当前版本" width="180">
         <template #default="{ row }">
-          <el-link type="primary" @click="viewProjectDetail(row)">{{ row.current_commit_id || '-' }}</el-link>
+          <el-link type="primary" @click="viewProjectDetail(row)">{{ row.current_ID || '-' }}</el-link>
         </template>
       </el-table-column>
       <el-table-column prop="branch" label="分支" width="120" />
@@ -45,7 +45,7 @@
       <div class="project-header">
         <el-descriptions :column="2" border>
           <el-descriptions-item label="项目名称">{{ currentProject?.pro_code }}</el-descriptions-item>
-          <el-descriptions-item label="当前Commit ID">{{ currentProject?.current_commit_id }}</el-descriptions-item>
+          <el-descriptions-item label="当前Commit ID">{{ currentProject?.current_ID }}</el-descriptions-item>
         </el-descriptions>
         <div class="query-bar" style="margin-top: 16px">
           <el-input v-model="commitQuery" placeholder="输入Commit ID查询（支持历史版本）" clearable style="width: 220px" @clear="handleQuery" @keyup.enter="handleQuery">
@@ -138,15 +138,20 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { Search } from '@element-plus/icons-vue'
-import axios from 'axios'
+import request from '@/api'
 import { ElMessage } from 'element-plus'
 import * as echarts from 'echarts'
+import { formatTime } from '@/utils/format'
 
 const userStore = useUserStore()
 const projects = ref<any[]>([])
 const loading = ref(false)
 
-const userTeam = computed(() => userStore.userInfo?.team || '')
+// 是否看部门全部（specialist 或 admin 在个人工作台视图）
+const isSpecialist = computed(() => {
+  const role = userStore.role
+  return role === 'specialist' || (role === 'admin' && userStore.viewMode === 'personal')
+})
 
 // 详情弹框
 const detailVisible = ref(false)
@@ -176,19 +181,26 @@ const paginatedComponents = computed(() => {
 })
 
 async function loadProjects() {
-  if (!userTeam.value) {
-    ElMessage.warning('未获取到团队信息')
-    return
-  }
-
   loading.value = true
   try {
-    const res = await axios.get('/api/v1/asset/inner-projects', {
-      params: { group_name: userTeam.value }
-    })
-    if (res.data.code === 200 || res.data.code === 0) {
-      projects.value = res.data.data || []
+    const params: any = {}
+    if (isSpecialist.value) {
+      // specialist/admin(个人工作台)：看部门所有自研项目
+      params.dept_name = userStore.userInfo?.department || ''
+    } else {
+      // operator：只看 project_owner 表中分配给自己的项目
+      params.owner_username = userStore.userInfo?.username || ''
     }
+    const res: any = await request.get('/asset/inner-projects', { params })
+    const rawList = Array.isArray(res) ? res : []
+    // 按 pro_code 去重（同一项目的多个模块只保留一条）
+    const seen = new Set<string>()
+    projects.value = rawList.filter((item: any) => {
+      const key = item.pro_code || ''
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
   } catch (error) {
     console.error('加载项目失败:', error)
     ElMessage.error('加载项目失败')
@@ -206,11 +218,6 @@ function typeTagColor(type: string) {
   return colors[type] || 'info'
 }
 
-function formatTime(time: string) {
-  if (!time) return '-'
-  return time.replace('T', ' ').substring(0, 19)
-}
-
 function viewProjectDetail(row: any) {
   currentProject.value = row
   commitQuery.value = ''
@@ -223,11 +230,11 @@ function viewProjectDetail(row: any) {
 
 async function loadModuleOptions() {
   try {
-    const res = await axios.get('/api/v1/asset/inner-projects/components', {
-      params: { commit_id: currentProject.value.current_commit_id }
+    const res: any = await request.get('/asset/inner-projects/components', {
+      params: { current_ID: currentProject.value.current_ID }
     })
-    const data = res.data.data || []
-    const modules = [...new Set(data.map((item: any) => item.module_code).filter(Boolean))]
+    const data = res || []
+    const modules = [...new Set(data.map((item: any) => item.module_code).filter(Boolean))] as string[]
     moduleOptions.value = modules
   } catch (error) {
     console.error('加载子模块选项失败:', error)
@@ -253,19 +260,19 @@ function resetQuery() {
 function handlePageChange() {}
 
 async function loadComponents() {
-  if (!currentProject.value?.current_commit_id) return
+  if (!currentProject.value?.current_ID) return
   
   loading.value = true
   currentPage.value = 1
   try {
-    const params: any = { commit_id: currentProject.value.current_commit_id }
-    if (commitQuery.value) params.commit_id = commitQuery.value
+    const params: any = { current_ID: currentProject.value.current_ID }
+    if (commitQuery.value) params.current_ID = commitQuery.value
     if (moduleQuery.value) params.module_code = moduleQuery.value
     if (filterKeyword.value) params.keyword = filterKeyword.value
     if (filterVersion.value) params.version = filterVersion.value
     
-    const res = await axios.get('/api/v1/asset/inner-projects/components', { params })
-    components.value = res.data.data || []
+    const res: any = await request.get('/asset/inner-projects/components', { params })
+    components.value = res || []
   } catch (error) {
     console.error('加载组件失败:', error)
     components.value = []
@@ -275,17 +282,17 @@ async function loadComponents() {
 }
 
 async function loadLicenseStats() {
-  if (!currentProject.value?.current_commit_id) return
+  if (!currentProject.value?.current_ID) return
   
   try {
-    const params: any = { commit_id: currentProject.value.current_commit_id }
-    if (commitQuery.value) params.commit_id = commitQuery.value
+    const params: any = { current_ID: currentProject.value.current_ID }
+    if (commitQuery.value) params.current_ID = commitQuery.value
     if (moduleQuery.value) params.module_code = moduleQuery.value
     if (filterKeyword.value) params.keyword = filterKeyword.value
     if (filterVersion.value) params.version = filterVersion.value
     
-    const res = await axios.get('/api/v1/asset/inner-projects/license-stats', { params })
-    const statsData = res.data.data || res.data || {}
+    const res: any = await request.get('/asset/inner-projects/license-stats', { params })
+    const statsData = res || {}
     
     await nextTick()
     await nextTick()
@@ -339,10 +346,10 @@ async function loadBlockRecords() {
   
   blockLoading.value = true
   try {
-    const res = await axios.get('/api/v1/risk/cicd-check/block-records', {
+    const res: any = await request.get('/risk/cicd-check/block-records', {
       params: { project_id: currentProject.value.id }
     })
-    blockRecords.value = res.data.data || []
+    blockRecords.value = res || []
   } catch (error) {
     console.error('加载阻断记录失败:', error)
     blockRecords.value = []
@@ -366,7 +373,7 @@ function handleClose() {
 // 监听弹框打开
 import { watch } from 'vue'
 watch(detailVisible, async (val) => {
-  if (val && currentProject.value?.current_commit_id) {
+  if (val && currentProject.value?.current_ID) {
     await loadModuleOptions()
     handleQuery()
   }

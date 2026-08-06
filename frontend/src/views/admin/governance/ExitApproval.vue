@@ -48,7 +48,7 @@
         <el-card shadow="never" class="stat-card">
           <div class="stat-item">
             <span class="stat-label">总退出申请</span>
-            <span class="stat-value">{{ mockExitDetails.length }}</span>
+            <span class="stat-value">{{ exitList.length }}</span>
           </div>
         </el-card>
       </el-col>
@@ -117,7 +117,9 @@
             <TicketStatusTag :status="row.status" />
           </template>
         </el-table-column>
-        <el-table-column prop="submittedAt" label="提交时间" width="120" />
+        <el-table-column prop="submittedAt" label="提交时间" width="120">
+          <template #default="{ row }">{{ formatTime(row.submittedAt) }}</template>
+        </el-table-column>
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
             <el-button type="primary" link size="small" @click="viewDetail(row.id)">查看详情</el-button>
@@ -188,7 +190,7 @@
               <div class="timeline-header">
                 <span>{{ item.action }}</span>
                 <span class="timeline-operator">{{ item.operator }}</span>
-                <span class="timeline-time">{{ item.time }}</span>
+                <span class="timeline-time">{{ formatTime(item.time) }}</span>
               </div>
               <p class="timeline-opinion">{{ item.opinion }}</p>
             </el-timeline-item>
@@ -213,16 +215,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh } from '@element-plus/icons-vue'
-import { mockExitDetails } from '@/mock/admin'
-import type { ExitApprovalDetail } from '@/mock/admin'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const currentPage = ref(1)
 const pageSize = ref(10)
+const exitList = ref<any[]>([])
 
 const filterForm = ref({
   status: '',
@@ -231,7 +233,7 @@ const filterForm = ref({
 })
 
 const filteredData = computed(() => {
-  let data = [...mockExitDetails]
+  let data = [...exitList.value]
   if (filterForm.value.status) {
     data = data.filter(i => i.status === filterForm.value.status)
   }
@@ -244,15 +246,21 @@ const filteredData = computed(() => {
   return data
 })
 
-const pendingCount = computed(() => mockExitDetails.filter(i => i.status === 'pending').length)
-const processingCount = computed(() => mockExitDetails.filter(i => i.status === 'processing').length)
-const completedCount = computed(() => mockExitDetails.filter(i => i.status === 'completed').length)
+const pendingCount = computed(() => exitList.value.filter(i => i.status === 'pending').length)
+const processingCount = computed(() => exitList.value.filter(i => i.status === 'processing').length)
+const completedCount = computed(() => exitList.value.filter(i => i.status === 'completed').length)
 
 const detailDialogVisible = ref(false)
-const currentDetail = ref<ExitApprovalDetail | null>(null)
+const currentDetail = ref<any>(null)
 const rejectDialogVisible = ref(false)
 const rejectForm = ref({ reason: '' })
 const currentRejectRow = ref<any>(null)
+
+function loadExitList() {}
+
+onMounted(() => {
+  loadExitList()
+})
 
 function handleFilter() {
   currentPage.value = 1
@@ -264,7 +272,7 @@ function handleReset() {
 }
 
 function viewDetail(id: string) {
-  const item = mockExitDetails.find(i => i.id === id)
+  const item = exitList.value.find(i => i.id === id)
   if (item) {
     currentDetail.value = item
     detailDialogVisible.value = true

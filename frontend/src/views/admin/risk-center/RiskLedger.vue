@@ -26,7 +26,9 @@
       </el-table-column>
       <el-table-column prop="riskType" label="风险类型" width="100" />
       <el-table-column prop="affectedComponent" label="影响组件" width="130" />
-      <el-table-column prop="discoveredDate" label="发现日期" width="110" />
+      <el-table-column prop="discoveredDate" label="发现日期" width="180">
+        <template #default="{ row }">{{ formatTime(row.discoveredDate) }}</template>
+      </el-table-column>
       <el-table-column label="状态" width="100">
         <template #default="{ row }">
           <el-tag :type="riskStatusType(row.status)" size="small">{{ riskStatusLabel(row.status) }}</el-tag>

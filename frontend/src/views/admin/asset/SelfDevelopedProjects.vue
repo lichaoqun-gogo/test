@@ -32,7 +32,7 @@
     </div>
 
     <!-- 项目列表 -->
-    <el-table :data="filteredProjects" stripe style="margin-top: 16px" v-loading="loading" @selection-change="handleSelectionChange">
+    <el-table :data="paginatedProjects" stripe style="margin-top: 16px" v-loading="loading" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" />
       <el-table-column label="项目分类" width="120">
         <template #default="{ row }">
@@ -47,17 +47,33 @@
           <el-tag :type="typeTagColor(row.type)" size="small">{{ row.type }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="当前版本" width="150">
+      <el-table-column label="当前版本" width="180">
         <template #default="{ row }">
-          <el-link type="primary" @click="viewProjectDetail(row)">{{ row.current_commit_id || '-' }}</el-link>
+          <el-link type="primary" @click="viewProjectDetail(row)">{{ row.current_ID || '-' }}</el-link>
         </template>
       </el-table-column>
       <el-table-column prop="branch" label="分支" width="150" />
       <el-table-column prop="group_name" label="团队" width="120" />
       <el-table-column prop="dept_name" label="部门" width="140" />
-      <el-table-column prop="create_time" label="创建时间" width="160" />
-      <el-table-column prop="update_time" label="更新时间" width="160" />
+      <el-table-column prop="create_time" label="创建时间" width="160">
+        <template #default="{ row }">{{ formatTime(row.create_time) }}</template>
+      </el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="160">
+        <template #default="{ row }">{{ formatTime(row.update_time) }}</template>
+      </el-table-column>
     </el-table>
+
+    <div class="pagination-wrapper">
+      <el-pagination
+        v-model:current-page="pagination.page"
+        v-model:page-size="pagination.pageSize"
+        :total="pagination.total"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next"
+        @size-change="handleSizeChange"
+        @current-change="handlePageChange"
+      />
+    </div>
 
     <!-- 项目详情对话框 -->
     <el-dialog v-model="detailDialogVisible" title="项目详情" width="700px">
@@ -80,11 +96,11 @@
             {{ currentProject.active === 1 ? '正常' : '关闭' }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="数据标识ID">{{ currentProject.current_ID }}</el-descriptions-item>
-        <el-descriptions-item label="创建时间">{{ currentProject.create_time }}</el-descriptions-item>
+        <el-descriptions-item label="当前版本">{{ currentProject.current_ID || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="创建时间">{{ formatTime(currentProject.create_time) }}</el-descriptions-item>
         <el-descriptions-item label="创建者">{{ currentProject.create_by || '-' }}</el-descriptions-item>
         <el-descriptions-item label="最后修改人">{{ currentProject.update_by || '-' }}</el-descriptions-item>
-        <el-descriptions-item label="更新时间" :span="2">{{ currentProject.update_time || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="更新时间" :span="2">{{ formatTime(currentProject.update_time) }}</el-descriptions-item>
       </el-descriptions>
     </el-dialog>
 
@@ -169,11 +185,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted } from 'vue'
+import { ref, computed, reactive, onMounted, watch } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { Search, Plus, Setting } from '@element-plus/icons-vue'
 import { getInnerProjects, updateInnerProject } from '@/api'
 import InnerProjectDetailDialog from '@/components/business/InnerProjectDetailDialog.vue'
+import { formatTime } from '@/utils/format'
 
 const loading = ref(false)
 const searchText = ref('')
@@ -232,6 +249,12 @@ const formRules: FormRules = {
 
 const projects = ref<any[]>([])
 
+const pagination = reactive({
+  page: 1,
+  pageSize: 10,
+  total: 0,
+})
+
 const filteredProjects = computed(() => {
   let list = [...(projects.value || [])]
   if (searchText.value) {
@@ -249,6 +272,18 @@ const filteredProjects = computed(() => {
     }
   })
   return Array.from(uniqueMap.values())
+})
+
+const paginatedProjects = computed(() => {
+  const start = (pagination.page - 1) * pagination.pageSize
+  return filteredProjects.value.slice(start, start + pagination.pageSize)
+})
+
+watch(filteredProjects, (list) => {
+  pagination.total = list.length
+  if (pagination.page > 1 && (pagination.page - 1) * pagination.pageSize >= list.length) {
+    pagination.page = 1
+  }
 })
 
 onMounted(() => {
@@ -279,10 +314,11 @@ function handleSelectionChange(selection: any[]) {
 
 function typeTagColor(type: string): 'primary' | 'success' | 'warning' | 'info' {
   const map: Record<string, 'primary' | 'success' | 'warning' | 'info'> = { java: 'primary', python: 'success', go: 'warning' }
-  return map[type] || 'info'
+  return map[type.toLowerCase()] || 'info'
 }
 
 function handleSearch() {
+  pagination.page = 1
   loadProjects()
 }
 
@@ -290,7 +326,16 @@ function handleReset() {
   searchText.value = ''
   filterDept.value = ''
   filterTeam.value = ''
+  pagination.page = 1
   loadProjects()
+}
+
+function handleSizeChange() {
+  pagination.page = 1
+}
+
+function handlePageChange() {
+  // pagination is reactive, no action needed
 }
 
 function viewDetail(row: any) {
@@ -396,5 +441,11 @@ async function handleBatchSetBoundary() {
   gap: 4px;
   max-height: 150px;
   overflow-y: auto;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
 }
 </style>

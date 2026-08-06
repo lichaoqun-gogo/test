@@ -1,4 +1,4 @@
-# 生产环境配置 (APP_ENV=prod)
+# 生产环境配置
 # 注意：部署时替换为实际值，切勿将敏感信息提交到版本库
 server:
   port: 8080
@@ -30,15 +30,8 @@ log:
   filePath: logs/osm.log
 
 # 认证配置（生产环境：CAS 单点登录）
+# 只需配置 CAS 服务器地址，其余项自动推导
 auth:
   mode: cas
   cas:
-    # 【必填】公司 CAS 服务器地址，上线时替换这一处即可
-    serverURL: https://cas.company.com
-    # 以下均为可选项，未配置时自动推导：
-    # serviceURL:  未配置时从请求 Host 自动推导为 {scheme}://{host}/api/v1/auth/cas/callback
-    # validateURL: 未配置时自动推导为 {serverURL}/serviceValidate（CAS 2.0 标准路径）
-    # frontendURL: 未配置时用相对路径重定向（前后端同域/Nginx 反代时自动生效）
-  jwt:
-    secret: PROD_JWT_SECRET_REPLACE_ME
-    expiry: 86400
+    serverURL: https://cas.company.com  # 【必填】替换为公司 CAS 服务器地址

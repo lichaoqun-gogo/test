@@ -38,6 +38,9 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 	protected := api.Group("")
 	protected.Use(middleware.AuthMiddleware(cfg))
 
+	// 用户列表（人员选择等场景，当前从 users 表查询，后期对接统一权限系统）
+	protected.GET("/users", authHandler.GetUserList)
+
 	// 台账管理
 	assetHandler := handlers.NewAssetHandler(db)
 	asset := protected.Group("/asset")
@@ -51,12 +54,13 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 		asset.GET("/projects/:id/license-stats", assetHandler.GetProjectLicenseStats)
 
 		asset.GET("/inner-projects", assetHandler.ListInnerProjects)
+		asset.GET("/inner-projects/components", assetHandler.GetInnerProjectComponents)
+		asset.GET("/inner-projects/license-stats", assetHandler.GetInnerProjectLicenseStats)
+		asset.GET("/inner-projects/modules", assetHandler.GetInnerProjectModules)
 		asset.GET("/inner-projects/:id", assetHandler.GetInnerProject)
 		asset.POST("/inner-projects", assetHandler.CreateInnerProject)
 		asset.PUT("/inner-projects/:id", assetHandler.UpdateInnerProject)
 		asset.DELETE("/inner-projects/:id", assetHandler.DeleteInnerProject)
-		asset.GET("/inner-projects/components", assetHandler.GetInnerProjectComponents)
-		asset.GET("/inner-projects/license-stats", assetHandler.GetInnerProjectLicenseStats)
 		asset.GET("/inner-projects/:id/dependencies", assetHandler.GetProjectDependencies)
 
 		asset.GET("/components", assetHandler.ListComponents)
@@ -74,6 +78,12 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 		asset.POST("/core-dependencies/seed-license-data", assetHandler.SeedLicenseTestData)
 		asset.POST("/core-dependencies/seed-test-data", assetHandler.SeedCoreDependencyTestData)
 		asset.POST("/core-dependencies/seed-high-risk-data", assetHandler.SeedHighRiskTestData)
+
+		// 项目-负责人关联（支持开源基础软件和自研项目）
+		projectOwnerHandler := handlers.NewProjectOwnerHandler(db)
+		asset.GET("/project-owners", projectOwnerHandler.GetOwnersByProject)
+		asset.GET("/project-owners/map", projectOwnerHandler.GetOwnersMap)
+		asset.POST("/project-owners", projectOwnerHandler.SaveOwners)
 	}
 
 	// 风险管理

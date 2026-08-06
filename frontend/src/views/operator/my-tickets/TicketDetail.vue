@@ -24,8 +24,8 @@
       </el-descriptions-item>
       <el-descriptions-item label="当前步骤">{{ ticket?.currentStep }}</el-descriptions-item>
       <el-descriptions-item label="分配给">{{ ticket?.assignedTo || '未分配' }}</el-descriptions-item>
-      <el-descriptions-item label="创建时间">{{ ticket?.createdAt }}</el-descriptions-item>
-      <el-descriptions-item label="更新时间">{{ ticket?.updatedAt }}</el-descriptions-item>
+      <el-descriptions-item label="创建时间">{{ formatTime(ticket?.createdAt) }}</el-descriptions-item>
+      <el-descriptions-item label="更新时间">{{ formatTime(ticket?.updatedAt) }}</el-descriptions-item>
       <el-descriptions-item label="描述" :span="2">{{ ticket?.description }}</el-descriptions-item>
     </el-descriptions>
 
@@ -39,18 +39,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { mockTickets } from '@/mock/tickets'
 import { APPLICATION_TYPE_LABELS } from '@/types'
 import { Link } from '@element-plus/icons-vue'
+import { formatTime } from '@/utils/format'
 
 const route = useRoute()
 const router = useRouter()
 
-const ticket = computed(() =>
-  mockTickets.find(t => t.id === route.params.id)
-)
+const ticket = ref<any>(null)
+
+function loadTicket(id: string) {
+  // TODO: 调用后端 API 获取工单详情
+}
+
+onMounted(() => {
+  loadTicket(route.params.id as string)
+})
 
 function goBack() {
   router.back()

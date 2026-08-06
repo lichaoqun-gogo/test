@@ -15,19 +15,11 @@
         </el-button>
         <el-button @click="handleReset">重置</el-button>
       </div>
-      <div class="action-bar">
-        <el-button type="success" plain @click="importDialogVisible = true">
-          <el-icon><Upload /></el-icon> 批量导入
-        </el-button>
-        <el-button type="primary" plain @click="handleExport">
-          <el-icon><Download /></el-icon> 导出
-        </el-button>
-      </div>
     </div>
 
     <el-table :data="paginatedAssets" stripe style="margin-top: 16px" v-loading="loading">
-      <el-table-column type="selection" width="50" />
       <el-table-column prop="_group" label="组件组织" min-width="160" />
+      <el-table-column prop="PUBLISHER" label="供应商" min-width="140" />
       <el-table-column prop="_name" label="组件名称" min-width="160" />
       <el-table-column prop="_version" label="版本" width="110" />
       <el-table-column prop="PURL" label="PURL" min-width="200" show-overflow-tooltip />
@@ -68,66 +60,18 @@
       <div class="total-info">共 {{ relatedProjects.length }} 个项目</div>
     </el-dialog>
 
-    <!-- 批量导入弹窗 -->
-    <el-dialog v-model="importDialogVisible" title="批量导入依赖包" width="560px">
-      <div class="import-section">
-        <el-alert title="导入说明" type="info" :closable="false" show-icon style="margin-bottom: 16px">
-          <p>1. 请先下载模板文件，按照模板格式填写依赖包信息</p>
-          <p>2. 支持 .xlsx、.csv 格式文件，单次最多导入 500 条</p>
-          <p>3. 导入时将自动去重，已存在的依赖包将跳过</p>
-        </el-alert>
-
-        <el-button type="primary" plain @click="handleDownloadTemplate" style="margin-bottom: 16px">
-          <el-icon><Download /></el-icon> 下载导入模板
-        </el-button>
-
-        <el-upload
-          ref="uploadRef"
-          class="upload-area"
-          drag
-          :auto-upload="false"
-          :limit="1"
-          accept=".xlsx,.csv"
-          :on-change="handleFileChange"
-          :on-remove="handleFileRemove"
-        >
-          <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
-          <div class="el-upload__text">将文件拖到此处，或 <em>点击上传</em></div>
-          <template #tip>
-            <div class="el-upload__tip">仅支持 .xlsx / .csv 格式</div>
-          </template>
-        </el-upload>
-
-        <div v-if="selectedFile" class="file-info">
-          <el-tag type="success">
-            <el-icon><Document /></el-icon>
-            {{ selectedFile.name }} ({{ formatFileSize(selectedFile.size) }})
-          </el-tag>
-        </div>
-      </div>
-
-      <template #footer>
-        <el-button @click="importDialogVisible = false; selectedFile = null">取消</el-button>
-        <el-button type="primary" :disabled="!selectedFile" @click="handleImport">
-          <el-icon><Upload /></el-icon> 开始导入
-        </el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, reactive, onMounted } from 'vue'
-import { Search, Upload, Download, UploadFilled, Document } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 import { getDependencies, getRelatedProjects } from '@/api'
 
 const loading = ref(false)
 const loadingProjects = ref(false)
 const searchText = ref('')
 const filterClassifier = ref('')
-const importDialogVisible = ref(false)
-const selectedFile = ref<File | null>(null)
 const relatedProjectsDialogVisible = ref(false)
 const currentComponent = ref<any>(null)
 const relatedProjects = ref<any[]>([])
@@ -194,39 +138,6 @@ function handleSizeChange() {
 
 function handlePageChange() {}
 
-function handleExport() {
-  ElMessage.success('导出任务已提交，文件生成后将自动下载')
-}
-
-function handleDownloadTemplate() {
-  ElMessage.success('模板下载中...')
-}
-
-function handleFileChange(file: any) {
-  selectedFile.value = file.raw
-}
-
-function handleFileRemove() {
-  selectedFile.value = null
-}
-
-function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return bytes + ' B'
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
-}
-
-function handleImport() {
-  if (!selectedFile.value) return
-  loading.value = true
-  setTimeout(() => {
-    ElMessage.success(`导入成功！共导入 ${Math.floor(Math.random() * 50) + 10} 条依赖包数据`)
-    loading.value = false
-    importDialogVisible.value = false
-    selectedFile.value = null
-  }, 1500)
-}
-
 async function viewRelatedProjects(row: any) {
   currentComponent.value = row
   relatedProjectsDialogVisible.value = true
@@ -254,22 +165,9 @@ async function viewRelatedProjects(row: any) {
   align-items: center;
   flex-wrap: wrap;
 }
-.action-bar {
-  display: flex;
-  gap: 8px;
-}
 .pagination-wrapper {
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
-}
-.import-section {
-  padding: 8px 0;
-}
-.upload-area {
-  width: 100%;
-}
-.file-info {
-  margin-top: 12px;
 }
 </style>

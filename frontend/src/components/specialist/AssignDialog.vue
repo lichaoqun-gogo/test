@@ -34,9 +34,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { operators, type DefectRecord, type AssignMethod } from '@/mock/defects'
+
+// 类型定义（清理 mock 后本地保留）
+type DefectRecord = any
+type AssignMethod = any
+
+// 运维人员列表（待对接后端）
+const operators = ref<any[]>([])
 
 const props = defineProps<{
   visible: boolean
@@ -80,4 +86,13 @@ async function handleSubmit() {
     submitting.value = false
   }
 }
+
+// 加载运维人员列表
+async function loadOperators() {
+  // TODO: 对接后端 API 获取部门内运维人员
+}
+
+onMounted(() => {
+  loadOperators()
+})
 </script>

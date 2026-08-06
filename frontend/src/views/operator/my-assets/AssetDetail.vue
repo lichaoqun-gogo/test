@@ -16,7 +16,7 @@
           <el-descriptions-item label="组织">{{ assetDetail.organization }}</el-descriptions-item>
           <el-descriptions-item label="负责人">{{ assetDetail.owner }}</el-descriptions-item>
           <el-descriptions-item label="部门">{{ assetDetail.department }}</el-descriptions-item>
-          <el-descriptions-item label="最后更新">{{ assetDetail.lastUpdated }}</el-descriptions-item>
+          <el-descriptions-item label="最后更新">{{ formatTime(assetDetail.lastUpdated) }}</el-descriptions-item>
           <el-descriptions-item label="状态">
             <el-tag :type="assetDetail.status === 'active' ? 'success' : 'info'">
               {{ assetDetail.status === 'active' ? '使用中' : '已停用' }}
@@ -82,7 +82,9 @@
                 <span v-else>0</span>
               </template>
             </el-table-column>
-            <el-table-column prop="lastUpdated" label="最后更新" />
+            <el-table-column prop="lastUpdated" label="最后更新">
+              <template #default="{ row }">{{ formatTime(row.lastUpdated) }}</template>
+            </el-table-column>
           </el-table>
         </el-tab-pane>
 
@@ -112,7 +114,9 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="discoveredDate" label="发现日期" width="120" />
+            <el-table-column prop="discoveredDate" label="发现日期" width="180">
+              <template #default="{ row }">{{ formatTime(row.discoveredDate) }}</template>
+            </el-table-column>
           </el-table>
         </el-tab-pane>
       </template>
@@ -121,47 +125,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { mockSoftwareAssets, mockProjects, mockLicenses, mockDependencies, mockVulnerabilities } from '@/mock/assets'
 import { SOFTWARE_TYPE_LABELS } from '@/types'
+import { formatTime } from '@/utils/format'
 
 const route = useRoute()
 const router = useRouter()
 
 const activeTab = ref('info')
 
-const assetDetail = computed(() =>
-  mockSoftwareAssets.find(s => s.id === route.params.id)
-)
-
-const projectDetail = computed(() =>
-  mockProjects.find(p => p.id === route.params.id)
-)
+const assetDetail = ref<any>(null)
+const projectDetail = ref<any>(null)
 
 const pageTitle = computed(() =>
   assetDetail.value ? assetDetail.value.name : projectDetail.value ? projectDetail.value.name : '详情'
 )
 
-const licenses = computed(() =>
-  projectDetail.value ? mockLicenses.filter(l => l.projectId === projectDetail.value!.id) : []
-)
-
-const dependencies = computed(() =>
-  projectDetail.value ? mockDependencies.filter(d => d.projectId === projectDetail.value!.id) : []
-)
+const licenses = ref<any[]>([])
+const dependencies = ref<any[]>([])
 
 const blacklistDeps = computed(() =>
   dependencies.value.filter(d => d.isInBlacklist)
 )
 
-const vulnerabilities = computed(() =>
-  projectDetail.value ? mockVulnerabilities.filter(v => v.projectId === projectDetail.value!.id) : []
-)
+const vulnerabilities = ref<any[]>([])
 
 const criticalVulns = computed(() =>
   vulnerabilities.value.filter(v => v.severity === 'critical' || v.severity === 'high')
 )
+
+function loadAssetDetail(id: string) {
+  // TODO: 调用后端 API 获取资产/项目详情
+}
+
+onMounted(() => {
+  loadAssetDetail(route.params.id as string)
+})
 
 function goBack() {
   router.back()

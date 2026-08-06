@@ -24,7 +24,7 @@ api.interceptors.request.use(config => {
     config.headers['X-User-Can-Admin-View'] = user.canToggleAdminView ? 'true' : 'false'
   }
   // CAS 模式下 token 是 JWT，附加到 Authorization 头
-  if (token && !token.startsWith('mock_token_')) {
+  if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }
   return config
@@ -66,6 +66,7 @@ export interface SoftwareItem {
   CPE: string
   SWIDTAGID: string
   DESCRIPTION: string
+  category: string
   LAST_BOM_IMPORTED: string
   update_by: string
   update_time: string
@@ -194,6 +195,28 @@ export const fileApi = {
   }),
   download: (id: number) => api.get(`/files/${id}/download`, { responseType: 'blob' }),
   delete: (id: number) => api.delete(`/files/${id}`),
+}
+
+// 人员管理API
+// 当前数据源：后端 users 表；后期对接统一权限系统时只需修改后端 GetUserList 实现
+export const personnelApi = {
+  // 获取人员列表（用于负责人选择下拉框）
+  // params.dept_name 传入部门名称时只返回该部门人员
+  getList: (params?: { dept_name?: string }) => api.get('/users', { params }),
+}
+
+// 项目-负责人关联API
+// project_type: 'software'(开源基础软件) | 'inner'(自研项目)
+export const projectOwnerApi = {
+  // 查询某项目的所有负责人
+  getOwners: (projectType: string, projectID: number) =>
+    api.get('/asset/project-owners', { params: { project_type: projectType, project_id: projectID } }),
+  // 批量查询多个项目的负责人映射 { [project_id]: owner_username[] }
+  getOwnersMap: (projectType: string, projectIDs: number[]) =>
+    api.get('/asset/project-owners/map', { params: { project_type: projectType, project_ids: projectIDs.join(',') } }),
+  // 保存项目负责人（全量替换）
+  saveOwners: (projectType: string, projectID: number, owners: { owner_username: string; dept_name: string; team: string }[]) =>
+    api.post('/asset/project-owners', { project_type: projectType, project_id: projectID, owners }),
 }
 
 // 源码备份API

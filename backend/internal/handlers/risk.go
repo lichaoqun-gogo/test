@@ -30,6 +30,7 @@ func (h *RiskHandler) ListBlacklist(c *gin.Context) {
 	page, pageSize := parsePagination(c)
 
 	keyword := c.Query("keyword")
+	typeFilter := c.Query("type")
 	formatFilter := c.Query("_format")
 	levelFilter := c.Query("applicable_level")
 	isBoundaryFilter := c.Query("is_boundary")
@@ -41,6 +42,9 @@ func (h *RiskHandler) ListBlacklist(c *gin.Context) {
 	if keyword != "" {
 		query = query.Where("_name LIKE ? OR _group LIKE ?",
 			"%"+keyword+"%", "%"+keyword+"%")
+	}
+	if typeFilter != "" {
+		query = query.Where("type = ?", typeFilter)
 	}
 	if formatFilter != "" {
 		if v, err := strconv.Atoi(formatFilter); err == nil {
@@ -191,7 +195,7 @@ func (h *RiskHandler) ListBlacklistRecords(c *gin.Context) {
 		}
 	}
 	if processStatusFilter != "" {
-		query = query.Where("status = ?", processStatusFilter)
+		query = query.Where("process_status = ?", processStatusFilter)
 	}
 	if alertTypeFilter != "" {
 		if v, err := strconv.Atoi(alertTypeFilter); err == nil {
@@ -238,7 +242,7 @@ func (h *RiskHandler) ProcessBlacklistRecord(c *gin.Context) {
 	}
 
 	var req struct {
-		ProcessStatus string `json:"process_status"`
+		ProcessStatus int    `json:"process_status"`
 		Reason        string `json:"reason"`
 		JiraNo        string `json:"jira_no"`
 	}
@@ -249,13 +253,13 @@ func (h *RiskHandler) ProcessBlacklistRecord(c *gin.Context) {
 
 	_, userName := h.getUserInfo(c)
 	updates := map[string]interface{}{
-		"status":       req.ProcessStatus,
-		"handle_plan":  req.Reason,
-		"update_by":    userName,
-		"update_time":  time.Now(),
+		"process_status": req.ProcessStatus,
+		"reason":         req.Reason,
+		"update_by":      userName,
+		"update_time":    time.Now(),
 	}
 	if req.JiraNo != "" {
-		updates["handle_result"] = req.JiraNo
+		updates["jira_no"] = req.JiraNo
 	}
 
 	if err := h.db.Model(&models.ComponentBlack{}).Where("id = ?", id).Updates(updates).Error; err != nil {
@@ -272,23 +276,31 @@ func (h *RiskHandler) ListLicenses(c *gin.Context) {
 	page, pageSize := parsePagination(c)
 
 	keyword := c.Query("keyword")
+	licensegroupFilter := c.Query("licensegroup")
 	deprecatedFilter := c.Query("IS_DEPRECATED")
 	osiFilter := c.Query("IS_OSIAPPROVED")
 
-	query := h.db.Model(&models.License{})
+	query := h.db.Table("license l").
+		Select(`l.ID, l.IS_DEPRECATED, l.FSFLIBRE, l.LICENSE, l._NAME, l.IS_OSIAPPROVED,
+			g._NAME as LICENSEGROUP, g.RISKWEIGHT`).
+		Joins("LEFT JOIN licensegroup_license gl ON l.ID = gl.LICENSE_ID").
+		Joins("LEFT JOIN licensegroup g ON gl.LICENSEGROUP_ID = g.ID")
 
 	if keyword != "" {
-		query = query.Where("LICENSE LIKE ? OR _name LIKE ?",
+		query = query.Where("UPPER(l._NAME) LIKE UPPER(?) OR UPPER(l.LICENSE) LIKE UPPER(?)",
 			"%"+keyword+"%", "%"+keyword+"%")
+	}
+	if licensegroupFilter != "" {
+		query = query.Where("g._NAME = ?", licensegroupFilter)
 	}
 	if deprecatedFilter != "" {
 		if v, err := strconv.Atoi(deprecatedFilter); err == nil {
-			query = query.Where("IS_DEPRECATED = ?", v)
+			query = query.Where("l.IS_DEPRECATED = ?", v)
 		}
 	}
 	if osiFilter != "" {
 		if v, err := strconv.Atoi(osiFilter); err == nil {
-			query = query.Where("IS_OSIAPPROVED = ?", v)
+			query = query.Where("l.IS_OSIAPPROVED = ?", v)
 		}
 	}
 
@@ -298,9 +310,9 @@ func (h *RiskHandler) ListLicenses(c *gin.Context) {
 		return
 	}
 
-	var licenses []models.License
+	var licenses []map[string]interface{}
 	offset := (page - 1) * pageSize
-	if err := query.Order("id DESC").Offset(offset).Limit(pageSize).Find(&licenses).Error; err != nil {
+	if err := query.Order("l._NAME ASC").Offset(offset).Limit(pageSize).Scan(&licenses).Error; err != nil {
 		response.Error(c, 500, "查询失败")
 		return
 	}
@@ -513,7 +525,7 @@ func (h *RiskHandler) UpdateDefectStatus(c *gin.Context) {
 type CICDCheckItem struct {
 	ID              int64     `json:"id"`
 	ProCode         string    `json:"pro_code"`
-	CurrentCommitID string    `json:"current_commit_id"`
+	CurrentID       string    `json:"current_ID"`
 	GroupName       string    `json:"group_name"`
 	DeptName        string    `json:"dept_name"`
 	DisposalType    string    `json:"disposalType"`
@@ -543,7 +555,7 @@ func (h *RiskHandler) ListCicdCheck(c *gin.Context) {
 		Select(`
 			pi.id,
 			pi.pro_code as pro_code,
-			pi.current_commit_id,
+			cb.CURRENT_ID as current_id,
 			pi.group_name,
 			pi.dept_name,
 			cc.applicable_level as level,
@@ -552,9 +564,8 @@ func (h *RiskHandler) ListCicdCheck(c *gin.Context) {
 				ELSE '警告'
 			END as disposal_type
 		`).
-		Joins("LEFT JOIN project_inner pi ON cb.project_id = pi.id").
-		Joins("LEFT JOIN component_core cc ON cb.blacklist_id = cc.id").
-		Where("cb.status = ?", "待处理")
+		Joins("LEFT JOIN project_inner pi ON cb.PROJECT_ID = pi.id").
+		Joins("LEFT JOIN component_core cc ON cb.BLACK_ID = cc.id")
 
 	if projectName != "" {
 		query = query.Where("pi.pro_code LIKE ?", "%"+projectName+"%")
@@ -579,7 +590,7 @@ func (h *RiskHandler) ListCicdCheck(c *gin.Context) {
 	var items []CICDCheckItem
 	query.Order("pi.pro_code ASC").Find(&items)
 
-	// 在Go代码中去重：按pro_code+current_commit_id唯一标识
+	// 在Go代码中去重：按pro_code+current_ID唯一标识
 	type ProjectKey struct {
 		ProCode       string
 		CommitID      string
@@ -587,7 +598,7 @@ func (h *RiskHandler) ListCicdCheck(c *gin.Context) {
 	seen := make(map[ProjectKey]bool)
 	var uniqueItems []CICDCheckItem
 	for _, item := range items {
-		key := ProjectKey{item.ProCode, item.CurrentCommitID}
+		key := ProjectKey{item.ProCode, item.CurrentID}
 		if !seen[key] {
 			seen[key] = true
 			uniqueItems = append(uniqueItems, item)
@@ -624,7 +635,7 @@ func (h *RiskHandler) GetCicdDetail(c *gin.Context) {
 	// 关联：project_inner（获取pro_code模块名称）
 	query := h.db.Table("component_black cb").
 		Select(`
-			pi.pro_code as module_name,
+			pi.module_code as module_name,
 			cb.create_time as check_time,
 			CASE 
 				WHEN cc.applicable_level IN ('C', 'D') THEN '阻断'
@@ -633,12 +644,12 @@ func (h *RiskHandler) GetCicdDetail(c *gin.Context) {
 			cc._name as blacklist_name,
 			cc.reason
 		`).
-		Joins("LEFT JOIN project_inner pi ON cb.project_id = pi.id").
-		Joins("LEFT JOIN component_core cc ON cb.blacklist_id = cc.id").
-		Where("cb.project_name = ?", projectName)
+		Joins("LEFT JOIN project_inner pi ON cb.PROJECT_ID = pi.id").
+		Joins("LEFT JOIN component_core cc ON cb.BLACK_ID = cc.id").
+		Where("pi.pro_code = ?", projectName)
 
 	if commitID != "" {
-		query = query.Where("pi.current_commit_id = ?", commitID)
+		query = query.Where("cb.CURRENT_ID = ?", commitID)
 	}
 
 	var items []CICDDetailItem
@@ -658,13 +669,14 @@ func (h *RiskHandler) GetProjectBlockRecords(c *gin.Context) {
 	// 查询component_black表
 	query := h.db.Table("component_black cb").
 		Select(`
-			cb.component_name,
-			cb.component_version as version,
+			cs._name as component_name,
+			cs._version as version,
 			cc.reason,
 			cb.create_time
 		`).
-		Joins("LEFT JOIN component_core cc ON cb.blacklist_id = cc.id").
-		Where("cb.project_id = ?", projectID)
+		Joins("LEFT JOIN component_core cc ON cb.BLACK_ID = cc.id").
+		Joins("LEFT JOIN component_snapshot cs ON cb.COMPONENT_ID = cs.id").
+		Where("cb.PROJECT_ID = ?", projectID)
 
 	var records []map[string]interface{}
 	if err := query.Order("cb.create_time DESC").Scan(&records).Error; err != nil {

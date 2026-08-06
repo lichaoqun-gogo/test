@@ -34,17 +34,9 @@ onMounted(async () => {
   // 用 token 获取用户信息
   const res = await casCallback(token)
   if (res.code === 200 && res.data) {
-    // 打印 CAS 返回的用户信息
-    console.log('========== CAS 登录用户信息 ==========')
-    console.log('用户ID:', res.data.id)
-    console.log('用户名:', res.data.username)
-    console.log('昵称:', res.data.nickname)
-    console.log('角色:', res.data.role)
-    console.log('部门:', res.data.department)
-    console.log('可切换管理视图:', res.data.canToggleAdminView)
-    console.log('JWT Token:', token)
-    console.log('======================================')
     userStore.setCasUser(token, res.data)
+    // 直接加载菜单和注册路由，避免路由守卫重复请求 /auth/me
+    await userStore.fetchMenus()
     // 根据角色跳转
     if (res.data.role === 'admin') {
       router.replace('/admin/asset/software-library')

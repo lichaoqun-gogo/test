@@ -75,6 +75,11 @@ func initDatabase(db *gorm.DB) error {
 		return fmt.Errorf("failed to migrate menus table: %w", err)
 	}
 
+	// 自动迁移项目-负责人关联表
+	if err := db.AutoMigrate(&models.ProjectOwner{}); err != nil {
+		return fmt.Errorf("failed to migrate project_owner table: %w", err)
+	}
+
 	// 初始化部门专员映射表和Mock数据
 	initDeptSpecialistMapping(db)
 

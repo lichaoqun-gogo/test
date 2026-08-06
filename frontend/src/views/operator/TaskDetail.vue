@@ -56,8 +56,8 @@
               </el-descriptions-item>
               <el-descriptions-item label="申请人">{{ task.applicant }}</el-descriptions-item>
               <el-descriptions-item label="所属部门">{{ task.applicantDept }}</el-descriptions-item>
-              <el-descriptions-item label="创建时间">{{ task.createdAt }}</el-descriptions-item>
-              <el-descriptions-item label="更新时间">{{ task.updatedAt }}</el-descriptions-item>
+              <el-descriptions-item label="创建时间">{{ formatTime(task.createdAt) }}</el-descriptions-item>
+              <el-descriptions-item label="更新时间">{{ formatTime(task.updatedAt) }}</el-descriptions-item>
               <el-descriptions-item label="当前步骤" :span="2">{{ task.currentStep }}</el-descriptions-item>
             </el-descriptions>
           </el-card>
@@ -199,7 +199,7 @@
               <el-timeline-item
                 v-for="(item, index) in deduplicatedHistory"
                 :key="index"
-                :timestamp="formatDate(item.createTime || item.approvedAt)"
+                :timestamp="formatTime(item.createTime || item.approvedAt)"
                 placement="top"
                 :type="getActionColor(item.action) as any"
               >
@@ -352,6 +352,7 @@ import { useTaskStore } from '@/stores/task'
 import TaskStatusIndicator from '@/components/operator/TaskStatusIndicator.vue'
 import TaskForm from '@/components/operator/TaskForm.vue'
 import RiskTag from '@/components/business/RiskTag.vue'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const route = useRoute()
@@ -464,17 +465,6 @@ function getActionLabel(action: string) {
     withdraw: '撤回',
   }
   return labels[action] || action
-}
-
-function formatDate(date: string | undefined) {
-  if (!date) return '-'
-  return new Date(date).toLocaleString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
 }
 
 // 审批对话框

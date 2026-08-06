@@ -129,7 +129,7 @@ CREATE TABLE `component` (
   `LICENSE` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '许可证',
   `LICENSE_ID` bigint DEFAULT NULL COMMENT '关联license表',
   `LAST_RISKSCORE` decimal(4,3) DEFAULT '0.000' COMMENT '最后风险值',
-  `PROJECT_ID` bigint DEFAULT NULL COMMENT '关联project_inner表',
+  `PROJECT_ID` bigint DEFAULT NULL COMMENT '关联project表ID',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -137,37 +137,30 @@ CREATE TABLE `component` (
   PRIMARY KEY (`id`),
   KEY `idx_project_id` (`PROJECT_ID`),
   KEY `idx_current_id` (`current_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='自研项目依赖包表';
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='开源基础软件依赖包表';
 CREATE TABLE `component_black` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `blacklist_id` bigint NOT NULL COMMENT '命中的黑名单规则ID(关联component_core表)',
-  `component_name` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '组件名称',
-  `component_version` varchar(50) COLLATE utf8mb4_bin NOT NULL COMMENT '组件版本',
-  `component_group` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '组件组织',
-  `project_id` bigint DEFAULT NULL COMMENT '关联的自研项目ID',
-  `project_name` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '关联的自研项目名称',
-  `alert_type` tinyint NOT NULL DEFAULT '1' COMMENT '告警类型: 1-阻断, 2-警告',
-  `status` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT 'pending' COMMENT '处理状态: pending-未处理, processing-处理中, resolved-处理完成, false_positive-误报, audited-已审核',
-  `handler` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '处理人',
-  `handle_plan` varchar(512) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '处理计划',
-  `handle_result` mediumtext COLLATE utf8mb4_bin COMMENT '处理结果说明',
-  `attachment_url` varchar(512) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '附件URL(MinIO)',
-  `auditor` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审核人',
-  `audit_opinion` varchar(512) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审核意见',
-  `audit_time` datetime DEFAULT NULL COMMENT '审核时间',
-  `ci_pipeline_id` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'CI流水线ID',
-  `ci_build_id` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'CI构建ID',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_by` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `update_by` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新者',
-  PRIMARY KEY (`id`),
-  KEY `idx_blacklist_id` (`blacklist_id`),
-  KEY `idx_status` (`status`),
-  KEY `idx_component` (`component_name`,`component_version`),
-  KEY `idx_project_id` (`project_id`),
-  KEY `idx_ci_pipeline` (`ci_pipeline_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='黑名单阻断记录表';
+  `ID` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `PROJECT_ID` bigint NOT NULL COMMENT '关联的项目',
+  `COMPONENT_ID` bigint DEFAULT NULL COMMENT '关联的组件',
+  `BLACK_ID` bigint NOT NULL COMMENT '关联的黑名单',
+  `PROCESS_STATUS` int(1) NOT NULL COMMENT '处理状态 0-未处理|1-处理中|2-处理完成|3-误报',
+  `reason` varchar(600) DEFAULT NULL COMMENT '阻断原因',
+  `jira_no` varchar(50) DEFAULT NULL COMMENT 'jira工单号',
+  `pro_time` datetime DEFAULT NULL COMMENT '上线修改时间',
+  `test_time` datetime DEFAULT NULL COMMENT '测试修改时间',
+  `DESCRIPTION` mediumtext DEFAULT NULL COMMENT '处理描述和备注',
+  `PROCESS_PLAN_URL` bigint DEFAULT NULL COMMENT '处理计划|文件（可选）附件管理attachmentId',
+  `PROCESS_RESULT_URL` bigint DEFAULT NULL COMMENT '处理结果|文件（可选）附件管理attachmentId',
+  `create_by` varchar(20) DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(20) DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `CURRENT_ID` varchar(64) DEFAULT NULL COMMENT '本次数据标识ID',
+  `internal` int(1) NOT NULL DEFAULT '1' COMMENT '是否内部项目 0-否|1-是',
+  `alert_type` tinyint(2) DEFAULT '1' COMMENT '告警类型 1 阻断 2警告',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `uniq_project_balck_commit_idx` (`PROJECT_ID`,`COMPONENT_ID`,`BLACK_ID`,`CURRENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=210001 COMMENT='组件黑名单处理列表';
 CREATE TABLE `component_core` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
   `_format` tinyint NOT NULL DEFAULT '1' COMMENT '类型: maven:1、pypi:2、npm:3、yum:4等',
@@ -448,8 +441,6 @@ CREATE TABLE `project_inner` (
   `module_code` varchar(64) COLLATE utf8mb4_bin NOT NULL COMMENT '模块编码',
   `branch` varchar(80) COLLATE utf8mb4_bin NOT NULL COMMENT 'Git分支名',
   `current_ID` varchar(64) COLLATE utf8mb4_bin NOT NULL COMMENT '本次数据标识ID',
-  `current_commit_id` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '当前Commit ID',
-  `production_commit_id` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '生产Commit ID',
   `create_by` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后修改人',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -625,5 +616,21 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_users_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+CREATE TABLE `project_owner` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `project_type` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '项目类型: software-开源基础软件, inner-自研项目',
+  `project_id` bigint NOT NULL COMMENT '项目ID',
+  `owner_username` varchar(64) COLLATE utf8mb4_bin NOT NULL COMMENT '负责人用户名',
+  `dept_name` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '部门',
+  `team` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '团队',
+  `assigned_by` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '分配人',
+  `assigned_at` timestamp NULL DEFAULT NULL COMMENT '分配时间',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_project_type` (`project_type`),
+  KEY `idx_project_id` (`project_id`),
+  KEY `idx_owner_username` (`owner_username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='项目-负责人关联表';
 
 

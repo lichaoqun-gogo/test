@@ -56,6 +56,7 @@ func (h *AssetHandler) ListProjects(c *gin.Context) {
 	levelFilter := c.Query("applicable_level")
 	deptFilter := c.Query("maint_dept")
 	categoryFilter := c.Query("category")
+	ownerUsername := c.Query("owner_username") // 按负责人过滤（operator 查自己负责的）
 
 	query := h.db.Model(&models.Project{}).Where("ACTIVE = ?", 1)
 
@@ -78,6 +79,10 @@ func (h *AssetHandler) ListProjects(c *gin.Context) {
 	}
 	if deptFilter != "" {
 		query = query.Where("maint_dept = ?", deptFilter)
+	}
+	// 按负责人过滤：只返回 project_owner 表中分配给该用户的项目
+	if ownerUsername != "" {
+		query = query.Where("id IN (SELECT project_id FROM project_owner WHERE project_type = 'software' AND owner_username = ?)", ownerUsername)
 	}
 
 	var projects []models.Project
@@ -233,7 +238,7 @@ func (h *AssetHandler) GetProjectComponents(c *gin.Context) {
 	groupFilter := c.Query("group")
 	versionFilter := c.Query("version")
 
-	query := h.db.Model(&models.ComponentSnapshot{}).Where("PROJECT_ID = ?", projectID)
+	query := h.db.Model(&models.Component{}).Where("PROJECT_ID = ?", projectID)
 
 	if keyword != "" {
 		query = query.Where("_name LIKE ? OR _group LIKE ?",
@@ -246,7 +251,7 @@ func (h *AssetHandler) GetProjectComponents(c *gin.Context) {
 		query = query.Where("_version = ?", versionFilter)
 	}
 
-	var components []models.ComponentSnapshot
+	var components []models.Component
 	if err := query.Order("LAST_RISKSCORE DESC").Find(&components).Error; err != nil {
 		response.Error(c, 500, "查询失败")
 		return
@@ -271,7 +276,7 @@ func (h *AssetHandler) GetProjectLicenseStats(c *gin.Context) {
 	var licenseStats []LicenseStat
 	h.db.Raw(`
 		SELECT LICENSE as license, COUNT(*) as count 
-		FROM component_snapshot 
+		FROM component 
 		WHERE PROJECT_ID = ? AND LICENSE IS NOT NULL AND LICENSE != ''
 		GROUP BY LICENSE
 	`, projectID).Scan(&licenseStats)
@@ -284,15 +289,15 @@ func (h *AssetHandler) GetProjectLicenseStats(c *gin.Context) {
 
 	var groupStats []LicenseGroupStat
 	h.db.Raw(`
-		SELECT 
+		SELECT
 			lg._name as group_name,
-			CASE 
+			CASE
 				WHEN lg.RISKWEIGHT <= 20 THEN '低风险'
 				WHEN lg.RISKWEIGHT <= 50 THEN '中风险'
 				ELSE '高风险'
 			END as risk_level,
 			COUNT(*) as count
-		FROM component_snapshot cs
+		FROM component cs
 		LEFT JOIN license l ON cs.LICENSE = l.LICENSE
 		LEFT JOIN licensegroup_license lgl ON l.id = lgl.license_id
 		LEFT JOIN licensegroup lg ON lgl.licensegroup_id = lg.id
@@ -314,15 +319,15 @@ func (h *AssetHandler) GetProjectDependencies(c *gin.Context) {
 		return
 	}
 
-	commitID := c.Query("commit_id")
+	currentID := c.Query("current_ID")
 
-	// 查询component_snapshot表中该项目的依赖组件
-	query := h.db.Table("component_snapshot").
-		Select("component_snapshot._name as component_name, component_snapshot._version as version, component_snapshot.LICENSE as license").
-		Where("component_snapshot.PROJECT_ID = ?", id)
+	// 查询component表中该项目的依赖组件
+	query := h.db.Table("component").
+		Select("component._name as component_name, component._version as version, component.LICENSE as license").
+		Where("component.PROJECT_ID = ?", id)
 
-	if commitID != "" {
-		query = query.Where("component_snapshot.current_id = ?", commitID)
+	if currentID != "" {
+		query = query.Where("component.current_id = ?", currentID)
 	}
 
 	var dependencies []map[string]interface{}
@@ -341,6 +346,7 @@ func (h *AssetHandler) ListInnerProjects(c *gin.Context) {
 	typeFilter := c.Query("type")
 	deptFilter := c.Query("dept_name")
 	groupFilter := c.Query("group_name")
+	ownerUsername := c.Query("owner_username") // 按负责人过滤（operator 查自己负责的）
 
 	query := h.db.Model(&models.ProjectInner{})
 
@@ -356,6 +362,10 @@ func (h *AssetHandler) ListInnerProjects(c *gin.Context) {
 	}
 	if groupFilter != "" {
 		query = query.Where("group_name = ?", groupFilter)
+	}
+	// 按负责人过滤：只返回 project_owner 表中分配给该用户的项目
+	if ownerUsername != "" {
+		query = query.Where("id IN (SELECT project_id FROM project_owner WHERE project_type = 'inner' AND owner_username = ?)", ownerUsername)
 	}
 
 	var projects []models.ProjectInner
@@ -375,7 +385,7 @@ func (h *AssetHandler) GetInnerProject(c *gin.Context) {
 	}
 
 	var project models.ProjectInner
-	if err := h.db.First(&project, id).Error; err != nil {
+	if err := h.db.Where("id = ?", id).First(&project).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			response.Error(c, 404, "项目不存在")
 			return
@@ -496,7 +506,12 @@ func (h *AssetHandler) ListComponents(c *gin.Context) {
 	keyword := c.Query("keyword")
 	classifierFilter := c.Query("classifier")
 
-	query := h.db.Model(&models.ComponentSnapshot{})
+	// 按 _group + _name + _version 去重，取每组最新记录
+	query := h.db.Table("component_snapshot").
+		Where("id IN (?)",
+			h.db.Table("component_snapshot").
+				Select("MAX(id)").
+				Group("_group, _name, _version"))
 
 	if keyword != "" {
 		query = query.Where("_name LIKE ? OR _group LIKE ?",
@@ -507,7 +522,7 @@ func (h *AssetHandler) ListComponents(c *gin.Context) {
 	}
 
 	var components []models.ComponentSnapshot
-	if err := query.Order("id DESC").Find(&components).Error; err != nil {
+	if err := query.Order("_group ASC, _name ASC").Find(&components).Error; err != nil {
 		response.Error(c, 500, "查询失败")
 		return
 	}
@@ -570,25 +585,49 @@ func (h *AssetHandler) GetRelatedProjects(c *gin.Context) {
 	response.Success(c, []models.ProjectInner{project})
 }
 
+// GetInnerProjectModules 获取自研项目的所有模块列表
+func (h *AssetHandler) GetInnerProjectModules(c *gin.Context) {
+	proCode := c.Query("pro_code")
+	if proCode == "" {
+		response.Error(c, 400, "项目编码不能为空")
+		return
+	}
+
+	var modules []struct {
+		ID         int64  `json:"id"`
+		ModuleCode string `json:"module_code"`
+	}
+	if err := h.db.Model(&models.ProjectInner{}).
+		Where("pro_code = ?", proCode).
+		Select("id, module_code").
+		Find(&modules).Error; err != nil {
+		response.Error(c, 500, "查询失败")
+		return
+	}
+
+	response.Success(c, modules)
+}
+
 // GetInnerProjectComponents 获取自研项目的组件信息
 func (h *AssetHandler) GetInnerProjectComponents(c *gin.Context) {
 	projectIDsStr := c.Query("project_ids")
-	commitID := c.Query("commit_id")
+	currentID := c.Query("current_ID")
 	moduleCode := c.Query("module_code")
 	keyword := c.Query("keyword")
 	version := c.Query("version")
 
-	// 使用Raw查询，JOIN project_inner获取module_code
-	// 注意：自研项目依赖存储在component_snapshot表
+	// 通过 PROJECT_ID 关联 project_inner 获取模块信息
 	query := h.db.Table("component_snapshot").
-		Select("component_snapshot.*, project_inner.module_code").
-		Joins("INNER JOIN project_inner ON component_snapshot.PROJECT_ID = project_inner.id")
+		Select("component_snapshot.*, pi.module_code, pi.pro_code").
+		Joins("LEFT JOIN project_inner pi ON component_snapshot.PROJECT_ID = pi.id")
 
-	// 按current_id（commit ID）直接查询component_snapshot表
-	if commitID != "" {
-		query = query.Where("component_snapshot.current_id = ?", commitID)
-	} else if projectIDsStr != "" {
-		// 解析多个project_ids
+	// 通过 current_ID 查询（全量或版本范围）
+	if currentID != "" {
+		query = query.Where("component_snapshot.current_id = ?", currentID)
+	}
+
+	// 通过 project_ids 过滤特定模块（PROJECT_ID 关联）
+	if projectIDsStr != "" {
 		var projectIDs []int64
 		for _, idStr := range strings.Split(projectIDsStr, ",") {
 			if id, err := strconv.ParseInt(strings.TrimSpace(idStr), 10, 64); err == nil {
@@ -602,15 +641,15 @@ func (h *AssetHandler) GetInnerProjectComponents(c *gin.Context) {
 
 	// 按模块名查询
 	if moduleCode != "" {
-		query = query.Where("project_inner.module_code LIKE ?", "%"+moduleCode+"%")
+		query = query.Where("pi.module_code = ?", moduleCode)
 	}
-	
+
 	// 按关键词查询
 	if keyword != "" {
 		query = query.Where("component_snapshot._name LIKE ? OR component_snapshot._group LIKE ?",
 			"%"+keyword+"%", "%"+keyword+"%")
 	}
-	
+
 	// 按版本查询
 	if version != "" {
 		query = query.Where("component_snapshot._version = ?", version)
@@ -628,7 +667,7 @@ func (h *AssetHandler) GetInnerProjectComponents(c *gin.Context) {
 // GetInnerProjectLicenseStats 获取自研项目的许可证统计
 func (h *AssetHandler) GetInnerProjectLicenseStats(c *gin.Context) {
 	projectIDsStr := c.Query("project_ids")
-	commitID := c.Query("commit_id")
+	currentID := c.Query("current_ID")
 	moduleCode := c.Query("module_code")
 	keyword := c.Query("keyword")
 	version := c.Query("version")
@@ -644,38 +683,21 @@ func (h *AssetHandler) GetInnerProjectLicenseStats(c *gin.Context) {
 		Count     int    `json:"count"`
 	}
 
+	// 通过 PROJECT_ID 关联 project_inner 获取模块信息
+	joinClause := "LEFT JOIN project_inner pi ON cs.PROJECT_ID = pi.id"
+
 	// 构建WHERE条件
-	whereConditions := []string{"LICENSE IS NOT NULL", "LICENSE != ''"}
+	whereConditions := []string{"cs.LICENSE IS NOT NULL", "cs.LICENSE != ''"}
 	args := []interface{}{}
 
-	// 按模块名查询需要JOIN
-	needJoin := moduleCode != ""
-	tableName := "component_snapshot"
-	selectFields := "LICENSE"
-	joinClause := ""
-
-	if needJoin {
-		tableName = "component_snapshot cs"
-		selectFields = "cs.LICENSE"
-		joinClause = "INNER JOIN project_inner pi ON cs.PROJECT_ID = pi.id"
-		whereConditions = append(whereConditions, "cs.LICENSE IS NOT NULL", "cs.LICENSE != ''")
-		
-		if moduleCode != "" {
-			whereConditions = append(whereConditions, "pi.module_code LIKE ?")
-			args = append(args, "%"+moduleCode+"%")
-		}
+	// 通过 current_ID 查询
+	if currentID != "" {
+		whereConditions = append(whereConditions, "cs.current_id = ?")
+		args = append(args, currentID)
 	}
 
-	// 按current_id（commit ID）查询
-	if commitID != "" {
-		if needJoin {
-			whereConditions = append(whereConditions, "cs.current_id = ?")
-		} else {
-			whereConditions = append(whereConditions, "current_id = ?")
-		}
-		args = append(args, commitID)
-	} else if projectIDsStr != "" {
-		// 解析多个project_ids
+	// 通过 project_ids 过滤特定模块（PROJECT_ID 关联）
+	if projectIDsStr != "" {
 		var projectIDs []int64
 		for _, idStr := range strings.Split(projectIDsStr, ",") {
 			if id, err := strconv.ParseInt(strings.TrimSpace(idStr), 10, 64); err == nil {
@@ -683,47 +705,40 @@ func (h *AssetHandler) GetInnerProjectLicenseStats(c *gin.Context) {
 			}
 		}
 		if len(projectIDs) > 0 {
-			if needJoin {
-				whereConditions = append(whereConditions, "cs.PROJECT_ID IN ?")
-			} else {
-				whereConditions = append(whereConditions, "PROJECT_ID IN ?")
-			}
+			whereConditions = append(whereConditions, "cs.PROJECT_ID IN ?")
 			args = append(args, projectIDs)
 		}
 	}
 
+	// 按模块名查询
+	if moduleCode != "" {
+		whereConditions = append(whereConditions, "pi.module_code = ?")
+		args = append(args, moduleCode)
+	}
+
 	// 按关键词查询
 	if keyword != "" {
-		if needJoin {
-			whereConditions = append(whereConditions, "(cs._name LIKE ? OR cs._group LIKE ?)")
-		} else {
-			whereConditions = append(whereConditions, "(_name LIKE ? OR _group LIKE ?)")
-		}
+		whereConditions = append(whereConditions, "(cs._name LIKE ? OR cs._group LIKE ?)")
 		args = append(args, "%"+keyword+"%", "%"+keyword+"%")
 	}
 
 	// 按版本查询
 	if version != "" {
-		if needJoin {
-			whereConditions = append(whereConditions, "cs._version = ?")
-		} else {
-			whereConditions = append(whereConditions, "_version = ?")
-		}
+		whereConditions = append(whereConditions, "cs._version = ?")
 		args = append(args, version)
 	}
 
-	// 构建完整SQL
 	whereClause := strings.Join(whereConditions, " AND ")
-	
+
 	// 查询许可证统计
 	licenseQuery := fmt.Sprintf(`
-		SELECT %s as license, COUNT(*) as count 
-		FROM %s %s
+		SELECT cs.LICENSE as license, COUNT(*) as count 
+		FROM component_snapshot cs %s
 		WHERE %s
-		GROUP BY license
-	`, selectFields, tableName, joinClause, whereClause)
+		GROUP BY cs.LICENSE
+	`, joinClause, whereClause)
 
-	// 查询分级统计 - 使用子查询避免GROUP BY问题
+	// 查询分级统计
 	groupQuery := fmt.Sprintf(`
 		SELECT 
 			group_name,
@@ -732,22 +747,22 @@ func (h *AssetHandler) GetInnerProjectLicenseStats(c *gin.Context) {
 		FROM (
 			SELECT 
 				CASE 
-					WHEN %s IN ('MIT', 'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC', 'Unlicense', '0BSD', 'CC0-1.0') THEN 'Permissive'
-					WHEN %s IN ('LGPL-2.1', 'LGPL-3.0', 'MPL-2.0', 'EPL-1.0', 'EPL-2.0', 'CDDL-1.0') THEN 'WeakCopyleft'
-					WHEN %s IN ('GPL-2.0', 'GPL-3.0', 'AGPL-3.0', 'SSPL', 'OSL-3.0') THEN 'StrongCopyleft'
+					WHEN cs.LICENSE IN ('MIT', 'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC', 'Unlicense', '0BSD', 'CC0-1.0') THEN 'Permissive'
+					WHEN cs.LICENSE IN ('LGPL-2.1', 'LGPL-3.0', 'MPL-2.0', 'EPL-1.0', 'EPL-2.0', 'CDDL-1.0') THEN 'WeakCopyleft'
+					WHEN cs.LICENSE IN ('GPL-2.0', 'GPL-3.0', 'AGPL-3.0', 'SSPL', 'OSL-3.0') THEN 'StrongCopyleft'
 					ELSE '未分类'
 				END as group_name,
 				CASE 
-					WHEN %s IN ('MIT', 'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC', 'Unlicense', '0BSD', 'CC0-1.0') THEN '低风险'
-					WHEN %s IN ('LGPL-2.1', 'LGPL-3.0', 'MPL-2.0', 'EPL-1.0', 'EPL-2.0', 'CDDL-1.0') THEN '中风险'
-					WHEN %s IN ('GPL-2.0', 'GPL-3.0', 'AGPL-3.0', 'SSPL', 'OSL-3.0') THEN '高风险'
+					WHEN cs.LICENSE IN ('MIT', 'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC', 'Unlicense', '0BSD', 'CC0-1.0') THEN '低风险'
+					WHEN cs.LICENSE IN ('LGPL-2.1', 'LGPL-3.0', 'MPL-2.0', 'EPL-1.0', 'EPL-2.0', 'CDDL-1.0') THEN '中风险'
+					WHEN cs.LICENSE IN ('GPL-2.0', 'GPL-3.0', 'AGPL-3.0', 'SSPL', 'OSL-3.0') THEN '高风险'
 					ELSE '未分类'
 				END as risk_level
-			FROM %s %s
+			FROM component_snapshot cs %s
 			WHERE %s
 		) as license_groups
 		GROUP BY group_name, risk_level
-	`, selectFields, selectFields, selectFields, selectFields, selectFields, selectFields, tableName, joinClause, whereClause)
+	`, joinClause, whereClause)
 
 	var licenseStats []LicenseStat
 	h.db.Raw(licenseQuery, args...).Scan(&licenseStats)

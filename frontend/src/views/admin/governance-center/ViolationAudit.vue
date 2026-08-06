@@ -18,13 +18,16 @@
           <el-tag :type="violationStatusType(row.status)" size="small">{{ violationStatusLabel(row.status) }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="discoveredDate" label="发现日期" width="110" />
+      <el-table-column prop="discoveredDate" label="发现日期" width="180">
+        <template #default="{ row }">{{ formatTime(row.discoveredDate) }}</template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script setup lang="ts">
 import { mockViolations } from '@/mock/admin'
+import { formatTime } from '@/utils/format'
 
 const violations = mockViolations
 

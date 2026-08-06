@@ -119,68 +119,8 @@
       </el-tab-pane>
     </el-tabs>
 
-    <!-- 软件详情对话框 -->
-    <el-dialog
-      v-model="softwareDetailVisible"
-      :title="currentSoftware?.name || '软件详情'"
-      width="900px"
-    >
-      <!-- 基本信息 -->
-      <el-card shadow="never" style="margin-bottom: 20px">
-        <template #header>
-          <span style="font-weight: 600">基本信息</span>
-        </template>
-        <el-descriptions :column="2" border>
-          <el-descriptions-item label="软件名称">{{ currentSoftware?.name }}</el-descriptions-item>
-          <el-descriptions-item label="当前版本">{{ currentSoftware?.version }}</el-descriptions-item>
-          <el-descriptions-item label="等级">
-            <el-tag :type="gradeType(currentSoftware?.grade)" size="small" effect="dark">
-              {{ currentSoftware?.grade }}
-            </el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item label="类型">{{ currentSoftware?.type }}</el-descriptions-item>
-          <el-descriptions-item label="负责人">{{ currentSoftware?.owner }}</el-descriptions-item>
-          <el-descriptions-item label="部门">{{ currentSoftware?.department }}</el-descriptions-item>
-          <el-descriptions-item label="描述" :span="2">{{ currentSoftware?.description }}</el-descriptions-item>
-        </el-descriptions>
-      </el-card>
-
-      <!-- 缺陷信息 -->
-      <el-card shadow="never">
-        <template #header>
-          <div style="display: flex; justify-content: space-between; align-items: center">
-            <span style="font-weight: 600">缺陷信息</span>
-            <el-input
-              v-model="defectSearchText"
-              placeholder="搜索缺陷标题或编号"
-              style="width: 300px"
-              clearable
-              @input="filterDefects"
-            >
-              <template #prefix>
-                <el-icon><Search /></el-icon>
-              </template>
-            </el-input>
-          </div>
-        </template>
-        <el-table :data="filteredDefects" border>
-          <el-table-column prop="id" label="缺陷编号" width="140" />
-          <el-table-column prop="title" label="缺陷标题" min-width="200" />
-          <el-table-column prop="severity" label="严重程度" width="100" align="center">
-            <template #default="{ row }">
-              <el-tag :type="severityType(row.severity)" size="small">{{ row.severity }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="status" label="状态" width="100" align="center">
-            <template #default="{ row }">
-              <el-tag v-if="row.status === 'open'" type="danger" size="small">未修复</el-tag>
-              <el-tag v-else type="success" size="small">已修复</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="discoveredDate" label="发现日期" width="120" />
-        </el-table>
-      </el-card>
-    </el-dialog>
+    <!-- 软件详情对话框（复用 ProjectDetailDialog 组件，展示依赖信息） -->
+    <ProjectDetailDialog v-model="softwareDetailVisible" :project-data="currentSoftware" />
 
     <!-- 批量处置对话框 -->
     <el-dialog
@@ -347,11 +287,13 @@ import { ElMessage } from 'element-plus'
 import { Search, EditPen, Plus } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import request from '@/api'
+import { formatTime } from '@/utils/format'
+import ProjectDetailDialog from '@/components/business/ProjectDetailDialog.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
-// 根据路径前缀判断是否为专员
-const isSpecialist = computed(() => route.path.startsWith('/specialist'))
+// specialist 路由下始终看部门全部
+const isSpecialist = computed(() => true)
 
 const activeTab = ref('software')
 const loading = ref(false)
@@ -363,13 +305,16 @@ const softwareList = ref<any[]>([])
 async function loadSoftwareList() {
   loading.value = true
   try {
-    const team = userStore.userInfo?.team || ''
+    // specialist：按部门查询所有开源基础软件
+    const dept = userStore.userInfo?.department || ''
     const res: any = await request.get('/asset/projects', {
-      params: { maint_dept: team }
+      params: { maint_dept: dept }
     })
+    console.log('[SpecialistMyOps] loadSoftwareList:', { dept, count: (res || []).length })
     // 响应拦截器已返回res.data，res直接是数组
+    // 保留原始字段（_name, _version, id 等）供 ProjectDetailDialog 使用
     softwareList.value = (res || []).map((item: any) => ({
-      id: item.id,
+      ...item,
       name: item._name,
       version: item._version,
       grade: item.applicable_level || 'A',
@@ -444,30 +389,7 @@ const filteredDefects = ref<any[]>([])
 
 function showSoftwareDetail(software: any) {
   currentSoftware.value = software
-  // 获取该软件的缺陷
-  softwareDefects.value = defectList.value
-    .filter(d => d.softwareName === software.name)
-    .map(d => ({
-      id: d.id,
-      title: d.title,
-      severity: d.severity,
-      status: d.status === 'pending' ? 'open' : 'resolved',
-      discoveredDate: '-',
-    }))
-  filteredDefects.value = softwareDefects.value
-  defectSearchText.value = ''
   softwareDetailVisible.value = true
-}
-
-function filterDefects() {
-  if (!defectSearchText.value) {
-    filteredDefects.value = softwareDefects.value
-    return
-  }
-  const text = defectSearchText.value.toLowerCase()
-  filteredDefects.value = softwareDefects.value.filter(d =>
-    d.title.toLowerCase().includes(text) || d.id.toLowerCase().includes(text)
-  )
 }
 
 // 缺陷查询和筛选
@@ -519,30 +441,6 @@ const currentDefectId = ref('')
 const defectDetailDialogVisible = ref(false)
 const currentDefect = ref<any>(null)
 
-// Mock数据：项目列表
-const mockProjectList = [
-  { name: '订单管理系统', dept: '技术研发部', owners: ['张三'] },
-  { name: '支付系统', dept: '技术研发部', owners: ['李四'] },
-  { name: '用户中心', dept: '平台研发部', owners: ['王五'] },
-  { name: '消息平台', dept: '平台研发部', owners: ['赵六'] },
-]
-
-// Mock数据：软件列表
-const mockSoftwareList = [
-  { name: 'Redis', version: '7.0', owners: ['张三'] },
-  { name: 'Spring Boot', version: '3.2', owners: ['李四'] },
-  { name: 'MySQL', version: '8.0', owners: ['王五'] },
-  { name: 'Nginx', version: '1.25', owners: ['赵六'] },
-]
-
-// Mock数据：处置人列表
-const mockAssigneeList = [
-  { name: '张三', dept: '技术研发部', role: '软件负责人' },
-  { name: '李四', dept: '平台研发部', role: '软件负责人' },
-  { name: '王五', dept: '运维部', role: '运维工程师' },
-  { name: '赵六', dept: '安全部', role: '软件负责人' },
-]
-
 function handleSelectionChange(selection: any[]) {
   selectedDefects.value = selection
 }
@@ -558,9 +456,9 @@ function showBatchDisposeDialog() {
   // 为每个选中的缺陷初始化表单
   selectedDefects.value.forEach(defect => {
     batchDisposeForms.value[defect.id] = {
-      projectList: defect.defectType === 'dependency' ? [...mockProjectList] : [],
-      softwareList: defect.defectType === 'dependency' ? [...mockSoftwareList] : [],
-      assigneeList: defect.defectType === 'software' ? [...mockAssigneeList] : [],
+      projectList: [],
+      softwareList: [],
+      assigneeList: [],
     }
   })
   
@@ -574,9 +472,9 @@ function onBatchStatusChange() {
       const defect = selectedDefects.value.find(d => d.id === defectId)
       if (defect) {
         batchDisposeForms.value[defectId] = {
-          projectList: defect.defectType === 'dependency' ? [...mockProjectList] : [],
-          softwareList: defect.defectType === 'dependency' ? [...mockSoftwareList] : [],
-          assigneeList: defect.defectType === 'software' ? [...mockAssigneeList] : [],
+          projectList: [],
+          softwareList: [],
+          assigneeList: [],
         }
       }
     })

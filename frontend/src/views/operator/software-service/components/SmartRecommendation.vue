@@ -67,12 +67,11 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import type { RecommendedComponent } from '@/mock/software'
 import { MagicStick, Connection } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
 const props = defineProps<{
-  recommendations: RecommendedComponent[]
+  recommendations: any[]
 }>()
 
 const router = useRouter()
@@ -83,7 +82,7 @@ function getActivityColor(score: number) {
   return '#F56C6C'
 }
 
-function handleApply(item: RecommendedComponent) {
+function handleApply(item: any) {
   ElMessage.success(`正在跳转到引入申请页面...`)
   router.push({
     path: '/operator/my-task',

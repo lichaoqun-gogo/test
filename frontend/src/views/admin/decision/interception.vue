@@ -72,7 +72,9 @@
     <el-card class="detail-table">
       <template #header>最近拦截记录</template>
       <el-table :data="interceptionRecords" stripe>
-        <el-table-column prop="date" label="拦截时间" width="160" />
+        <el-table-column prop="date" label="拦截时间" width="180">
+          <template #default="{ row }">{{ formatTime(row.date) }}</template>
+        </el-table-column>
         <el-table-column prop="componentName" label="组件名称" width="150" />
         <el-table-column prop="version" label="版本" width="100" />
         <el-table-column prop="type" label="拦截类型" width="120">
@@ -101,6 +103,7 @@ import {
   TitleComponent,
 } from 'echarts/components'
 import type { EChartsOption } from 'echarts'
+import { formatTime } from '@/utils/format'
 
 use([
   CanvasRenderer,

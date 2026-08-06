@@ -39,16 +39,21 @@
         </div>
 
         <el-table :data="filteredCategories" stripe style="margin-top: 12px">
-          <el-table-column prop="group_name" label="许可证分类" min-width="180" />
-          <el-table-column prop="risk_weight" label="风险权重" width="120">
+          <el-table-column prop="name" label="许可证分类" min-width="180" />
+          <el-table-column prop="riskWeight" label="风险权重" width="120">
             <template #default="{ row }">
-              <el-tag :type="getRiskLevelTag(row.risk_level)" size="small">
-                {{ row.risk_weight }}
+              <el-tag :type="getRiskLevelTag(getRiskLevel(row.riskWeight)) as any" size="small">
+                {{ row.riskWeight }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="create_time" label="创建时间" width="180" />
-          <el-table-column prop="update_time" label="更新时间" width="180" />
+          <el-table-column prop="licenseCount" label="许可证数量" width="120" />
+          <el-table-column prop="createTime" label="创建时间" width="180">
+            <template #default="{ row }">{{ formatTime(row.createTime) }}</template>
+          </el-table-column>
+          <el-table-column prop="updateTime" label="更新时间" width="180">
+            <template #default="{ row }">{{ formatTime(row.updateTime) }}</template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
 
@@ -65,7 +70,7 @@
             <el-option label="否" :value="0" />
           </el-select>
           <el-select v-model="filterCategory" placeholder="许可证分类" clearable style="width: 180px">
-            <el-option v-for="cat in licenseCategories" :key="cat.id" :label="cat.group_name" :value="cat.group_name" />
+            <el-option v-for="cat in licenseCategories" :key="cat.id" :label="cat.name" :value="cat.name" />
           </el-select>
           <el-button @click="resetFilters">
             <el-icon><Refresh /></el-icon> 重置
@@ -75,7 +80,7 @@
         <el-table :data="filteredLicenses" stripe style="margin-top: 12px">
           <el-table-column prop="_name" label="许可证名称" min-width="200">
             <template #default="{ row }">
-              <el-link type="primary" @click="openDetail(row)">{{ row._name }}</el-link>
+              <el-link type="primary" @click="openDetail(row as any)">{{ row._name }}</el-link>
             </template>
           </el-table-column>
           <el-table-column prop="LICENSE" label="许可证代号" width="150" />
@@ -100,11 +105,11 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="riskWeight" label="风险分值" width="100" sortable />
-          <el-table-column prop="license_group" label="许可证分类" width="150">
+          <el-table-column prop="RISKWEIGHT" label="风险分值" width="100" sortable />
+          <el-table-column prop="LICENSEGROUP" label="许可证分类" width="150">
             <template #default="{ row }">
-              <el-tag :type="getRiskLevelTag(row.risk_level)" size="small">
-                {{ row.license_group || '-' }}
+              <el-tag :type="getRiskLevelTag(getRiskLevel(row.RISKWEIGHT)) as any" size="small">
+                {{ row.LICENSEGROUP || '-' }}
               </el-tag>
             </template>
           </el-table-column>
@@ -170,8 +175,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { Refresh } from '@element-plus/icons-vue'
-import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils/format'
+import api from '@/api'
 
 interface LicenseItem {
   id: number
@@ -180,11 +186,12 @@ interface LicenseItem {
   IS_OSIAPPROVED: number
   IS_DEPRECATED: number
   FSFLIBRE: number
-  _COMMENT: string
-  _text: string
-  TEMPLATE: string
-  HEADER: string
-  riskWeight?: number
+  _COMMENT?: string
+  _text?: string
+  TEMPLATE?: string
+  HEADER?: string
+  LICENSEGROUP?: string
+  RISKWEIGHT?: number
   license_group?: string
   risk_level?: string
 }
@@ -208,28 +215,24 @@ const detailLoading = ref(false)
 async function loadLicenses() {
   loading.value = true
   try {
-    const res = await axios.get('/api/v1/risk/licenses', {
+    const res: any = await api.get('/risk/licenses', {
       params: { page: 1, pageSize: 1000 }
     })
-    if (res.data.code === 200 || res.data.code === 0) {
-      const list = res.data.data.list || res.data.data || []
-      // 转换字段名：驼峰 → 数据库字段名
-      licenses.value = list.map((item: any) => ({
-        id: item.id,
-        LICENSE: item.licenseCode || item.LICENSE,
-        _name: item.name || item._name,
-        IS_OSIAPPROVED: item.isOsiApproved ?? item.IS_OSIAPPROVED,
-        IS_DEPRECATED: item.isDeprecated ?? item.IS_DEPRECATED,
-        FSFLIBRE: item.fsfLibre ?? item.FSFLIBRE,
-        _COMMENT: item.comment || item._COMMENT,
-        _text: item.text || item._text,
-        TEMPLATE: item.template || item.TEMPLATE,
-        HEADER: item.header || item.HEADER,
-        riskWeight: item.riskWeight,
-        license_group: item.license_group,
-        risk_level: item.risk_level,
-      }))
-    }
+    const list = res.list || res || []
+    licenses.value = list.map((item: any) => ({
+      id: item.ID || item.id,
+      LICENSE: item.LICENSE,
+      _name: item._NAME || item._name,
+      IS_OSIAPPROVED: item.IS_OSIAPPROVED,
+      IS_DEPRECATED: item.IS_DEPRECATED,
+      FSFLIBRE: item.FSFLIBRE,
+      LICENSEGROUP: item.LICENSEGROUP,
+      RISKWEIGHT: item.RISKWEIGHT,
+      _COMMENT: item._COMMENT,
+      _text: item._text,
+      TEMPLATE: item.TEMPLATE,
+      HEADER: item.HEADER,
+    }))
   } catch (error) {
     console.error('加载许可证失败:', error)
   } finally {
@@ -242,28 +245,21 @@ async function openDetail(license: LicenseItem) {
   detailActiveTab.value = 'overview'
   detailVisible.value = true
   detailLoading.value = true
-  
+
   try {
-    const res = await axios.get(`/api/v1/risk/licenses/${license.id}`)
-    if (res.data.code === 200 || res.data.code === 0) {
-      const item = res.data.data
-      // 转换字段名
-      currentLicense.value = {
-        id: item.id,
-        LICENSE: item.LICENSE || item.licenseCode,
-        _name: item._name || item.name,
-        IS_OSIAPPROVED: item.IS_OSIAPPROVED ?? item.isOsiApproved,
-        IS_DEPRECATED: item.IS_DEPRECATED ?? item.isDeprecated,
-        FSFLIBRE: item.FSFLIBRE ?? item.fsfLibre,
-        _COMMENT: item._COMMENT || item.comment,
-        _text: item._text || item.text,
-        TEMPLATE: item.TEMPLATE || item.template,
-        HEADER: item.HEADER || item.header,
-        license_group: item.license_group,
-        risk_level: item.risk_level,
-      }
-    } else {
-      ElMessage.error('获取许可证详情失败')
+    const res: any = await api.get(`/risk/licenses/${license.id}`)
+    currentLicense.value = {
+      id: res.id,
+      LICENSE: res.LICENSE,
+      _name: res._name,
+      IS_OSIAPPROVED: res.IS_OSIAPPROVED,
+      IS_DEPRECATED: res.IS_DEPRECATED,
+      FSFLIBRE: res.FSFLIBRE,
+      _COMMENT: res._COMMENT,
+      _text: res._text,
+      TEMPLATE: res.TEMPLATE,
+      HEADER: res.HEADER,
+      license_group: res.license_group,
     }
   } catch (error) {
     console.error('获取详情失败:', error)
@@ -274,57 +270,42 @@ async function openDetail(license: LicenseItem) {
 }
 
 // 许可证分类数据
-const licenseCategories = ref([
-  {
-    id: 1,
-    group_name: 'Permissive',
-    risk_weight: 20,
-    risk_level: '低风险',
-    create_time: '2024-01-15 10:00:00',
-    update_time: '2024-01-15 10:00:00',
-  },
-  {
-    id: 2,
-    group_name: 'WeakCopyleft',
-    risk_weight: 60,
-    risk_level: '中风险',
-    create_time: '2024-01-15 10:00:00',
-    update_time: '2024-01-15 10:00:00',
-  },
-  {
-    id: 3,
-    group_name: 'StrongCopyleft',
-    risk_weight: 80,
-    risk_level: '高风险',
-    create_time: '2024-01-15 10:00:00',
-    update_time: '2024-01-15 10:00:00',
-  },
-  {
-    id: 4,
-    group_name: '未分类',
-    risk_weight: 50,
-    risk_level: '中风险',
-    create_time: '2024-01-15 10:00:00',
-    update_time: '2024-01-15 10:00:00',
-  },
-])
+const licenseCategories = ref<any[]>([])
+
+async function loadLicenseCategories() {
+  try {
+    const res: any = await api.get('/risk/license-groups')
+    licenseCategories.value = res || []
+  } catch (error) {
+    console.error('加载许可证分类失败:', error)
+    licenseCategories.value = []
+  }
+}
 
 const filteredCategories = computed(() => {
   if (!categorySearch.value) return licenseCategories.value
   return licenseCategories.value.filter(cat =>
-    cat.group_name.toLowerCase().includes(categorySearch.value.toLowerCase())
+    cat.name.toLowerCase().includes(categorySearch.value.toLowerCase())
   )
 })
 
 const filteredLicenses = computed(() => {
   return licenses.value.filter(item => {
-    const matchSearch = !searchText.value || item.LICENSE.toLowerCase().includes(searchText.value.toLowerCase()) || item._name.toLowerCase().includes(searchText.value.toLowerCase())
-    const matchOsi = filterOsiApproved.value === '' || item.IS_OSIAPPROVED === filterOsiApproved.value
-    const matchDeprecated = filterDeprecated.value === '' || item.IS_DEPRECATED === filterDeprecated.value
-    const matchCategory = !filterCategory.value || item.license_group === filterCategory.value
+    const search = searchText.value?.toLowerCase() || ''
+    const matchSearch = !search || (item.LICENSE || '').toLowerCase().includes(search) || (item._name || '').toLowerCase().includes(search)
+    const matchOsi = filterOsiApproved.value === '' || filterOsiApproved.value === undefined || filterOsiApproved.value === null || item.IS_OSIAPPROVED === filterOsiApproved.value
+    const matchDeprecated = filterDeprecated.value === '' || filterDeprecated.value === undefined || filterDeprecated.value === null || item.IS_DEPRECATED === filterDeprecated.value
+    const matchCategory = !filterCategory.value || item.LICENSEGROUP === filterCategory.value
     return matchSearch && matchOsi && matchDeprecated && matchCategory
   })
 })
+
+function getRiskLevel(riskWeight?: number): string {
+  if (riskWeight == null) return ''
+  if (riskWeight <= 20) return '低风险'
+  if (riskWeight <= 50) return '中风险'
+  return '高风险'
+}
 
 function getRiskLevelTag(riskLevel: string): string {
   if (!riskLevel) return ''
@@ -343,6 +324,7 @@ function resetFilters() {
 
 onMounted(() => {
   loadLicenses()
+  loadLicenseCategories()
 })
 </script>
 

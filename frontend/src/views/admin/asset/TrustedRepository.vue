@@ -23,7 +23,7 @@
         <el-descriptions-item label="Secret Token">
           <el-text type="info">****-****-****-{{ webhookConfig.secretToken.slice(-4) }}</el-text>
         </el-descriptions-item>
-        <el-descriptions-item label="最后配置时间">{{ webhookConfig.lastConfigured }}</el-descriptions-item>
+        <el-descriptions-item label="最后配置时间">{{ formatTime(webhookConfig.lastConfigured) }}</el-descriptions-item>
         <el-descriptions-item label="累计推送次数">{{ webhookConfig.totalPushes }}</el-descriptions-item>
         <el-descriptions-item label="推送成功率">{{ webhookConfig.successRate }}</el-descriptions-item>
       </el-descriptions>
@@ -63,7 +63,9 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="receivedAt" label="接收时间" width="160" />
+        <el-table-column prop="receivedAt" label="接收时间" width="160">
+          <template #default="{ row }">{{ formatTime(row.receivedAt) }}</template>
+        </el-table-column>
         <el-table-column prop="metadata" label="元数据" min-width="220">
           <template #default="{ row }">
             <el-popover trigger="click" placement="left" width="400">
@@ -97,7 +99,7 @@
     <!-- 元数据同步结果 -->
     <el-card style="margin-top: 16px">
       <template #header>
-        <span><el-icon :size="18" style="margin-right: 8px"><Sync /></el-icon> 元数据同步结果</span>
+        <span><el-icon :size="18" style="margin-right: 8px"><Refresh /></el-icon> 元数据同步结果</span>
       </template>
 
       <el-table :data="syncResults" stripe>
@@ -111,7 +113,9 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="syncTime" label="同步时间" width="160" />
+        <el-table-column prop="syncTime" label="同步时间" width="160">
+          <template #default="{ row }">{{ formatTime(row.syncTime) }}</template>
+        </el-table-column>
         <el-table-column prop="details" label="同步详情" min-width="200">
           <template #default="{ row }">
             <el-text type="info" size="small">{{ row.details }}</el-text>
@@ -152,8 +156,9 @@
 <script setup lang="ts">
 import { ref, computed, reactive } from 'vue'
 import { mockWebhookEvents } from '@/mock/admin'
-import { Connection, Document, Sync } from '@element-plus/icons-vue'
+import { Connection, Document, Refresh } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils/format'
 
 // Webhook 配置假数据
 const webhookConfig = reactive({

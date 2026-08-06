@@ -43,7 +43,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="currentStep" label="当前步骤" width="120" />
-      <el-table-column prop="createdAt" label="创建时间" width="120" />
+      <el-table-column prop="createdAt" label="创建时间" width="120">
+        <template #default="{ row }">{{ formatTime(row.createdAt) }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="100" fixed="right">
         <template #default="{ row }">
           <el-button v-if="row.externalLink" type="primary" link size="small" @click="openExternal(row.externalLink!)">
@@ -56,19 +58,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { mockTickets } from '@/mock/tickets'
 import { APPLICATION_TYPE_LABELS } from '@/types'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const filterType = ref('')
 const filterStatus = ref('')
 
-const hasRiskLevel = computed(() => mockTickets.some(t => t.riskLevel))
+const tickets = ref<any[]>([])
+const hasRiskLevel = computed(() => tickets.value.some(t => t.riskLevel))
 
 const filteredTickets = computed(() => {
-  let list = mockTickets
+  let list = tickets.value
   if (filterType.value) {
     list = list.filter(t => t.type === filterType.value)
   }
@@ -76,6 +79,14 @@ const filteredTickets = computed(() => {
     list = list.filter(t => t.status === filterStatus.value)
   }
   return list
+})
+
+function loadTickets() {
+  // TODO: 调用后端 API 获取工单列表
+}
+
+onMounted(() => {
+  loadTickets()
 })
 
 function viewDetail(id: string) {

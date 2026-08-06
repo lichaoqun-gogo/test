@@ -198,7 +198,7 @@ auth:
 
 ### 4.3 上线替换地址（关键）
 
-上线时只需修改配置文件 `auth.cas.serverURL` 一个地址：
+上线时只需修改配置文件 `auth.cas.serverURL` 一个地址，其余项全部自动推导，无需手动填写：
 
 ```yaml
 auth:
@@ -207,13 +207,15 @@ auth:
     serverURL: https://cas.company.com  # 替换为公司 CAS 服务器地址
 ```
 
-以下配置均为**可选**，未配置时自动推导，无需手动填写：
+其他配置项均**可选**，未配置时自动处理：
 
 | 配置项 | 自动推导规则 | 说明 |
 |--------|-------------|------|
 | `serviceURL` | 从请求 Host 推导：`{scheme}://{host}/api/v1/auth/cas/callback` | 后端回调地址，Nginx 反代场景自动正确 |
 | `validateURL` | 从 serverURL 推导：`{serverURL}/serviceValidate` | CAS 2.0 标准票据验证路径 |
 | `frontendURL` | 为空时用相对路径 `/auth/cas-callback?token=xxx` 重定向 | 前后端同域/Nginx 反代时自动生效 |
+| `jwt.secret` | 内置默认值 | JWT 签名密钥，无需配置 |
+| `jwt.expiry` | 默认 86400（24 小时） | Token 过期时间 |
 
 > **特殊情况**：如果前端和后端不同域（未通过 Nginx 反代到同域），需要额外配置 `frontendURL` 指向前端地址。
 

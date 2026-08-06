@@ -18,7 +18,9 @@
       <el-table-column prop="fileName" label="文件名" />
       <el-table-column prop="status" label="解析状态" />
       <el-table-column prop="componentCount" label="组件数" />
-      <el-table-column prop="createdAt" label="上传时间" />
+      <el-table-column prop="createdAt" label="上传时间" width="180">
+        <template #default="{ row }">{{ formatTime(row.createdAt) }}</template>
+      </el-table-column>
     </el-table>
   </div>
 </template>

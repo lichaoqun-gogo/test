@@ -37,9 +37,9 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="current_commit_id" label="当前版本" width="320">
+      <el-table-column prop="current_ID" label="当前版本" width="320">
         <template #default="{ row }">
-          <el-link type="primary" @click="openDetail(row as any)">{{ row.current_commit_id }}</el-link>
+          <el-link type="primary" @click="openDetail(row as any)">{{ row.current_ID }}</el-link>
         </template>
       </el-table-column>
       <el-table-column prop="group_name" label="团队" width="120" />
@@ -62,7 +62,7 @@
     <el-dialog v-model="detailVisible" :title="detailProjectName" width="900px">
       <div class="commit-query">
         <span class="query-label">当前Commit ID：{{ detailCurrentCommitId }}</span>
-        <el-input v-model="detailCommitId" placeholder="输入历史Commit ID查询" style="width: 300px; margin-left: 16px" @keyup.enter="loadDetailData">
+        <el-input v-model="detailCommitId" placeholder="输入历史Commit ID查询" clearable style="width: 300px; margin-left: 16px" @keyup.enter="loadDetailData" @clear="handleClearCommitId">
           <template #append>
             <el-button @click="loadDetailData">查询</el-button>
           </template>
@@ -71,7 +71,9 @@
 
       <el-table :data="detailList" stripe style="margin-top: 16px" v-loading="detailLoading">
         <el-table-column prop="moduleName" label="模块名称" min-width="150" />
-        <el-table-column prop="checkTime" label="核查时间" width="180" />
+        <el-table-column prop="checkTime" label="核查时间" width="180">
+          <template #default="{ row }">{{ formatTime(row.checkTime) }}</template>
+        </el-table-column>
         <el-table-column prop="disposal" label="处置" width="100" align="center">
           <template #default="{ row }">
             <el-tag :type="row.disposal === '阻断' ? 'danger' : 'warning'" size="small">
@@ -88,13 +90,14 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils/format'
+import api from '@/api'
 
 interface CicdItem {
   id: number
   pro_code: string
-  current_commit_id: string
+  current_ID: string
   group_name: string
   dept_name: string
   disposalType: string
@@ -147,13 +150,9 @@ async function loadData() {
       disposalType: queryParams.value.disposalType,
       level: queryParams.value.level,
     }
-    const res = await axios.get('/api/v1/risk/cicd-check', { params })
-    if (res.data.code === 200 || res.data.code === 0) {
-      cicdList.value = res.data.data.list || []
-      total.value = res.data.data.total || 0
-    } else {
-      ElMessage.error(res.data.msg || '请求失败')
-    }
+    const res: any = await api.get('/risk/cicd-check', { params })
+    cicdList.value = res.list || []
+    total.value = res.total || 0
   } catch (error) {
     console.error('加载CICD数据失败:', error)
   } finally {
@@ -188,9 +187,14 @@ const detailLoading = ref(false)
 
 function openDetail(row: CicdItem) {
   detailProjectName.value = row.pro_code
-  detailCurrentCommitId.value = row.current_commit_id
-  detailCommitId.value = row.current_commit_id
+  detailCurrentCommitId.value = row.current_ID
+  detailCommitId.value = row.current_ID
   detailVisible.value = true
+  loadDetailData()
+}
+
+function handleClearCommitId() {
+  detailCommitId.value = detailCurrentCommitId.value
   loadDetailData()
 }
 
@@ -203,10 +207,8 @@ async function loadDetailData() {
     if (detailCommitId.value) {
       params.commitId = detailCommitId.value
     }
-    const res = await axios.get('/api/v1/risk/cicd-check/detail', { params })
-    if (res.data.code === 200 || res.data.code === 0) {
-      detailList.value = res.data.data || []
-    }
+    const res: any = await api.get('/risk/cicd-check/detail', { params })
+    detailList.value = res || []
   } catch (error) {
     console.error('加载详情失败:', error)
   } finally {

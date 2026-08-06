@@ -107,7 +107,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="uploadedBy" label="上传人" width="90" />
-      <el-table-column prop="parseTime" label="上传时间" width="160" />
+      <el-table-column prop="parseTime" label="上传时间" width="160">
+        <template #default="{ row }">{{ formatTime(row.parseTime) }}</template>
+      </el-table-column>
       <el-table-column prop="result" label="解析结果" min-width="200" show-overflow-tooltip />
       <el-table-column label="操作" width="140" fixed="right">
         <template #default="{ row }">
@@ -127,7 +129,7 @@
         <el-descriptions-item label="安全风险数" label-class-name="risk-label">{{ currentRecord.riskCount }}</el-descriptions-item>
         <el-descriptions-item label="许可证风险数">{{ currentRecord.licenseRiskCount }}</el-descriptions-item>
         <el-descriptions-item label="上传人">{{ currentRecord.uploadedBy }}</el-descriptions-item>
-        <el-descriptions-item label="上传时间">{{ currentRecord.parseTime }}</el-descriptions-item>
+        <el-descriptions-item label="上传时间">{{ formatTime(currentRecord.parseTime) }}</el-descriptions-item>
         <el-descriptions-item label="入库状态">
           <el-tag type="success" size="small">已入库</el-tag>
         </el-descriptions-item>
@@ -155,6 +157,7 @@ import { mockScaParseRecords } from '@/mock/admin'
 import { UploadFilled, FolderOpened, Loading } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import type { ScaParseRecord } from '@/mock/admin'
+import { formatTime } from '@/utils/format'
 
 const parseRecords = ref<ScaParseRecord[]>([...mockScaParseRecords])
 const resultVisible = ref(false)

@@ -165,68 +165,8 @@
       </el-descriptions>
     </el-dialog>
 
-    <!-- 软件详情对话框 -->
-    <el-dialog
-      v-model="softwareDetailVisible"
-      :title="currentSoftware?.name || '软件详情'"
-      width="900px"
-    >
-      <!-- 基本信息 -->
-      <el-card shadow="never" style="margin-bottom: 20px">
-        <template #header>
-          <span style="font-weight: 600">基本信息</span>
-        </template>
-        <el-descriptions :column="2" border>
-          <el-descriptions-item label="软件名称">{{ currentSoftware?.name }}</el-descriptions-item>
-          <el-descriptions-item label="当前版本">{{ currentSoftware?.version }}</el-descriptions-item>
-          <el-descriptions-item label="等级">
-            <el-tag :type="gradeType(currentSoftware?.grade)" size="small" effect="dark">
-              {{ currentSoftware?.grade }}
-            </el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item label="类型">{{ currentSoftware?.type }}</el-descriptions-item>
-          <el-descriptions-item label="负责人">{{ currentSoftware?.owner }}</el-descriptions-item>
-          <el-descriptions-item label="部门">{{ currentSoftware?.department }}</el-descriptions-item>
-          <el-descriptions-item label="描述" :span="2">{{ currentSoftware?.description }}</el-descriptions-item>
-        </el-descriptions>
-      </el-card>
-
-      <!-- 缺陷信息 -->
-      <el-card shadow="never">
-        <template #header>
-          <div style="display: flex; justify-content: space-between; align-items: center">
-            <span style="font-weight: 600">缺陷信息</span>
-            <el-input
-              v-model="defectSearchText"
-              placeholder="搜索缺陷标题或编号"
-              style="width: 300px"
-              clearable
-              @input="filterDefects"
-            >
-              <template #prefix>
-                <el-icon><Search /></el-icon>
-              </template>
-            </el-input>
-          </div>
-        </template>
-        <el-table :data="filteredDefects" border>
-          <el-table-column prop="id" label="缺陷编号" width="140" />
-          <el-table-column prop="title" label="缺陷标题" min-width="200" />
-          <el-table-column prop="severity" label="严重程度" width="100" align="center">
-            <template #default="{ row }">
-              <el-tag :type="severityType(row.severity)" size="small">{{ row.severity }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="status" label="状态" width="100" align="center">
-            <template #default="{ row }">
-              <el-tag v-if="row.status === 'open'" type="danger" size="small">未修复</el-tag>
-              <el-tag v-else type="success" size="small">已修复</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="discoveredDate" label="发现日期" width="120" />
-        </el-table>
-      </el-card>
-    </el-dialog>
+    <!-- 软件详情对话框（复用 ProjectDetailDialog 组件，展示依赖信息） -->
+    <ProjectDetailDialog v-model="softwareDetailVisible" :project-data="currentSoftware" />
 
   </div>
 </template>
@@ -238,11 +178,16 @@ import { ElMessage } from 'element-plus'
 import { Search, EditPen } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import request from '@/api'
+import { formatTime } from '@/utils/format'
+import ProjectDetailDialog from '@/components/business/ProjectDetailDialog.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
-// 根据路径前缀判断是否为专员
-const isSpecialist = computed(() => route.path.startsWith('/specialist'))
+// 是否看部门全部（specialist 或 admin 在个人工作台视图）
+const isSpecialist = computed(() => {
+  const role = userStore.role
+  return role === 'specialist' || (role === 'admin' && userStore.viewMode === 'personal')
+})
 
 const activeTab = ref('software')
 const loading = ref(false)
@@ -254,13 +199,27 @@ const softwareList = ref<any[]>([])
 async function loadSoftwareList() {
   loading.value = true
   try {
-    const team = userStore.userInfo?.team || ''
-    const res: any = await request.get('/asset/projects', {
-      params: { maint_dept: team }
+    const params: any = {}
+    if (isSpecialist.value) {
+      // specialist/admin(个人工作台)：看部门所有开源软件
+      params.maint_dept = userStore.userInfo?.department || ''
+    } else {
+      // operator：只看 project_owner 表中分配给自己的软件
+      params.owner_username = userStore.userInfo?.username || ''
+    }
+    console.log('[MyOps] loadSoftwareList:', {
+      isSpecialist: isSpecialist.value,
+      role: userStore.role,
+      viewMode: userStore.viewMode,
+      department: userStore.userInfo?.department,
+      username: userStore.userInfo?.username,
+      params,
     })
+    const res: any = await request.get('/asset/projects', { params })
     // 响应拦截器已返回res.data，res直接是数组
+    // 保留原始字段（_name, _version, id 等）供 ProjectDetailDialog 使用
     softwareList.value = (res || []).map((item: any) => ({
-      id: item.id,
+      ...item,
       name: item._name,
       version: item._version,
       grade: item.applicable_level || 'A',
@@ -328,36 +287,10 @@ function mapDefectStatus(status: string) {
 // 软件详情
 const softwareDetailVisible = ref(false)
 const currentSoftware = ref<any>(null)
-const softwareDefects = ref<any[]>([])
-const defectSearchText = ref('')
-const filteredDefects = ref<any[]>([])
 
 function showSoftwareDetail(software: any) {
   currentSoftware.value = software
-  // 获取该软件的缺陷
-  softwareDefects.value = defectList.value
-    .filter(d => d.softwareName === software.name)
-    .map(d => ({
-      id: d.id,
-      title: d.title,
-      severity: d.severity,
-      status: d.status === 'pending' ? 'open' : 'resolved',
-      discoveredDate: '-',
-    }))
-  filteredDefects.value = softwareDefects.value
-  defectSearchText.value = ''
   softwareDetailVisible.value = true
-}
-
-function filterDefects() {
-  if (!defectSearchText.value) {
-    filteredDefects.value = softwareDefects.value
-    return
-  }
-  const text = defectSearchText.value.toLowerCase()
-  filteredDefects.value = softwareDefects.value.filter(d =>
-    d.title.toLowerCase().includes(text) || d.id.toLowerCase().includes(text)
-  )
 }
 
 // 缺陷查询和筛选

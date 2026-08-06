@@ -362,13 +362,13 @@ func (h *AssetHandler) GetProjectBlacklistDetail(c *gin.Context) {
 	var rows []BlacklistDetailItem
 	h.db.Table("component_black cb").
 		Select("pi.module_code as module_code, "+
-			"pi.current_commit_id as commit_id, "+
+			"cb.CURRENT_ID as commit_id, "+
 			"DATE_FORMAT(cb.create_time, '%Y-%m-%d %H:%i:%s') as create_time, "+
 			"cb.alert_type as alert_type, "+
 			"cc._name as blacklist_name, "+
 			"cc.reason as reason").
-		Joins("INNER JOIN project_inner pi ON cb.project_id = pi.id").
-		Joins("LEFT JOIN component_core cc ON cb.blacklist_id = cc.id").
+		Joins("INNER JOIN project_inner pi ON cb.PROJECT_ID = pi.id").
+		Joins("LEFT JOIN component_core cc ON cb.BLACK_ID = cc.id").
 		Where("pi.pro_code = ? AND pi.active = 1", projectName).
 		Order("cb.create_time DESC").
 		Scan(&rows)
@@ -387,11 +387,12 @@ func (h *AssetHandler) SeedHighRiskTestData(c *gin.Context) {
 
 	// 查询已有的 project_inner 记录（取前 10 个不同 pro_code 的项目）
 	type projInfo struct {
-		ID      int64
-		ProCode string
+		ID        int64
+		ProCode   string
+		CurrentID string
 	}
 	var projects []projInfo
-	h.db.Raw("SELECT MIN(id) as id, pro_code FROM project_inner WHERE active = 1 GROUP BY pro_code ORDER BY id LIMIT 10").Scan(&projects)
+	h.db.Raw("SELECT MIN(id) as id, pro_code, MAX(current_ID) as current_id FROM project_inner WHERE active = 1 GROUP BY pro_code ORDER BY id LIMIT 10").Scan(&projects)
 
 	if len(projects) == 0 {
 		response.Error(c, 400, "没有可用的自研项目数据，请先执行 core-dependencies/seed-test-data")
@@ -400,43 +401,52 @@ func (h *AssetHandler) SeedHighRiskTestData(c *gin.Context) {
 
 	// 查询已有的 component_core 记录
 	type coreInfo struct {
-		ID   int64
-		Name string
+		ID int64
 	}
 	var cores []coreInfo
-	h.db.Raw("SELECT id, _name FROM component_core WHERE _enable = 1 LIMIT 4").Scan(&cores)
+	h.db.Raw("SELECT id FROM component_core WHERE _enable = 1 LIMIT 4").Scan(&cores)
 
 	if len(cores) == 0 {
 		response.Error(c, 400, "没有可用的黑名单规则数据")
 		return
 	}
 
-	// 组件版本池
-	versions := []string{"1.2.17", "1.2.24", "2.9.8", "0.9.5", "4.17.11", "3.2.0", "1.5.3", "2.0.42"}
+	// 查询已有的 component_snapshot 记录
+	type snapInfo struct {
+		ID int64
+	}
+	var snaps []snapInfo
+	h.db.Raw("SELECT id FROM component_snapshot LIMIT 20").Scan(&snaps)
+
+	if len(snaps) == 0 {
+		response.Error(c, 400, "没有可用的组件快照数据")
+		return
+	}
+
 	// 告警类型：1-阻断, 2-警告
 	alertTypes := []int{1, 2}
-	// 状态池
-	statuses := []string{"pending", "processing", "resolved", "audited"}
+	// 处理状态：0-未处理, 1-处理中, 2-处理完成, 3-误报
+	processStatuses := []int{0, 1, 2, 3}
 
 	count := 0
 	for i, proj := range projects {
 		// 每个项目分配 2-3 条黑名单记录，总共约 20 条
 		numRecords := 2
 		if i < 5 {
-			numRecords = 3 // 前 5 个项目各 3 条，共 15 条；后 5 个各 1 条，共 5 条 -> 总 20 条
+			numRecords = 3
 		} else if i >= 7 {
 			numRecords = 1
 		}
 
 		for j := 0; j < numRecords; j++ {
 			core := cores[(i+j)%len(cores)]
-			version := versions[(i*3+j)%len(versions)]
+			snap := snaps[(i*3+j)%len(snaps)]
 			alertType := alertTypes[(i+j)%2]
-			status := statuses[(i+j)%4]
+			processStatus := processStatuses[(i+j)%4]
 
 			result := h.db.Exec(
-				"INSERT INTO component_black (blacklist_id, component_name, component_version, component_group, project_id, project_name, alert_type, status, create_by, update_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'test-seed', 'test-seed')",
-				core.ID, core.Name, version, "test-group", proj.ID, proj.ProCode, alertType, status,
+				"INSERT INTO component_black (BLACK_ID, COMPONENT_ID, PROJECT_ID, PROCESS_STATUS, CURRENT_ID, internal, alert_type, create_by, update_by) VALUES (?, ?, ?, ?, ?, 1, ?, 'test-seed', 'test-seed')",
+				core.ID, snap.ID, proj.ID, processStatus, proj.CurrentID, alertType,
 			)
 			if result.Error != nil {
 				continue
@@ -446,7 +456,7 @@ func (h *AssetHandler) SeedHighRiskTestData(c *gin.Context) {
 	}
 
 	response.Success(c, gin.H{
-		"message":    "高风险项目测试数据插入成功",
+		"message":     "高风险项目测试数据插入成功",
 		"recordCount": count,
 	})
 }

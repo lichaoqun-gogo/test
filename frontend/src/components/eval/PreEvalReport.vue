@@ -98,7 +98,7 @@
               </el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="匹配规则数">{{ mockData.blacklist.matchedRules }}</el-descriptions-item>
-            <el-descriptions-item label="检查时间">{{ mockData.blacklist.checkTime }}</el-descriptions-item>
+            <el-descriptions-item label="检查时间">{{ formatTime(mockData.blacklist.checkTime) }}</el-descriptions-item>
           </el-descriptions>
 
           <div v-if="mockData.blacklist.matchedRulesList.length > 0" class="matched-rules">
@@ -200,7 +200,7 @@
             <el-descriptions-item label="健康等级">
               <el-tag :type="activityTagType as any" size="small">{{ mockData.activity.healthLevelLabel }}</el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="最近更新时间">{{ mockData.activity.lastUpdated }}</el-descriptions-item>
+            <el-descriptions-item label="最近更新时间">{{ formatTime(mockData.activity.lastUpdated) }}</el-descriptions-item>
             <el-descriptions-item label="维护频率">{{ mockData.activity.maintenanceFreq }}</el-descriptions-item>
             <el-descriptions-item label="Star数">{{ mockData.activity.stars }}</el-descriptions-item>
             <el-descriptions-item label="Fork数">{{ mockData.activity.forks }}</el-descriptions-item>

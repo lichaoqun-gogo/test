@@ -24,8 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import { mockLicenses } from '@/mock/admin'
-const licenses = mockLicenses
+import { ref, onMounted } from 'vue'
+
+const licenses = ref<any[]>([])
+
+function loadLicenses() {}
+
+onMounted(() => {
+  loadLicenses()
+})
 </script>
 
 <style scoped>

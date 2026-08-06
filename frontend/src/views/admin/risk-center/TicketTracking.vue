@@ -36,10 +36,16 @@
 </template>
 
 <script setup lang="ts">
-import { mockTicketTracking } from '@/mock/admin'
+import { ref, onMounted } from 'vue'
 import { Download } from '@element-plus/icons-vue'
 
-const tracking = mockTicketTracking
+const tracking = ref<any[]>([])
+
+function loadTracking() {}
+
+onMounted(() => {
+  loadTracking()
+})
 </script>
 
 <style scoped>

@@ -7,26 +7,28 @@
     </div>
 
     <div class="toolbar">
-      <el-input v-model="searchText" placeholder="搜索名称" clearable style="width: 240px" />
-      <el-select v-model="filterCategory" placeholder="分类" clearable style="width: 160px">
+      <el-input v-model="searchText" placeholder="搜索名称" clearable style="width: 240px" @keyup.enter="handleSearch" @clear="handleSearch" />
+      <el-select v-model="filterCategory" placeholder="分类" clearable style="width: 160px" @change="handleSearch">
         <el-option v-for="cat in categoryOptions" :key="cat" :label="cat" :value="cat" />
       </el-select>
-      <el-select v-model="filterLevel" placeholder="适用等级" clearable style="width: 120px">
+      <el-select v-model="filterLevel" placeholder="适用等级" clearable style="width: 120px" @change="handleSearch">
         <el-option label="A" value="A" />
         <el-option label="B" value="B" />
         <el-option label="C" value="C" />
         <el-option label="D" value="D" />
       </el-select>
-      <el-select v-model="filterEnable" placeholder="状态" clearable style="width: 120px">
+      <el-select v-model="filterEnable" placeholder="状态" clearable style="width: 120px" @change="handleSearch">
         <el-option label="启用" :value="1" />
         <el-option label="禁用" :value="0" />
       </el-select>
+      <el-button type="primary" @click="handleSearch">查询</el-button>
+      <el-button @click="handleReset">重置</el-button>
       <div class="toolbar-right">
         <el-button type="primary" @click="openAdd"><el-icon><Plus /></el-icon> 新增</el-button>
       </div>
     </div>
 
-    <el-table :data="filteredBlacklist" stripe style="margin-top: 16px" row-key="id">
+    <el-table :data="blacklist" stripe style="margin-top: 16px" row-key="id" v-loading="loading">
       <el-table-column type="expand">
         <template #default="{ row }">
           <div class="expand-content">
@@ -49,7 +51,7 @@
               </el-col>
               <el-col :span="12">
                 <span class="expand-label">创建时间：</span>
-                <span class="expand-value">{{ row.create_time || '-' }}</span>
+                <span class="expand-value">{{ formatTime(row.create_time) }}</span>
               </el-col>
             </el-row>
             <el-row :gutter="24" class="expand-row">
@@ -59,7 +61,7 @@
               </el-col>
               <el-col :span="12">
                 <span class="expand-label">更新时间：</span>
-                <span class="expand-value">{{ row.update_time || '-' }}</span>
+                <span class="expand-value">{{ formatTime(row.update_time) }}</span>
               </el-col>
             </el-row>
           </div>
@@ -70,7 +72,14 @@
       <el-table-column prop="_name" label="名称" min-width="140" />
       <el-table-column prop="applicable_level" label="适用等级" width="100">
         <template #default="{ row }">
-          <el-tag :type="getLevelTag(row.applicable_level)" size="small">{{ row.applicable_level || '-' }}</el-tag>
+          <el-tag :type="getLevelTag(row.applicable_level) as any" size="small">{{ row.applicable_level || '-' }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="alert_type" label="告警类型" width="100">
+        <template #default="{ row }">
+          <el-tag :type="row.alert_type === 1 ? 'danger' : 'warning'" size="small">
+            {{ row.alert_type === 1 ? '阻断' : '警告' }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="version_exp" label="表达式" width="200" show-overflow-tooltip />
@@ -82,12 +91,25 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="80" fixed="right">
+      <el-table-column label="操作" width="120" fixed="right">
         <template #default="{ row }">
-          <el-button type="primary" link size="small" @click="openEdit(row as ComponentCoreItem)">编辑</el-button>
+          <el-button type="primary" link size="small" @click="openEdit(row as any)">编辑</el-button>
+          <el-button type="danger" link size="small" @click="handleDelete(row as any)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <div class="pagination-wrapper">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :total="total"
+        :page-sizes="[10, 20, 50, 100]"
+        layout="total, sizes, prev, pager, next, jumper"
+        @current-change="loadData"
+        @size-change="loadData"
+      />
+    </div>
 
     <!-- 新增/编辑弹窗 -->
     <el-dialog v-model="dialogVisible" :title="isEdit ? '编辑名单' : '新增名单'" width="700px">
@@ -160,39 +182,38 @@
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSave">确定</el-button>
+        <el-button type="primary" :loading="saving" @click="handleSave">确定</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { mockComponentCores, type ComponentCoreItem } from '@/mock/admin'
+import { ref, onMounted } from 'vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { formatTime } from '@/utils/format'
+import api from '@/api'
 
-const searchText = ref('')
-const filterCategory = ref('')
-const filterLevel = ref('')
-const filterEnable = ref<number | ''>('')
-const dialogVisible = ref(false)
-const isEdit = ref(false)
-const editingId = ref<number | null>(null)
-
-const blacklist = ref<ComponentCoreItem[]>([...mockComponentCores])
-
-const categoryOptions = ['安全算法类', '服务治理类', '通用工具包', '基础框架包', '日志组件', '数据库相关', '序列化工具', '中间件相关']
-
-const filteredBlacklist = computed(() => {
-  return blacklist.value.filter(item => {
-    const matchSearch = !searchText.value || item._name.toLowerCase().includes(searchText.value.toLowerCase())
-    const matchCategory = filterCategory.value ? item.type === filterCategory.value : true
-    const matchLevel = filterLevel.value ? item.applicable_level === filterLevel.value : true
-    const matchEnable = (filterEnable.value === '' || filterEnable.value === null || filterEnable.value === undefined) ? true : item._enable === filterEnable.value
-    return matchSearch && matchCategory && matchLevel && matchEnable
-  })
-})
+interface ComponentCoreItem {
+  id: number
+  _format: number
+  type?: string
+  _name: string
+  _group: string
+  version_exp: string
+  applicable_level: string
+  support_team: string
+  reason?: string
+  advise?: string
+  _enable: number
+  alert_type?: number
+  create_time?: string
+  create_by?: string
+  update_time?: string
+  update_by?: string
+  is_boundary?: number
+}
 
 interface VersionGroup {
   startInclusive: boolean
@@ -215,6 +236,24 @@ interface BlacklistForm {
   versionGroups: VersionGroup[]
 }
 
+const loading = ref(false)
+const saving = ref(false)
+const blacklist = ref<ComponentCoreItem[]>([])
+const total = ref(0)
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const searchText = ref('')
+const filterCategory = ref('')
+const filterLevel = ref('')
+const filterEnable = ref<number | ''>('')
+
+const dialogVisible = ref(false)
+const isEdit = ref(false)
+const editingId = ref<number | null>(null)
+
+const categoryOptions = ['安全算法类', '服务治理类', '通用工具包', '基础框架包', '日志组件', '数据库相关', '序列化工具', '中间件相关']
+
 const defaultForm: BlacklistForm = {
   _format: 1,
   type: '',
@@ -230,7 +269,7 @@ const defaultForm: BlacklistForm = {
 
 const form = ref<BlacklistForm>({ ...defaultForm })
 
-function getLevelTag(level: string): string {
+function getLevelTag(level: string) {
   const map: Record<string, string> = { A: 'success', B: 'warning', C: 'danger', D: 'danger' }
   return map[level] || 'info'
 }
@@ -240,8 +279,41 @@ function formatLabel(format: number): string {
   return map[format] || '未知'
 }
 
+async function loadData() {
+  loading.value = true
+  try {
+    const params: any = {
+      page: currentPage.value,
+      pageSize: pageSize.value,
+    }
+    if (searchText.value) params.keyword = searchText.value
+    if (filterCategory.value) params.type = filterCategory.value
+    if (filterLevel.value) params.applicable_level = filterLevel.value
+    if (filterEnable.value !== '' && filterEnable.value !== null) params._enable = filterEnable.value
+
+    const res: any = await api.get('/risk/blacklist', { params })
+    blacklist.value = res.list || []
+    total.value = res.total || 0
+  } catch (error) {
+    console.error('加载名单失败:', error)
+    ElMessage.error('加载名单失败')
+  } finally {
+    loading.value = false
+  }
+}
+
 function handleSearch() {
-  // computed会自动响应式更新，无需额外处理
+  currentPage.value = 1
+  loadData()
+}
+
+function handleReset() {
+  searchText.value = ''
+  filterCategory.value = ''
+  filterLevel.value = ''
+  filterEnable.value = ''
+  currentPage.value = 1
+  loadData()
 }
 
 function parseVersionExpToGroups(versionExp: string): VersionGroup[] {
@@ -305,52 +377,60 @@ function removeVersionGroup(idx: number) {
   form.value.versionGroups.splice(idx, 1)
 }
 
-function handleSave() {
+async function handleSave() {
   if (!isEdit.value && (!form.value._name || !form.value.type || !form.value.support_team || !form.value.reason || !form.value.applicable_level)) {
     ElMessage.warning('请填写必填项')
     return
   }
   const versionExp = versionGroupsToExp(form.value.versionGroups)
-  if (isEdit.value) {
-    const idx = blacklist.value.findIndex(item => item.id === editingId.value)
-    if (idx !== -1) {
-      blacklist.value[idx] = {
-        ...blacklist.value[idx],
-        _format: form.value._format,
-        type: form.value.type,
-        _name: form.value._name,
-        _group: form.value._group,
-        version_exp: versionExp,
-        applicable_level: form.value.applicable_level,
-        support_team: form.value.support_team,
-        reason: form.value.reason,
-        advise: form.value.advise,
-        _enable: form.value._enable,
-      }
-    }
-    ElMessage.success('编辑成功')
-  } else {
-    const newItem: ComponentCoreItem = {
-      id: blacklist.value.length + 1,
-      _format: form.value._format,
-      type: form.value.type,
-      _name: form.value._name,
-      _group: form.value._group,
-      version_exp: versionExp,
-      applicable_level: form.value.applicable_level,
-      support_team: form.value.support_team,
-      reason: form.value.reason,
-      advise: form.value.advise,
-      _enable: form.value._enable,
-      is_boundary: 2,
-      create_by: 'admin',
-      create_time: new Date().toLocaleString('zh-CN'),
-    }
-    blacklist.value.unshift(newItem)
-    ElMessage.success('新增成功')
+  const payload: any = {
+    _format: form.value._format,
+    type: form.value.type,
+    _name: form.value._name,
+    _group: form.value._group,
+    version_exp: versionExp,
+    applicable_level: form.value.applicable_level,
+    support_team: form.value.support_team,
+    reason: form.value.reason,
+    advise: form.value.advise,
+    _enable: form.value._enable,
   }
-  dialogVisible.value = false
+
+  saving.value = true
+  try {
+    if (isEdit.value) {
+      await api.put(`/risk/blacklist/${editingId.value}`, payload)
+      ElMessage.success('编辑成功')
+      dialogVisible.value = false
+      loadData()
+    } else {
+      await api.post('/risk/blacklist', payload)
+      ElMessage.success('新增成功')
+      dialogVisible.value = false
+      loadData()
+    }
+  } catch (error) {
+    console.error('保存失败:', error)
+    ElMessage.error('保存失败')
+  } finally {
+    saving.value = false
+  }
 }
+
+async function handleDelete(row: ComponentCoreItem) {
+  try {
+    await ElMessageBox.confirm(`确认删除「${row._name}」吗？`, '提示', { type: 'warning' })
+    await api.delete(`/risk/blacklist/${row.id}`)
+    ElMessage.success('删除成功')
+    loadData()
+  } catch (error) {
+    // 用户取消删除
+  }
+}
+
+onMounted(() => {
+  loadData()
+})
 </script>
 
 <style scoped>
@@ -391,6 +471,12 @@ function handleSave() {
 
 .expand-value {
   color: #303133;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
 }
 
 .version-exp-container {

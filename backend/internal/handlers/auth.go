@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io"
@@ -120,6 +121,10 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 		return
 	}
 
+	// 打印 CAS 返回的用户信息
+	logBytes, _ := json.Marshal(casResp.Success)
+	fmt.Printf("[CAS] 认证通过，用户信息: %s\n", string(logBytes))
+
 	// 查找或创建用户
 	var user models.User
 	result := h.db.Where("username = ?", casResp.Success.User).First(&user)
@@ -166,56 +171,42 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 }
 
 // GetUserInfo 获取当前登录用户信息
-// 优先从中间件注入的 context 读取，其次从 Authorization JWT 解析，最后从 header 回退
+// 从 JWT 解析用户名，再查询 users 表返回完整信息（部门、团队等）
 func (h *AuthHandler) GetUserInfo(c *gin.Context) {
-	userID, _ := c.Get("userID")
 	username, _ := c.Get("username")
-	nickname, _ := c.Get("nickname")
-	role, _ := c.Get("role")
-	department, _ := c.Get("department")
-	canToggle, _ := c.Get("canToggleAdminView")
 
-	// 如果 context 中没有值（未走中间件），尝试从 JWT 解析
-	if userID == nil {
+	// 如果 context 中没有（未走中间件），尝试从 JWT 解析
+	if username == nil || username == "" {
 		authHeader := c.GetHeader("Authorization")
 		if len(authHeader) > 7 && authHeader[:7] == "Bearer " {
 			tokenStr := authHeader[7:]
 			claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, tokenStr)
 			if err == nil {
-				userID = claims.UserID
 				username = claims.Username
-				nickname = claims.Nickname
-				role = claims.Role
-				department = claims.Department
-				canToggle = claims.CanToggleAdminView
 			}
 		}
 	}
 
 	// 仍然为空时从 header 回退
-	if role == nil || role == "" {
-		role = c.GetHeader("X-User-Role")
-	}
 	if username == nil || username == "" {
 		username = decodeHeaderValue(c.GetHeader("X-User-Name"))
 	}
-	if userID == nil || userID == "" {
-		userID = c.GetHeader("X-User-ID")
+
+	if username == nil || username == "" {
+		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "未识别到用户"})
+		return
 	}
-	if department == nil || department == "" {
-		department = decodeHeaderValue(c.GetHeader("X-User-Dept"))
+
+	// 查询 users 表获取完整用户信息
+	var user models.User
+	if err := h.db.Where("username = ?", username).First(&user).Error; err != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "用户不存在"})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
-		"data": gin.H{
-			"id":                 userID,
-			"username":           username,
-			"nickname":           nickname,
-			"role":               role,
-			"department":         department,
-			"canToggleAdminView": canToggle,
-		},
+		"data": user,
 	})
 }
 
@@ -236,6 +227,47 @@ func (h *AuthHandler) Logout(c *gin.Context) {
 // GetAuthMode 返回当前认证模式（local/cas），前端用于决定登录方式
 func (h *AuthHandler) GetAuthMode(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"mode": h.cfg.Auth.Mode})
+}
+
+// UserSimple 用户精简信息（用于人员选择下拉框等场景）
+// 注意：当前从 users 表查询，后期对接统一权限系统时只需修改此方法实现
+type UserSimple struct {
+	ID         uint   `json:"id"`
+	Username   string `json:"username"`
+	Nickname   string `json:"nickname"`
+	Department string `json:"department"`
+	Team       string `json:"team"`
+	Email      string `json:"email"`
+}
+
+// GetUserList 查询用户列表（用于人员选择等场景）
+// 当前数据源：users 表；后期对接统一权限系统时修改此方法即可
+// 支持 dept_name 参数过滤本部门人员
+func (h *AuthHandler) GetUserList(c *gin.Context) {
+	query := h.db.Model(&models.User{})
+
+	// 按部门过滤（人员选择下拉框只显示本部门人员）
+	if deptName := c.Query("dept_name"); deptName != "" {
+		query = query.Where("department = ?", deptName)
+	}
+
+	var users []models.User
+	if err := query.Find(&users).Error; err != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "查询用户列表失败"})
+		return
+	}
+	list := make([]UserSimple, 0, len(users))
+	for _, u := range users {
+		list = append(list, UserSimple{
+			ID:         u.ID,
+			Username:   u.Username,
+			Nickname:   u.Nickname,
+			Department: u.Department,
+			Team:       u.Team,
+			Email:      u.Email,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "data": list})
 }
 
 // MenuTreeNode 菜单树节点

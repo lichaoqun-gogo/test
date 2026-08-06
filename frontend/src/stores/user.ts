@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { UserInfo, RoleType } from '@/types'
-import { loginApi, logoutApi, tokenManager } from '@/api/auth'
+import { logoutApi, tokenManager } from '@/api/auth'
 import { registerDynamicRoutes, resetRouter, type MenuTreeNode } from '@/router'
 import axios from 'axios'
 
@@ -22,13 +22,44 @@ export const useUserStore = defineStore('user', () => {
   const canToggleView = computed(() => role.value === 'admin')
   const showAdminView = computed(() => viewMode.value === 'admin')
 
+  // 从后端 users 表获取最新用户信息（刷新页面时调用，确保部门/团队等信息最新）
+  async function fetchUserInfo() {
+    if (!token.value) return false
+    try {
+      const res = await axios.get('/api/v1/auth/me', {
+        headers: { Authorization: `Bearer ${token.value}` },
+      })
+      if (res.data?.code === 0 && res.data.data) {
+        const u = res.data.data
+        // 后端 User.ID 是 uint，前端 UserInfo.id 是 string，转换一下
+        const info: UserInfo = {
+          id: String(u.id),
+          username: u.username,
+          nickname: u.nickname,
+          role: u.role,
+          department: u.department,
+          team: u.team || '',
+          email: u.email || '',
+          canToggleAdminView: u.canToggleAdminView,
+        }
+        userInfo.value = info
+        tokenManager.setUser(info)
+        viewMode.value = info.role === 'admin' ? viewMode.value : 'personal'
+        return true
+      }
+    } catch (err) {
+      console.error('[fetchUserInfo] 获取用户信息失败:', err)
+    }
+    return false
+  }
+
   // 获取菜单并动态注册路由
   async function fetchMenus() {
     if (!token.value) return
 
     try {
       const headers: Record<string, string> = {}
-      if (token.value && !token.value.startsWith('mock_token_')) {
+      if (token.value) {
         headers['Authorization'] = `Bearer ${token.value}`
       }
       if (userInfo.value) {
@@ -42,12 +73,14 @@ export const useUserStore = defineStore('user', () => {
       if (res.data?.code === 0 && Array.isArray(res.data.data) && res.data.data.length > 0) {
         menus.value = res.data.data
         const currentRole = role.value || 'operator'
+        console.log(`[fetchMenus] currentRole=${currentRole}, role.value=${role.value}, userInfo.role=${userInfo.value?.role}, menus=${res.data.data.length}`)
         registerDynamicRoutes(res.data.data, currentRole)
 
         // admin 用户额外加载 specialist 菜单和路由（用于个人工作台视图）
         if (currentRole === 'admin') {
           try {
             const specialistRes = await axios.get('/api/v1/auth/menus?role=specialist', { headers })
+            console.log(`[fetchMenus] specialist menus response: code=${specialistRes.data?.code}, count=${specialistRes.data?.data?.length}`)
             if (specialistRes.data?.code === 0 && Array.isArray(specialistRes.data.data)) {
               specialistMenus.value = specialistRes.data.data
               registerDynamicRoutes(specialistRes.data.data, 'specialist')
@@ -73,21 +106,6 @@ export const useUserStore = defineStore('user', () => {
     routesLoaded.value = false
     tokenManager.removeToken()
     tokenManager.removeUser()
-  }
-
-  // local 模式登录
-  async function login(username: string, password: string): Promise<boolean> {
-    const res = await loginApi(username, password)
-    if (res.code === 200) {
-      token.value = res.data.token
-      userInfo.value = res.data.user
-      tokenManager.setToken(res.data.token)
-      tokenManager.setUser(res.data.user)
-      viewMode.value = res.data.user?.role === 'admin' ? 'admin' : 'personal'
-      routesLoaded.value = false
-      return true
-    }
-    return false
   }
 
   // CAS 模式登录（回调页面调用）
@@ -121,12 +139,6 @@ export const useUserStore = defineStore('user', () => {
     const savedToken = tokenManager.getToken()
     const savedUser = tokenManager.getUser()
     if (savedToken && savedUser) {
-      // 忽略旧的 mock_token（local 模式残留），只信任 JWT（CAS 模式）
-      if (savedToken.startsWith('mock_token_')) {
-        tokenManager.removeToken()
-        tokenManager.removeUser()
-        return
-      }
       token.value = savedToken
       userInfo.value = savedUser
       viewMode.value = savedUser?.role === 'admin' ? 'admin' : 'personal'
@@ -148,8 +160,8 @@ export const useUserStore = defineStore('user', () => {
     isAdmin,
     canToggleView,
     showAdminView,
+    fetchUserInfo,
     fetchMenus,
-    login,
     setCasUser,
     logout,
     toggleViewMode,

@@ -14,8 +14,6 @@ type ProjectInner struct {
 	ModuleCode           string     `gorm:"column:module_code" json:"module_code"`
 	Branch               string     `gorm:"column:branch" json:"branch"`
 	CurrentID            string     `gorm:"column:current_ID" json:"current_ID"`
-	CurrentCommitID      string     `gorm:"column:current_commit_id" json:"current_commit_id"`
-	ProductionCommitID   string     `gorm:"column:production_commit_id" json:"production_commit_id"`
 	CreateBy             string     `gorm:"column:create_by" json:"create_by"`
 	UpdateBy             string     `gorm:"column:update_by" json:"update_by"`
 	CreateTime           time.Time  `gorm:"column:create_time" json:"create_time"`

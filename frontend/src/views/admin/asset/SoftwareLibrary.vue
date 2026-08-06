@@ -33,43 +33,22 @@
       <el-table-column type="expand">
         <template #default="{ row }">
           <div class="expand-content">
-            <el-row :gutter="20">
-              <el-col :span="12">
-                <div class="expand-item">
-                  <span class="expand-label">BOM最后更新时间：</span>
-                  <span class="expand-value">{{ row.LAST_BOM_IMPORTED || '-' }}</span>
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <div class="expand-item">
-                  <span class="expand-label">更新者：</span>
-                  <span class="expand-value">{{ row.update_by || '-' }}</span>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="12">
-                <div class="expand-item">
-                  <span class="expand-label">更新时间：</span>
-                  <span class="expand-value">{{ row.update_time || '-' }}</span>
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <div class="expand-item">
-                  <span class="expand-label">创建者：</span>
-                  <span class="expand-value">{{ row.create_by || '-' }}</span>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="12">
-                <div class="expand-item">
-                  <span class="expand-label">创建时间：</span>
-                  <span class="expand-value">{{ row.create_time || '-' }}</span>
-                </div>
-              </el-col>
-              <el-col :span="12"></el-col>
-            </el-row>
+            <div class="expand-row">
+              <span class="expand-label">BOM最后更新时间：</span>
+              <span class="expand-value">{{ formatTime(row.LAST_BOM_IMPORTED) }}</span>
+            </div>
+            <div class="expand-row">
+              <span class="expand-label">更新者：</span>
+              <span class="expand-value name-value">{{ row.update_by || '-' }}</span>
+              <span class="expand-label" style="margin-left: 32px">更新时间：</span>
+              <span class="expand-value">{{ formatTime(row.update_time) }}</span>
+            </div>
+            <div class="expand-row">
+              <span class="expand-label">创建者：</span>
+              <span class="expand-value name-value">{{ row.create_by || '-' }}</span>
+              <span class="expand-label" style="margin-left: 32px">创建时间：</span>
+              <span class="expand-value">{{ formatTime(row.create_time) }}</span>
+            </div>
           </div>
         </template>
       </el-table-column>
@@ -128,6 +107,12 @@
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="110px">
         <!-- 通用属性 -->
         <el-divider content-position="left">通用属性</el-divider>
+        <el-form-item label="软件分类" prop="category">
+          <el-select v-model="formData.category" placeholder="请选择软件分类" style="width: 100%">
+            <el-option label="开源基础软件" value="software" />
+            <el-option label="开源工具" value="tool" />
+          </el-select>
+        </el-form-item>
         <el-row :gutter="16">
           <el-col :span="12">
             <el-form-item label="软件组织" prop="_group">
@@ -256,6 +241,7 @@ import { Plus, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { getSoftwareList, createSoftware, updateSoftware, deleteSoftware, type SoftwareItem } from '@/api'
 import ProjectDetailDialog from '@/components/business/ProjectDetailDialog.vue'
+import { formatTime } from '@/utils/format'
 
 const loading = ref(false)
 const softwareList = ref<SoftwareItem[]>([])
@@ -399,6 +385,7 @@ const formRules: FormRules = {
   maint_dept: [{ required: true, message: '请输入维护部门', trigger: 'blur' }],
   use_dept: [{ required: true, message: '请输入使用部门', trigger: 'blur' }],
   country: [{ required: true, message: '请输入开源国家', trigger: 'blur' }],
+  category: [{ required: true, message: '请选择软件分类', trigger: 'change' }],
 }
 
 function resetForm() {
@@ -434,6 +421,7 @@ function handleEdit(row: SoftwareItem) {
     PURL: row.PURL,
     CPE: row.CPE,
     SWIDTAGID: row.SWIDTAGID,
+    category: row.category || 'software',
   })
   dialogVisible.value = true
 }
@@ -499,25 +487,27 @@ onMounted(() => {
   margin-top: 16px;
 }
 .expand-content {
-  padding: 16px 20px;
+  padding: 12px 24px;
   background-color: #fafafa;
 }
-.expand-item {
-  padding: 6px 0;
-  line-height: 1.8;
+.expand-row {
+  display: flex;
+  align-items: center;
+  line-height: 28px;
+  font-size: 13px;
+  margin-bottom: 8px;
 }
 .expand-label {
   color: #909399;
-  font-size: 13px;
+  font-weight: 500;
   margin-right: 8px;
-  display: inline-block;
-  min-width: 100px;
+  white-space: nowrap;
 }
 .expand-value {
-  color: #606266;
-  font-size: 13px;
+  color: #303133;
 }
-.expand-row {
-  margin-bottom: 8px;
+.name-value {
+  display: inline-block;
+  min-width: 3em;
 }
 </style>

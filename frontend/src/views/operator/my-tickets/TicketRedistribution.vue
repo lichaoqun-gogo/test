@@ -51,7 +51,9 @@
           </el-table-column>
           <el-table-column prop="assignedTo" label="接收人" width="100" />
           <el-table-column prop="assignedBy" label="分配人" width="100" />
-          <el-table-column prop="assignedAt" label="分配时间" width="160" />
+          <el-table-column prop="assignedAt" label="分配时间" width="160">
+            <template #default="{ row }">{{ formatTime(row.assignedAt) }}</template>
+          </el-table-column>
           <el-table-column label="状态" width="100">
             <template #default="{ row }">
               <TicketStatusTag :status="row.status" />
@@ -88,25 +90,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { mockRedistributionRecords } from '@/mock/tickets'
+import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils/format'
 
 const activeTab = ref('pending')
 const assignDialogVisible = ref(false)
 const currentTicket = ref<any>(null)
 
+const redistributionRecords = ref<any[]>([])
 const pendingTickets = computed(() =>
-  mockRedistributionRecords.filter(r => r.status === 'pending')
+  redistributionRecords.value.filter(r => r.status === 'pending')
 )
 
 const assignedRecords = computed(() =>
-  mockRedistributionRecords.filter(r => r.status !== 'pending')
+  redistributionRecords.value.filter(r => r.status !== 'pending')
 )
 
 const assignForm = ref({
   assignee: '',
   note: '',
+})
+
+function loadRedistributionRecords() {
+  // TODO: 调用后端 API 获取二次分配工单记录
+}
+
+onMounted(() => {
+  loadRedistributionRecords()
 })
 
 function openAssignDialog(row: any) {

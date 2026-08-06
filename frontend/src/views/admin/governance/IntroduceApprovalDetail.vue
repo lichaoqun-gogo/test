@@ -29,7 +29,7 @@
               <div class="timeline-header">
                 <span class="timeline-action">{{ item.action }}</span>
                 <span class="timeline-operator">{{ item.operator }}</span>
-                <span class="timeline-time">{{ item.time }}</span>
+                <span class="timeline-time">{{ formatTime(item.time) }}</span>
               </div>
               <p class="timeline-opinion">{{ item.opinion }}</p>
             </div>
@@ -97,7 +97,7 @@
             <el-col :span="8">
               <div class="eval-metric">
                 <span class="metric-label">提交时间</span>
-                <span class="metric-value">{{ detail.submittedAt }}</span>
+                <span class="metric-value">{{ formatTime(detail.submittedAt) }}</span>
               </div>
             </el-col>
           </el-row>
@@ -300,6 +300,7 @@ import {
 import { mockIntroduceDetails } from '@/mock/admin'
 import type { IntroduceApprovalDetail } from '@/mock/admin'
 import { SOFTWARE_TYPE_LABELS, TICKET_STATUS_LABELS } from '@/types'
+import { formatTime } from '@/utils/format'
 
 const route = useRoute()
 const router = useRouter()

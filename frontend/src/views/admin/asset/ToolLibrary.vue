@@ -37,7 +37,7 @@
               <el-col :span="12">
                 <div class="expand-item">
                   <span class="expand-label">BOM最后更新时间：</span>
-                  <span class="expand-value">{{ row.LAST_BOM_IMPORTED || '-' }}</span>
+                  <span class="expand-value">{{ formatTime(row.LAST_BOM_IMPORTED) }}</span>
                 </div>
               </el-col>
               <el-col :span="12">
@@ -51,7 +51,7 @@
               <el-col :span="12">
                 <div class="expand-item">
                   <span class="expand-label">更新时间：</span>
-                  <span class="expand-value">{{ row.update_time || '-' }}</span>
+                  <span class="expand-value">{{ formatTime(row.update_time) }}</span>
                 </div>
               </el-col>
               <el-col :span="12">
@@ -65,7 +65,7 @@
               <el-col :span="12">
                 <div class="expand-item">
                   <span class="expand-label">创建时间：</span>
-                  <span class="expand-value">{{ row.create_time || '-' }}</span>
+                  <span class="expand-value">{{ formatTime(row.create_time) }}</span>
                 </div>
               </el-col>
               <el-col :span="12"></el-col>
@@ -128,6 +128,12 @@
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="110px">
         <!-- 通用属性 -->
         <el-divider content-position="left">通用属性</el-divider>
+        <el-form-item label="软件分类" prop="category">
+          <el-select v-model="formData.category" placeholder="请选择软件分类" style="width: 100%">
+            <el-option label="开源基础软件" value="software" />
+            <el-option label="开源工具" value="tool" />
+          </el-select>
+        </el-form-item>
         <el-row :gutter="16">
           <el-col :span="12">
             <el-form-item label="工具组织" prop="_group">
@@ -256,6 +262,7 @@ import { Plus, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { getSoftwareList, createSoftware, updateSoftware, deleteSoftware, type SoftwareItem } from '@/api'
 import ProjectDetailDialog from '@/components/business/ProjectDetailDialog.vue'
+import { formatTime } from '@/utils/format'
 
 const loading = ref(false)
 const toolList = ref<SoftwareItem[]>([])
@@ -393,6 +400,7 @@ const formRules: FormRules = {
   maint_dept: [{ required: true, message: '请输入维护部门', trigger: 'blur' }],
   use_dept: [{ required: true, message: '请输入使用部门', trigger: 'blur' }],
   country: [{ required: true, message: '请输入开源国家', trigger: 'blur' }],
+  category: [{ required: true, message: '请选择软件分类', trigger: 'change' }],
 }
 
 function resetForm() {
@@ -428,7 +436,7 @@ function handleEdit(row: SoftwareItem) {
     PURL: row.PURL,
     CPE: row.CPE,
     SWIDTAGID: row.SWIDTAGID,
-    category: 'tool',
+    category: row.category || 'tool',
   })
   dialogVisible.value = true
 }

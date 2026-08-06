@@ -66,7 +66,9 @@
           <span v-else class="text-muted">暂无缺陷</span>
         </template>
       </el-table-column>
-      <el-table-column prop="lastUpdated" label="最后更新" width="120" />
+      <el-table-column prop="lastUpdated" label="最后更新" width="180">
+        <template #default="{ row }">{{ formatTime(row.lastUpdated) }}</template>
+      </el-table-column>
     </el-table>
 
     <!-- 风险信息弹窗 -->
@@ -116,7 +118,9 @@
               <el-tag :type="severityType(row.severity)" size="small">{{ row.severity }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="foundDate" label="发现日期" width="120" />
+          <el-table-column prop="foundDate" label="发现日期" width="180">
+            <template #default="{ row }">{{ formatTime(row.foundDate) }}</template>
+          </el-table-column>
         </el-table>
 
         <el-empty v-if="allRisks.length === 0" description="暂无缺陷和漏洞记录" />
@@ -129,9 +133,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { mockSoftwareAssets, type SoftwareAsset } from '@/mock/assets'
 import { SOFTWARE_TYPE_LABELS } from '@/types'
 import { useUserStore } from '@/stores/user'
+import { formatTime } from '@/utils/format'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -141,7 +145,7 @@ const filterType = ref('')
 const filterKeyword = ref('')
 
 const riskDialogVisible = ref(false)
-const selectedSoftware = ref<SoftwareAsset | null>(null)
+const selectedSoftware = ref<any>(null)
 
 interface RiskItem {
   id: string
@@ -153,10 +157,11 @@ interface RiskItem {
 }
 
 // 仅显示分配给当前专员的软件
+const softwareList = ref<any[]>([])
 const mySoftware = computed(() => {
   const currentUserName = userStore.userInfo?.nickname || userStore.userInfo?.username
-  if (!currentUserName) return mockSoftwareAssets
-  return mockSoftwareAssets.filter(s => s.assignedSpecialist === currentUserName)
+  if (!currentUserName) return softwareList.value
+  return softwareList.value.filter(s => s.assignedSpecialist === currentUserName)
 })
 
 const filteredSoftware = computed(() => {
@@ -181,7 +186,7 @@ const allRisks = computed<RiskItem[]>(() => {
 
   // 添加缺陷
   if (software.defects) {
-    software.defects.forEach(d => {
+    software.defects.forEach((d: any) => {
       risks.push({
         id: d.id,
         title: d.title,
@@ -213,9 +218,13 @@ function severityType(severity: string): 'danger' | 'warning' | 'info' {
   return types[severity] || 'info'
 }
 
-function viewRiskDetail(row: SoftwareAsset) {
+function viewRiskDetail(row: any) {
   selectedSoftware.value = row
   riskDialogVisible.value = true
+}
+
+function loadSoftwareAssets() {
+  // TODO: 调用后端 API 获取软件资产列表
 }
 
 onMounted(() => {
@@ -223,6 +232,7 @@ onMounted(() => {
   if (!route.path.startsWith('/specialist')) {
     ElMessage.warning('此页面仅开源治理专员可见')
   }
+  loadSoftwareAssets()
 })
 </script>
 

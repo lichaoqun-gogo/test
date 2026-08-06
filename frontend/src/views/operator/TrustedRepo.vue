@@ -297,7 +297,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { Plus, Search } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
@@ -310,52 +310,14 @@ const searchQuery = ref('')
 const searched = ref(false)
 const searchResults = ref<any[]>([])
 
-const mockSearchData = [
-  {
-    id: '1',
-    name: 'Apache Kafka',
-    version: '3.6.1',
-    description: '分布式事件流平台',
-    activityScore: 95,
-    licenseName: 'Apache-2.0',
-    licenseRisk: 'low',
-    introduced: false,
-  },
-  {
-    id: '2',
-    name: 'Spring Boot',
-    version: '3.2.3',
-    description: 'Java企业级应用框架',
-    activityScore: 98,
-    licenseName: 'Apache-2.0',
-    licenseRisk: 'low',
-    introduced: true,
-    introducedVersion: '3.1.0',
-  },
-  {
-    id: '3',
-    name: 'Redis',
-    version: '7.2.4',
-    description: '内存数据库和缓存',
-    activityScore: 92,
-    licenseName: 'BSD-3',
-    licenseRisk: 'low',
-    introduced: true,
-    introducedVersion: '7.0.0',
-  },
-]
-
 function handleSearch() {
   if (!searchQuery.value.trim()) {
     ElMessage.warning('请输入搜索关键词')
     return
   }
   searched.value = true
-  // 模拟搜索
-  searchResults.value = mockSearchData.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.version.includes(searchQuery.value)
-  )
+  // TODO: 调用后端搜索 API
+  searchResults.value = []
 }
 
 function resetSearch() {
@@ -380,136 +342,17 @@ function applySoftwareFromSearch(item: any) {
 }
 
 // 核心台账数据
-const softwareList = ref([
-  {
-    name: 'Redis',
-    version: '7.2.4',
-    license: 'BSD-3',
-    projectCount: 45,
-    description: '内存数据库和缓存',
-  },
-  {
-    name: 'MySQL',
-    version: '8.0.36',
-    license: 'GPL-2.0',
-    projectCount: 78,
-    description: '关系型数据库',
-  },
-  {
-    name: 'Nginx',
-    version: '1.25.3',
-    license: 'BSD-2',
-    projectCount: 92,
-    description: 'HTTP和反向代理服务器',
-  },
-])
-
-const dependencyList = ref([
-  {
-    name: 'Spring Boot',
-    version: '3.2.3',
-    license: 'Apache-2.0',
-    projectCount: 156,
-    isCore: true,
-    description: 'Java企业级应用框架',
-  },
-  {
-    name: 'Vue.js',
-    version: '3.4.19',
-    license: 'MIT',
-    projectCount: 89,
-    isCore: true,
-    description: '前端渐进式框架',
-  },
-  {
-    name: 'Log4j2',
-    version: '2.22.1',
-    license: 'Apache-2.0',
-    projectCount: 234,
-    isCore: true,
-    description: 'Java日志框架',
-  },
-  {
-    name: 'Axios',
-    version: '1.6.7',
-    license: 'MIT',
-    projectCount: 67,
-    isCore: false,
-    description: 'HTTP客户端',
-  },
-])
-
-const toolList = ref([
-  {
-    name: 'SonarQube Scanner',
-    version: '6.0',
-    platform: 'Linux/Windows/Mac',
-    description: '代码质量扫描工具',
-  },
-  {
-    name: 'Trivy',
-    version: '0.49.1',
-    platform: 'Linux/Mac',
-    description: '容器漏洞扫描工具',
-  },
-])
+const softwareList = ref<any[]>([])
+const dependencyList = ref<any[]>([])
+const toolList = ref<any[]>([])
 
 // 软件库数据
-const softwareLibrary = ref([
-  {
-    name: 'Apache Kafka',
-    org: 'org.apache',
-    version: '3.6.1',
-    license: 'Apache-2.0',
-    status: 'approved',
-    downloadUrl: 'https://trusted-repo.company.com/kafka/3.6.1/download',
-  },
-  {
-    name: 'Elasticsearch',
-    org: 'org.elasticsearch',
-    version: '8.12.2',
-    license: 'SSPL-1.0',
-    status: 'pending',
-    downloadUrl: '',
-  },
-  {
-    name: 'RabbitMQ',
-    org: 'com.rabbitmq',
-    version: '3.12.12',
-    license: 'Apache-2.0',
-    status: '',
-    downloadUrl: '',
-  },
-  {
-    name: 'PostgreSQL',
-    org: 'org.postgresql',
-    version: '16.2',
-    license: 'PostgreSQL',
-    status: '',
-    downloadUrl: '',
-  },
-])
+const softwareLibrary = ref<any[]>([])
 
 // 关联项目
 const relatedProjectsVisible = ref(false)
 const currentSoftware = ref({ name: '' })
-const relatedProjects = ref([
-  {
-    name: '订单系统',
-    team: '订单团队',
-    dept: '技术研发部',
-  },
-  {
-    name: '支付系统',
-    team: '支付团队',
-    dept: '技术研发部',
-  },
-  {
-    name: '用户中心',
-    team: '用户团队',
-    dept: '平台研发部',
-  },
-])
+const relatedProjects = ref<any[]>([])
 
 // 申请使用面板
 const applyDrawerVisible = ref(false)
@@ -525,6 +368,19 @@ function showRelatedProjects(row: any) {
   currentSoftware.value = { name: row.name }
   relatedProjectsVisible.value = true
 }
+
+function loadLedgerData() {
+  // TODO: 调用后端 API 获取核心台账数据
+}
+
+function loadSoftwareLibrary() {
+  // TODO: 调用后端 API 获取软件库数据
+}
+
+onMounted(() => {
+  loadLedgerData()
+  loadSoftwareLibrary()
+})
 
 function showApplyPanel() {
   applyForm.org = ''

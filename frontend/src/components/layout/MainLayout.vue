@@ -74,7 +74,7 @@
           :default-active="activeMenu"
           :collapse="isCollapsed"
           :collapse-transition="false"
-          router
+          @select="handleMenuSelect"
           class="side-menu"
           background-color="#002140"
           text-color="rgba(255, 255, 255, 0.65)"
@@ -126,9 +126,9 @@
       </div>
 
       <!-- 主内容区 -->
-      <el-main class="layout-main">
+      <div class="layout-main" style="flex:1;background:#f0f2f5;padding:16px;overflow-y:auto;">
         <router-view />
-      </el-main>
+      </div>
     </div>
 
     <!-- 底部 -->
@@ -139,10 +139,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
+import { casLogin } from '@/api/auth'
 import {
   Management, User, SwitchButton, ArrowDown,
   Coin, Warning, Setting,
@@ -157,6 +158,13 @@ const userStore = useUserStore()
 const isCollapsed = ref(false)
 
 const activeMenu = computed(() => route.path)
+
+// 调试：监听路由变化，输出当前匹配的路由记录
+watch(() => route.fullPath, (newPath, oldPath) => {
+  console.log(`[MainLayout] route change: ${oldPath} -> ${newPath}`)
+  console.log(`[MainLayout] matched:`, route.matched.map(m => ({ path: m.path, name: m.name })))
+  console.log(`[MainLayout] all routes:`, router.getRoutes().map(r => ({ path: r.path, name: r.name })))
+})
 
 // 显示的菜单（admin 角色切换：全局治理用 admin 菜单，个人工作台用 specialist 菜单）
 const displayMenus = computed<MenuTreeNode[]>(() => {
@@ -204,11 +212,33 @@ function handleViewModeChange(mode: 'personal' | 'admin') {
   ElMessage.success(mode === 'admin' ? '已切换到全局治理' : '已切换到个人工作台')
 }
 
+// 手动处理菜单点击导航（替代 el-menu 的 router 模式，避免导航冲突）
+function handleMenuSelect(index: string) {
+  console.log(`[MainLayout] menu select: index=${index}, currentPath=${route.path}`)
+  if (!index || index === route.path) {
+    console.log(`[MainLayout] 跳过导航: index 为空或与当前路径相同`)
+    return
+  }
+  // 检查目标路由是否存在
+  const matched = router.getRoutes().find(r => r.path === index || r.path === `/${index}`)
+  console.log(`[MainLayout] 目标路由匹配:`, matched ? { path: matched.path, name: matched.name } : '未找到')
+  router.push(index).then(() => {
+    console.log(`[MainLayout] push 成功, 新路径: ${route.fullPath}`)
+  }).catch(err => {
+    console.warn(`[MainLayout] 导航失败: ${index}`, err)
+  })
+}
+
 async function handleCommand(command: string) {
   if (command === 'logout') {
-    await userStore.logout()
+    try {
+      await userStore.logout()
+    } catch (err) {
+      console.error('[MainLayout] logout error:', err)
+    }
     ElMessage.success('已退出登录')
-    router.replace('/login')
+    // 直接跳转 CAS 认证中心，不经过 /login 路由（避免中间页闪烁）
+    casLogin()
   }
 }
 </script>
@@ -450,8 +480,17 @@ async function handleCommand(command: string) {
   background: #001529 !important;
 }
 
+:deep(.el-menu--inline > .el-sub-menu > .el-sub-menu__title),
+:deep(.el-menu--inline > .el-menu-item) {
+  height: 48px;
+  line-height: 48px;
+}
+
 :deep(.el-menu--inline .el-menu-item) {
   background: #001529 !important;
+}
+
+:deep(.el-menu--inline > .el-sub-menu > .el-menu--inline .el-menu-item) {
   padding-left: 48px !important;
 }
 

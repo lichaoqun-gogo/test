@@ -154,7 +154,9 @@
                   <el-table :data="hrDetailMap[row.projectName] || []" size="small" border style="width: 100%">
                     <el-table-column prop="moduleCode" label="模块名称" min-width="140" />
                     <el-table-column prop="commitId" label="commitID（当前版本）" min-width="160" show-overflow-tooltip />
-                    <el-table-column prop="createTime" label="核查时间" width="170" />
+                    <el-table-column prop="createTime" label="核查时间" width="180">
+                      <template #default="{ row: detail }">{{ formatTime(detail.createTime) }}</template>
+                    </el-table-column>
                     <el-table-column label="处置" width="90">
                       <template #default="{ row: detail }">
                         <el-tag :type="detail.alertType === 1 ? 'danger' : 'warning'" size="small">
@@ -279,6 +281,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Search, Trophy } from '@element-plus/icons-vue'
 import { coreDependencyApi } from '@/api'
+import { formatTime } from '@/utils/format'
 
 // 看板汇总 - 供应链安全洞察
 const summary = reactive({

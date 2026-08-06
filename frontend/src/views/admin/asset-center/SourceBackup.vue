@@ -19,7 +19,9 @@
       </el-table-column>
       <el-table-column prop="storagePath" label="存储路径" min-width="200" />
       <el-table-column prop="size" label="大小" width="80" />
-      <el-table-column prop="lastUpdated" label="最后更新" width="120" />
+      <el-table-column prop="lastUpdated" label="最后更新" width="180">
+        <template #default="{ row }">{{ formatTime(row.lastUpdated) }}</template>
+      </el-table-column>
       <el-table-column prop="triggeredBy" label="触发方式" width="80" />
       <el-table-column label="操作" width="80">
         <template #default="{ row }">
@@ -31,12 +33,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { mockBackups } from '@/mock/admin'
+import { ref, onMounted } from 'vue'
 import { RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils/format'
 
-const backups = ref(mockBackups)
+const backups = ref<any[]>([])
+
+function loadBackups() {}
+
+onMounted(() => {
+  loadBackups()
+})
 
 function backupStatusType(status: string) {
   const types: Record<string, string> = { completed: 'success', running: '', failed: 'danger', pending: 'info' }

@@ -51,13 +51,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { mockBlacklist } from '@/mock/admin'
+import { ref, onMounted } from 'vue'
 import { Upload, Plus } from '@element-plus/icons-vue'
 
 const searchText = ref('')
-const blacklist = mockBlacklist
+const blacklist = ref<any[]>([])
 const dialogVisible = ref(false)
+
+function loadBlacklist() {}
+
+onMounted(() => {
+  loadBlacklist()
+})
 </script>
 
 <style scoped>

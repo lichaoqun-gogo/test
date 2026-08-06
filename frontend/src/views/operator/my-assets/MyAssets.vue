@@ -42,7 +42,9 @@
               <span v-else>0</span>
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdated" label="最后更新" width="120" />
+          <el-table-column prop="lastUpdated" label="最后更新" width="180">
+            <template #default="{ row }">{{ formatTime(row.lastUpdated) }}</template>
+          </el-table-column>
           <el-table-column label="状态" width="100">
             <template #default="{ row }">
               <el-tag :type="row.status === 'active' ? 'success' : 'info'" size="small">
@@ -80,7 +82,9 @@
               <span v-else>0</span>
             </template>
           </el-table-column>
-          <el-table-column prop="lastScanned" label="最后扫描" width="120" />
+          <el-table-column prop="lastScanned" label="最后扫描" width="180">
+            <template #default="{ row }">{{ formatTime(row.lastScanned) }}</template>
+          </el-table-column>
           <el-table-column label="状态" width="100">
             <template #default="{ row }">
               <el-tag :type="row.status === 'active' ? 'success' : 'warning'" size="small">
@@ -95,18 +99,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { mockSoftwareAssets, mockProjects } from '@/mock/assets'
 import { SOFTWARE_TYPE_LABELS } from '@/types'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const activeTab = ref('software')
 const filterGrade = ref('')
 const filterType = ref('')
 
+const softwareList = ref<any[]>([])
 const filteredSoftware = computed(() => {
-  let list = mockSoftwareAssets
+  let list = softwareList.value
   if (filterGrade.value) {
     list = list.filter(s => s.grade === filterGrade.value)
   }
@@ -116,7 +121,20 @@ const filteredSoftware = computed(() => {
   return list
 })
 
-const projects = mockProjects
+const projects = ref<any[]>([])
+
+function loadSoftwareAssets() {
+  // TODO: 调用后端 API 获取软件资产列表
+}
+
+function loadProjects() {
+  // TODO: 调用后端 API 获取项目列表
+}
+
+onMounted(() => {
+  loadSoftwareAssets()
+  loadProjects()
+})
 
 function viewDetail(id: string) {
   router.push(`/operator/my-assets/${id}`)

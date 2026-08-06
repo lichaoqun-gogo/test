@@ -47,7 +47,7 @@
         <el-card shadow="never" class="stat-card">
           <div class="stat-item">
             <span class="stat-label">总申请数</span>
-            <span class="stat-value">{{ mockIntroduceDetails.length }}</span>
+            <span class="stat-value">{{ introduceList.length }}</span>
           </div>
         </el-card>
       </el-col>
@@ -129,7 +129,9 @@
             <TicketStatusTag :status="row.status" />
           </template>
         </el-table-column>
-        <el-table-column prop="submittedAt" label="提交时间" width="120" />
+        <el-table-column prop="submittedAt" label="提交时间" width="120">
+          <template #default="{ row }">{{ formatTime(row.submittedAt) }}</template>
+        </el-table-column>
         <el-table-column label="操作" width="100" fixed="right">
           <template #default="{ row }">
             <el-button type="primary" link size="small" @click="viewDetail(row.id)">查看详情</el-button>
@@ -151,15 +153,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Search, Refresh } from '@element-plus/icons-vue'
-import { mockIntroduceDetails } from '@/mock/admin'
 import { SOFTWARE_TYPE_LABELS } from '@/types'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const currentPage = ref(1)
 const pageSize = ref(10)
+const introduceList = ref<any[]>([])
 
 const filterForm = ref({
   status: '',
@@ -169,7 +172,7 @@ const filterForm = ref({
 })
 
 const filteredData = computed(() => {
-  let data = [...mockIntroduceDetails]
+  let data = [...introduceList.value]
   if (filterForm.value.status) {
     data = data.filter(i => i.status === filterForm.value.status)
   }
@@ -185,9 +188,15 @@ const filteredData = computed(() => {
   return data
 })
 
-const pendingCount = computed(() => mockIntroduceDetails.filter(i => i.status === 'pending').length)
-const processingCount = computed(() => mockIntroduceDetails.filter(i => i.status === 'processing').length)
-const completedCount = computed(() => mockIntroduceDetails.filter(i => i.status === 'completed').length)
+const pendingCount = computed(() => introduceList.value.filter(i => i.status === 'pending').length)
+const processingCount = computed(() => introduceList.value.filter(i => i.status === 'processing').length)
+const completedCount = computed(() => introduceList.value.filter(i => i.status === 'completed').length)
+
+function loadIntroduceList() {}
+
+onMounted(() => {
+  loadIntroduceList()
+})
 
 function handleFilter() {
   currentPage.value = 1

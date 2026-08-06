@@ -83,7 +83,7 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="160">
         <template #default="{ row }">
-          {{ row.createTime || row.createdAt || '-' }}
+          {{ formatTime(row.createTime || row.createdAt) }}
         </template>
       </el-table-column>
     </el-table>
@@ -97,6 +97,7 @@ import { useRouter } from 'vue-router'
 import { Search } from '@element-plus/icons-vue'
 import { TASK_TYPE_LABELS } from '@/types'
 import type { TaskType } from '@/types'
+import { formatTime } from '@/utils/format'
 import { useTaskStore } from '@/stores/task'
 
 const router = useRouter()

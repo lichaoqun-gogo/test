@@ -144,6 +144,8 @@ export function registerDynamicRoutes(menus: MenuTreeNode[], role: string) {
   const parentName = parentNameMap[role] || 'OperatorLayout'
   const parentPath = `/${role}`
 
+  console.log(`[registerDynamicRoutes] role=${role}, parentName=${parentName}, menus=${menus.length}`)
+
   // 递归注册菜单路由
   function registerMenu(menu: MenuTreeNode) {
     if (menu.component && componentMaps[menu.component]) {
@@ -155,6 +157,9 @@ export function registerDynamicRoutes(menus: MenuTreeNode[], role: string) {
         meta: { title: menu.name, role },
       }
       router.addRoute(parentName, route)
+      console.log(`[registerDynamicRoutes] 注册路由: parent=${parentName}, path=${routePath}, name=${String(route.name)}, fullPath=${menu.path}`)
+    } else if (menu.component) {
+      console.warn(`[registerDynamicRoutes] 组件未找到: ${menu.component} (menu: ${menu.name})`)
     }
     if (menu.children?.length) {
       menu.children.forEach(child => registerMenu(child))
@@ -220,7 +225,8 @@ router.beforeEach(async (to, _from, next) => {
   const userStore = useUserStore()
 
   // 首次进入时从 localStorage 恢复登录状态
-  if (!userStore.routesLoaded && !userStore.isLoggedIn) {
+  // 注意：token 在 store 初始化时已恢复，但 userInfo 需要 initFromStorage 设置
+  if (!userStore.routesLoaded) {
     userStore.initFromStorage()
   }
 
@@ -241,8 +247,10 @@ router.beforeEach(async (to, _from, next) => {
     return
   }
 
-  // 已登录但尚未加载动态路由 -> 先加载
+  // 已登录但尚未加载动态路由 -> 先加载用户信息和菜单
   if (!userStore.routesLoaded) {
+    // 先从后端获取最新用户信息（部门、团队等），再加载菜单
+    await userStore.fetchUserInfo()
     await userStore.fetchMenus()
     if (!userStore.isLoggedIn) {
       next({ path: '/login', query: { redirect: to.fullPath } })

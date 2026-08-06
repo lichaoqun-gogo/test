@@ -35,22 +35,31 @@
       <el-table-column label="状态" width="100">
         <template #default="{ row }"><TicketStatusTag :status="row.status" /></template>
       </el-table-column>
-      <el-table-column prop="submittedAt" label="提交时间" width="110" />
+      <el-table-column prop="submittedAt" label="提交时间" width="180">
+        <template #default="{ row }">{{ formatTime(row.submittedAt) }}</template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { mockIntroductions } from '@/mock/admin'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const filterStatus = ref('')
+const introductionList = ref<any[]>([])
 
 const filteredIntroductions = computed(() => {
-  if (!filterStatus.value) return mockIntroductions
-  return mockIntroductions.filter(i => i.status === filterStatus.value)
+  if (!filterStatus.value) return introductionList.value
+  return introductionList.value.filter(i => i.status === filterStatus.value)
+})
+
+function loadIntroductions() {}
+
+onMounted(() => {
+  loadIntroductions()
 })
 
 function viewDetail(id: string) {

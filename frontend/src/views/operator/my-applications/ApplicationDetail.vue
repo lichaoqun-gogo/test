@@ -18,7 +18,7 @@
         </el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="工单号">{{ application?.ticketNo || '未生成' }}</el-descriptions-item>
-      <el-descriptions-item label="创建时间">{{ application?.createdAt }}</el-descriptions-item>
+      <el-descriptions-item label="创建时间">{{ formatTime(application?.createdAt) }}</el-descriptions-item>
       <el-descriptions-item label="状态" :span="2">
         <TicketStatusTag :status="application?.status || 'pending'" />
       </el-descriptions-item>
@@ -37,17 +37,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { mockApplications } from '@/mock/tickets'
 import { APPLICATION_TYPE_LABELS } from '@/types'
+import { formatTime } from '@/utils/format'
 
 const route = useRoute()
 const router = useRouter()
 
-const application = computed(() =>
-  mockApplications.find(a => a.id === route.params.id)
-)
+const application = ref<any>(null)
+
+function loadApplication(id: string) {
+  // TODO: 调用后端 API 获取申请详情
+}
+
+onMounted(() => {
+  loadApplication(route.params.id as string)
+})
 
 function goBack() {
   router.back()

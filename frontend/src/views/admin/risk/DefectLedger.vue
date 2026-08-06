@@ -110,7 +110,9 @@
         <template #default="{ row }"><RiskTag :level="row.riskLevel" /></template>
       </el-table-column>
       <el-table-column prop="affectedComponent" label="影响组件" width="130" />
-      <el-table-column prop="discoveredDate" label="发现日期" width="110" />
+      <el-table-column prop="discoveredDate" label="发现日期" width="110">
+        <template #default="{ row }">{{ formatTime(row.discoveredDate) }}</template>
+      </el-table-column>
       <el-table-column label="全局状态" width="110">
         <template #default="{ row }">
           <el-tag :type="globalStatusType(row.globalStatus)" size="small">{{ row.globalStatus }}</el-tag>
@@ -286,7 +288,9 @@
             <el-tag :type="taskStatusType(row.status)" size="small">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createdAt" label="创建时间" width="160" />
+        <el-table-column prop="createdAt" label="创建时间" width="160">
+          <template #default="{ row }">{{ formatTime(row.createdAt) }}</template>
+        </el-table-column>
       </el-table>
       <el-empty v-if="relatedTasks.length === 0" description="暂无关联任务" />
     </el-dialog>
@@ -303,7 +307,7 @@
           <RiskTag :level="defectDetail.riskLevel" />
         </el-descriptions-item>
         <el-descriptions-item label="影响组件">{{ defectDetail.affectedComponent }}</el-descriptions-item>
-        <el-descriptions-item label="发现日期">{{ defectDetail.discoveredDate }}</el-descriptions-item>
+        <el-descriptions-item label="发现日期">{{ formatTime(defectDetail.discoveredDate) }}</el-descriptions-item>
         <el-descriptions-item label="全局状态">
           <el-tag :type="globalStatusType(defectDetail.globalStatus)" size="small">{{ defectDetail.globalStatus }}</el-tag>
         </el-descriptions-item>
@@ -332,6 +336,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Search, Clock, Tickets, Operation, WarningFilled, EditPen, Plus } from '@element-plus/icons-vue'
 import RiskTag from '@/components/business/RiskTag.vue'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const searchText = ref('')

@@ -24,7 +24,9 @@
           <el-tag v-else type="info" size="small">草稿</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createdAt" label="申请时间" width="200" />
+      <el-table-column prop="createdAt" label="申请时间" width="200">
+        <template #default="{ row }">{{ formatTime(row.createdAt) }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="160" fixed="right">
         <template #default="{ row }">
           <template v-if="row.status === 'draft'">
@@ -103,6 +105,7 @@ import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useTaskStore } from '@/stores/task'
 import type { FormInstance, FormRules } from 'element-plus'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const taskStore = useTaskStore()

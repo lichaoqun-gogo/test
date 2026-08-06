@@ -281,7 +281,9 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="scanDate" label="扫描日期" width="120" />
+          <el-table-column prop="scanDate" label="扫描日期" width="120">
+            <template #default="{ row }">{{ formatTime(row.scanDate) }}</template>
+          </el-table-column>
           <el-table-column prop="size" label="大小" width="80" />
           <el-table-column label="下载次数" width="100" sortable :sort-method="sortByDownload">
             <template #default="{ row }">
@@ -352,7 +354,7 @@
                 </el-tag>
               </el-descriptions-item>
               <el-descriptions-item label="扫描日期">
-                {{ selectedPackage.scanDate }}
+                {{ formatTime(selectedPackage.scanDate) }}
               </el-descriptions-item>
               <el-descriptions-item label="文件大小">
                 {{ selectedPackage.size }}
@@ -382,44 +384,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { mockSearchResults, mockTrustedPackages } from '@/mock/software'
-import type { SoftwareSearchResult, TrustedPackage } from '@/mock/software'
 import { RISK_LEVEL_LABELS } from '@/types'
 import { Search, Download, TrendCharts, WarningFilled, Document, Box, CircleCheckFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import SmartRecommendation from './components/SmartRecommendation.vue'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 
 // ==================== Tab 1: 搜索相关 ====================
 const activeTab = ref('search')
 const searchQuery = ref('')
-const searchResults = ref<SoftwareSearchResult[]>([])
+const searchResults = ref<any[]>([])
 const searched = ref(false)
 
 const hasHighRisk = computed(() =>
   searchResults.value.some(r =>
-    r.vulnerabilities.some(v => v.severity === 'critical' || v.severity === 'high') || r.licenseRisk === 'high'
+    r.vulnerabilities.some((v: any) => v.severity === 'critical' || v.severity === 'high') || r.licenseRisk === 'high'
   )
 )
 
 function handleSearch() {
   searched.value = true
   if (!searchQuery.value.trim()) {
-    searchResults.value = mockSearchResults
+    searchResults.value = []
     return
   }
-  const q = searchQuery.value.toLowerCase()
-  searchResults.value = mockSearchResults.filter(
-    r => r.name.toLowerCase().includes(q) || r.version.includes(q)
-  )
+  // TODO: 调用后端搜索 API
+  searchResults.value = []
 }
 
 function resetSearch() {
   searchQuery.value = ''
-  searchResults.value = mockSearchResults
+  searchResults.value = []
   searched.value = true
 }
 
@@ -439,7 +438,7 @@ function vulnTagType(severity: string) {
   return types[severity] || ''
 }
 
-function applyIntroduce(item: SoftwareSearchResult) {
+function applyIntroduce(item: any) {
   ElMessage.success(`正在跳转到引入申请页面...`)
   router.push({
     path: '/operator/my-task',
@@ -453,10 +452,11 @@ const packageSearch = ref('')
 const currentPage = ref(1)
 const pageSize = ref(10)
 const detailVisible = ref(false)
-const selectedPackage = ref<TrustedPackage | null>(null)
+const selectedPackage = ref<any>(null)
 
+const trustedPackages = ref<any[]>([])
 const filteredPackages = computed(() => {
-  let result = mockTrustedPackages
+  let result = trustedPackages.value
 
   if (packageFilter.value) {
     result = result.filter(p => p.category === packageFilter.value)
@@ -489,19 +489,27 @@ function handleFilterChange() {
   currentPage.value = 1
 }
 
-function sortByDownload(a: TrustedPackage, b: TrustedPackage) {
+function sortByDownload(a: any, b: any) {
   return a.downloadCount - b.downloadCount
 }
 
-function handleDownload(pkg: TrustedPackage | null) {
+function handleDownload(pkg: any) {
   if (!pkg) return
   ElMessage.success(`开始下载 ${pkg.name} v${pkg.version}...`)
 }
 
-function showPackageDetail(pkg: TrustedPackage) {
+function showPackageDetail(pkg: any) {
   selectedPackage.value = pkg
   detailVisible.value = true
 }
+
+function loadTrustedPackages() {
+  // TODO: 调用后端 API 获取可信包列表
+}
+
+onMounted(() => {
+  loadTrustedPackages()
+})
 </script>
 
 <style scoped>

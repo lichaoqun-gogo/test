@@ -81,7 +81,9 @@
               <el-progress :percentage="row.progress" :color="progressColor(row.progress)" />
             </template>
           </el-table-column>
-          <el-table-column prop="dueDate" label="截止日期" width="110" />
+          <el-table-column prop="dueDate" label="截止日期" width="110">
+            <template #default="{ row }">{{ formatTime(row.dueDate) }}</template>
+          </el-table-column>
           <el-table-column label="逾期" width="70">
             <template #default="{ row }">
               <el-tag v-if="row.isOverdue" type="danger" size="small">逾期</el-tag>
@@ -125,7 +127,9 @@
               <el-progress :percentage="row.progress" :color="progressColor(row.progress)" />
             </template>
           </el-table-column>
-          <el-table-column prop="dueDate" label="截止日期" width="110" />
+          <el-table-column prop="dueDate" label="截止日期" width="110">
+            <template #default="{ row }">{{ formatTime(row.dueDate) }}</template>
+          </el-table-column>
           <el-table-column label="操作" width="160" fixed="right">
             <template #default="{ row }">
               <el-button type="primary" link size="small" @click="viewDetail(row as RiskTask)">查看详情</el-button>
@@ -152,7 +156,7 @@
         <el-descriptions-item label="来源">{{ currentTask.source }}</el-descriptions-item>
         <el-descriptions-item label="负责人">{{ currentTask.assignee }}</el-descriptions-item>
         <el-descriptions-item label="部门">{{ currentTask.department }}</el-descriptions-item>
-        <el-descriptions-item label="截止日期">{{ currentTask.dueDate }}</el-descriptions-item>
+        <el-descriptions-item label="截止日期">{{ formatTime(currentTask.dueDate) }}</el-descriptions-item>
         <el-descriptions-item label="逾期情况">
           <el-tag v-if="currentTask.isOverdue" type="danger" size="small">已逾期</el-tag>
           <el-tag v-else type="success" size="small">正常</el-tag>
@@ -173,6 +177,7 @@ import { ref, computed } from 'vue'
 import { mockRiskTasks } from '@/mock/admin'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { RiskTask } from '@/mock/admin'
+import { formatTime } from '@/utils/format'
 
 const activeTab = ref('global')
 const searchText = ref('')

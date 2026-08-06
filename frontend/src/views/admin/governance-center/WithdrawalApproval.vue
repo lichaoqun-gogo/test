@@ -13,7 +13,9 @@
       <el-table-column label="状态" width="100">
         <template #default="{ row }"><TicketStatusTag :status="row.status" /></template>
       </el-table-column>
-      <el-table-column prop="submittedAt" label="提交时间" width="110" />
+      <el-table-column prop="submittedAt" label="提交时间" width="180">
+        <template #default="{ row }">{{ formatTime(row.submittedAt) }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="160" fixed="right">
         <template #default="{ row }">
           <el-button v-if="row.status === 'pending'" type="success" size="small" @click="handleApprove(row)">通过</el-button>
@@ -25,11 +27,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { mockWithdrawals } from '@/mock/admin'
+import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils/format'
 
-const withdrawals = ref(mockWithdrawals)
+const withdrawals = ref<any[]>([])
+
+function loadWithdrawals() {}
+
+onMounted(() => {
+  loadWithdrawals()
+})
 
 function handleApprove(row: any) {
   row.status = 'completed'

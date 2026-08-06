@@ -116,5 +116,19 @@ func Load() (*Config, error) {
 		return nil, fmt.Errorf("failed to parse config file %s: %w", configPath, err)
 	}
 
+	// 填充默认值（生产环境无需配置这些项）
+	cfg.applyDefaults()
+
 	return &cfg, nil
+}
+
+// applyDefaults 填充配置默认值
+func (c *Config) applyDefaults() {
+	// JWT 默认值：不配置时使用内置默认值
+	if c.Auth.JWT.Secret == "" {
+		c.Auth.JWT.Secret = "osm-mngt-default-jwt-secret"
+	}
+	if c.Auth.JWT.Expiry <= 0 {
+		c.Auth.JWT.Expiry = 86400 // 24 小时
+	}
 }

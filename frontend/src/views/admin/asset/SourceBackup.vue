@@ -76,7 +76,7 @@
         </el-table-column>
         <el-table-column label="最后更新时间" width="200">
           <template #default="{ row }">
-            {{ formatDate(row.lastModified) }}
+            {{ formatTime(row.lastModified) }}
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" align="center">
@@ -119,6 +119,7 @@ import {
   ArrowRight, Folder, Document,
 } from '@element-plus/icons-vue'
 import { sourceBackupApi } from '@/api'
+import { formatTime } from '@/utils/format'
 
 interface ObjectItem {
   key: string
@@ -252,17 +253,6 @@ function formatFileSize(size: number): string {
   if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`
   if (size < 1024 * 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(1)} MB`
   return `${(size / (1024 * 1024 * 1024)).toFixed(1)} GB`
-}
-
-function formatDate(dateStr: string): string {
-  if (!dateStr || dateStr.startsWith('0001-')) return '-'
-  return new Date(dateStr).toLocaleString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
 }
 </script>
 

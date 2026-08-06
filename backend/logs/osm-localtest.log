@@ -1,0 +1,5 @@
+2026/08/04 18:10:16 Logging to file: logs/osm-localtest.log
+2026/08/04 18:10:16 Warning: Failed to connect to MinIO: Get "http://127.0.0.1:9000/osm/?location=": dial tcp 127.0.0.1:9000: connect: connection refused (service will continue without file upload)
+2026/08/04 18:10:16 Warning: MinIO client is nil, file upload feature will be disabled
+2026/08/04 18:10:16 Server starting on :8081
+2026/08/04 18:10:26 [GET] 200 /api/v1/asset/inner-projects/modules 645.458µs

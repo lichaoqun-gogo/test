@@ -38,7 +38,9 @@
               <span v-else>0</span>
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdated" label="最后更新" />
+          <el-table-column prop="lastUpdated" label="最后更新">
+            <template #default="{ row }">{{ formatTime(row.lastUpdated) }}</template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
 
@@ -63,14 +65,18 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="discoveredDate" label="发现日期" width="120" />
+          <el-table-column prop="discoveredDate" label="发现日期" width="180">
+            <template #default="{ row }">{{ formatTime(row.discoveredDate) }}</template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
 
       <!-- 历史阻断记录 -->
       <el-tab-pane label="历史阻断记录" name="blocks">
         <el-table :data="blockRecords" stripe>
-          <el-table-column prop="date" label="阻断时间" width="160" />
+          <el-table-column prop="date" label="阻断时间" width="180">
+            <template #default="{ row }">{{ formatTime(row.date) }}</template>
+          </el-table-column>
           <el-table-column prop="reason" label="阻断原因" min-width="200" />
           <el-table-column prop="rule" label="阻断规则" width="150" />
           <el-table-column prop="handler" label="处理人" width="100" />
@@ -87,74 +93,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { mockProjects } from '@/mock/assets'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const route = useRoute()
 const activeTab = ref('licenses')
 
 const projectId = computed(() => route.params.id as string)
-const project = computed(() => mockProjects.find(p => p.id === projectId.value))
+const project = ref<any>(null)
 
-// Mock数据
-const licenses = ref([
-  { name: 'Apache-2.0', riskLevel: 'low', componentCount: 45 },
-  { name: 'MIT', riskLevel: 'low', componentCount: 32 },
-  { name: 'GPL-3.0', riskLevel: 'high', componentCount: 3 },
-])
+const licenses = ref<any[]>([])
+const dependencies = ref<any[]>([])
+const vulnerabilities = ref<any[]>([])
+const blockRecords = ref<any[]>([])
 
-const dependencies = ref([
-  { name: 'Spring Boot', version: '3.2.3', license: 'Apache-2.0', vulnerabilityCount: 0, lastUpdated: '2024-03-15' },
-  { name: 'Vue.js', version: '3.4.19', license: 'MIT', vulnerabilityCount: 1, lastUpdated: '2024-03-10' },
-  { name: 'Log4j2', version: '2.22.1', license: 'Apache-2.0', vulnerabilityCount: 2, lastUpdated: '2024-03-05' },
-])
+function loadProjectDetail(id: string) {
+  // TODO: 调用后端 API 获取项目详情
+}
 
-const vulnerabilities = ref([
-  {
-    cveId: 'CVE-2024-1234',
-    severity: 'high',
-    component: 'Log4j2',
-    version: '2.22.1',
-    description: '远程代码执行漏洞',
-    status: 'open',
-    discoveredDate: '2024-03-15',
-  },
-  {
-    cveId: 'CVE-2024-1235',
-    severity: 'medium',
-    component: 'Vue.js',
-    version: '3.4.19',
-    description: 'XSS跨站脚本漏洞',
-    status: 'resolved',
-    discoveredDate: '2024-03-10',
-  },
-])
-
-const blockRecords = ref([
-  {
-    date: '2024-03-15 10:30',
-    reason: '引入了未审批的开源组件 log4j 2.14.0',
-    rule: '组件白名单检查',
-    handler: '张三',
-    status: 'resolved',
-  },
-  {
-    date: '2024-03-10 14:20',
-    reason: '生产Commit ID与当前Commit ID不一致',
-    rule: '版本一致性检查',
-    handler: '李四',
-    status: 'resolved',
-  },
-  {
-    date: '2024-03-05 09:15',
-    reason: '使用了GPL许可证的组件，不符合许可证要求',
-    rule: '许可证检查',
-    handler: '王五',
-    status: 'pending',
-  },
-])
+onMounted(() => {
+  loadProjectDetail(projectId.value)
+})
 
 function goBack() {
   router.back()

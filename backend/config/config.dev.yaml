@@ -28,14 +28,13 @@ log:
   format: json
   filePath: logs/osm.log
 
-# 认证配置（开发环境：切换为 CAS 模式测试）
+# 认证配置（开发环境：CAS 单点登录，对接本地 mock CAS 服务）
 auth:
   mode: cas
   cas:
     serverURL: http://localhost:8443
+    # 开发环境前后端不同域（未走 Nginx），需显式配置以下两项：
     serviceURL: http://localhost:8080/api/v1/auth/cas/callback
-    validateURL: http://localhost:8443/serviceValidate
     frontendURL: http://localhost:3000
-  jwt:
-    secret: osm-jwt-secret-key-dev
-    expiry: 86400
+    # validateURL 未配置时自动推导为 {serverURL}/serviceValidate
+    # jwt 未配置时使用内置默认值

@@ -58,7 +58,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="description" label="描述" min-width="200" />
-        <el-table-column prop="createTime" label="创建时间" width="180" />
+        <el-table-column prop="createTime" label="创建时间" width="180">
+          <template #default="{ row }">{{ formatTime(row.createTime) }}</template>
+        </el-table-column>
       </el-table>
 
       <!-- 空状态 -->
@@ -74,6 +76,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Search, Refresh } from '@element-plus/icons-vue'
+import { formatTime } from '@/utils/format'
 
 // 查询表单
 const queryForm = ref({
@@ -120,21 +123,7 @@ async function fetchData(params?: any) {
   loading.value = true
   try {
     // TODO: 替换为实际的API调用
-    await new Promise(resolve => setTimeout(resolve, 500))
-    const mockData = [
-      { id: 1, name: '测试项目1', type: '项目', status: 'active', description: '这是一个测试项目', createTime: '2024-01-15 10:30:00' },
-      { id: 2, name: '测试项目2', type: '组件', status: 'inactive', description: '这是一个测试组件', createTime: '2024-01-16 14:20:00' },
-      { id: 3, name: '测试项目3', type: '项目', status: 'pending', description: '等待审核中', createTime: '2024-01-17 09:15:00' },
-      { id: 4, name: '测试项目4', type: '软件', status: 'active', description: '开源软件库', createTime: '2024-01-18 16:45:00' },
-      { id: 5, name: '测试项目5', type: '组件', status: 'active', description: '核心依赖组件', createTime: '2024-01-19 11:30:00' },
-    ]
-    
-    // 根据条件过滤
-    if (params?.status) {
-      tableData.value = mockData.filter(item => item.status === params.status)
-    } else {
-      tableData.value = mockData
-    }
+    tableData.value = []
   } catch (error) {
     console.error('查询失败:', error)
   } finally {

@@ -95,7 +95,7 @@
         <el-timeline-item
           v-for="(item, index) in deduplicatedHistory"
           :key="index"
-          :timestamp="formatDate(item.createTime || item.approvedAt)"
+          :timestamp="formatTime(item.createTime || item.approvedAt)"
           placement="top"
           :type="getActionColor(item.action) as any"
         >
@@ -143,6 +143,7 @@ import { Download, ArrowRight } from '@element-plus/icons-vue'
 import { TASK_TYPE_LABELS } from '@/types'
 import type { TaskType } from '@/types'
 import { taskApi } from '@/api'
+import { formatTime } from '@/utils/format'
 
 interface Props {
   modelValue: boolean

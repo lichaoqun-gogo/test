@@ -113,7 +113,9 @@
             <TicketStatusTag :status="row.status" />
           </template>
         </el-table-column>
-        <el-table-column prop="submittedAt" label="提交时间" width="120" />
+        <el-table-column prop="submittedAt" label="提交时间" width="120">
+          <template #default="{ row }">{{ formatTime(row.submittedAt) }}</template>
+        </el-table-column>
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
             <el-button type="primary" link size="small" @click="viewDetail(row.id)">查看详情</el-button>
@@ -275,7 +277,7 @@
               <div class="timeline-header">
                 <span>{{ item.action }}</span>
                 <span class="timeline-operator">{{ item.operator }}</span>
-                <span class="timeline-time">{{ item.time }}</span>
+                <span class="timeline-time">{{ formatTime(item.time) }}</span>
               </div>
               <p class="timeline-opinion">{{ item.opinion }}</p>
             </el-timeline-item>
@@ -306,6 +308,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Right } from '@element-plus/icons-vue'
 import { mockUpgradeDetails } from '@/mock/admin'
 import type { UpgradeReviewDetail } from '@/mock/admin'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
 const currentPage = ref(1)

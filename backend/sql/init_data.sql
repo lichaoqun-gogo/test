@@ -1,111 +1,111 @@
--- =====================================================
--- 开源治理平台（OSM）初始化数据
--- 说明：包含菜单资源、角色菜单关联、用户、部门专员映射、审批流模板
--- 使用方式：建库并执行 schema.sql 后，执行本文件初始化基础数据
--- 注意：CAS 模式下普通用户由首次登录自动创建，此处仅预设管理员
--- =====================================================
+-- 开源治理平台初始化数据
+-- 执行前请确保已运行 schema.sql 创建表结构
 
--- =====================================================
--- 1. 菜单资源（menus 表）
--- 菜单分三套：admin（全局治理）、specialist（专员工作台）、operator（运维者）
--- =====================================================
-INSERT INTO `menus` (`id`, `parent_id`, `name`, `path`, `component`, `icon`, `sort`, `menu_type`, `hidden`, `group`) VALUES
--- ===== admin 角色：全局治理菜单（id 1-23）=====
-(1,  0, '台账管理',       '',                                   '',                                       'Coin',         1, 1, 0, 'asset'),
-(2,  1, '开源基础软件',   '/admin/asset/software-library',      'views/admin/asset/SoftwareLibrary',      '',             1, 2, 0, ''),
-(3,  1, '开源依赖包',     '/admin/asset/dependency-library',    'views/admin/asset/DependencyLibrary',    '',             2, 2, 0, ''),
-(4,  1, '开源工具',       '/admin/asset/tool-library',           'views/admin/asset/ToolLibrary',          '',             3, 2, 0, ''),
-(5,  1, '自研项目',       '/admin/asset/self-developed',         'views/admin/asset/SelfDevelopedProjects','',             4, 2, 0, ''),
-(6,  1, '源码备份',       '/admin/asset/source-backup',          'views/admin/asset/SourceBackup',         '',             5, 2, 0, ''),
-(7,  0, '可信仓库',       '/admin/trusted-repo',                 'views/admin/asset/TrustedRepository',    'Files',        2, 2, 0, ''),
-(8,  0, '风险管理',       '',                                    '',                                       'Warning',      3, 1, 0, 'risk'),
-(9,  8, '名单管理',       '/admin/risk/blacklist',               'views/admin/risk/Blacklist',             '',             1, 2, 0, ''),
-(10, 8, 'CICD检查',       '/admin/risk/cicd-check',              'views/admin/risk/CicdCheck',             '',             2, 2, 0, ''),
-(11, 8, '许可证信息库',   '/admin/risk/license-library',         'views/admin/risk/LicenseLibrary',        '',             3, 2, 0, ''),
-(12, 8, '缺陷台账',       '/admin/risk/defect-ledger',           'views/admin/risk/DefectLedger',          '',             4, 2, 0, ''),
-(13, 8, '活跃度健康度监测','/admin/risk/activity-monitor',       'views/admin/risk/ActivityMonitor',       '',             5, 2, 0, ''),
-(14, 8, 'SCA自动化解析入库','/admin/risk/sca-parser',            'views/admin/risk/ScaParser',             '',             6, 2, 0, ''),
-(15, 0, '治理中心',       '',                                    '',                                       'Setting',      4, 1, 0, 'governance'),
-(16,15, '任务列表',       '/admin/governance/task-list',         'views/admin/governance/TaskList',        '',             1, 2, 0, ''),
-(17, 0, '决策与洞察中心', '',                                    '',                                       'DataAnalysis', 5, 1, 0, 'decision'),
-(18,17, '治理效能看板',   '',                                    '',                                       '',             1, 1, 0, ''),
-(19,18, '违规拦截统计',   '/admin/decision/interception',        'views/admin/decision/interception',      '',             1, 2, 0, ''),
-(20,18, '缺陷修复效能',   '/admin/decision/repair-efficiency',   'views/admin/decision/repair-efficiency', '',             2, 2, 0, ''),
-(21,18, '资产健康度分布', '/admin/decision/health-distribution',  'views/admin/decision/health-distribution','',           3, 2, 0, ''),
-(22,18, '治理工作量统计', '/admin/decision/workload',             'views/admin/decision/workload',          '',             4, 2, 0, ''),
-(23,17, '供应链安全洞察', '/admin/decision/core-dependencies',    'views/admin/decision/core-dependencies', '',             2, 2, 0, ''),
+-- 初始化审批模板
+INSERT INTO `approval_template` (`id`, `template_key`, `template_name`, `description`, `is_active`, `create_time`, `update_time`)
+VALUES
+  (1, 'introduce', '引入申请审批流程', NULL, 1, NOW(), NOW()),
+  (2, 'upgrade', '升级申请审批流程', NULL, 1, NOW(), NOW()),
+  (3, 'withdraw', '退出申请审批流程', NULL, 1, NOW(), NOW()),
+  (4, 'usage', '使用申请审批流程', NULL, 1, NOW(), NOW()),
+  (5, 'risk_report', '风险上报审批流程', NULL, 1, NOW(), NOW());
 
--- ===== specialist 角色：专员工作台菜单（id 24-30）=====
-(24, 0, '我的项目', '/specialist/my-projects',  'views/operator/my-assets/MyProjects', 'Monitor', 1, 2, 0, ''),
-(25, 0, '我的任务', '/specialist/my-task',      'views/specialist/MyTask',             'List',    2, 2, 0, ''),
-(26, 0, '我的运维', '',                         '',                                    'Setting', 3, 1, 0, ''),
-(27,26, '运维台账', '/specialist/my-ops',       'views/specialist/MyOps',              '',        1, 2, 0, ''),
-(28,26, '人员管理', '/specialist/personnel-mgmt','views/operator/PersonnelMgmt',       '',        2, 2, 0, ''),
-(29, 0, '我的使用', '/specialist/my-usage',     'views/operator/MyUsage',              'Files',   4, 2, 0, ''),
-(30, 0, '可信仓库', '/specialist/trusted-repo', 'views/operator/TrustedRepo',          'Files',   5, 2, 0, ''),
+-- 初始化模板节点
+INSERT INTO `approval_template_node` (`id`, `template_id`, `node_key`, `node_name`, `node_order`, `node_type`, `approver_role`, `is_skipable`, `create_time`, `update_time`)
+VALUES
+  (1, 1, 'node_0', '使用部门专员审核', 0, 'fixed', 'usage_dept_specialist', 0, NOW(), NOW()),
+  (2, 1, 'node_1', '管理部门专员审核', 1, 'fixed', 'mgmt_dept_specialist', 0, NOW(), NOW()),
+  (3, 2, 'node_0', '使用部门专员审核', 0, 'fixed', 'usage_dept_specialist', 0, NOW(), NOW()),
+  (4, 2, 'node_1', '管理部门专员审核', 1, 'fixed', 'mgmt_dept_specialist', 0, NOW(), NOW()),
+  (5, 3, 'node_0', '使用部门专员审核', 0, 'fixed', 'usage_dept_specialist', 0, NOW(), NOW()),
+  (6, 3, 'node_1', '管理部门专员审核', 1, 'fixed', 'mgmt_dept_specialist', 0, NOW(), NOW()),
+  (7, 4, 'node_0', '使用部门专员审核', 0, 'fixed', 'usage_dept_specialist', 0, NOW(), NOW()),
+  (8, 5, 'node_0', '使用部门专员审核', 0, 'fixed', 'usage_dept_specialist', 0, NOW(), NOW()),
+  (9, 5, 'node_1', '管理部门专员审核', 1, 'fixed', 'mgmt_dept_specialist', 0, NOW(), NOW());
 
--- ===== operator 角色：运维者菜单（id 31-35）=====
-(31, 0, '我的项目', '/operator/my-projects',  'views/operator/my-assets/MyProjects', 'Monitor', 1, 2, 0, ''),
-(32, 0, '我的任务', '/operator/my-task',      'views/operator/MyTask',               'List',    2, 2, 0, ''),
-(33, 0, '我的运维', '/operator/my-ops',       'views/operator/MyOps',                'Setting', 3, 2, 0, ''),
-(34, 0, '我的使用', '/operator/my-usage',     'views/operator/MyUsage',              'Files',   4, 2, 0, ''),
-(35, 0, '可信仓库', '/operator/trusted-repo', 'views/operator/TrustedRepo',          'Files',   5, 2, 0, '');
+-- 初始化菜单
+INSERT INTO `menus` (`id`, `parent_id`, `name`, `path`, `component`, `icon`, `sort`, `menu_type`, `hidden`, `create_at`)
+VALUES
+  (1, 0, '我的项目', '/operator/my-projects', 'views/operator/my-assets/MyProjects', 'Monitor', 0, 2, 0, NOW()),
+  (2, 0, '我的任务', '/operator/my-tasks', 'views/operator/MyTasks', 'List', 1, 2, 0, NOW()),
+  (3, 0, '我的运维', '', '', 'Setting', 2, 1, 0, NOW()),
+  (4, 3, '运维台账', '/operator/my-ops', 'views/operator/MyOps', '', 0, 2, 0, NOW()),
+  (5, 3, '人员管理', '/operator/personnel-mgmt', 'views/operator/PersonnelMgmt', '', 1, 2, 0, NOW()),
+  (6, 0, '我的使用', '/operator/my-usage', 'views/operator/MyUsage', 'Files', 3, 2, 0, NOW()),
+  (7, 0, '可信仓库', '/operator/trusted-repo', 'views/operator/TrustedRepo', 'Files', 4, 2, 0, NOW()),
+  (8, 0, '软件选型服务', '/operator/software-service', 'views/operator/software-service/SoftwareService', '', 5, 2, 0, NOW()),
+  (9, 0, '我的申请', '/operator/my-applications', 'views/operator/my-applications/MyApplications', '', 6, 2, 0, NOW()),
+  (10, 0, '资产中心', '', '', 'Setting', 0, 1, 0, NOW()),
+  (11, 10, '开源基础软件', '/admin/asset/software-library', 'views/admin/asset/SoftwareLibrary', '', 0, 2, 0, NOW()),
+  (12, 10, '开源工具库', '/admin/asset/tool-library', 'views/admin/asset/ToolLibrary', '', 1, 2, 0, NOW()),
+  (13, 10, '依赖库', '/admin/asset/dependency-library', 'views/admin/asset/DependencyLibrary', '', 2, 2, 0, NOW()),
+  (14, 10, '许可证管理', '/admin/asset/license-management', 'views/admin/asset/LicenseManagement', '', 3, 2, 0, NOW()),
+  (15, 10, '活跃度监测', '/admin/asset/activity-monitor', 'views/admin/asset/ActivityMonitor', '', 4, 2, 0, NOW()),
+  (16, 10, '源码备份', '/admin/asset/source-backup', 'views/admin/asset/SourceBackup', '', 5, 2, 0, NOW()),
+  (17, 10, '可信仓库', '/admin/asset/trusted-repo', 'views/admin/asset/TrustedRepo', '', 6, 2, 0, NOW()),
+  (18, 0, '风险中心', '', '', 'Warning', 1, 1, 0, NOW()),
+  (19, 18, '统一风险台账', '/admin/risk/risk-ledger', 'views/admin/risk/RiskLedger', '', 0, 2, 0, NOW()),
+  (20, 18, '缺陷台账', '/admin/risk/defect-ledger', 'views/admin/risk/DefectLedger', '', 1, 2, 0, NOW()),
+  (21, 18, '黑白名单管理', '/admin/risk/blacklist-management', 'views/admin/risk/BlacklistManagement', '', 2, 2, 0, NOW()),
+  (22, 18, '风险任务', '/admin/risk/task-list', 'views/admin/risk/TaskList', '', 3, 2, 0, NOW()),
+  (23, 18, 'SCA解析记录', '/admin/risk/sca-parser', 'views/admin/risk/ScaParser', '', 4, 2, 0, NOW()),
+  (24, 0, '治理中心', '', '', 'Coin', 2, 1, 0, NOW()),
+  (25, 24, '引入审批', '/admin/governance/introduce-approval', 'views/admin/governance/IntroduceApproval', '', 0, 2, 0, NOW()),
+  (26, 24, '升级评审', '/admin/governance/upgrade-review', 'views/admin/governance/UpgradeReview', '', 1, 2, 0, NOW()),
+  (27, 24, '退出审批', '/admin/governance/withdraw-approval', 'views/admin/governance/WithdrawApproval', '', 2, 2, 0, NOW()),
+  (28, 24, '存量治理', '/admin/governance/inventory-management', 'views/admin/governance/InventoryManagement', '', 3, 2, 0, NOW()),
+  (29, 24, '违规审计', '/admin/governance/violation-audit', 'views/admin/governance/ViolationAudit', '', 4, 2, 0, NOW()),
+  (30, 0, '决策中心', '', '', 'DataAnalysis', 3, 1, 0, NOW()),
+  (31, 30, '治理看板', '/admin/decision/governance-dashboard', 'views/admin/decision/GovernanceDashboard', '', 0, 2, 0, NOW()),
+  (32, 30, '安全洞察', '/admin/decision/security-insights', 'views/admin/decision/SecurityInsights', '', 1, 2, 0, NOW()),
+  (33, 30, '核心依赖看板', '/admin/decision/core-dependencies', 'views/admin/decision/CoreDependencies', '', 2, 2, 0, NOW()),
+  (34, 0, '个人工作台', '', '', 'SwitchButton', 0, 1, 0, NOW()),
+  (35, 34, '我的项目', '/specialist/my-projects', 'views/operator/my-assets/MyProjects', 'Monitor', 0, 2, 0, NOW()),
+  (36, 34, '我的任务', '/specialist/my-tasks', 'views/operator/MyTasks', 'List', 1, 2, 0, NOW()),
+  (37, 34, '我的运维', '', '', 'Setting', 2, 1, 0, NOW()),
+  (38, 37, '运维台账', '/specialist/my-ops', 'views/specialist/MyOps', '', 0, 2, 0, NOW()),
+  (39, 37, '人员管理', '/specialist/personnel-mgmt', 'views/operator/PersonnelMgmt', '', 1, 2, 0, NOW()),
+  (40, 34, '我的使用', '/specialist/my-usage', 'views/operator/MyUsage', 'Files', 3, 2, 0, NOW()),
+  (41, 34, '可信仓库', '/specialist/trusted-repo', 'views/operator/TrustedRepo', 'Files', 4, 2, 0, NOW());
 
--- =====================================================
--- 2. 角色-菜单关联（role_menus 表）
--- admin 角色对应菜单 id 1-23
--- specialist 角色对应菜单 id 24-30
--- operator 角色对应菜单 id 31-35
--- =====================================================
-INSERT INTO `role_menus` (`role`, `menu_id`) VALUES
--- admin
-('admin', 1),  ('admin', 2),  ('admin', 3),  ('admin', 4),  ('admin', 5),
-('admin', 6),  ('admin', 7),  ('admin', 8),  ('admin', 9),  ('admin', 10),
-('admin', 11), ('admin', 12), ('admin', 13), ('admin', 14), ('admin', 15),
-('admin', 16), ('admin', 17), ('admin', 18), ('admin', 19), ('admin', 20),
-('admin', 21), ('admin', 22), ('admin', 23),
--- specialist
-('specialist', 24), ('specialist', 25), ('specialist', 26),
-('specialist', 27), ('specialist', 28), ('specialist', 29), ('specialist', 30),
--- operator
-('operator', 31), ('operator', 32), ('operator', 33),
-('operator', 34), ('operator', 35);
+-- 初始化角色菜单关联
+INSERT INTO `role_menus` (`id`, `role`, `menu_id`)
+VALUES
+  (1, 'operator', 1), (2, 'operator', 2), (3, 'operator', 3), (4, 'operator', 4), (5, 'operator', 5), (6, 'operator', 6), (7, 'operator', 7), (8, 'operator', 8), (9, 'operator', 9),
+  (10, 'specialist', 35), (11, 'specialist', 36), (12, 'specialist', 37), (13, 'specialist', 38), (14, 'specialist', 39), (15, 'specialist', 40), (16, 'specialist', 41),
+  (17, 'admin', 10), (18, 'admin', 11), (19, 'admin', 12), (20, 'admin', 13), (21, 'admin', 14), (22, 'admin', 15), (23, 'admin', 16), (24, 'admin', 17),
+  (25, 'admin', 18), (26, 'admin', 19), (27, 'admin', 20), (28, 'admin', 21), (29, 'admin', 22), (30, 'admin', 23),
+  (31, 'admin', 24), (32, 'admin', 25), (33, 'admin', 26), (34, 'admin', 27), (35, 'admin', 28), (36, 'admin', 29),
+  (37, 'admin', 30), (38, 'admin', 31), (39, 'admin', 32), (40, 'admin', 33),
+  (41, 'admin', 34), (42, 'admin', 35), (43, 'admin', 36), (44, 'admin', 37), (45, 'admin', 38), (46, 'admin', 39), (47, 'admin', 40), (48, 'admin', 41);
 
--- =====================================================
--- 3. 用户数据（users 表）
--- CAS 模式下普通用户由首次登录自动创建（默认 operator 角色）
--- 此处仅预设管理员账户，上线后请修改 role 和 department 为实际值
--- =====================================================
-INSERT INTO `users` (`id`, `username`, `nickname`, `email`, `phone`, `department`, `role`, `can_toggle_admin_view`, `status`, `create_at`, `update_at`) VALUES
-(2, 'admin', '系统管理员', 'admin@qim.local', '13800000000', '管理层', 'admin', 0, 1, NOW(), NOW());
+-- 初始化管理员用户（CAS登录后会自动创建/更新用户信息）
+-- 注：实际部署时建议删除此记录，改为CAS认证自动同步
+INSERT INTO `users` (`id`, `username`, `nickname`, `email`, `phone`, `department`, `team`, `role`, `can_toggle_admin_view`, `status`, `create_at`, `update_at`)
+VALUES
+  (1, 'admin', '系统管理员', 'admin@company.com', '13800000000', '技术部-管理组', '管理组', 'admin', 1, 1, NOW(), NOW()),
+  (2, 'lisi', '李四', 'lisi@company.com', '13800000001', '技术部', '前端组', 'specialist', 0, 1, NOW(), NOW()),
+  (3, 'zhangsan', '张三', 'zhangsan@company.com', '13800000002', '技术部-前端组', '前端组', 'operator', 0, 1, NOW(), NOW());
 
--- =====================================================
--- 4. 部门开源治理专员映射（dept_specialist_mapping 表）
--- 每个部门可配置 3 种专员角色：
---   dept_specialist        - 部门开源治理专员
---   usage_dept_specialist  - 使用部门专员
---   mgmt_dept_specialist   - 管理部门专员（开源治理办公室）
--- 上线后请替换为实际部门和人员
--- =====================================================
-INSERT INTO `dept_specialist_mapping` (`dept`, `specialist_id`, `specialist_name`, `specialist_role`, `is_active`) VALUES
-('开源治理办公室', 'admin', '系统管理员', 'mgmt_dept_specialist', 1);
+-- 初始化许可证分组
+INSERT INTO `licensegroup` (`id`, `_name`, `RISKWEIGHT`, `UUID`, `create_time`, `update_time`)
+VALUES
+  (1, '宽松许可证', 0, UUID(), NOW(), NOW()),
+  (2, '弱保护许可证', 1, UUID(), NOW(), NOW()),
+  (3, '强保护许可证', 3, UUID(), NOW(), NOW());
 
--- =====================================================
--- 5. 审批流模板（approval_template 表）
--- 万能审批流模板：4 节点动态路由（发起→部门专员复审→使用部门确认→管理部门评审）
--- =====================================================
-INSERT INTO `approval_template` (`id`, `template_key`, `template_name`, `description`, `is_active`) VALUES
-(1, 'universal', '万能审批流模板', '包含4个逻辑节点的万能审批流，支持动态路由', 1);
+-- 初始化许可证数据（示例）
+INSERT INTO `license` (`id`, `LICENSE`, `_name`, `IS_OSIAPPROVED`, `IS_DEPRECATED`, `UUID`, `create_time`, `update_time`)
+VALUES
+  (1, 'MIT', 'MIT License', 1, 0, UUID(), NOW(), NOW()),
+  (2, 'Apache-2.0', 'Apache License 2.0', 1, 0, UUID(), NOW(), NOW()),
+  (3, 'BSD-3-Clause', 'BSD 3-Clause', 1, 0, UUID(), NOW(), NOW()),
+  (4, 'GPL-3.0', 'GNU General Public License v3.0', 1, 0, UUID(), NOW(), NOW()),
+  (5, 'LGPL-2.1', 'GNU Lesser General Public License v2.1', 1, 0, UUID(), NOW(), NOW());
 
--- =====================================================
--- 6. 审批流模板节点定义（approval_template_node 表）
--- node_0: 发起节点（固定）
--- node_1: 本部门专员复审（条件节点，可跳过-同一人时跳过）
--- node_2: 使用部门确认（条件节点，可跳过-同部门时跳过）
--- node_3: 管理部门评审（固定，不可跳过）
--- =====================================================
-INSERT INTO `approval_template_node` (`template_id`, `node_key`, `node_name`, `node_order`, `node_type`, `condition_type`, `is_skipable`, `skip_rule`, `approver_role`, `description`) VALUES
-(1, 'node_0', '发起节点',             0, 'fixed',       NULL,            0, NULL,                                  'initiator',             '任务发起人提交申请'),
-(1, 'node_1', '本部门开源治理专员复审', 1, 'conditional', 'dept_specialist', 1, '{"type":"same_person","field":"approver_id"}', 'dept_specialist',       '发起人所在部门的开源治理专员进行复审'),
-(1, 'node_2', '使用部门确认',           2, 'conditional', 'usage_dept',     1, '{"type":"same_dept","field":"project_dept"}', 'usage_dept_specialist', '使用部门的开源治理专员确认（仅升级/退出申请）'),
-(1, 'node_3', '管理部门评审',           3, 'fixed',       'mgmt_dept',      0, NULL,                                  'mgmt_dept_specialist',  '开源治理办公室进行最终评审');
+-- 许可证分组关联
+INSERT INTO `licensegroup_license` (`licensegroup_id`, `license_id`, `create_time`, `update_time`)
+VALUES
+  (1, 1, NOW(), NOW()), (1, 2, NOW(), NOW()), (1, 3, NOW(), NOW()),
+  (2, 5, NOW(), NOW()),
+  (3, 4, NOW(), NOW());

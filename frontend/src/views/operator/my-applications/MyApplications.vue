@@ -59,7 +59,9 @@
           <TicketStatusTag :status="row.status" />
         </template>
       </el-table-column>
-      <el-table-column prop="createdAt" label="创建时间" width="120" />
+      <el-table-column prop="createdAt" label="创建时间" width="180">
+        <template #default="{ row }">{{ formatTime(row.createdAt) }}</template>
+      </el-table-column>
     </el-table>
 
     <div class="pagination-wrapper">
@@ -74,17 +76,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { mockApplications } from '@/mock/tickets'
 import { APPLICATION_TYPE_LABELS, PRE_EVAL_STATUS_LABELS, PRE_EVAL_CONCLUSION_LABELS } from '@/types'
 import { Plus } from '@element-plus/icons-vue'
+import { formatTime } from '@/utils/format'
 
 const router = useRouter()
-const applications = mockApplications
+const applications = ref<any[]>([])
 
-const rowHasConclusion = computed(() => applications.some(a => a.preEvalConclusion))
-const rowHasScore = computed(() => applications.some(a => a.preEvalScore !== undefined))
+const rowHasConclusion = computed(() => applications.value.some(a => a.preEvalConclusion))
+const rowHasScore = computed(() => applications.value.some(a => a.preEvalScore !== undefined))
+
+function loadApplications() {
+  // TODO: 调用后端 API 获取申请列表
+}
+
+onMounted(() => {
+  loadApplications()
+})
 
 function preEvalStatusType(status: string) {
   const types: Record<string, string> = { pending: 'info', scanning: '', completed: 'success', failed: 'danger' }

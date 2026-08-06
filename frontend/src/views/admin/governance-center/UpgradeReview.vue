@@ -32,6 +32,13 @@
 </template>
 
 <script setup lang="ts">
-import { mockUpgrades } from '@/mock/admin'
-const upgrades = mockUpgrades
+import { ref, onMounted } from 'vue'
+
+const upgrades = ref<any[]>([])
+
+function loadUpgrades() {}
+
+onMounted(() => {
+  loadUpgrades()
+})
 </script>
