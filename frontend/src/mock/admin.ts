@@ -235,40 +235,18 @@ export const mockViolations: ViolationRecord[] = [
 
 // 看板数据
 export interface DashboardData {
-  blockStats: { month: string; count: number }[]
   repairStats: { department: string; mttr: number; overdue: number }[]
-  healthStats: { status: string; count: number; percentage: number }[]
-  workloadStats: { department: string; introduce: number; upgrade: number }[]
   coreDeps: { name: string; usageCount: number; projects: number }[]
   versionFragment: { name: string; versionCount: number; versions: string[] }[]
   riskProjects: { name: string; vulnerabilityCount: number; riskLevel: RiskLevel }[]
 }
 
 export const mockDashboardData: DashboardData = {
-  blockStats: [
-    { month: '2024-01', count: 12 },
-    { month: '2024-02', count: 18 },
-    { month: '2024-03', count: 25 },
-    { month: '2024-04', count: 15 },
-    { month: '2024-05', count: 20 },
-    { month: '2024-06', count: 8 },
-  ],
   repairStats: [
     { department: '技术研发部', mttr: 3.5, overdue: 2 },
     { department: '数据智能部', mttr: 5.2, overdue: 4 },
     { department: '产品技术部', mttr: 4.1, overdue: 1 },
     { department: '基础架构部', mttr: 2.8, overdue: 0 },
-  ],
-  healthStats: [
-    { status: '正常', count: 156, percentage: 78 },
-    { status: '停更', count: 28, percentage: 14 },
-    { status: '无维护', count: 16, percentage: 8 },
-  ],
-  workloadStats: [
-    { department: '技术研发部', introduce: 45, upgrade: 12 },
-    { department: '数据智能部', introduce: 18, upgrade: 5 },
-    { department: '产品技术部', introduce: 22, upgrade: 8 },
-    { department: '基础架构部', introduce: 30, upgrade: 15 },
   ],
   coreDeps: [
     { name: 'lodash', usageCount: 89, projects: 45 },
@@ -290,58 +268,6 @@ export const mockDashboardData: DashboardData = {
     { name: '用户认证中心', vulnerabilityCount: 1, riskLevel: 'low' },
   ],
 }
-
-// 活跃度监测数据
-export interface ActivityData {
-  componentName: string
-  stars: number
-  forks: number
-  openIssues: number
-  closedIssues: number
-  commitsLastMonth: number
-  contributors: number
-  lastRelease: string
-  trendData: { month: string; stars: number; commits: number }[]
-}
-
-export const mockActivityData: ActivityData[] = [
-  {
-    componentName: 'Nginx',
-    stars: 18500,
-    forks: 4200,
-    openIssues: 125,
-    closedIssues: 3200,
-    commitsLastMonth: 45,
-    contributors: 89,
-    lastRelease: '2024-03-15',
-    trendData: [
-      { month: '2023-10', stars: 17800, commits: 52 },
-      { month: '2023-11', stars: 17950, commits: 48 },
-      { month: '2023-12', stars: 18100, commits: 35 },
-      { month: '2024-01', stars: 18250, commits: 42 },
-      { month: '2024-02', stars: 18380, commits: 38 },
-      { month: '2024-03', stars: 18500, commits: 45 },
-    ],
-  },
-  {
-    componentName: 'Redis',
-    stars: 65200,
-    forks: 22800,
-    openIssues: 890,
-    closedIssues: 8900,
-    commitsLastMonth: 128,
-    contributors: 456,
-    lastRelease: '2024-03-08',
-    trendData: [
-      { month: '2023-10', stars: 62000, commits: 145 },
-      { month: '2023-11', stars: 62800, commits: 132 },
-      { month: '2023-12', stars: 63500, commits: 98 },
-      { month: '2024-01', stars: 64200, commits: 115 },
-      { month: '2024-02', stars: 64800, commits: 120 },
-      { month: '2024-03', stars: 65200, commits: 128 },
-    ],
-  },
-]
 
 // 备份状态
 export interface BackupRecord {
@@ -821,27 +747,6 @@ export const mockDistributeRecords: DistributeRecord[] = [
   { id: 'dr003', defectId: 'df005', defectTitle: 'd3.js 原型链污染风险', riskType: '安全漏洞', distributeTime: '2024-03-09 09:15', distributor: '王五', receiveDept: '数据智能部', receivePerson: '李四', distributeNote: '影响数据可视化模块', status: '处理中' },
   { id: 'dr004', defectId: 'df007', defectTitle: 'node-ipc 地缘政治恶意代码', riskType: '恶意代码', distributeTime: '2024-03-18 16:45', distributor: '王五', receiveDept: '基础架构部', receivePerson: '赵六', distributeNote: '紧急处理，已确认影响CI/CD环境', status: '待处理' },
   { id: 'dr005', defectId: 'df008', defectTitle: 'NPM 包供应链投毒风险', riskType: '供应链风险', distributeTime: '2024-03-20 11:00', distributor: '王五', receiveDept: '技术研发部', receivePerson: '张三', distributeNote: '检查所有项目是否依赖该包', status: '待处理' },
-]
-
-// SCA 解析记录
-export interface ScaParseRecord {
-  id: string
-  fileName: string
-  fileType: 'SBOM-SPDX' | 'SBOM-CycloneDX' | '源码包'
-  status: '解析中' | '解析完成' | '解析失败'
-  componentCount: number
-  riskCount: number
-  licenseRiskCount: number
-  parseTime: string
-  uploadedBy: string
-  result: string
-}
-
-export const mockScaParseRecords: ScaParseRecord[] = [
-  { id: 'sca001', fileName: 'order-system-sbom.json', fileType: 'SBOM-CycloneDX', status: '解析完成', componentCount: 356, riskCount: 3, licenseRiskCount: 2, parseTime: '2024-03-20 15:30', uploadedBy: '王五', result: '发现3个安全漏洞，2个许可证风险' },
-  { id: 'sca002', fileName: 'data-platform-bom.xml', fileType: 'SBOM-SPDX', status: '解析完成', componentCount: 128, riskCount: 1, licenseRiskCount: 0, parseTime: '2024-03-19 10:15', uploadedBy: '张三', result: '发现1个中风险漏洞' },
-  { id: 'sca003', fileName: 'auth-service-source.zip', fileType: '源码包', status: '解析中', componentCount: 0, riskCount: 0, licenseRiskCount: 0, parseTime: '2024-03-21 09:00', uploadedBy: '王五', result: '正在解析中...' },
-  { id: 'sca004', fileName: 'legacy-sbom.json', fileType: 'SBOM-CycloneDX', status: '解析失败', componentCount: 0, riskCount: 0, licenseRiskCount: 0, parseTime: '2024-03-18 14:20', uploadedBy: '李四', result: '文件格式错误，无法解析' },
 ]
 
 // 任务列表

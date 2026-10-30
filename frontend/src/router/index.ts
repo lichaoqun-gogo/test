@@ -90,15 +90,10 @@ const componentMaps: Record<string, () => Promise<any>> = {
   'views/admin/risk/CicdCheck': () => import('@/views/admin/risk/CicdCheck.vue'),
   'views/admin/risk/LicenseLibrary': () => import('@/views/admin/risk/LicenseLibrary.vue'),
   'views/admin/risk/DefectLedger': () => import('@/views/admin/risk/DefectLedger.vue'),
-  'views/admin/risk/ActivityMonitor': () => import('@/views/admin/risk/ActivityMonitor.vue'),
-  'views/admin/risk/ScaParser': () => import('@/views/admin/risk/ScaParser.vue'),
   // admin - governance
   'views/admin/governance/TaskList': () => import('@/views/admin/governance/TaskList.vue'),
   // admin - decision
-  'views/admin/decision/interception': () => import('@/views/admin/decision/interception.vue'),
   'views/admin/decision/repair-efficiency': () => import('@/views/admin/decision/repair-efficiency.vue'),
-  'views/admin/decision/health-distribution': () => import('@/views/admin/decision/health-distribution.vue'),
-  'views/admin/decision/workload': () => import('@/views/admin/decision/workload.vue'),
   'views/admin/decision/core-dependencies': () => import('@/views/admin/decision/core-dependencies.vue'),
 }
 

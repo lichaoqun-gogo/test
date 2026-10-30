@@ -1,9 +1,16 @@
 package routes
 
 import (
+	"log"
+	"time"
+
 	"osm-mngt/internal/config"
 	"osm-mngt/internal/handlers"
+	"osm-mngt/internal/httpclient"
+	"osm-mngt/internal/iam"
 	"osm-mngt/internal/middleware"
+	"osm-mngt/internal/openapi"
+	"osm-mngt/internal/service/identity"
 
 	"github.com/gin-gonic/gin"
 	"github.com/minio/minio-go/v7"
@@ -40,6 +47,33 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 
 	// 用户列表（人员选择等场景，当前从 users 表查询，后期对接统一权限系统）
 	protected.GET("/users", authHandler.GetUserList)
+
+	// 组织架构（部门/团队/成员）：数据源 users 表，对接外部权限系统时替换实现即可
+	orgHandler := handlers.NewOrgHandler(db)
+	org := protected.Group("/org")
+	{
+		org.GET("/departments/teams", orgHandler.ListDepartmentsTeams)
+		org.GET("/departments", orgHandler.ListDepartments)
+	}
+
+	// IAM 身份服务：已配置 IAM 开放接口时用 OpenAPI 实现（account + org 拼接），否则回退本地 users 表实现。
+	// 数据源切换只发生在此处，handler 与 DTO 不感知，便于后期剥离本地存储。
+	var identitySvc identity.Service
+	if cfg.OpenAPI.BaseURL != "" {
+		openAPIClient := openapi.New(openapi.Config{
+			BaseURL:            cfg.OpenAPI.BaseURL,
+			AppID:              cfg.OpenAPI.AppID,
+			Secret:             cfg.OpenAPI.Secret,
+			Timeout:            time.Duration(cfg.OpenAPI.Timeout) * time.Second,
+			InsecureSkipVerify: cfg.OpenAPI.InsecureSkipVerify,
+		})
+		// appCode 复用应用 appId（如 osm）；若 IAM 侧应用编码不同，改此处即可
+		identitySvc = identity.NewOpenAPIService(iam.NewClient(openAPIClient, cfg.OpenAPI.AppID))
+	} else {
+		identitySvc = identity.NewLocalService(db)
+	}
+	iamHandler := handlers.NewIamHandler(identitySvc)
+	protected.GET("/user/info", iamHandler.GetUserInfo)
 
 	// 台账管理
 	assetHandler := handlers.NewAssetHandler(db)
@@ -86,8 +120,17 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 		asset.POST("/project-owners", projectOwnerHandler.SaveOwners)
 	}
 
+	// 下游 HTTP 服务注册表（config services 段；构建失败不影响启动，仅记录告警）
+	var svcRegistry *httpclient.Registry
+	if r, err := httpclient.NewRegistry(cfg.Services); err != nil {
+		log.Printf("Warning: build service registry failed: %v", err)
+	} else {
+		svcRegistry = r
+	}
+
 	// 风险管理
 	riskHandler := handlers.NewRiskHandler(db)
+	bomHandler := handlers.NewBomHandler(db, minioClient, cfg.MinIO.BucketName, svcRegistry)
 	risk := protected.Group("/risk")
 	{
 		// 黑名单配置
@@ -107,9 +150,33 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 
 		// 缺陷台账
 		risk.GET("/defects", riskHandler.ListDefects)
+		risk.GET("/defects/internal", riskHandler.ListInternalDefects)
+		risk.GET("/defects/external", riskHandler.ListExternalDefects)
+		risk.GET("/defects/stats/overview", riskHandler.GetDefectStatsOverview)
+		risk.POST("/defects/import", riskHandler.ImportDefects)
+		// 漏洞情报：手动录入 / Excel 导入，创建后直接裂变处置工单（仅治理专员/管理员）
+		risk.POST("/vuln-intel", riskHandler.CreateVulnIntel)
+		risk.POST("/vuln-intel/import", riskHandler.ImportVulnIntel)
+		risk.POST("/vuln-intel/match", riskHandler.MatchVulnIntel)
 		risk.GET("/defects/:id", riskHandler.GetDefect)
 		risk.POST("/defects", riskHandler.CreateDefect)
-		risk.PUT("/defects/:id/status", riskHandler.UpdateDefectStatus)
+
+		// 缺陷处置流（研判分配→研判/评审/裂变/二次分配/完成）
+		risk.GET("/defects/:id/analyst-candidates", riskHandler.GetDefectAnalystCandidates)
+		risk.POST("/defects/:id/assign-analyst", riskHandler.AssignDefectAnalyst)
+		risk.POST("/defects/:id/auto-assign-analyst", riskHandler.AutoAssignDefectAnalyst)
+		risk.POST("/defects/:id/auto-assign-disposals", riskHandler.AutoAssignDefectDisposals)
+		risk.POST("/defects/:id/analyze", riskHandler.AnalyzeDefect)
+		risk.POST("/defects/:id/review", riskHandler.ReviewDefect)
+		risk.GET("/defects/:id/disposals", riskHandler.ListDefectDisposals)
+		risk.GET("/defects/:id/history", riskHandler.GetDefectHistory)
+		risk.GET("/disposals", riskHandler.ListDisposals)
+		risk.POST("/disposals/:id/assign", riskHandler.AssignDisposal)
+		risk.POST("/disposals/:id/complete", riskHandler.CompleteDisposal)
+		risk.POST("/disposals/:id/na", riskHandler.MarkDisposalNA)
+
+		// BOM 上传解析（开源基础软件-软件名称-按BOM解析）：uuid + xml 文件，解析后调用外部服务
+		risk.POST("/bom/upload", bomHandler.UploadBom)
 
 		// CICD检查
 		risk.GET("/cicd-check", riskHandler.ListCicdCheck)

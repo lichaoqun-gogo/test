@@ -40,7 +40,6 @@ VALUES
   (12, 10, '开源工具库', '/admin/asset/tool-library', 'views/admin/asset/ToolLibrary', '', 1, 2, 0, NOW()),
   (13, 10, '依赖库', '/admin/asset/dependency-library', 'views/admin/asset/DependencyLibrary', '', 2, 2, 0, NOW()),
   (14, 10, '许可证管理', '/admin/asset/license-management', 'views/admin/asset/LicenseManagement', '', 3, 2, 0, NOW()),
-  (15, 10, '活跃度监测', '/admin/asset/activity-monitor', 'views/admin/asset/ActivityMonitor', '', 4, 2, 0, NOW()),
   (16, 10, '源码备份', '/admin/asset/source-backup', 'views/admin/asset/SourceBackup', '', 5, 2, 0, NOW()),
   (17, 10, '可信仓库', '/admin/asset/trusted-repo', 'views/admin/asset/TrustedRepo', '', 6, 2, 0, NOW()),
   (18, 0, '风险中心', '', '', 'Warning', 1, 1, 0, NOW()),
@@ -48,7 +47,6 @@ VALUES
   (20, 18, '缺陷台账', '/admin/risk/defect-ledger', 'views/admin/risk/DefectLedger', '', 1, 2, 0, NOW()),
   (21, 18, '黑白名单管理', '/admin/risk/blacklist-management', 'views/admin/risk/BlacklistManagement', '', 2, 2, 0, NOW()),
   (22, 18, '风险任务', '/admin/risk/task-list', 'views/admin/risk/TaskList', '', 3, 2, 0, NOW()),
-  (23, 18, 'SCA解析记录', '/admin/risk/sca-parser', 'views/admin/risk/ScaParser', '', 4, 2, 0, NOW()),
   (24, 0, '治理中心', '', '', 'Coin', 2, 1, 0, NOW()),
   (25, 24, '引入审批', '/admin/governance/introduce-approval', 'views/admin/governance/IntroduceApproval', '', 0, 2, 0, NOW()),
   (26, 24, '升级评审', '/admin/governance/upgrade-review', 'views/admin/governance/UpgradeReview', '', 1, 2, 0, NOW()),
@@ -73,8 +71,8 @@ INSERT INTO `role_menus` (`id`, `role`, `menu_id`)
 VALUES
   (1, 'operator', 1), (2, 'operator', 2), (3, 'operator', 3), (4, 'operator', 4), (5, 'operator', 5), (6, 'operator', 6), (7, 'operator', 7), (8, 'operator', 8), (9, 'operator', 9),
   (10, 'specialist', 35), (11, 'specialist', 36), (12, 'specialist', 37), (13, 'specialist', 38), (14, 'specialist', 39), (15, 'specialist', 40), (16, 'specialist', 41),
-  (17, 'admin', 10), (18, 'admin', 11), (19, 'admin', 12), (20, 'admin', 13), (21, 'admin', 14), (22, 'admin', 15), (23, 'admin', 16), (24, 'admin', 17),
-  (25, 'admin', 18), (26, 'admin', 19), (27, 'admin', 20), (28, 'admin', 21), (29, 'admin', 22), (30, 'admin', 23),
+  (17, 'admin', 10), (18, 'admin', 11), (19, 'admin', 12), (20, 'admin', 13), (21, 'admin', 14), (23, 'admin', 16), (24, 'admin', 17),
+  (25, 'admin', 18), (26, 'admin', 19), (27, 'admin', 20), (28, 'admin', 21), (29, 'admin', 22),
   (31, 'admin', 24), (32, 'admin', 25), (33, 'admin', 26), (34, 'admin', 27), (35, 'admin', 28), (36, 'admin', 29),
   (37, 'admin', 30), (38, 'admin', 31), (39, 'admin', 32), (40, 'admin', 33),
   (41, 'admin', 34), (42, 'admin', 35), (43, 'admin', 36), (44, 'admin', 37), (45, 'admin', 38), (46, 'admin', 39), (47, 'admin', 40), (48, 'admin', 41);

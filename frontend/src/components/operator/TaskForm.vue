@@ -194,7 +194,15 @@
         </el-alert>
 
         <div v-for="item in assessItems" :key="item.key" class="assess-item">
-          <el-form-item :label="item.label" :required="true">
+          <el-form-item :required="true">
+            <template #label>
+              <el-tooltip :content="item.tooltip" placement="right" :show-after="200">
+                <span class="assess-label">
+                  {{ item.label }}
+                  <el-icon class="assess-help-icon"><QuestionFilled /></el-icon>
+                </span>
+              </el-tooltip>
+            </template>
             <el-radio-group v-model="assessResults[item.key].status" @change="onAssessChange(item.key)">
               <el-radio value="fully_meet">完全满足</el-radio>
               <el-radio value="deviation">存在偏差</el-radio>
@@ -360,7 +368,8 @@
         </el-divider>
 
         <el-form-item label="内部缺陷编号">
-          <el-input v-model="formData.internalDefectId" placeholder="如在使用时发现的问题编号" />
+          <span v-if="readOnly">{{ formData.internalDefectNo || '-' }}</span>
+          <el-text v-else type="info">提交后系统自动生成内部缺陷编号（DF-xxx）</el-text>
         </el-form-item>
 
         <el-form-item label="风险描述" prop="riskDescription">
@@ -419,7 +428,7 @@
 import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue'
 import type { FormInstance, FormRules, UploadFile, UploadFiles } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { InfoFilled, Document, Upload, WarningFilled, CircleClose, Check, View, Download, Loading } from '@element-plus/icons-vue'
+import { InfoFilled, Document, Upload, WarningFilled, CircleClose, Check, View, Download, Loading, QuestionFilled } from '@element-plus/icons-vue'
 import { TASK_TYPE_LABELS } from '@/types'
 import type { TaskType, TaskStatus } from '@/types'
 import { useUserStore } from '@/stores/user'
@@ -436,14 +445,46 @@ const availableComponents = ref([
 
 // 适用性评估项定义（8个方面）
 const assessItems = [
-  { key: 'functionality', label: '功能特性' },
-  { key: 'security', label: '安全性' },
-  { key: 'reliability', label: '可靠性' },
-  { key: 'performance', label: '性能效率' },
-  { key: 'compatibility', label: '兼容性' },
-  { key: 'maintainability', label: '可维护性' },
-  { key: 'extensibility', label: '可扩展性' },
-  { key: 'usability', label: '易用性' },
+  {
+    key: 'functionality',
+    label: '功能特性',
+    tooltip: '评估组件是否具备业务所需的全部核心功能，是否支持必要的配置项和扩展点，以及API接口是否完整、易用。'
+  },
+  {
+    key: 'security',
+    label: '安全性',
+    tooltip: '评估组件是否存在已知安全漏洞、CVE风险、许可证合规问题，以及社区安全响应速度和补丁机制是否完善。'
+  },
+  {
+    key: 'reliability',
+    label: '可靠性',
+    tooltip: '评估组件在生产环境的稳定性、容错能力、故障恢复机制，以及版本迭代是否经过充分验证和社区长期支持。'
+  },
+  {
+    key: 'performance',
+    label: '性能效率',
+    tooltip: '评估组件在目标业务场景下的响应速度、吞吐量、资源占用情况，以及是否满足性能基线和扩展需求。'
+  },
+  {
+    key: 'compatibility',
+    label: '兼容性',
+    tooltip: '评估组件与现有技术栈、操作系统、依赖库及中间件的兼容情况，是否存在版本冲突或集成障碍。'
+  },
+  {
+    key: 'maintainability',
+    label: '可维护性',
+    tooltip: '评估组件代码质量、文档完整性、社区活跃度，以及团队是否具备持续维护、问题排查和升级能力。'
+  },
+  {
+    key: 'extensibility',
+    label: '可扩展性',
+    tooltip: '评估组件是否支持水平扩展、插件机制及二次开发，能否满足未来业务增长和功能演进的需要。'
+  },
+  {
+    key: 'usability',
+    label: '易用性',
+    tooltip: '评估组件学习成本、部署复杂度、运维监控便利性，以及开发人员是否能快速上手并规范使用。'
+  },
 ]
 
 // 适用性评估结果
@@ -747,7 +788,7 @@ interface TaskFormData {
   codeCleanupPlan: string
   affectedProjects: string
   // 风险上报
-  internalDefectId: string  // 内部缺陷编号
+  internalDefectNo: string  // 内部缺陷编号（系统自动生成）
   riskDescription: string
   // 缺陷处置
   defectRiskSource: string
@@ -789,7 +830,8 @@ const getCurrentUserInfo = () => {
   return {
     applicant: user?.nickname || '',
     applicantDept: user?.department || '',
-    applicantId: user?.id || '',
+    // applicantId 统一使用 CAS 用户名（username），与后端 JWT user_id、审批节点 approver_id 保持一致
+    applicantId: user?.username || '',
   }
 }
 
@@ -839,7 +881,7 @@ const initFormData = (): TaskFormData => {
     alternativePlan: props.taskData?.alternativePlan || '',
     codeCleanupPlan: props.taskData?.codeCleanupPlan || '',
     affectedProjects: props.taskData?.affectedProjects || '',
-    internalDefectId: props.taskData?.internalDefectId || '',
+    internalDefectNo: props.taskData?.internalDefectNo || '',
     riskDescription: props.taskData?.riskDescription || '',
     defectRiskSource: props.taskData?.defectRiskSource || '',
     defectCveId: props.taskData?.defectCveId || '',
@@ -896,7 +938,7 @@ function resetFormToNew() {
     alternativePlan: '',
     codeCleanupPlan: '',
     affectedProjects: '',
-    internalDefectId: '',
+    internalDefectNo: '',
     riskDescription: '',
     defectRiskSource: '',
     defectCveId: '',
@@ -967,7 +1009,7 @@ function fillFormData(data: any) {
     alternativePlan: data.alternativePlan || '',
     codeCleanupPlan: data.codeCleanupPlan || '',
     affectedProjects: data.affectedProjects || '',
-    internalDefectId: data.internalDefectId || '',
+    internalDefectNo: data.internalDefectNo || '',
     riskDescription: data.riskDescription || '',
     defectRiskSource: data.defectRiskSource || '',
     defectCveId: data.defectCveId || '',
@@ -1233,5 +1275,17 @@ defineExpose({
 
 .assess-item :deep(.el-form-item__label) {
   width: 140px !important;
+}
+
+.assess-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: help;
+}
+
+.assess-help-icon {
+  font-size: 14px;
+  color: #909399;
 }
 </style>

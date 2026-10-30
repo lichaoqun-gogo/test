@@ -12,14 +12,16 @@ type Claims struct {
 	UserID            string `json:"user_id"`
 	Username          string `json:"username"`
 	Nickname          string `json:"nickname"`
+	Email             string `json:"email"`
 	Role              string `json:"role"`
 	Department        string `json:"department"`
+	Team              string `json:"team"`
 	CanToggleAdminView bool  `json:"can_toggle_admin_view"`
 	jwt.RegisteredClaims
 }
 
 // GenerateToken 生成 JWT token
-func GenerateToken(secret string, expiry int, userID, username, nickname, role, department string, canToggleAdminView bool) (string, error) {
+func GenerateToken(secret string, expiry int, userID, username, nickname, email, role, department, team string, canToggleAdminView bool) (string, error) {
 	if expiry <= 0 {
 		expiry = 86400
 	}
@@ -27,8 +29,10 @@ func GenerateToken(secret string, expiry int, userID, username, nickname, role, 
 		UserID:            userID,
 		Username:          username,
 		Nickname:          nickname,
+		Email:             email,
 		Role:              role,
 		Department:        department,
+		Team:              team,
 		CanToggleAdminView: canToggleAdminView,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(expiry) * time.Second)),

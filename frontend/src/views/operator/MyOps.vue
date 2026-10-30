@@ -11,13 +11,7 @@
         <el-table :data="softwareList" border v-loading="loading">
           <el-table-column prop="grade" label="等级" width="80" align="center">
             <template #default="{ row }">
-              <el-tag
-                :type="gradeType(row.grade)"
-                size="small"
-                effect="dark"
-              >
-                {{ row.grade }}
-              </el-tag>
+              <el-tag :type="gradeType(row.grade)" size="small" effect="dark">{{ row.grade }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="软件名称" min-width="160">
@@ -27,9 +21,7 @@
           </el-table-column>
           <el-table-column prop="version" label="当前版本" width="120" />
           <el-table-column prop="type" label="类型" width="120">
-            <template #default="{ row }">
-              <el-tag size="small">{{ row.type }}</el-tag>
-            </template>
+            <template #default="{ row }"><el-tag size="small">{{ row.type }}</el-tag></template>
           </el-table-column>
           <el-table-column prop="owner" label="负责人" width="100" />
           <el-table-column prop="defectCount" label="缺陷数" width="100" align="center">
@@ -41,183 +33,182 @@
         </el-table>
       </el-tab-pane>
 
-      <!-- 缺陷管理 -->
+      <!-- 缺陷管理（本部门缺陷，只读；内部/外部分tab） -->
       <el-tab-pane label="缺陷管理" name="defects">
-        <!-- 查询和批量操作栏 -->
-        <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap">
-          <el-select
-            v-model="defectFilter.softwareName"
-            placeholder="按软件名称筛选"
-            clearable
-            style="width: 200px"
-            @change="filterDefectList"
-          >
-            <el-option
-              v-for="sw in softwareList"
-              :key="sw.id"
-              :label="sw.name"
-              :value="sw.name"
-            />
-          </el-select>
-          <el-select
-            v-model="defectFilter.globalStatus"
-            placeholder="全局状态"
-            clearable
-            style="width: 140px"
-            @change="filterDefectList"
-          >
-            <el-option label="待研判" value="待研判" />
-            <el-option label="待评审" value="待评审" />
-            <el-option label="已分配" value="已分配" />
-            <el-option label="已忽略" value="已忽略" />
-          </el-select>
-          <el-button type="primary" plain @click="filterDefectList">
-            <el-icon><Search /></el-icon> 查询
-          </el-button>
-          <el-button @click="resetDefectFilter">重置</el-button>
-          <el-divider direction="vertical" />
-          <el-button
-            type="primary"
-            :disabled="selectedDefects.length === 0"
-            @click="showBatchDisposeDialog"
-          >
-            <el-icon><EditPen /></el-icon>
-            批量处置 ({{ selectedDefects.length }})
-          </el-button>
-        </div>
+        <el-tabs v-model="defectActiveTab" size="small">
+          <!-- 内部缺陷 -->
+          <el-tab-pane label="内部缺陷" name="internal">
+            <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap">
+              <el-input v-model="internalKeyword" placeholder="搜索缺陷标题" clearable style="width: 220px" @keyup.enter="loadInternalDefects">
+                <template #prefix><el-icon><Search /></el-icon></template>
+              </el-input>
+              <el-select v-model="internalStatus" placeholder="全局状态" clearable style="width: 140px" @change="loadInternalDefects">
+                <el-option v-for="(label, value) in DEFECT_STATUS_LABELS" :key="value" :label="label" :value="value" />
+              </el-select>
+              <el-button type="primary" plain @click="internalPage = 1; loadInternalDefects()"><el-icon><Search /></el-icon> 查询</el-button>
+              <el-button @click="resetInternalFilter">重置</el-button>
+            </div>
+            <el-table :data="internalDefectList" border v-loading="internalLoading">
+              <el-table-column prop="defectNo" label="缺陷编号" width="170" />
+              <el-table-column prop="source" label="来源" width="110" />
+              <el-table-column prop="title" label="风险标题" min-width="200" show-overflow-tooltip />
+              <el-table-column label="风险等级" width="100" align="center">
+                <template #default="{ row }">
+                  <el-tag :type="severityType(row.riskLevel)" size="small">{{ severityLabel(row.riskLevel) }}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="maintDept" label="处置部门" width="120">
+                <template #default="{ row }">{{ row.maintDept || '-' }}</template>
+              </el-table-column>
+              <el-table-column label="全局状态" width="110" align="center">
+                <template #default="{ row }">
+                  <el-tag :type="defectStatusType(row.status)" size="small">{{ defectStatusLabel(row.status) }}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" width="100" align="center">
+                <template #default="{ row }">
+                  <el-button type="primary" link size="small" @click="viewDefectDetail(row)">详情</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="pagination-row">
+              <el-pagination
+                v-model:current-page="internalPage"
+                v-model:page-size="internalPageSize"
+                :total="internalTotal"
+                :page-sizes="[10, 20, 50, 100]"
+                layout="total, sizes, prev, pager, next"
+                @current-change="loadInternalDefects"
+                @size-change="onInternalPageSizeChange"
+              />
+            </div>
+          </el-tab-pane>
 
-        <el-table
-          :data="filteredDefectList"
-          border
-          v-loading="loading"
-          @selection-change="handleSelectionChange"
-        >
-          <el-table-column type="selection" width="55" />
-          <el-table-column prop="id" label="缺陷编号" width="140" />
-          <el-table-column prop="softwareName" label="软件名称" width="140" />
-          <el-table-column prop="title" label="缺陷标题" min-width="200" show-overflow-tooltip />
-          <el-table-column prop="severity" label="严重程度" width="100" align="center">
-            <template #default="{ row }">
-              <el-tag :type="severityType(row.severity)" size="small">{{ row.severity }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="source" label="来源" width="120" />
-          <el-table-column prop="globalStatus" label="全局状态" width="110" align="center">
-            <template #default="{ row }">
-              <el-tag :type="globalStatusType(row.globalStatus)" size="small">{{ row.globalStatus }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="currentHandler" label="当前处理人" width="100" />
-          <el-table-column label="操作" width="100" align="center">
-            <template #default="{ row }">
-              <el-button type="primary" link size="small" @click="viewDefectDetail(row)">
-                详情
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+          <!-- 外部缺陷 -->
+          <el-tab-pane label="外部缺陷" name="external">
+            <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap">
+              <el-input v-model="externalKeyword" placeholder="搜索缺陷标题或软件" clearable style="width: 220px" @keyup.enter="loadExternalDefects">
+                <template #prefix><el-icon><Search /></el-icon></template>
+              </el-input>
+              <el-select v-model="externalStatus" placeholder="全局状态" clearable style="width: 140px" @change="loadExternalDefects">
+                <el-option v-for="(label, value) in DEFECT_STATUS_LABELS" :key="value" :label="label" :value="value" />
+              </el-select>
+              <el-button type="primary" plain @click="externalPage = 1; loadExternalDefects()"><el-icon><Search /></el-icon> 查询</el-button>
+              <el-button @click="resetExternalFilter">重置</el-button>
+            </div>
+            <el-table :data="externalDefectList" border v-loading="externalLoading">
+              <el-table-column prop="defectNo" label="缺陷编号" width="180" />
+              <el-table-column prop="software" label="软件" width="110" />
+              <el-table-column prop="title" label="缺陷标题" min-width="200" show-overflow-tooltip />
+              <el-table-column label="严重程度" width="100" align="center">
+                <template #default="{ row }">
+                  <el-tag :type="severityType(row.riskLevel)" size="small">{{ severityLabel(row.riskLevel) }}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="maintDept" label="运维部门" width="120">
+                <template #default="{ row }">{{ row.maintDept || '-' }}</template>
+              </el-table-column>
+              <el-table-column label="全局状态" width="110" align="center">
+                <template #default="{ row }">
+                  <el-tag :type="defectStatusType(row.status)" size="small">{{ defectStatusLabel(row.status) }}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" width="100" align="center">
+                <template #default="{ row }">
+                  <el-button type="primary" link size="small" @click="viewDefectDetail(row)">详情</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="pagination-row">
+              <el-pagination
+                v-model:current-page="externalPage"
+                v-model:page-size="externalPageSize"
+                :total="externalTotal"
+                :page-sizes="[10, 20, 50, 100]"
+                layout="total, sizes, prev, pager, next"
+                @current-change="loadExternalDefects"
+                @size-change="onExternalPageSizeChange"
+              />
+            </div>
+          </el-tab-pane>
+        </el-tabs>
       </el-tab-pane>
     </el-tabs>
 
-    <!-- 批量处置对话框 -->
-    <el-dialog
-      v-model="batchDisposeDialogVisible"
-      title="批量处置"
-      width="900px"
-    >
-      <el-alert :title="`已选择 ${selectedDefects.length} 个缺陷`" type="info" :closable="false" show-icon style="margin-bottom: 16px" />
-      
-      <el-form :model="batchDisposeForm" label-width="120px" style="margin-bottom: 16px">
-        <el-form-item label="目标状态" required>
-          <el-select v-model="batchDisposeForm.targetStatus" placeholder="请选择目标状态" style="width: 100%">
-            <el-option label="待研判" value="待研判" />
-            <el-option label="待评审" value="待评审" />
-            <el-option label="已分配" value="已分配" />
-            <el-option label="已忽略" value="已忽略" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-
-      <template #footer>
-        <el-button @click="batchDisposeDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="confirmBatchDispose" :disabled="!batchDisposeForm.targetStatus">确认处置</el-button>
-      </template>
-    </el-dialog>
-
-    <!-- 缺陷详情对话框 -->
-    <el-dialog
-      v-model="defectDetailDialogVisible"
-      title="缺陷详情"
-      width="800px"
-    >
-      <el-descriptions v-if="currentDefect" :column="2" border>
-        <el-descriptions-item label="缺陷编号">{{ currentDefect.id }}</el-descriptions-item>
-        <el-descriptions-item label="软件名称">{{ currentDefect.softwareName }}</el-descriptions-item>
-        <el-descriptions-item label="缺陷标题" :span="2">{{ currentDefect.title }}</el-descriptions-item>
-        <el-descriptions-item label="严重程度">
-          <el-tag :type="severityType(currentDefect.severity)" size="small">{{ currentDefect.severity }}</el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item label="来源">{{ currentDefect.source }}</el-descriptions-item>
-        <el-descriptions-item label="全局状态">
-          <el-tag :type="globalStatusType(currentDefect.globalStatus)" size="small">{{ currentDefect.globalStatus }}</el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item label="当前处理人">{{ currentDefect.currentHandler || '-' }}</el-descriptions-item>
-      </el-descriptions>
-    </el-dialog>
-
-    <!-- 软件详情对话框（复用 ProjectDetailDialog 组件，展示依赖信息） -->
+    <!-- 软件详情对话框 -->
     <ProjectDetailDialog v-model="softwareDetailVisible" :project-data="currentSoftware" />
 
+    <!-- 缺陷详情对话框 -->
+    <el-dialog v-model="defectDetailDialogVisible" :title="isExternal(currentDefect) ? '外部缺陷详情' : '内部缺陷详情'" width="720px">
+      <el-descriptions v-if="currentDefect" :column="2" border size="small">
+        <el-descriptions-item label="缺陷编号">{{ currentDefect.defectNo }}</el-descriptions-item>
+        <el-descriptions-item label="来源">{{ currentDefect.source }}</el-descriptions-item>
+        <el-descriptions-item label="风险标题" :span="2">{{ currentDefect.title }}</el-descriptions-item>
+        <template v-if="isExternal(currentDefect)">
+          <el-descriptions-item label="软件">
+            <el-tag size="small">{{ currentDefect.software }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="严重程度">
+            <el-tag :type="severityType(currentDefect.riskLevel)" size="small">{{ severityLabel(currentDefect.riskLevel) }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="原始链接" :span="2">
+            <el-link v-if="currentDefect.issueUrl" :href="currentDefect.issueUrl" target="_blank" type="primary">{{ currentDefect.issueUrl }}</el-link>
+            <span v-else>-</span>
+          </el-descriptions-item>
+        </template>
+        <template v-else>
+          <el-descriptions-item label="风险等级">
+            <el-tag :type="severityType(currentDefect.riskLevel)" size="small">{{ severityLabel(currentDefect.riskLevel) }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="上报时间">{{ formatTime(currentDefect.discoveredDate) }}</el-descriptions-item>
+        </template>
+        <el-descriptions-item label="处置部门">{{ currentDefect.maintDept || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="处置截止时间">{{ formatTime(currentDefect.deadline) }}</el-descriptions-item>
+        <el-descriptions-item label="全局状态">
+          <el-tag :type="defectStatusType(currentDefect.status)" size="small">{{ defectStatusLabel(currentDefect.status) }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="描述" :span="2">{{ currentDefect.description || '-' }}</el-descriptions-item>
+      </el-descriptions>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Search, EditPen } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
+import { riskApi } from '@/api'
 import request from '@/api'
 import { formatTime } from '@/utils/format'
+import {
+  DEFECT_STATUS_LABELS,
+  FLOW_TYPE_LABELS,
+  defectStatusLabel,
+  defectStatusType,
+  severityLabel,
+  severityType,
+} from '@/utils/defect'
 import ProjectDetailDialog from '@/components/business/ProjectDetailDialog.vue'
 
-const route = useRoute()
 const userStore = useUserStore()
-// 是否看部门全部（specialist 或 admin 在个人工作台视图）
-const isSpecialist = computed(() => {
-  const role = userStore.role
-  return role === 'specialist' || (role === 'admin' && userStore.viewMode === 'personal')
-})
 
 const activeTab = ref('software')
 const loading = ref(false)
-
-// 我负责的软件
 const softwareList = ref<any[]>([])
 
-// 加载软件列表
 async function loadSoftwareList() {
   loading.value = true
   try {
     const params: any = {}
-    if (isSpecialist.value) {
-      // specialist/admin(个人工作台)：看部门所有开源软件
+    const role = userStore.role
+    const isSpecialistView = role === 'specialist' || (role === 'admin' && userStore.viewMode === 'personal')
+    if (isSpecialistView) {
       params.maint_dept = userStore.userInfo?.department || ''
     } else {
-      // operator：只看 project_owner 表中分配给自己的软件
       params.owner_username = userStore.userInfo?.username || ''
     }
-    console.log('[MyOps] loadSoftwareList:', {
-      isSpecialist: isSpecialist.value,
-      role: userStore.role,
-      viewMode: userStore.viewMode,
-      department: userStore.userInfo?.department,
-      username: userStore.userInfo?.username,
-      params,
-    })
     const res: any = await request.get('/asset/projects', { params })
-    // 响应拦截器已返回res.data，res直接是数组
-    // 保留原始字段（_name, _version, id 等）供 ProjectDetailDialog 使用
     softwareList.value = (res || []).map((item: any) => ({
       ...item,
       name: item._name,
@@ -238,194 +229,137 @@ async function loadSoftwareList() {
 
 function getTypeLabel(type: string) {
   const map: Record<string, string> = {
-    java: 'Java组件',
-    go: 'Go组件',
-    python: 'Python组件',
-    js: 'JavaScript组件',
+    java: 'Java组件', go: 'Go组件', python: 'Python组件', js: 'JavaScript组件',
   }
   return map[type] || type || '-'
 }
 
-// 缺陷列表
-const defectList = ref<any[]>([])
-const filteredDefectList = ref<any[]>([])
-
-// 加载缺陷列表
-async function loadDefectList() {
-  try {
-    const res: any = await request.get('/risk/defects', {
-      params: { page: 1, pageSize: 100 }
-    })
-    // 响应拦截器已返回res.data，缺陷API返回分页数据 { list: [...], total: N }
-    const list = res?.list || res || []
-    defectList.value = list.map((item: any) => ({
-      id: item.defect_no || `DEF-${item.id}`,
-      softwareName: item.affected_component || '-',
-      title: item.title || '-',
-      severity: item.risk_level || '中危',
-      source: item.source || '内部SCA',
-      globalStatus: mapDefectStatus(item.status),
-      currentHandler: item.current_handler || '-',
-    }))
-    filteredDefectList.value = defectList.value
-  } catch (error) {
-    console.error('加载缺陷列表失败:', error)
-  }
-}
-
-function mapDefectStatus(status: string) {
-  const map: Record<string, string> = {
-    pending_analysis: '待研判',
-    pending_review: '待评审',
-    dispatched: '已分配',
-    ignored: '已忽略',
-    closed: '已忽略',
-  }
-  return map[status] || '待研判'
+function gradeType(grade: string) {
+  const map: Record<string, any> = { A: 'success', B: '', C: 'warning', D: 'danger' }
+  return map[grade] || 'info'
 }
 
 // 软件详情
 const softwareDetailVisible = ref(false)
 const currentSoftware = ref<any>(null)
-
 function showSoftwareDetail(software: any) {
   currentSoftware.value = software
   softwareDetailVisible.value = true
 }
 
-// 缺陷查询和筛选
-const defectFilter = ref({
-  softwareName: '',
-  globalStatus: '',
-})
+// ===== 缺陷管理（内部/外部分tab） =====
+const defectActiveTab = ref('internal')
+const internalLoading = ref(false)
+const externalLoading = ref(false)
+const internalKeyword = ref('')
+const internalStatus = ref('')
+const externalKeyword = ref('')
+const externalStatus = ref('')
+const internalDefectList = ref<any[]>([])
+const externalDefectList = ref<any[]>([])
+const internalPage = ref(1)
+const internalPageSize = ref(10)
+const internalTotal = ref(0)
+const externalPage = ref(1)
+const externalPageSize = ref(10)
+const externalTotal = ref(0)
 
-function filterDefectList() {
-  filteredDefectList.value = defectList.value.filter(d => {
-    if (defectFilter.value.softwareName && d.softwareName !== defectFilter.value.softwareName) {
-      return false
-    }
-    if (defectFilter.value.globalStatus && d.globalStatus !== defectFilter.value.globalStatus) {
-      return false
-    }
-    return true
-  })
+// 内部缺陷 vs 外部缺陷 判定
+function isExternal(row: any): boolean {
+  if (!row) return false
+  return row.affectedComponentType === 'external' || /#/.test(row.defectNo || '') || row.source === 'github-issue' || row.source === 'jira'
 }
 
-function resetDefectFilter() {
-  defectFilter.value = {
-    softwareName: '',
-    globalStatus: '',
+async function loadInternalDefects() {
+  internalLoading.value = true
+  try {
+    const res: any = await riskApi.getInternalDefects({
+      page: internalPage.value,
+      pageSize: internalPageSize.value,
+      keyword: internalKeyword.value || undefined,
+      status: internalStatus.value || undefined,
+      // 个人工作台视图：管理部门专员也与部门专员一致按部门过滤，仅在全局治理（风险管理-缺陷台账）看全景
+      scope: 'dept',
+    })
+    internalDefectList.value = Array.isArray(res) ? res : (Array.isArray(res?.list) ? res.list : [])
+    internalTotal.value = res?.total ?? internalDefectList.value.length
+  } catch (e: any) {
+    ElMessage.error('加载内部缺陷失败: ' + (e.message || ''))
+  } finally {
+    internalLoading.value = false
   }
-  filteredDefectList.value = defectList.value
 }
 
-// 批量处置
-const batchDisposeDialogVisible = ref(false)
-const selectedDefects = ref<any[]>([])
-const batchDisposeForm = ref({
-  targetStatus: '',
-})
-
-function handleSelectionChange(selection: any[]) {
-  selectedDefects.value = selection
-}
-
-function showBatchDisposeDialog() {
-  if (selectedDefects.value.length === 0) {
-    ElMessage.warning('请选择要处置的缺陷')
-    return
+async function loadExternalDefects() {
+  externalLoading.value = true
+  try {
+    const res: any = await riskApi.getExternalDefects({
+      page: externalPage.value,
+      pageSize: externalPageSize.value,
+      keyword: externalKeyword.value || undefined,
+      status: externalStatus.value || undefined,
+      scope: 'dept',
+    })
+    externalDefectList.value = Array.isArray(res) ? res : (Array.isArray(res?.list) ? res.list : [])
+    externalTotal.value = res?.total ?? externalDefectList.value.length
+  } catch (e: any) {
+    ElMessage.error('加载外部缺陷失败: ' + (e.message || ''))
+  } finally {
+    externalLoading.value = false
   }
-  batchDisposeForm.value = { targetStatus: '' }
-  batchDisposeDialogVisible.value = true
 }
 
-function confirmBatchDispose() {
-  if (!batchDisposeForm.value.targetStatus) {
-    ElMessage.warning('请选择目标状态')
-    return
-  }
-  selectedDefects.value.forEach(defect => {
-    const d = defectList.value.find(item => item.id === defect.id)
-    if (d) {
-      d.globalStatus = batchDisposeForm.value.targetStatus
-    }
-  })
-  filterDefectList()
-  batchDisposeDialogVisible.value = false
-  ElMessage.success(`成功处置 ${selectedDefects.value.length} 个缺陷`)
+function onInternalPageSizeChange() {
+  internalPage.value = 1
+  loadInternalDefects()
+}
+function onExternalPageSizeChange() {
+  externalPage.value = 1
+  loadExternalDefects()
 }
 
-// 查看缺陷详情
+function loadDefects() {
+  loadInternalDefects()
+  loadExternalDefects()
+}
+
+function resetInternalFilter() {
+  internalKeyword.value = ''
+  internalStatus.value = ''
+  internalPage.value = 1
+  loadInternalDefects()
+}
+function resetExternalFilter() {
+  externalKeyword.value = ''
+  externalStatus.value = ''
+  externalPage.value = 1
+  loadExternalDefects()
+}
+
 const defectDetailDialogVisible = ref(false)
 const currentDefect = ref<any>(null)
-
-function viewDefectDetail(defect: any) {
-  currentDefect.value = defect
+function viewDefectDetail(row: any) {
+  currentDefect.value = row
   defectDetailDialogVisible.value = true
 }
 
-function globalStatusType(status: string) {
-  const map: Record<string, string> = {
-    '待研判': 'warning',
-    '待评审': 'info',
-    '已分配': 'primary',
-    '已忽略': 'danger',
-  }
-  return map[status] || ''
-}
-
-function gradeType(grade: string) {
-  const map: Record<string, any> = {
-    A: 'success',
-    B: '',
-    C: 'warning',
-    D: 'danger',
-  }
-  return map[grade] || 'info'
-}
-
-function severityType(severity: string) {
-  const map: Record<string, any> = {
-    '严重': 'danger',
-    '高危': 'danger',
-    '中危': 'warning',
-    '低危': '',
-  }
-  return map[severity] || 'info'
-}
-
 onMounted(() => {
+  // 支持从「风险上报」创建成功跳转定位：localStorage 标记直接定位到缺陷管理-内部缺陷
+  if (localStorage.getItem('osm_defect_tab') === 'defects') {
+    activeTab.value = 'defects'
+    defectActiveTab.value = 'internal'
+    localStorage.removeItem('osm_defect_tab')
+  }
   loadSoftwareList()
-  loadDefectList()
+  loadDefects()
 })
 </script>
 
 <style scoped>
-.my-ops {
-  padding: 20px;
-}
-
-.page-header {
-  margin-bottom: 20px;
-}
-
-.page-header h2 {
-  margin: 0 0 8px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f2328;
-}
-
-.page-desc {
-  margin: 0;
-  font-size: 13px;
-  color: #8c8c8c;
-}
-
-.ops-tabs {
-  background: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-}
+.my-ops { padding: 20px; }
+.pagination-row { display: flex; justify-content: flex-end; margin-top: 12px; }
+.page-header { margin-bottom: 20px; }
+.page-header h2 { margin: 0 0 8px; font-size: 18px; font-weight: 600; color: #1f2328; }
+.page-desc { margin: 0; font-size: 13px; color: #8c8c8c; }
+.ops-tabs { background: #fff; padding: 20px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); }
 </style>

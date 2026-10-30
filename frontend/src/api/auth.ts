@@ -19,14 +19,28 @@ export function casLogin(): void {
   window.location.href = '/api/v1/auth/cas/login'
 }
 
-// CAS 回调处理：用 token 获取用户信息
+// CAS 回调处理：用 token 获取用户信息（含权限档案）
+// 后端 /auth/me 返回 { user, roles, permissions }，此处映射为前端 UserInfo
 export async function casCallback(token: string): Promise<ApiResponse<UserInfo>> {
   try {
     const res = await axios.get('/api/v1/auth/me', {
       headers: { Authorization: `Bearer ${token}` },
     })
-    if (res.data?.code === 0) {
-      return { code: 200, message: 'success', data: res.data.data }
+    if (res.data?.code === 0 && res.data.data) {
+      const d = res.data.data
+      const u = d.user || {}
+      const info: UserInfo = {
+        id: String(u.id ?? ''),
+        username: u.username || '',
+        nickname: u.nickname || '',
+        role: u.role || 'operator',
+        department: u.department || '',
+        team: u.team || '',
+        email: u.email || '',
+        roles: d.roles || [],
+        permissions: d.permissions || [],
+      }
+      return { code: 200, message: 'success', data: info }
     }
     return { code: 401, message: res.data?.message || '获取用户信息失败', data: null as any }
   } catch (err: any) {

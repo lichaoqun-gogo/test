@@ -1,15 +1,16 @@
 package handlers
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"log"
-	"mime/multipart"
-	"osm-mngt/internal/models"
-	"osm-mngt/pkg/response"
 	"path/filepath"
 	"strconv"
 	"time"
+
+	"osm-mngt/internal/models"
+	"osm-mngt/pkg/response"
 
 	"github.com/gin-gonic/gin"
 	"github.com/minio/minio-go/v7"
@@ -30,13 +31,8 @@ func NewFileHandler(db *gorm.DB, minioClient *minio.Client, bucketName string) *
 	}
 }
 
-func (h *FileHandler) getUserInfo(c *gin.Context) (string, string) {
-	userID := c.GetHeader("X-User-ID")
-	userName := c.GetHeader("X-User-Name")
-	return userID, userName
-}
-
-// Upload 上传文件（带容错处理）
+// Upload 通用文件上传：记录附件信息（新建/更新，复用统一逻辑）+ 上传 MinIO（带容错处理）
+// 兼容生命周期治理流程：各流程通过 source（AttachmentSource）复用同一张附件表
 func (h *FileHandler) Upload(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -46,28 +42,40 @@ func (h *FileHandler) Upload(c *gin.Context) {
 
 	source := c.PostForm("source")
 	description := c.PostForm("description")
-
 	if source == "" {
 		response.Error(c, 400, "请指定附件来源")
 		return
 	}
 
-	// 打开文件
 	src, err := file.Open()
 	if err != nil {
 		response.Error(c, 500, "打开文件失败")
 		return
 	}
 	defer src.Close()
+	data, err := io.ReadAll(src)
+	if err != nil {
+		response.Error(c, 500, "读取文件失败")
+		return
+	}
 
-	// 生成MinIO存储路径
+	// 生成 MinIO 存储路径（通用附件目录，按 source 隔离）
 	ext := filepath.Ext(file.Filename)
 	storePath := fmt.Sprintf("attachments/%s/%d%s", source, time.Now().UnixNano(), ext)
 
-	// 尝试上传到MinIO（容错处理）
+	userID, _ := currentUser(c)
+
+	// 记录附件信息（新建/更新，幂等）
+	attID, _, err := saveAttachment(h.db, source, file.Filename, computeMD5(data), storePath, description, userID)
+	if err != nil {
+		response.Error(c, 500, "保存附件记录失败")
+		return
+	}
+
+	// 上传到 MinIO（容错处理）
 	minioUploadSuccess := false
 	if h.minioClient != nil {
-		_, err = h.minioClient.PutObject(c.Request.Context(), h.bucketName, storePath, src, file.Size, minio.PutObjectOptions{
+		_, err = h.minioClient.PutObject(c.Request.Context(), h.bucketName, storePath, bytes.NewReader(data), int64(len(data)), minio.PutObjectOptions{
 			ContentType: file.Header.Get("Content-Type"),
 		})
 		if err != nil {
@@ -80,42 +88,14 @@ func (h *FileHandler) Upload(c *gin.Context) {
 		log.Println("Warning: MinIO client not available, file will be stored locally")
 	}
 
-	// 获取文件类型
-	fileType := detectFileType(file)
-
-	// 保存数据库记录
-	userID, _ := h.getUserInfo(c)
-	now := time.Now()
-	fileSize := file.Size
-	attachment := models.Attachment{
-		FileName:    file.Filename,
-		FileSize:    &fileSize,
-		FileType:    fileType,
-		MinioPath:   storePath,
-		MinioBucket: h.bucketName,
-		RelatedType: source,
-		Description: description,
-		Uploader:    userID,
-		CreateTime:  now,
-		UpdateTime:  now,
-	}
-
-	if err := h.db.Create(&attachment).Error; err != nil {
-		response.Error(c, 500, "保存记录失败")
-		return
-	}
-
-	// 构建响应
 	result := gin.H{
-		"id":        attachment.ID,
-		"filename":  attachment.FileName,
-		"minioPath": attachment.MinioPath,
+		"id":        attID,
+		"filename":  file.Filename,
+		"minioPath": storePath,
 	}
-
 	if !minioUploadSuccess {
 		result["warning"] = "MinIO上传失败，文件已保存到数据库，请检查MinIO配置"
 	}
-
 	response.Success(c, result)
 }
 
@@ -137,8 +117,8 @@ func (h *FileHandler) Download(c *gin.Context) {
 		return
 	}
 
-	// 从MinIO获取文件
-	obj, err := h.minioClient.GetObject(c.Request.Context(), attachment.MinioBucket, attachment.MinioPath, minio.GetObjectOptions{})
+	// 从 MinIO 获取文件
+	obj, err := h.minioClient.GetObject(c.Request.Context(), h.bucketName, attachment.StoreURL, minio.GetObjectOptions{})
 	if err != nil {
 		response.Error(c, 500, "获取文件失败")
 		return
@@ -182,8 +162,8 @@ func (h *FileHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	// 从MinIO删除
-	err = h.minioClient.RemoveObject(c.Request.Context(), attachment.MinioBucket, attachment.MinioPath, minio.RemoveObjectOptions{})
+	// 从 MinIO 删除
+	err = h.minioClient.RemoveObject(c.Request.Context(), h.bucketName, attachment.StoreURL, minio.RemoveObjectOptions{})
 	if err != nil {
 		response.Error(c, 500, "删除文件失败")
 		return
@@ -196,49 +176,4 @@ func (h *FileHandler) Delete(c *gin.Context) {
 	}
 
 	response.Success(c, nil)
-}
-
-// detectFileType 根据文件扩展名检测文件类型
-func detectFileType(file *multipart.FileHeader) string {
-	ext := filepath.Ext(file.Filename)
-	switch ext {
-	case ".pdf":
-		return "application/pdf"
-	case ".doc":
-		return "application/msword"
-	case ".docx":
-		return "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-	case ".xls":
-		return "application/vnd.ms-excel"
-	case ".xlsx":
-		return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-	case ".ppt":
-		return "application/vnd.ms-powerpoint"
-	case ".pptx":
-		return "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-	case ".txt":
-		return "text/plain"
-	case ".csv":
-		return "text/csv"
-	case ".png":
-		return "image/png"
-	case ".jpg", ".jpeg":
-		return "image/jpeg"
-	case ".gif":
-		return "image/gif"
-	case ".zip":
-		return "application/zip"
-	case ".rar":
-		return "application/x-rar-compressed"
-	case ".tar":
-		return "application/x-tar"
-	case ".gz":
-		return "application/gzip"
-	default:
-		ct := file.Header.Get("Content-Type")
-		if ct != "" {
-			return ct
-		}
-		return "application/octet-stream"
-	}
 }

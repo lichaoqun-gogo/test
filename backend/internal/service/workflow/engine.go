@@ -25,9 +25,9 @@ func NewWorkflowEngine(db *gorm.DB) *WorkflowEngine {
 }
 
 // ResolveNodesAndCreate 解析审批节点并创建到数据库
-func (e *WorkflowEngine) ResolveNodesAndCreate(tx *gorm.DB, task *models.GovernanceTask, actionType string) error {
+func (e *WorkflowEngine) ResolveNodesAndCreate(tx *gorm.DB, task *models.GovernanceTask, actionType, maintDept string) error {
 	// 解析节点
-	nodes, err := e.nodeResolver.ResolveNodes(actionType, task.ApplicantID, task.ApplicantDept, task.ProjectDept)
+	nodes, err := e.nodeResolver.ResolveNodes(actionType, task.ApplicantID, task.ApplicantDept, task.ProjectDept, maintDept)
 	if err != nil {
 		return fmt.Errorf("解析审批节点失败: %w", err)
 	}
@@ -60,9 +60,9 @@ func (e *WorkflowEngine) SubmitTask(taskID int64, userID, userName string) error
 			return fmt.Errorf("任务不存在: %w", err)
 		}
 
-		// 2. 状态校验：只有草稿状态或已撤回状态可以提交
-		if task.Status != StatusDraft && task.Status != StatusWithdrawn {
-			return fmt.Errorf("只有草稿状态或已撤回状态的任务可以提交，当前状态: %s", task.Status)
+		// 2. 状态校验：草稿、已撤回、已驳回（驳回后可修改重提）状态可以提交
+		if task.Status != StatusDraft && task.Status != StatusWithdrawn && task.Status != StatusRejected {
+			return fmt.Errorf("只有草稿、已撤回或已驳回状态的任务可以提交，当前状态: %s", task.Status)
 		}
 
 		// 2.1 权限校验：只有发起人可以提交
@@ -78,26 +78,29 @@ func (e *WorkflowEngine) SubmitTask(taskID int64, userID, userName string) error
 		tx.Where("task_id = ?", taskID).Find(&existingNodes)
 		
 		if len(existingNodes) > 0 {
-			// 已有审批节点，复用（撤回后再次提交）
+			// 已有审批节点，复用（撤回/驳回后再次提交）
 			fmt.Printf("[SubmitTask] 发现已有 %d 个审批节点，复用并重置状态\n", len(existingNodes))
-			
-			// 重置所有节点状态为pending
+
+			// 重置所有非跳过节点为 pending；
+			// 跳过节点保持跳过（撤回/驳回重提不改变业务类型与使用部门，跳过条件不变，不能"复活"成无审批人的 pending 脏节点）
 			for i := range existingNodes {
+				if existingNodes[i].IsSkipped {
+					continue
+				}
 				tx.Model(&models.ApprovalNode{}).Where("id = ?", existingNodes[i].ID).Updates(map[string]interface{}{
 					"status":      "pending",
 					"opinion":     "",
 					"approved_at": nil,
-					"is_skipped":  false,
-					"skip_reason": "",
 				})
 			}
 		} else {
 			// 首次提交，创建审批节点
 			fmt.Printf("[SubmitTask] 首次提交，创建审批节点...\n")
 			
-			// 对于非引入申请，从project表查询使用部门（use_dept）
-			if task.ActionType != "introduce" && task.ProjectDept == "" {
-				// 从task_detail获取组件名称，再查project表的use_dept
+			// 对于非引入申请，从project表查询运维部门（maint_dept）与使用部门（use_dept）
+			maintDept := ""
+			if task.ActionType != "introduce" {
+				// 从task_detail获取组件名称，再查project表
 				var componentName string
 				switch task.Type {
 				case "upgrade":
@@ -113,17 +116,19 @@ func (e *WorkflowEngine) SubmitTask(taskID int64, userID, userName string) error
 				}
 
 				if componentName != "" {
-					var useDept string
-					tx.Table("project").Select("use_dept").Where("_name = ?", componentName).Row().Scan(&useDept)
-					if useDept != "" {
+					var useDept, mDept string
+					tx.Table("project").Select("use_dept, maint_dept").Where("_name = ?", componentName).Row().Scan(&useDept, &mDept)
+					if useDept != "" && task.ProjectDept == "" {
 						task.ProjectDept = useDept
 						tx.Save(&task)
 						fmt.Printf("[SubmitTask] 从project表查询到使用部门: %s (组件: %s)\n", task.ProjectDept, componentName)
 					}
+					maintDept = mDept
+					fmt.Printf("[SubmitTask] 从project表查询到运维部门: %s (组件: %s)\n", maintDept, componentName)
 				}
 			}
-			
-			if err := e.ResolveNodesAndCreate(tx, &task, task.ActionType); err != nil {
+
+			if err := e.ResolveNodesAndCreate(tx, &task, task.ActionType, maintDept); err != nil {
 				fmt.Printf("[SubmitTask] 创建审批节点失败: %v\n", err)
 				return fmt.Errorf("创建审批流失败: %w", err)
 			}
@@ -136,6 +141,19 @@ func (e *WorkflowEngine) SubmitTask(taskID int64, userID, userName string) error
 		for i, node := range nodes {
 			fmt.Printf("[SubmitTask] 节点%d: key=%s, name=%s, approver=%s, approverId=%s, order=%d\n",
 				i+1, node.NodeKey, node.NodeName, node.Approver, node.ApproverID, node.NodeOrder)
+		}
+
+		// 将发起节点（node_0）标记为已通过：发起人在提交时即完成发起动作，
+		// 避免发起节点长期停留在 pending，导致“当前节点”查询误返回发起节点
+		now := time.Now()
+		if err := tx.Model(&models.ApprovalNode{}).
+			Where("task_id = ? AND node_order = 0", taskID).
+			Updates(map[string]interface{}{
+				"status":      "approved",
+				"approved_at": now,
+				"update_time": now,
+			}).Error; err != nil {
+			return fmt.Errorf("更新发起节点状态失败: %w", err)
 		}
 
 		// 4. 查找第一个未跳过且审批人非空的审批节点（跳过Node 0发起节点）
@@ -155,7 +173,6 @@ func (e *WorkflowEngine) SubmitTask(taskID int64, userID, userName string) error
 		}
 
 		// 5. 更新任务状态
-		now := time.Now()
 		task.Status = StatusApproving
 		task.CurrentStep = firstActiveNode.NodeName
 		task.AssignedTo = firstActiveNode.ApproverID
@@ -212,15 +229,17 @@ func (e *WorkflowEngine) ApproveNode(taskID int64, nodeID int64, userID, userNam
 			return fmt.Errorf("审批节点不存在")
 		}
 
-		// 4. 权限校验
-		if !e.stateMachine.CanApprove(task.Status, currentNode.ApproverID, userID) {
+		// 4. 权限校验（支持一个部门多名专员：节点指定审批人，或该节点部门-角色的任一在岗专员）
+		if !CanUserHandleNode(tx, &currentNode, userID) {
 			return fmt.Errorf("您不是当前节点的审批人，无权审批")
 		}
 
-		// 5. 更新当前节点状态
+		// 5. 更新当前节点状态（多名专员场景下，节点记录实际处理人）
 		now := time.Now()
 		currentNode.Status = "approved"
 		currentNode.Opinion = opinion
+		currentNode.ApproverID = userID
+		currentNode.Approver = userName
 		currentNode.ApprovedAt = &now
 		currentNode.UpdateTime = now
 		if err := tx.Save(&currentNode).Error; err != nil {
@@ -301,22 +320,24 @@ func (e *WorkflowEngine) RejectTask(taskID int64, nodeID int64, userID, userName
 			return fmt.Errorf("审批节点不存在")
 		}
 
-		// 4. 权限校验
-		if !e.stateMachine.CanReject(task.Status, currentNode.ApproverID, userID) {
+		// 4. 权限校验（支持一个部门多名专员：节点指定审批人，或该节点部门-角色的任一在岗专员）
+		if !CanUserHandleNode(tx, &currentNode, userID) {
 			return fmt.Errorf("您不是当前节点的审批人，无权驳回")
 		}
 
-		// 5. 更新当前节点状态
+		// 5. 更新当前节点状态（多名专员场景下，节点记录实际处理人）
 		now := time.Now()
 		currentNode.Status = "rejected"
 		currentNode.Opinion = opinion
+		currentNode.ApproverID = userID
+		currentNode.Approver = userName
 		currentNode.ApprovedAt = &now
 		currentNode.UpdateTime = now
 		if err := tx.Save(&currentNode).Error; err != nil {
 			return fmt.Errorf("更新节点状态失败: %w", err)
 		}
 
-		// 6. 更新任务状态为已驳回（终态）
+		// 6. 更新任务状态为已驳回（可重提态：发起人可修改后重新提交）
 		oldStatus := task.Status
 		task.Status = StatusRejected
 		task.CurrentStep = "已驳回"
@@ -347,37 +368,16 @@ func (e *WorkflowEngine) RejectTask(taskID int64, nodeID int64, userID, userName
 	})
 }
 
-// GetApprovalHistory 获取审批历史（从最后一次提交开始显示）
+// GetApprovalHistory 获取审批历史（按时间正序完整返回）
+// 说明：撤回/驳回重提是同一任务的多次流转，历史应完整可追溯（含首次提交、驳回意见、重提等），不做截断
 func (e *WorkflowEngine) GetApprovalHistory(taskID int64) ([]models.ApprovalHistory, error) {
 	var histories []models.ApprovalHistory
-	// 1. 查找所有历史记录
 	err := e.db.Where("task_id = ?", taskID).
 		Order("create_time ASC").
 		Find(&histories).Error
 	if err != nil {
 		return nil, err
 	}
-
-	// 2. 如果没有记录，直接返回
-	if len(histories) == 0 {
-		return histories, nil
-	}
-
-	// 3. 找到最后一次 submit 记录的位置
-	lastSubmitIndex := -1
-	for i := len(histories) - 1; i >= 0; i-- {
-		if histories[i].Action == "submit" {
-			lastSubmitIndex = i
-			break
-		}
-	}
-
-	// 4. 如果找到 submit 记录，只返回该记录及之后的所有记录
-	if lastSubmitIndex != -1 {
-		return histories[lastSubmitIndex:], nil
-	}
-
-	// 5. 没有 submit 记录，返回所有记录
 	return histories, nil
 }
 
@@ -390,10 +390,10 @@ func (e *WorkflowEngine) GetApprovalNodes(taskID int64) ([]models.ApprovalNode, 
 	return nodes, err
 }
 
-// GetCurrentNode 获取当前待处理的审批节点（审批人非空）
+// GetCurrentNode 获取当前待处理的审批节点（审批人非空，且跳过发起节点 node_0）
 func (e *WorkflowEngine) GetCurrentNode(taskID int64) (*models.ApprovalNode, error) {
 	var node models.ApprovalNode
-	err := e.db.Where("task_id = ? AND status = ? AND is_skipped = ? AND approver_id != ''",
+	err := e.db.Where("task_id = ? AND status = ? AND is_skipped = ? AND approver_id != '' AND node_order > 0",
 		taskID, "pending", false).
 		Order("node_order ASC").
 		First(&node).Error
@@ -437,8 +437,9 @@ func (e *WorkflowEngine) WithdrawTask(taskID int64, userID, userName string) err
 			return fmt.Errorf("未找到可撤回的审批节点")
 		}
 		
-		// 检查该节点是否已有审批记录
-		if e.nodeHasAction(tx, firstApprovalNode.ID) {
+		// 检查该节点本轮是否已有审批动作：节点状态非 pending（已审批/已驳回）则不允许撤回；
+		// 驳回后重提会重置节点为 pending，此时允许发起人再次撤回
+		if firstApprovalNode.Status != "pending" {
 			return fmt.Errorf("审批人已处理，不允许撤回")
 		}
 
@@ -485,11 +486,3 @@ func (e *WorkflowEngine) WithdrawTask(taskID int64, userID, userName string) err
 	})
 }
 
-// nodeHasAction 检查节点是否已有操作记录
-func (e *WorkflowEngine) nodeHasAction(tx *gorm.DB, nodeID int64) bool {
-	var count int64
-	tx.Model(&models.ApprovalHistory{}).
-		Where("node_id = ? AND action IN (?, ?)", nodeID, ActionApprove, ActionReject).
-		Count(&count)
-	return count > 0
-}

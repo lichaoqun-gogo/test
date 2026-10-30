@@ -17,7 +17,8 @@ export interface UserInfo {
   team: string
   avatar?: string
   email: string
-  canToggleAdminView?: boolean // 是否可以切换全局治理视图
+  roles?: string[] // 角色编码（权限体系下发，如 ['specialist', 'mgmt_specialist']）
+  permissions?: string[] // 权限点编码（权限体系下发，如 ['global_governance_view']）
 }
 
 // 权限等级 (A/B/C/D)
@@ -154,6 +155,7 @@ export interface Task {
   updatedAt: string
   deadline?: string // 期望完成日期
   assignedTo?: string
+  canApprove?: boolean // 后端标记：当前用户是否可处理当前审批节点（一个部门多名专员，任一在岗专员均可审批）
   externalLink?: string // 外部任务链接
   relatedTaskNo?: string // 关联任务编号
   description: string
@@ -190,7 +192,7 @@ export interface Task {
   codeCleanupPlan?: string
   affectedProjects?: string
   // 风险上报专属字段
-  internalDefectId?: string // 内部缺陷编号
+  internalDefectNo?: string // 内部缺陷编号（系统自动生成）
   riskDescription?: string
   // 缺陷处置专属字段
   riskSource?: string

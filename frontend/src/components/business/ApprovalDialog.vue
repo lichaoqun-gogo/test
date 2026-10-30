@@ -192,7 +192,7 @@ const canApprove = computed(() => {
   if (!taskData.value || !props.currentUser.id) return false
   // 任务必须是审批中状态
   if (taskData.value.status !== 'approving') return false
-  // 当前用户必须是处理人（assignedTo 存的是用户ID）
+  // 当前用户必须是处理人（assignedTo 存的是 CAS 用户名，与 currentUser.id 一致）
   return taskData.value.assignedTo === props.currentUser.id
 })
 
@@ -283,10 +283,10 @@ function handleClose() {
 async function handleApprove() {
   if (!props.taskId) return
 
-  // 通过时意见选填，但建议填写
+  // 审批意见必填（与表单 required 标记一致）
   if (!approvalForm.value.opinion?.trim()) {
-    ElMessage.warning('建议填写审批意见')
-    // 不阻止提交
+    ElMessage.warning('请填写审批意见')
+    return
   }
 
   try {
@@ -303,7 +303,7 @@ async function handleApprove() {
 
     await taskApi.approveTask(props.taskId, {
       nodeId: currentNode.id,
-      opinion: approvalForm.value.opinion || '同意',
+      opinion: approvalForm.value.opinion,
     })
 
     ElMessage.success('审批通过')
@@ -491,8 +491,10 @@ function getFlowNodeClass(node: any): string {
   return map[node.status] || ''
 }
 
-function getFlowNodeTagType(node: any): string {
-  const map: Record<string, string> = {
+type TagType = 'primary' | 'success' | 'info' | 'warning' | 'danger' | undefined
+
+function getFlowNodeTagType(node: any): TagType {
+  const map: Record<string, TagType> = {
     pending: 'info',
     approved: 'success',
     rejected: 'danger',

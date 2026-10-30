@@ -8,13 +8,13 @@
         <el-statistic title="缺陷总数" :value="defects.length" />
       </el-col>
       <el-col :span="6">
-        <el-statistic title="待研判" :value="defects.filter(d => d.status === 'pending').length" />
+        <el-statistic title="待研判" :value="defects.filter(d => d.status === 'pending_analysis').length" />
+      </el-col>
+      <el-col :span="6">
+        <el-statistic title="待评审" :value="defects.filter(d => d.status === 'pending_review').length" />
       </el-col>
       <el-col :span="6">
         <el-statistic title="已分配" :value="defects.filter(d => d.status === 'assigned').length" />
-      </el-col>
-      <el-col :span="6">
-        <el-statistic title="已解决" :value="defects.filter(d => d.status === 'resolved').length" />
       </el-col>
     </el-row>
 
@@ -23,10 +23,11 @@
       <el-form :inline="true" :model="filters">
         <el-form-item label="全局状态">
           <el-select v-model="filters.status" placeholder="全部" clearable style="width: 140px">
-            <el-option label="待研判" value="待研判" />
-            <el-option label="待评审" value="待评审" />
-            <el-option label="已分配" value="已分配" />
-            <el-option label="已忽略" value="已忽略" />
+            <el-option label="待研判" value="pending_analysis" />
+            <el-option label="待评审" value="pending_review" />
+            <el-option label="已分配" value="assigned" />
+            <el-option label="已忽略" value="ignored" />
+            <el-option label="已闭环" value="closed" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -51,17 +52,17 @@
           <el-table-column prop="title" label="缺陷标题" min-width="180" />
           <el-table-column label="严重等级" width="100">
             <template #default="{ row }">
-              <RiskTag :level="row.severityLevel" />
+              <RiskTag :level="row.riskLevel" />
             </template>
           </el-table-column>
-          <el-table-column prop="component" label="关联组件" width="160" />
-          <el-table-column prop="assignee" label="处置人" width="120">
+          <el-table-column prop="affectedComponent" label="关联组件" width="160" />
+          <el-table-column prop="dispatchTarget" label="研判人" width="110">
             <template #default="{ row }">
-              {{ row.assignee || '-' }}
+              {{ row.dispatchTarget || '-' }}
             </template>
           </el-table-column>
-          <el-table-column prop="discoveredAt" label="发现时间" width="180">
-            <template #default="{ row }">{{ formatTime(row.discoveredAt) }}</template>
+          <el-table-column prop="discoveredDate" label="发现时间" width="180">
+            <template #default="{ row }">{{ formatTime(row.discoveredDate) }}</template>
           </el-table-column>
           <el-table-column label="全局状态" width="100">
             <template #default="{ row }">
@@ -70,15 +71,19 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="100" fixed="right">
+          <el-table-column label="操作" width="200" fixed="right">
             <template #default="{ row }">
-              <el-button
-                v-if="row.status === 'pending'"
-                type="primary"
-                size="small"
-                @click="openAssignDialog(row as DefectRecord)"
-              >
-                分配
+              <template v-if="row.status === 'pending_analysis'">
+                <el-button v-if="!row.dispatchTarget" type="primary" size="small" link @click="openAnalystDialog(row)">
+                  分配研判
+                </el-button>
+                <el-button type="warning" size="small" link @click="openAnalyzeDialog(row)">研判</el-button>
+              </template>
+              <el-button v-else-if="row.status === 'pending_review'" type="primary" size="small" link @click="openReviewDialog(row)">
+                评审
+              </el-button>
+              <el-button v-else-if="row.status === 'assigned' || row.status === 'closed'" type="info" size="small" link @click="openDisposalsDialog(row)">
+                处置单
               </el-button>
               <span v-else class="text-muted">-</span>
             </template>
@@ -114,6 +119,123 @@
       :defect="currentDefect"
       @submit="handleAssign"
     />
+
+    <!-- 分配研判人（第一次分配） -->
+    <el-dialog v-model="analystDialogVisible" title="分配研判人（第一次分配）" width="520px">
+      <el-alert
+        type="info" :closable="false" show-icon style="margin-bottom: 12px"
+        title="系统已按软件负责人自动匹配候选（第一个为主岗），也可手动指定"
+      />
+      <el-radio-group
+        v-if="analystCandidates.length > 0"
+        v-model="analystForm.selected"
+        style="display: flex; flex-direction: column; gap: 8px"
+      >
+        <el-radio v-for="c in analystCandidates" :key="c.username" :value="c.username">
+          {{ c.name }}（{{ c.username }}）｜{{ c.dept }} {{ c.team }}
+          <el-tag v-if="c.isPrimary" type="success" size="small" style="margin-left: 4px">主岗</el-tag>
+        </el-radio>
+      </el-radio-group>
+      <el-empty v-else description="未匹配到负责人候选，请手动指定" :image-size="60" />
+      <el-form label-width="90px" style="margin-top: 12px">
+        <el-form-item label="手动指定">
+          <el-input v-model="analystForm.manual" placeholder="输入系统用户名（CAS 账号），优先于候选" clearable />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="analystDialogVisible = false">取消</el-button>
+        <el-button type="primary" :disabled="!analystForm.manual && !analystForm.selected" @click="submitAnalyst">
+          确认分配
+        </el-button>
+      </template>
+    </el-dialog>
+
+    <!-- 研判（软件负责人 / 专员代研判） -->
+    <el-dialog v-model="analyzeDialogVisible" title="缺陷研判" width="520px">
+      <el-form label-width="90px">
+        <el-form-item label="研判结论" required>
+          <el-radio-group v-model="analyzeForm.conclusion">
+            <el-radio value="need_review">需上会评审</el-radio>
+            <el-radio value="ignore">忽略（无需处置）</el-radio>
+            <el-radio v-if="currentDefect?.flowType === 'vuln'" value="need_fix">直接处置（漏洞）</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="研判说明">
+          <el-input v-model="analyzeForm.analyzeResult" type="textarea" :rows="3" placeholder="影响面评估、处置建议等" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="analyzeDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitAnalyze">提交研判</el-button>
+      </template>
+    </el-dialog>
+
+    <!-- 上会评审 -->
+    <el-dialog v-model="reviewDialogVisible" title="上会评审" width="560px">
+      <el-form label-width="90px">
+        <el-form-item label="评审结论" required>
+          <el-radio-group v-model="reviewForm.reviewConclusion">
+            <el-radio value="need_fix">需处置（裂变处置单）</el-radio>
+            <el-radio value="no_action">无需处置</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="会议编号">
+          <el-input v-model="reviewForm.reviewMeetingNo" placeholder="如 M-2026-001" />
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="reviewForm.remark" type="textarea" :rows="2" />
+        </el-form-item>
+        <el-form-item label="处置截止">
+          <el-date-picker
+            v-model="reviewForm.deadline"
+            type="datetime"
+            format="YYYY-MM-DD HH:mm:ss"
+            value-format="YYYY-MM-DD HH:mm:ss"
+            placeholder="选择截止时间"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="reviewDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitReview">提交评审</el-button>
+      </template>
+    </el-dialog>
+
+    <!-- 处置单 -->
+    <el-dialog v-model="disposalsDialogVisible" title="处置单" width="860px">
+      <el-table :data="disposals" stripe size="small">
+        <el-table-column prop="disposalNo" label="处置单号" width="150" />
+        <el-table-column prop="projectName" label="涉及项目" width="150">
+          <template #default="{ row }">{{ row.projectName || '-' }}</template>
+        </el-table-column>
+        <el-table-column prop="deptName" label="部门" width="110" />
+        <el-table-column label="类型" width="80">
+          <template #default="{ row }">{{ row.disposalType === 'maint' ? '运维' : '使用' }}</template>
+        </el-table-column>
+        <el-table-column prop="assigneeName" label="处理人" width="100" />
+        <el-table-column label="状态" width="90">
+          <template #default="{ row }">
+            <el-tag size="small">{{ disposalStatusLabel(row.status) }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="截止时间" width="160">
+          <template #default="{ row }">{{ formatTime(row.deadline) }}</template>
+        </el-table-column>
+        <el-table-column label="操作" min-width="210">
+          <template #default="{ row }">
+            <template v-if="row.status === 'pending_assign'">
+              <el-input v-model="assignForm[row.id]" placeholder="处理人账号" size="small" style="width: 130px" />
+              <el-button type="primary" size="small" link @click="assignDisposal(row)">分配</el-button>
+            </template>
+            <template v-else-if="row.status === 'processing'">
+              <el-button type="success" size="small" link @click="completeDisposal(row)">完成</el-button>
+              <el-button size="small" link @click="markDisposalNA(row)">不适用</el-button>
+            </template>
+            <span v-else>-</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
 
     <!-- 批量处置对话框 -->
     <el-dialog v-model="batchDisposeDialogVisible" title="批量处置" width="900px">
@@ -270,6 +392,8 @@ import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { EditPen, Plus } from '@element-plus/icons-vue'
 import AssignDialog from '@/components/specialist/AssignDialog.vue'
+import { riskApi } from '@/api'
+import { formatTime } from '@/utils/format'
 
 // 类型定义（清理 mock 后本地保留）
 type DefectRecord = any
@@ -314,15 +438,7 @@ const assignRecords = ref<any[]>([])
 const filteredDefects = computed(() => {
   let list = defects.value
   if (filters.value.status) {
-    // 中文状态映射到英文
-    const statusMap: Record<string, string> = {
-      '待研判': 'pending',
-      '待评审': 'pending_review',
-      '已分配': 'assigned',
-      '已忽略': 'ignored',
-    }
-    const englishStatus = statusMap[filters.value.status] || filters.value.status
-    list = list.filter(d => d.status === englishStatus)
+    list = list.filter(d => d.status === filters.value.status)
   }
   return list
 })
@@ -502,27 +618,29 @@ function sourceTagType(source: string): 'danger' | 'info' | undefined {
 
 function statusLabel(status: string) {
   const labels: Record<string, string> = {
-    pending: '待研判',
+    pending_analysis: '待研判',
     pending_review: '待评审',
     assigned: '已分配',
     ignored: '已忽略',
-    resolved: '已解决',
+    closed: '已闭环',
   }
   return labels[status] || status
 }
 
-function statusTagType(status: string): 'warning' | 'info' | 'success' | 'danger' | undefined {
-  const types: Record<string, 'warning' | 'info' | 'success' | 'danger' | undefined> = {
-    pending: 'warning',
+type DefectTagType = 'warning' | 'info' | 'success' | 'danger' | 'primary'
+
+function statusTagType(status: string): DefectTagType {
+  const types: Record<string, DefectTagType> = {
+    pending_analysis: 'warning',
     pending_review: 'info',
     assigned: 'primary',
     ignored: 'danger',
-    resolved: 'success',
+    closed: 'success',
   }
-  return types[status]
+  return types[status] || 'info'
 }
 
-function recordStatusTagType(status: string): 'warning' | 'info' | 'success' | undefined {
+function recordStatusTagType(status: string): DefectTagType {
   return statusTagType(status)
 }
 
@@ -577,9 +695,173 @@ function handleAssign(data: { assignee: string; assignMethod: AssignMethod }) {
   })
 }
 
-// 加载缺陷列表
+// ===== 缺陷处置流（真实接口：分配研判人 → 研判 → 评审 → 处置单） =====
+const analystDialogVisible = ref(false)
+const analystCandidates = ref<any[]>([])
+const analystForm = ref({ selected: '', manual: '' })
+
+const analyzeDialogVisible = ref(false)
+const analyzeForm = ref({ conclusion: 'need_review', analyzeResult: '' })
+
+const reviewDialogVisible = ref(false)
+const reviewForm = ref({ reviewConclusion: 'need_fix', reviewMeetingNo: '', remark: '', deadline: '' })
+
+const disposalsDialogVisible = ref(false)
+const disposals = ref<any[]>([])
+const assignForm = ref<Record<number, string>>({})
+
+function disposalStatusLabel(s: string) {
+  const labels: Record<string, string> = {
+    pending_assign: '待分配',
+    processing: '处置中',
+    completed: '已完成',
+    na: '不适用',
+  }
+  return labels[s] || s
+}
+
+async function openAnalystDialog(row: any) {
+  currentDefect.value = row
+  analystForm.value = { selected: '', manual: '' }
+  analystCandidates.value = []
+  analystDialogVisible.value = true
+  try {
+    const res: any = await riskApi.getAnalystCandidates(row.defectNo)
+    analystCandidates.value = res || []
+    if (analystCandidates.value.length > 0) {
+      const primary = analystCandidates.value.find((c: any) => c.isPrimary)
+      analystForm.value.selected = primary?.username || analystCandidates.value[0].username
+    }
+  } catch (e: any) {
+    ElMessage.error('获取候选负责人失败: ' + (e.message || ''))
+  }
+}
+
+async function submitAnalyst() {
+  if (!currentDefect.value) return
+  const username = analystForm.value.manual?.trim() || analystForm.value.selected
+  if (!username) return
+  try {
+    await riskApi.assignAnalyst(currentDefect.value.defectNo, { analystUsername: username })
+    ElMessage.success('已分配研判人')
+    analystDialogVisible.value = false
+    loadDefects()
+  } catch (e: any) {
+    ElMessage.error('分配失败: ' + (e.message || ''))
+  }
+}
+
+function openAnalyzeDialog(row: any) {
+  currentDefect.value = row
+  analyzeForm.value = { conclusion: row.flowType === 'vuln' ? 'need_fix' : 'need_review', analyzeResult: '' }
+  analyzeDialogVisible.value = true
+}
+
+async function submitAnalyze() {
+  if (!currentDefect.value) return
+  try {
+    await riskApi.analyzeDefect(currentDefect.value.defectNo, {
+      conclusion: analyzeForm.value.conclusion,
+      analyzeResult: analyzeForm.value.analyzeResult,
+    })
+    ElMessage.success('研判完成')
+    analyzeDialogVisible.value = false
+    loadDefects()
+  } catch (e: any) {
+    ElMessage.error('研判失败: ' + (e.message || ''))
+  }
+}
+
+function openReviewDialog(row: any) {
+  currentDefect.value = row
+  reviewForm.value = { reviewConclusion: 'need_fix', reviewMeetingNo: '', remark: '', deadline: '' }
+  reviewDialogVisible.value = true
+}
+
+async function submitReview() {
+  if (!currentDefect.value) return
+  try {
+    await riskApi.reviewDefect(currentDefect.value.defectNo, {
+      reviewConclusion: reviewForm.value.reviewConclusion,
+      reviewMeetingNo: reviewForm.value.reviewMeetingNo,
+      remark: reviewForm.value.remark,
+      deadline: reviewForm.value.deadline,
+    })
+    ElMessage.success('评审完成')
+    reviewDialogVisible.value = false
+    loadDefects()
+  } catch (e: any) {
+    ElMessage.error('评审失败: ' + (e.message || ''))
+  }
+}
+
+async function openDisposalsDialog(row: any) {
+  currentDefect.value = row
+  disposalsDialogVisible.value = true
+  await loadDisposals()
+}
+
+async function loadDisposals() {
+  if (!currentDefect.value) return
+  try {
+    const res: any = await riskApi.getDefectDisposals(currentDefect.value.defectNo)
+    disposals.value = res || []
+  } catch (e: any) {
+    ElMessage.error('加载处置单失败: ' + (e.message || ''))
+  }
+}
+
+async function assignDisposal(row: any) {
+  const username = assignForm.value[row.id]?.trim()
+  if (!username) {
+    ElMessage.warning('请输入处理人账号')
+    return
+  }
+  try {
+    await riskApi.assignDisposal(row.id, { assigneeUsername: username })
+    ElMessage.success('分配成功')
+    await loadDisposals()
+    loadDefects()
+  } catch (e: any) {
+    ElMessage.error('分配失败: ' + (e.message || ''))
+  }
+}
+
+async function completeDisposal(row: any) {
+  try {
+    await riskApi.completeDisposal(row.id, { note: '处置完成' })
+    ElMessage.success('处置单已完成')
+    await loadDisposals()
+    loadDefects()
+  } catch (e: any) {
+    ElMessage.error('操作失败: ' + (e.message || ''))
+  }
+}
+
+async function markDisposalNA(row: any) {
+  try {
+    await riskApi.markDisposalNA(row.id, { remark: '不适用' })
+    ElMessage.success('已标记不适用')
+    await loadDisposals()
+    loadDefects()
+  } catch (e: any) {
+    ElMessage.error('操作失败: ' + (e.message || ''))
+  }
+}
+
+// 加载缺陷列表（对接后端缺陷台账）
 async function loadDefects() {
-  // TODO: 对接后端 API 获取缺陷列表
+  try {
+    const res: any = await riskApi.getDefects({
+      page: 1,
+      pageSize: 100,
+      // 个人工作台视图：管理部门专员也与部门专员一致按部门过滤，仅在全局治理（风险管理-缺陷台账）看全景
+      scope: 'dept',
+    })
+    defects.value = res?.list || []
+  } catch (e: any) {
+    ElMessage.error('加载缺陷列表失败: ' + (e.message || ''))
+  }
 }
 
 // 加载分配记录

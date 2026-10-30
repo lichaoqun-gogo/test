@@ -24,9 +24,11 @@ const router = useRouter()
 const userStore = useUserStore()
 
 function goBack() {
-  if (userStore.isAdmin) {
+  if (userStore.canToggleView && userStore.viewMode === 'admin') {
+    // 全局治理视图首页
     router.push('/admin/asset/software-library')
-  } else if (userStore.isSpecialist) {
+  } else if (userStore.isAdmin || userStore.isSpecialist) {
+    // admin 个人工作台使用 specialist 菜单
     router.push('/specialist/my-ops')
   } else if (userStore.isLoggedIn) {
     router.push('/operator/my-ops')

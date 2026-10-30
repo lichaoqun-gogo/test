@@ -278,7 +278,6 @@ draft（草稿） → pending（待审批） → processing（审批中） → c
 - licensegroup（许可证分组）
 - licensegroup_license（许可证分组关联）
 - defect_ledger（缺陷台账）
-- defect_task_mapping（缺陷关联任务）
 - specialist_resource_mapping（人员-资源映射）
 
 ### 治理中心

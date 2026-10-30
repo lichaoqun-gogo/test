@@ -17,11 +17,11 @@ api.interceptors.request.use(config => {
   if (userInfo) {
     const user = JSON.parse(userInfo)
     const userName = user.nickname || user.name || ''
-    config.headers['X-User-ID'] = user.id || ''
+    // X-User-ID 统一使用 CAS 用户名（username）作为用户身份标识，与后端 JWT user_id 保持一致
+    config.headers['X-User-ID'] = user.username || user.id || ''
     config.headers['X-User-Name'] = encodeURIComponent(userName)
     config.headers['X-User-Role'] = user.role || ''
     config.headers['X-User-Dept'] = encodeURIComponent(user.department || '')
-    config.headers['X-User-Can-Admin-View'] = user.canToggleAdminView ? 'true' : 'false'
   }
   // CAS 模式下 token 是 JWT，附加到 Authorization 头
   if (token) {
@@ -159,9 +159,29 @@ export const riskApi = {
 
   // 缺陷台账
   getDefects: (params: any) => api.get('/risk/defects', { params }),
-  getDefect: (id: number) => api.get(`/risk/defects/${id}`),
+  getInternalDefects: (params: any) => api.get('/risk/defects/internal', { params }),
+  getExternalDefects: (params: any) => api.get('/risk/defects/external', { params }),
+  getDefect: (defectNo: string) => api.get(`/risk/defects/${encodeURIComponent(defectNo)}`),
   createDefect: (data: any) => api.post('/risk/defects', data),
-  updateDefectStatus: (id: number, data: any) => api.put(`/risk/defects/${id}/status`, data),
+  importDefects: (data: any) => api.post('/risk/defects/import', data),
+  createVulnIntel: (data: any) => api.post('/risk/vuln-intel', data),
+  matchVulnIntel: (data: any) => api.post('/risk/vuln-intel/match', data),
+  importVulnIntel: (formData: FormData) =>
+    api.post('/risk/vuln-intel/import', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  getDefectStatsOverview: (params: any) => api.get('/risk/defects/stats/overview', { params }),
+  // defectNo 对外部缺陷形如 redis#14611，含 # 需 encodeURIComponent，否则被浏览器当作 URL 片段截断导致 404
+  getAnalystCandidates: (defectNo: string) => api.get(`/risk/defects/${encodeURIComponent(defectNo)}/analyst-candidates`),
+  assignAnalyst: (defectNo: string, data: any) => api.post(`/risk/defects/${encodeURIComponent(defectNo)}/assign-analyst`, data),
+  autoAssignAnalyst: (defectNo: string) => api.post(`/risk/defects/${encodeURIComponent(defectNo)}/auto-assign-analyst`),
+  autoAssignDisposals: (defectNo: string) => api.post(`/risk/defects/${encodeURIComponent(defectNo)}/auto-assign-disposals`),
+  analyzeDefect: (defectNo: string, data: any) => api.post(`/risk/defects/${encodeURIComponent(defectNo)}/analyze`, data),
+  reviewDefect: (defectNo: string, data: any) => api.post(`/risk/defects/${encodeURIComponent(defectNo)}/review`, data),
+  getDefectDisposals: (defectNo: string) => api.get(`/risk/defects/${encodeURIComponent(defectNo)}/disposals`),
+  getDefectHistory: (defectNo: string) => api.get(`/risk/defects/${encodeURIComponent(defectNo)}/history`),
+  getDisposals: (params: any) => api.get('/risk/disposals', { params }),
+  assignDisposal: (id: number, data: any) => api.post(`/risk/disposals/${id}/assign`, data),
+  completeDisposal: (id: number, data: any) => api.post(`/risk/disposals/${id}/complete`, data),
+  markDisposalNA: (id: number, data: any) => api.post(`/risk/disposals/${id}/na`, data),
 }
 
 // 任务管理API

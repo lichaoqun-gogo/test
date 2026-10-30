@@ -10,7 +10,7 @@
           <span class="logo-text">开源治理平台V3</span>
         </div>
 
-        <!-- 视图切换下拉框（admin角色或有canToggleAdminView权限的用户可见） -->
+        <!-- 视图切换下拉框（admin 角色或具备 global_governance_view 权限的用户可见） -->
         <el-dropdown
           v-if="userStore.canToggleView"
           trigger="click"
@@ -166,13 +166,8 @@ watch(() => route.fullPath, (newPath, oldPath) => {
   console.log(`[MainLayout] all routes:`, router.getRoutes().map(r => ({ path: r.path, name: r.name })))
 })
 
-// 显示的菜单（admin 角色切换：全局治理用 admin 菜单，个人工作台用 specialist 菜单）
-const displayMenus = computed<MenuTreeNode[]>(() => {
-  if (userStore.role === 'admin' && userStore.viewMode === 'personal') {
-    return userStore.specialistMenus || []
-  }
-  return userStore.menus || []
-})
+// 显示的菜单（全局治理视图用 governance 菜单，个人工作台用基础/specialist 菜单，见 store.viewMenus）
+const displayMenus = computed<MenuTreeNode[]>(() => userStore.viewMenus)
 
 // 菜单图标映射
 const iconMap: Record<string, any> = {
@@ -207,7 +202,9 @@ function handleViewModeChange(mode: 'personal' | 'admin') {
   if (mode === 'admin') {
     router.push('/admin/asset/software-library')
   } else {
-    router.push('/specialist/my-task')
+    // 回到个人工作台首页（admin 个人工作台使用 specialist 菜单，其余按自身角色）
+    const personalRole = userStore.role === 'admin' ? 'specialist' : (userStore.role || 'operator')
+    router.push(`/${personalRole}/my-task`)
   }
   ElMessage.success(mode === 'admin' ? '已切换到全局治理' : '已切换到个人工作台')
 }

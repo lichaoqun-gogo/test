@@ -11,7 +11,7 @@ const (
 	StatusApproving  = "approving"  // 审批中：数据锁定，控制权移交审批流引擎
 	StatusWithdrawn  = "withdrawn"  // 已撤回：可重提态
 	StatusApproved   = "approved"   // 已通过：终态
-	StatusRejected   = "rejected"   // 已驳回：终态，流程彻底终结
+	StatusRejected   = "rejected"   // 已驳回：可重提态（发起人修改后重新提交，驳回意见留存于历史）
 )
 
 // TaskAction 任务操作定义
@@ -78,7 +78,11 @@ func (sm *StateMachine) CanTransition(currentStatus, action string, currentNodeO
 		return errors.New("已通过状态为终态，不允许任何操作")
 
 	case StatusRejected:
-		return errors.New("已驳回状态为终态，不允许任何操作")
+		// 已驳回状态可修改后重新提交（驳回意见留存于历史，供发起人参考）
+		if action != ActionSubmit {
+			return fmt.Errorf("已驳回状态只能重新提交，当前操作：%s", action)
+		}
+		return nil
 
 	default:
 		return fmt.Errorf("未知状态：%s", currentStatus)
@@ -122,6 +126,13 @@ func (sm *StateMachine) GetNextStatus(currentStatus, action string, isLastNode, 
 			return StatusApproving, nil
 		}
 		return "", fmt.Errorf("已撤回状态不支持操作：%s", action)
+
+	case StatusRejected:
+		// 已驳回：重新提交 -> 审批中
+		if action == ActionSubmit {
+			return StatusApproving, nil
+		}
+		return "", fmt.Errorf("已驳回状态不支持操作：%s", action)
 
 	default:
 		return "", fmt.Errorf("状态 %s 不支持操作：%s", currentStatus, action)

@@ -31,15 +31,17 @@ func NewNodeResolver(db *gorm.DB) *NodeResolver {
 }
 
 // getDeptSpecialist 获取部门的开源治理专员（从数据库查询）
+// 一个部门可配置多名专员：节点展示审批人取最早配置的在岗专员，实际任一在岗专员均可审批（见 CanUserHandleNode）
 func (r *NodeResolver) getDeptSpecialist(dept string) (SpecialistInfo, bool) {
 	var specialist struct {
 		SpecialistID   string `gorm:"column:specialist_id"`
 		SpecialistName string `gorm:"column:specialist_name"`
 		Dept           string `gorm:"column:dept"`
 	}
-	
+
 	err := r.db.Table("dept_specialist_mapping").
 		Where("dept = ? AND specialist_role = 'dept_specialist' AND is_active = 1", dept).
+		Order("id ASC").
 		First(&specialist).Error
 	
 	if err != nil {
@@ -63,6 +65,7 @@ func (r *NodeResolver) getUsageDeptSpecialist(dept string) (SpecialistInfo, bool
 	
 	err := r.db.Table("dept_specialist_mapping").
 		Where("dept = ? AND specialist_role = 'usage_dept_specialist' AND is_active = 1", dept).
+		Order("id ASC").
 		First(&specialist).Error
 	
 	if err != nil {
@@ -105,12 +108,11 @@ func (r *NodeResolver) getMgmtDeptSpecialists() []SpecialistInfo {
 //   - actionType: 业务类型（introduce, upgrade, withdraw, usage, risk_report）
 //   - applicantID: 申请人ID
 //   - applicantDept: 申请人部门
-//   - projectDept: 项目所属部门（运维部门）
-//
-// 返回：实际需要经过的审批节点列表
-func (r *NodeResolver) ResolveNodes(actionType, applicantID, applicantDept, projectDept string) ([]models.ApprovalNode, error) {
-	fmt.Printf("[NodeResolver.ResolveNodes] actionType=%s, applicantID=%s, applicantDept=%s, projectDept=%s\n",
-		actionType, applicantID, applicantDept, projectDept)
+//   - projectDept: 项目使用部门（project.use_dept，逗号分隔可多个）
+//   - maintDept: 项目运维部门（project.maint_dept）；升级/退出时 node_1 复审部门与 node_2 过滤参照以它为准
+func (r *NodeResolver) ResolveNodes(actionType, applicantID, applicantDept, projectDept, maintDept string) ([]models.ApprovalNode, error) {
+	fmt.Printf("[NodeResolver.ResolveNodes] actionType=%s, applicantID=%s, applicantDept=%s, projectDept=%s, maintDept=%s\n",
+		actionType, applicantID, applicantDept, projectDept, maintDept)
 
 	// 获取模板节点定义
 	templateNodes := r.getTemplateNodes()
@@ -138,7 +140,12 @@ func (r *NodeResolver) ResolveNodes(actionType, applicantID, applicantDept, proj
 
 		// Node 1: 本部门开源治理专员复审（条件节点）
 		if tmplNode.NodeKey == "node_1" {
-			shouldSkip, skipReason := r.shouldSkipNode1(applicantID, applicantDept)
+			// 复审部门口径：引入申请按申请人部门；升级/退出按项目运维部门（maint_dept，无则退回申请人部门）
+			node1Dept := applicantDept
+			if actionType != "introduce" && maintDept != "" {
+				node1Dept = maintDept
+			}
+			shouldSkip, skipReason := r.shouldSkipNode1(applicantID, node1Dept)
 			if shouldSkip {
 				// 跳过该节点
 				nodes = append(nodes, models.ApprovalNode{
@@ -155,9 +162,9 @@ func (r *NodeResolver) ResolveNodes(actionType, applicantID, applicantDept, proj
 			}
 
 			// 不跳过，查找本部门专员
-			specialist, exists := r.getDeptSpecialist(applicantDept)
+			specialist, exists := r.getDeptSpecialist(node1Dept)
 			if !exists {
-				return nil, fmt.Errorf("未找到部门 %s 的开源治理专员", applicantDept)
+				return nil, fmt.Errorf("未找到部门 %s 的开源治理专员", node1Dept)
 			}
 
 			nodes = append(nodes, models.ApprovalNode{
@@ -209,10 +216,14 @@ func (r *NodeResolver) ResolveNodes(actionType, applicantID, applicantDept, proj
 				continue
 			}
 
-			// 过滤掉与运维部门（applicantDept）相同的使用部门
+			// 过滤掉与运维部门（maint_dept，无则用申请人部门）相同的使用部门
+			refDept := applicantDept
+			if actionType != "introduce" && maintDept != "" {
+				refDept = maintDept
+			}
 			var activeDepts []string
 			for _, dept := range usageDepts {
-				if dept == applicantDept {
+				if dept == refDept {
 					fmt.Printf("[NodeResolver] 使用部门 %s 与运维部门相同，跳过\n", dept)
 					continue
 				}
@@ -310,24 +321,25 @@ func (r *NodeResolver) ResolveNodes(actionType, applicantID, applicantDept, proj
 }
 
 // shouldSkipNode1 判断是否跳过Node 1（本部门专员复审）
-// 防重复机制：若发起人ID == 本部门开源治理专员ID，则自动跳过
+// 防重复机制：若发起人是本部门任一在岗开源治理专员（支持一个部门多名专员），则自动跳过
 func (r *NodeResolver) shouldSkipNode1(applicantID, applicantDept string) (bool, string) {
-	// 从数据库查询部门专员
-	var specialist struct {
-		SpecialistID   string `gorm:"column:specialist_id"`
-		SpecialistName string `gorm:"column:specialist_name"`
-	}
-	err := r.db.Table("dept_specialist_mapping").
-		Select("specialist_id, specialist_name").
+	// 查询该部门在岗的部门专员总数
+	var activeCount int64
+	r.db.Table("dept_specialist_mapping").
 		Where("dept = ? AND specialist_role = 'dept_specialist' AND is_active = 1", applicantDept).
-		First(&specialist).Error
-	
-	if err != nil {
+		Count(&activeCount)
+	if activeCount == 0 {
 		// 如果部门没有专员，也跳过
 		return true, fmt.Sprintf("部门 %s 无开源治理专员，自动跳过", applicantDept)
 	}
 
-	if applicantID == specialist.SpecialistID {
+	// 发起人只要是其部门的任一在岗部门专员，即视为重复
+	var selfCount int64
+	r.db.Table("dept_specialist_mapping").
+		Where("dept = ? AND specialist_role = 'dept_specialist' AND is_active = 1 AND specialist_id = ?",
+			applicantDept, applicantID).
+		Count(&selfCount)
+	if selfCount > 0 {
 		return true, fmt.Sprintf("发起人即为部门专员，自动跳过（防重复）")
 	}
 

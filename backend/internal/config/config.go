@@ -5,15 +5,26 @@ import (
 	"os"
 	"path/filepath"
 
+	"osm-mngt/internal/httpclient"
 	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
-	Server   ServerConfig   `yaml:"server"`
-	Database DatabaseConfig `yaml:"database"`
-	MinIO    MinIOConfig    `yaml:"minio"`
-	Log      LogConfig      `yaml:"log"`
-	Auth     AuthConfig     `yaml:"auth"`
+	Server   ServerConfig    `yaml:"server"`
+	Database DatabaseConfig  `yaml:"database"`
+	MinIO    MinIOConfig     `yaml:"minio"`
+	Log      LogConfig       `yaml:"log"`
+	Auth     AuthConfig      `yaml:"auth"`
+	OpenAPI  OpenAPIConfig   `yaml:"openapi"`
+	Services map[string]httpclient.ServiceConfig `yaml:"services"` // 下游 HTTP 服务注册（对应 Feign 服务名->地址配置）
+	Scheduler SchedulerConfig `yaml:"scheduler"`                   // 定时任务配置
+}
+
+// SchedulerConfig 定时任务配置（对应 Java 版在配置文件中配置定时表达式）
+type SchedulerConfig struct {
+	Enabled               bool   `yaml:"enabled"`               // 是否启用定时任务
+	ComponentCleanupCron  string `yaml:"componentCleanupCron"`  // 组件快照清理 cron 表达式（6 段，如 "0 0 * * * *"=每小时整点）
+	CleanupBatchSize      int    `yaml:"cleanupBatchSize"`      // 组件归档批次大小（默认 300，不写死）
 }
 
 type ServerConfig struct {
@@ -67,6 +78,15 @@ type CASConfig struct {
 type JWTConfig struct {
 	Secret string `yaml:"secret"` // JWT 签名密钥
 	Expiry int    `yaml:"expiry"`  // 过期时间（秒），默认 86400（24小时）
+}
+
+// OpenAPIConfig 外部开放平台（IAM 权限系统）OpenAPI 调用配置
+type OpenAPIConfig struct {
+	BaseURL           string `yaml:"baseURL"`           // 网关基址，如 https://iam.example.com/openapi
+	AppID             string `yaml:"appId"`             // IAM 分配给应用的 appId（如 osm）
+	Secret            string `yaml:"secret"`            // IAM 分配的应用密钥
+	Timeout           int    `yaml:"timeout"`           // 请求超时（秒），默认 10
+	InsecureSkipVerify bool  `yaml:"insecureSkipVerify"` // 跳过 SSL 证书校验：仅开发环境连自签名网关时开，生产必须 false
 }
 
 // Load 加载配置文件
@@ -130,5 +150,12 @@ func (c *Config) applyDefaults() {
 	}
 	if c.Auth.JWT.Expiry <= 0 {
 		c.Auth.JWT.Expiry = 86400 // 24 小时
+	}
+	// 定时任务默认值：清理 cron 默认每小时整点，批次默认 300
+	if c.Scheduler.ComponentCleanupCron == "" {
+		c.Scheduler.ComponentCleanupCron = "0 0 * * * *"
+	}
+	if c.Scheduler.CleanupBatchSize <= 0 {
+		c.Scheduler.CleanupBatchSize = 300
 	}
 }

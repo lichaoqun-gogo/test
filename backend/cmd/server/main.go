@@ -9,6 +9,8 @@ import (
 	"osm-mngt/internal/database"
 	"osm-mngt/internal/minio"
 	"osm-mngt/internal/routes"
+	"osm-mngt/internal/scheduler"
+	"osm-mngt/internal/service/component_cleanup"
 	"path/filepath"
 )
 
@@ -53,6 +55,10 @@ func main() {
 
 	// 创建Gin引擎
 	engine := routes.Setup(db, minioClient, cfg)
+
+	// 启动定时任务（组件快照每小时清理，cron 表达式配置在 config）
+	cleanupSvc := component_cleanup.New(db, cfg.Scheduler.CleanupBatchSize)
+	scheduler.New(cfg.Scheduler, cleanupSvc).Start()
 
 	// 启动服务
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)

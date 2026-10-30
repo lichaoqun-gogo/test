@@ -84,11 +84,12 @@ func (h *TaskHandler) ListTasks(c *gin.Context) {
 	}
 
 	// 为每个任务关联查询task_detail
+	userID, _, _ := h.getUserInfo(c)
 	tasksWithDetail := make([]gin.H, 0, len(tasks))
 	for _, task := range tasks {
-		log.Printf("[ListTasks] 任务ID: %d, taskNo: %s, status: %s, applicantID: %s, assignedTo: %s", 
+		log.Printf("[ListTasks] 任务ID: %d, taskNo: %s, status: %s, applicantID: %s, assignedTo: %s",
 			task.ID, task.TaskNo, task.Status, task.ApplicantID, task.AssignedTo)
-		
+
 		taskMap := gin.H{
 			"id":           task.ID,
 			"taskNo":       task.TaskNo,
@@ -108,6 +109,17 @@ func (h *TaskHandler) ListTasks(c *gin.Context) {
 			"createTime":   task.CreateTime,
 			"updateBy":     task.UpdateBy,
 			"updateTime":   task.UpdateTime,
+		}
+
+		// 审批中的任务：标记当前用户是否可处理当前节点
+		//（一个部门多名专员场景：任一同部门同角色在岗专员均可审批，后端统一下发标记）
+		if task.Status == "approving" && userID != "" {
+			var node models.ApprovalNode
+			if err := h.db.Where("task_id = ? AND status = ? AND is_skipped = ? AND approver_id != '' AND node_order > 0",
+				task.ID, "pending", false).
+				Order("node_order ASC").First(&node).Error; err == nil {
+				taskMap["canApprove"] = workflow.CanUserHandleNode(h.db, &node, userID)
+			}
 		}
 
 		// 查询task_detail
@@ -308,7 +320,7 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 		}
 		applicantDept := userDept
 		if applicantDept == "" {
-			applicantDept = "技术研发部" // 兜底
+			applicantDept = "技术部" // 兜底
 		}
 		
 		task = models.GovernanceTask{
@@ -358,7 +370,14 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 		
 		if taskStatus == "approving" {
 			engine := h.GetWorkflowEngine()
-			if err := engine.ResolveNodesAndCreate(tx, &task, req.Type); err != nil {
+			// 非引入申请：从project表查运维部门（升级/退出 node_1 复审以运维部门为准）
+			maintDept := ""
+			if req.Type != "introduce" {
+				if cn, ok := req.Detail["component_name"].(string); ok && cn != "" {
+					tx.Table("project").Select("maint_dept").Where("_name = ?", cn).Row().Scan(&maintDept)
+				}
+			}
+			if err := engine.ResolveNodesAndCreate(tx, &task, req.Type, maintDept); err != nil {
 				return fmt.Errorf("创建审批流失败: %w", err)
 			}
 			task.Status = "approving"
@@ -394,9 +413,9 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 		return
 	}
 
-	// 只允许更新draft或withdrawn状态的任务
-	if task.Status != "draft" && task.Status != "withdrawn" {
-		response.Error(c, 400, "只能更新草稿或已撤回状态的任务")
+	// 只允许更新 draft / withdrawn / rejected（驳回后可编辑重提）状态的任务
+	if task.Status != "draft" && task.Status != "withdrawn" && task.Status != "rejected" {
+		response.Error(c, 400, "只能更新草稿、已撤回或已驳回状态的任务")
 		return
 	}
 
@@ -678,6 +697,8 @@ func createTaskDetail(tx *gorm.DB, taskID int64, taskType string, detail map[str
 			TaskID:     taskID,
 			CreateTime: now,
 			UpdateTime: now,
+			// 内部缺陷编号：系统自动生成（DF-纳秒时间戳，与缺陷台账编号风格一致），不允许用户手填
+			InternalDefectNo: fmt.Sprintf("DF-%d", time.Now().UnixNano()),
 		}
 		if v, ok := detail["risk_description"].(string); ok {
 			defect.RiskDescription = v

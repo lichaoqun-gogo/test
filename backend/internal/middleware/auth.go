@@ -47,15 +47,19 @@ func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
 		c.Set("userID", claims.UserID)
 		c.Set("username", claims.Username)
 		c.Set("nickname", claims.Nickname)
+		c.Set("email", claims.Email)
 		c.Set("role", claims.Role)
 		c.Set("department", claims.Department)
+		c.Set("team", claims.Team)
 		c.Set("canToggleAdminView", claims.CanToggleAdminView)
 
 		// 同时设置请求头，兼容现有 handler 的 getUserInfo 逻辑
 		c.Request.Header.Set("X-User-ID", claims.UserID)
 		c.Request.Header.Set("X-User-Name", claims.Nickname)
+		c.Request.Header.Set("X-User-Email", claims.Email)
 		c.Request.Header.Set("X-User-Role", claims.Role)
 		c.Request.Header.Set("X-User-Dept", claims.Department)
+		c.Request.Header.Set("X-User-Team", claims.Team)
 		if claims.CanToggleAdminView {
 			c.Request.Header.Set("X-User-Can-Admin-View", "true")
 		}

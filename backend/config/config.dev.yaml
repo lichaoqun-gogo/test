@@ -38,3 +38,42 @@ auth:
     frontendURL: http://localhost:3000
     # validateURL 未配置时自动推导为 {serverURL}/serviceValidate
     # jwt 未配置时使用内置默认值
+
+# IAM 权限系统 OpenAPI 对接配置（查询权限/团队/组织信息，对应 internal/openapi + internal/iam）
+# 注意：baseURL 为空时，/api/v1/user/info 等接口走本地回退实现（users 表，见 routes.Setup）；
+# 填上 baseURL 后自动切换为 IAM 实现（account + org 接口拼接），重启生效，无需改代码。
+# 首次对接建议先填 baseURL/appId/secret 三项并开 insecureSkipVerify（自签名网关调试用），
+# 联调通过后务必把 insecureSkipVerify 改回 false。
+openapi:
+  baseURL: ""          # IAM 网关基址，如 https://iam.example.com/openapi（留空=本地回退）
+  appId: ""            # IAM 分配给应用的 appId（如 osm）
+  secret: ""           # IAM 分配的应用密钥
+  timeout: 10          # 请求超时（秒）
+  insecureSkipVerify: false  # 跳过 SSL 证书校验（仅开发/自签名网关开，生产必须 false）
+
+# 下游 HTTP 服务注册（对应 Feign 的「服务名 -> 接口地址」配置；对应 internal/httpclient）
+# 用法：按服务名配置 url 等项，代码里通过 httpclient.Registry.Get("服务名") 拿到客户端按需调用。
+# 认证支持：type=none（无认证）/ type=header（固定认证头）；签名等动态认证由调用方用 Auth 闭包构造。
+services:
+  # 示例：调用采集工具接口（忽略证书校验 + 固定 token）
+  # collector:
+  #   url: https://collector.example.com/api
+  #   timeout: 10
+  #   insecureSkipVerify: true
+  #   auth:
+  #     type: header
+  #     name: X-Token
+  #     value: your-token
+  # BOM 解析外部服务（开源基础软件-按BOM解析 按钮调用；地址暂定 url1，后期修改）
+  # bom-parser:
+  #   url: url1
+  #   timeout: 30
+  #   insecureSkipVerify: true
+  #   auth:
+  #     type: none
+
+# 定时任务配置（对应 Java 版定时任务框架，cron 表达式在配置文件中配置）
+scheduler:
+  enabled: true                 # 是否启用定时任务
+  componentCleanupCron: "0 0 * * * *"   # 组件快照清理 cron（6 段，0 0 * * * *=每小时整点）
+  cleanupBatchSize: 300         # 组件归档批次大小（可调整，不写死）

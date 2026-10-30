@@ -218,7 +218,7 @@ async function loadLicenses() {
     const res: any = await api.get('/risk/licenses', {
       params: { page: 1, pageSize: 1000 }
     })
-    const list = res.list || res || []
+    const list = Array.isArray(res) ? res : (res.list || [])
     licenses.value = list.map((item: any) => ({
       id: item.ID || item.id,
       LICENSE: item.LICENSE,

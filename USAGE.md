@@ -294,7 +294,7 @@ mysql -u root osm < backend/sql/init_data.sql
 | 资产台账 | project, project_inner, component, component_snapshot | 开源软件、自研项目、依赖包 |
 | 名单风险 | component_core, component_black | 名单配置、阻断记录 |
 | 许可证 | license, licensegroup, licensegroup_license | 许可证、分组 |
-| 缺陷 | defect_ledger, defect_task_mapping, user_risk_report | 缺陷台账、映射、用户上报 |
+| 缺陷 | defect_ledger, defect, user_risk_report | 缺陷台账、缺陷采集台账（GitHub/Jira）、用户上报 |
 | 治理任务 | governance_task, task_introduce, task_upgrade, task_withdraw, task_usage, task_defect, task_applicability_assessment | 任务主表及各类型扩展表 |
 | 审批流 | approval_template, approval_template_node, approval_node, approval_history | 模板定义、节点实例、审批历史 |
 | 其他 | pre_eval_cache, attachment, specialist_resource_mapping | 预评估缓存、附件、人员资源映射 |

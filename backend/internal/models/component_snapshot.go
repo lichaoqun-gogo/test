@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 // ComponentSnapshot 开源依赖包表
 type ComponentSnapshot struct {
 	ID                int64      `gorm:"column:id;primaryKey;autoIncrement" json:"id"`
@@ -8,6 +10,8 @@ type ComponentSnapshot struct {
 	Author            string     `gorm:"column:AUTHOR" json:"AUTHOR"`
 	Publisher         string     `gorm:"column:PUBLISHER" json:"PUBLISHER"`
 	Group             string     `gorm:"column:_group" json:"_group"`
+	IsDelete          *int       `gorm:"column:is_delete" json:"isDelete"`       // 逻辑删除标识: 0-已删除, 1-未删除（默认1）
+	CreateTime        *time.Time `gorm:"column:create_time" json:"createTime"`   // 入库时间（归档排序/取最新用）
 	Name              string     `gorm:"column:_name" json:"_name"`
 	Version           string     `gorm:"column:_version" json:"_version"`
 	Description       string     `gorm:"column:DESCRIPTION" json:"DESCRIPTION"`

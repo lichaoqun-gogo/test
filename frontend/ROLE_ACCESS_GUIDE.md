@@ -78,10 +78,7 @@
 #### 决策与洞察中心
 | 页面 | 路径 |
 |------|------|
-| 违规拦截统计 | `/admin/decision/interception` |
 | 缺陷修复效能 | `/admin/decision/repair-efficiency` |
-| 资产健康度分布 | `/admin/decision/health-distribution` |
-| 治理工作量统计 | `/admin/decision/workload` |
 | 核心依赖 Top N | `/admin/decision/core-dependencies` |
 | 版本碎片化 Top N | `/admin/decision/version-fragmentation` |
 | 高风险项目 Top N | `/admin/decision/high-risk-projects` |

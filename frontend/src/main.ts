@@ -11,6 +11,9 @@ import router from './router'
 // 引入全局样式
 import '@/styles/global.scss'
 
+// 全局权限指令（按钮级权限，见 directives/auth.ts）
+import { auth } from '@/directives/auth'
+
 const app = createApp(App)
 
 // 注册所有图标
@@ -22,6 +25,9 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 app.use(ElementPlus, { locale: zhCn })
+
+// 注册全局权限指令（v-auth="'权限编码'"，无权限自动移除元素）
+app.directive('auth', auth)
 
 // 注册全局业务组件
 import GradeTag from '@/components/business/GradeTag.vue'

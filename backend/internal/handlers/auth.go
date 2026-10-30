@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"osm-mngt/internal/config"
 	"osm-mngt/internal/models"
+	"osm-mngt/internal/service/permission"
 	"osm-mngt/pkg/jwt"
 	"strings"
 
@@ -17,12 +18,13 @@ import (
 )
 
 type AuthHandler struct {
-	cfg *config.Config
-	db  *gorm.DB
+	cfg     *config.Config
+	db      *gorm.DB
+	permSvc permission.Service
 }
 
 func NewAuthHandler(cfg *config.Config, db *gorm.DB) *AuthHandler {
-	return &AuthHandler{cfg: cfg, db: db}
+	return &AuthHandler{cfg: cfg, db: db, permSvc: permission.NewLocalService(db)}
 }
 
 // CAS XML 响应结构
@@ -32,12 +34,17 @@ type casServiceResponse struct {
 	Failure *casAuthFailure `xml:"authenticationFailure"`
 }
 
+// casAuthSuccess CAS 认证成功响应的用户属性。
+// 属性名与 IAM Account 模型字段对齐（与 mock CAS 测试服务 users.json 返回保持一致），
+// 登录后映射到 users 表与 JWT：User→username、AccountName→nickname、Email→email、
+// DepName→department、OrgName→team；后续 IAM 接入时同一份数据可直接承接 Account。
 type casAuthSuccess struct {
-	User        string `xml:"user"`
-	DisplayName string `xml:"displayName"`
-	Mail        string `xml:"mail"`
-	Phone       string `xml:"phone"`
-	Department  string `xml:"department"`
+	User        string `xml:"user"`        // 登录账号
+	AccountName string `xml:"accountName"` // 姓名
+	Email       string `xml:"email"`       // 邮箱
+	Phone       string `xml:"phone"`       // 电话
+	DepName     string `xml:"depName"`     // 部门
+	OrgName     string `xml:"orgName"`     // 组织/团队
 }
 
 type casAuthFailure struct {
@@ -125,38 +132,44 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 	logBytes, _ := json.Marshal(casResp.Success)
 	fmt.Printf("[CAS] 认证通过，用户信息: %s\n", string(logBytes))
 
-	// 查找或创建用户
+	// 查找或创建用户（CAS 属性 → users 表：accountName→nickname、email、depName→department、orgName→team）
 	var user models.User
 	result := h.db.Where("username = ?", casResp.Success.User).First(&user)
 	if result.Error != nil {
 		// 首次登录，自动创建，默认 operator 角色
 		user = models.User{
 			Username:   casResp.Success.User,
-			Nickname:   casResp.Success.DisplayName,
-			Email:      casResp.Success.Mail,
+			Nickname:   casResp.Success.AccountName,
+			Email:      casResp.Success.Email,
 			Phone:      casResp.Success.Phone,
-			Department: casResp.Success.Department,
+			Department: casResp.Success.DepName,
+			Team:       casResp.Success.OrgName,
 			Role:       "operator",
 		}
 		h.db.Create(&user)
 	} else {
 		// 更新 CAS 返回的最新信息
-		user.Nickname = casResp.Success.DisplayName
-		user.Email = casResp.Success.Mail
+		user.Nickname = casResp.Success.AccountName
+		user.Email = casResp.Success.Email
 		user.Phone = casResp.Success.Phone
-		user.Department = casResp.Success.Department
+		user.Department = casResp.Success.DepName
+		user.Team = casResp.Success.OrgName
 		h.db.Save(&user)
 	}
 
 	// 签发 JWT
+	// 统一使用 CAS 用户名（username）作为全系统用户身份标识，
+	// 与 dept_specialist_mapping.specialist_id、approval_node.approver_id、governance_task.applicant_id 保持一致
 	token, err := jwt.GenerateToken(
 		h.cfg.Auth.JWT.Secret,
 		h.cfg.Auth.JWT.Expiry,
-		fmt.Sprintf("%d", user.ID),
+		user.Username,
 		user.Username,
 		user.Nickname,
+		user.Email,
 		user.Role,
 		user.Department,
+		user.Team,
 		user.CanToggleAdminView,
 	)
 	if err != nil {
@@ -170,29 +183,33 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 	c.Redirect(http.StatusFound, redirectURL)
 }
 
-// GetUserInfo 获取当前登录用户信息
-// 从 JWT 解析用户名，再查询 users 表返回完整信息（部门、团队等）
-func (h *AuthHandler) GetUserInfo(c *gin.Context) {
-	username, _ := c.Get("username")
-
-	// 如果 context 中没有（未走中间件），尝试从 JWT 解析
-	if username == nil || username == "" {
-		authHeader := c.GetHeader("Authorization")
-		if len(authHeader) > 7 && authHeader[:7] == "Bearer " {
-			tokenStr := authHeader[7:]
-			claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, tokenStr)
-			if err == nil {
-				username = claims.Username
-			}
+// getRequestUsername 从 context/JWT/请求头提取当前用户名（CAS username，全系统用户唯一标识）
+func (h *AuthHandler) getRequestUsername(c *gin.Context) string {
+	if v, ok := c.Get("username"); ok {
+		if s, _ := v.(string); s != "" {
+			return s
 		}
 	}
-
-	// 仍然为空时从 header 回退
-	if username == nil || username == "" {
-		username = decodeHeaderValue(c.GetHeader("X-User-Name"))
+	authHeader := c.GetHeader("Authorization")
+	if len(authHeader) > 7 && authHeader[:7] == "Bearer " {
+		if claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, authHeader[7:]); err == nil {
+			return claims.Username
+		}
 	}
+	if id := c.GetHeader("X-User-ID"); id != "" {
+		return id
+	}
+	return decodeHeaderValue(c.GetHeader("X-User-Name"))
+}
 
-	if username == nil || username == "" {
+// GetUserInfo 获取当前登录用户信息（含权限档案）
+// 返回结构：{ user: 用户基本信息, roles: 角色编码, permissions: 权限点编码 }。
+// roles/permissions 由权限服务计算，前端据此渲染可见菜单与按钮；
+// 后续对接外部权限系统时仅需替换 permission.Service 实现，此接口契约不变。
+func (h *AuthHandler) GetUserInfo(c *gin.Context) {
+	username := h.getRequestUsername(c)
+
+	if username == "" {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "未识别到用户"})
 		return
 	}
@@ -204,9 +221,14 @@ func (h *AuthHandler) GetUserInfo(c *gin.Context) {
 		return
 	}
 
+	profile := h.permSvc.GetProfile(username)
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
-		"data": user,
+		"data": gin.H{
+			"user":        user,
+			"roles":       profile.Roles,
+			"permissions": profile.Permissions,
+		},
 	})
 }
 
@@ -250,6 +272,10 @@ func (h *AuthHandler) GetUserList(c *gin.Context) {
 	if deptName := c.Query("dept_name"); deptName != "" {
 		query = query.Where("department = ?", deptName)
 	}
+	// 按团队过滤（组织架构-团队人员查询）
+	if team := c.Query("team"); team != "" {
+		query = query.Where("team = ?", team)
+	}
 
 	var users []models.User
 	if err := query.Find(&users).Error; err != nil {
@@ -283,59 +309,73 @@ type MenuTreeNode struct {
 	Children  []MenuTreeNode `json:"children"`
 }
 
-// GetUserMenus 获取当前用户的菜单树
+// GetUserMenus 获取当前用户的菜单（按用户全部角色返回并集，每角色一棵菜单树）
+// 模型：一个用户可具备多个角色，菜单可见性 = 全部角色菜单的并集，由后端统一计算下发，
+// 前端一次拉取全部菜单并注册路由，视图切换（个人工作台/全局治理）只是前端按角色分组展示。
+// 菜单角色本地映射规则（菜单-角色映射维护在本地 role_menus 表，对接外部权限系统时
+// 替换为接口返回的角色集即可）：
+//   - 基础角色：users.role（operator / specialist / admin）
+//   - 具备 global_governance_view 权限（如管理部门专员、单独授权）→ 附加 admin（全局治理菜单）
+//   - admin 用户 → 附加 specialist（系统管理员同样有个人工作台）
+// 响应结构：{ code, data: { roles: [角色编码], menus: { <role>: [菜单树] } } }
 func (h *AuthHandler) GetUserMenus(c *gin.Context) {
-	// 优先从 context 获取（CAS 模式下中间件注入）
-	roleVal, exists := c.Get("role")
-	var roleStr string
-	if exists {
-		roleStr, _ = roleVal.(string)
+	username := h.getRequestUsername(c)
+	if username == "" {
+		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "未识别到用户"})
+		return
 	}
-	// context 中没有时，尝试从 JWT 解析
-	if roleStr == "" {
-		authHeader := c.GetHeader("Authorization")
-		if len(authHeader) > 7 && authHeader[:7] == "Bearer " {
-			tokenStr := authHeader[7:]
-			claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, tokenStr)
-			if err == nil {
-				roleStr = claims.Role
-			}
+
+	var user models.User
+	if err := h.db.Where("username = ?", username).First(&user).Error; err != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "用户不存在"})
+		return
+	}
+
+	// 计算用户的菜单角色集合（去重、保持顺序）
+	roleSet := make([]string, 0, 2)
+	seen := map[string]bool{}
+	addRole := func(r string) {
+		if r == "" || seen[r] {
+			return
 		}
+		seen[r] = true
+		roleSet = append(roleSet, r)
 	}
-	// 仍然为空时从 header 回退
-	if roleStr == "" {
-		roleStr = c.GetHeader("X-User-Role")
+	addRole(user.Role)
+	// admin 用户附加 specialist 菜单（个人工作台）
+	if user.Role == "admin" {
+		addRole("specialist")
 	}
-	if roleStr == "" {
-		c.JSON(http.StatusOK, gin.H{"code": 0, "data": []MenuTreeNode{}})
-		return
-	}
-
-	// 支持 query 参数指定角色（admin 用户切换个人工作台时获取 specialist 菜单）
-	if roleParam := c.Query("role"); roleParam != "" {
-		roleStr = roleParam
+	// 具备全局治理权限 → 附加 admin 菜单（全局治理）
+	if h.permSvc.HasPermission(username, permission.PermGlobalGovernanceView) {
+		addRole("admin")
 	}
 
-	// 查询角色关联的菜单ID
-	var roleMenus []models.RoleMenu
-	h.db.Where("role = ?", roleStr).Find(&roleMenus)
-	if len(roleMenus) == 0 {
-		c.JSON(http.StatusOK, gin.H{"code": 0, "data": []MenuTreeNode{}})
-		return
+	// 按角色查询菜单并构建树（并集）
+	menusByRole := gin.H{}
+	for _, role := range roleSet {
+		var roleMenus []models.RoleMenu
+		h.db.Where("role = ?", role).Find(&roleMenus)
+		if len(roleMenus) == 0 {
+			menusByRole[role] = []MenuTreeNode{}
+			continue
+		}
+		menuIDs := make([]uint, len(roleMenus))
+		for i, rm := range roleMenus {
+			menuIDs[i] = rm.MenuID
+		}
+		var menus []models.Menu
+		h.db.Where("id IN ?", menuIDs).Order("sort ASC").Find(&menus)
+		menusByRole[role] = buildMenuTree(menus, 0)
 	}
 
-	menuIDs := make([]uint, len(roleMenus))
-	for i, rm := range roleMenus {
-		menuIDs[i] = rm.MenuID
-	}
-
-	// 查询菜单
-	var menus []models.Menu
-	h.db.Where("id IN ?", menuIDs).Order("sort ASC").Find(&menus)
-
-	// 构建菜单树
-	tree := buildMenuTree(menus, 0)
-	c.JSON(http.StatusOK, gin.H{"code": 0, "data": tree})
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"data": gin.H{
+			"roles": roleSet,
+			"menus": menusByRole,
+		},
+	})
 }
 
 func buildMenuTree(menus []models.Menu, parentID uint) []MenuTreeNode {
