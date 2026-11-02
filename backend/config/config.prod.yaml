@@ -1,0 +1,37 @@
+# 生产环境配置
+# 注意：部署时替换为实际值，切勿将敏感信息提交到版本库
+server:
+  port: 8080
+  mode: release
+
+database:
+  host: PROD_DB_HOST
+  port: 3306
+  user: PROD_DB_USER
+  password: PROD_DB_PASSWORD
+  dbname: osm
+  charset: utf8mb4
+  parseTime: true
+  loc: Local
+  maxIdleConns: 20
+  maxOpenConns: 200
+
+# MinIO 对象存储配置
+minio:
+  endpoint: PROD_MINIO_ENDPOINT
+  accessKeyId: PROD_MINIO_ACCESS_KEY
+  secretAccessKey: PROD_MINIO_SECRET_KEY
+  useSSL: true
+  bucketName: osm
+
+log:
+  level: info
+  format: json
+  filePath: logs/osm.log
+
+# 认证配置（生产环境：CAS 单点登录）
+# 只需配置 CAS 服务器地址，其余项自动推导
+auth:
+  mode: cas
+  cas:
+    serverURL: https://cas.company.com  # 【必填】替换为公司 CAS 服务器地址

@@ -1,0 +1,33 @@
+# 依赖目录（不提交，需方按需 npm install / go mod download）
+frontend/node_modules/
+backend/node_modules/
+
+# 日志文件
+backend/logs/
+*.log
+
+# IDE 配置
+.idea/
+.vscode/
+.trae/
+*.swp
+*.swo
+.DS_Store
+
+# 环境变量文件（可能含密钥，禁止提交）
+.env
+.env.local
+.env.*.local
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 临时文件
+*.tmp
+*.bak
+*.bak.*
+
+# 说明：编译产物（frontend/dist、backend/bin、backend/server）有意保留提交，
+# 便于交付方直接运行，勿移除下面三行对应的忽略规则（即保持"不忽略"状态）。
