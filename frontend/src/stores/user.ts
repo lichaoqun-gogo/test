@@ -120,23 +120,25 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // 从后端获取最新用户信息与权限档案（刷新页面时调用，确保部门/权限等信息最新）
+  // 参考接口 /api/user/info 返回 { ok, data:{ account, roles, permissions, ... } }
+  // account 字段：id=账号、displayName=姓名、groupName=部门、orgCode=团队；role 取 roles 首个基础角色
   async function fetchUserInfo() {
     if (!token.value) return false
     try {
-      const res = await axios.get('/api/v1/auth/me', {
+      const res = await axios.get('/api/user/info', {
         headers: { Authorization: `Bearer ${token.value}` },
       })
-      if (res.data?.code === 0 && res.data.data) {
+      if (res.data?.ok === true && res.data.data) {
         const d = res.data.data
-        const u = d.user || {}
+        const a = d.account || {}
         const info: UserInfo = {
-          id: String(u.id ?? ''),
-          username: u.username || '',
-          nickname: u.nickname || '',
-          role: u.role,
-          department: u.department,
-          team: u.team || '',
-          email: u.email || '',
+          id: String(a.id ?? ''),
+          username: String(a.id ?? ''),
+          nickname: a.displayName || '',
+          role: (d.roles && d.roles[0]) || 'operator',
+          department: a.groupName || '',
+          team: a.orgCode || '',
+          email: a.email || '',
           roles: d.roles || [],
           permissions: d.permissions || [],
         }
@@ -153,7 +155,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // 获取菜单并动态注册路由
-  // 后端按用户全部角色一次返回菜单并集：{ roles: [角色编码], menus: { <role>: [菜单树] } }
+  // 参考接口 /api/user/info 的 menusByRole 字段：{ <role>: [菜单树] }（承载原 /auth/menus 职责）
   // 前端一次拉取，全部角色的菜单路由均注册；视图切换（个人工作台/全局治理）只是按角色分组展示
   async function fetchMenus() {
     if (!token.value) return
@@ -170,16 +172,17 @@ export const useUserStore = defineStore('user', () => {
         headers['X-User-Name'] = encodeURIComponent(userInfo.value.nickname || '')
         headers['X-User-Dept'] = encodeURIComponent(userInfo.value.department || '')
       }
-      const res = await axios.get('/api/v1/auth/menus', { headers })
+      const res = await axios.get('/api/user/info', { headers })
 
       const d = res.data?.data
-      if (res.data?.code === 0 && d?.menus && typeof d.menus === 'object') {
-        const menusByRole: Record<string, MenuTreeNode[]> = d.menus
+      if (res.data?.ok === true && d?.menusByRole && typeof d.menusByRole === 'object') {
+        const menusByRole: Record<string, MenuTreeNode[]> = d.menusByRole
 
-        // 权限系统未下发任何菜单（所有角色菜单树均为空）→ 用前端本地角色映射兜底（menuMap.ts）
+        // 权限系统未下发任何菜单（menusByRole 为空对象、或所有角色菜单树均为空）
+        // → 用前端本地角色映射兜底（menuMap.ts）
         // ============ 兜底分支：权限系统未下发菜单时生效（对接后可整段删除）============
-        const allEmpty = Object.values(menusByRole).every(v => !Array.isArray(v) || v.length === 0)
-        if (allEmpty && Object.keys(menusByRole).length > 0) {
+        const allEmpty = Object.keys(menusByRole).length === 0 || Object.values(menusByRole).every(v => !Array.isArray(v) || v.length === 0)
+        if (allEmpty) {
           console.warn('[fetchMenus] 权限系统返回空菜单，使用前端本地角色映射（menuMap.ts 兜底）')
           const fallbackRole = userInfo.value?.role || 'operator'
           const fallbackMenus = getRoleMenuMap(fallbackRole)

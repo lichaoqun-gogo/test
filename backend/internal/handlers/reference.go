@@ -122,10 +122,12 @@ func (h *ReferenceHandler) Idcs(c *gin.Context) {
 	okData(c, []gin.H{})
 }
 
-// UserInfo GET /api/user/info 当前用户完整权限信息（参考前端路由守卫加载用户时调用）
-// {ok, data:{account, roles, menus, orgs, buttons}}
+// UserInfo GET /api/user/info 当前用户完整权限信息（对应参考项目 main.js 路由守卫访问 /user/info）
+// {ok, data:{account, roles, permissions, menus, menusByRole, orgs, buttons}}
 // account 字段对齐参考项目：id=账号、displayName=姓名、groupName=组/部门、groupCode、orgCode。
-// 数据源：优先权限系统（GetUserProfile/GetMenus），未对接时兜底 JWT 身份 + 空权限。
+// roles/permissions 对应权限档案；menusByRole 为多角色菜单树（承载原 /auth/menus 职责，前端按角色并集渲染）；
+// menus 为参考项目扁平菜单结构（{path, name, children}，参考页面使用）。
+// 数据源：优先权限系统（GetUserProfile/GetMenus），未对接时兜底 JWT 身份 + 空权限（前端本地映射兜底菜单）。
 func (h *ReferenceHandler) UserInfo(c *gin.Context) {
 	claims := h.jwtClaimsFromRequest(c)
 	username := ""
@@ -135,7 +137,7 @@ func (h *ReferenceHandler) UserInfo(c *gin.Context) {
 	if username == "" {
 		username = c.GetHeader("X-User-ID")
 	}
-	log.Printf("[reference/user-info] 请求用户信息: username=%s", username)
+	log.Printf("[user-info] 请求用户信息: username=%s", username)
 
 	// 默认兜底数据（权限系统未对接时）
 	account := gin.H{
@@ -146,9 +148,8 @@ func (h *ReferenceHandler) UserInfo(c *gin.Context) {
 		"orgCode":     "",
 	}
 	roles := []string{}
-	menus := []gin.H{}
-	buttons := []string{}
 	permissions := []string{}
+	buttons := []string{}
 	if claims != nil {
 		account = gin.H{
 			"id":          claims.Username,
@@ -177,18 +178,24 @@ func (h *ReferenceHandler) UserInfo(c *gin.Context) {
 		buttons = profile.Permissions
 	}
 
-	// 菜单：权限系统菜单树（转参考结构：含路径与名称），未对接时为空（前端按角色本地映射渲染）
+	// 菜单：权限系统按角色下发菜单树（menusByRole）与参考扁平结构（menus）；未对接时为空（前端按角色本地映射兜底）
+	menusByRole := gin.H{}
+	refMenus := []gin.H{}
 	if bundle, err := h.permSvc.GetMenus(username); err == nil && bundle != nil {
-		menus = flattenMenus(bundle)
+		for role, tree := range bundle.Menus {
+			menusByRole[role] = tree
+		}
+		refMenus = flattenMenus(bundle)
 	}
 
 	okData(c, gin.H{
 		"account":     account,
 		"roles":       roles,
-		"menus":       menus,
+		"permissions": permissions,
+		"menus":       refMenus,
+		"menusByRole": menusByRole,
 		"orgs":        []gin.H{},
 		"buttons":     buttons,
-		"permissions": permissions,
 	})
 }
 

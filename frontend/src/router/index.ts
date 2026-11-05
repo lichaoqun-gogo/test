@@ -2,9 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
-// 参考接口对位调用（对应参考项目 main.js 路由守卫访问 /user/info；失败不阻断登录）
-import { getUserInfo as refGetUserInfo } from '@/api/reference'
-
 // 各菜单模块路由（router/modules/*，对应参考项目 router/modules 每菜单一个 js，index 聚合）
 // 菜单模块按业务划分（我的任务/我的运维/台账管理/风险管理...），角色不参与文件组织：
 // 角色由统一权限系统动态定义（可自由关联菜单/按钮资源），前端按「可见菜单 path 集合」过滤注册。
@@ -336,9 +333,6 @@ router.beforeEach(async (to, _from, next) => {
     // 先从后端获取最新用户信息（部门、团队等），再加载菜单
     await userStore.fetchUserInfo()
     await userStore.fetchMenus()
-    // 对位参考项目：路由守卫访问 /user/info（参考接口，失败不阻断，后端兜底；数据存 refUserInfo）
-    const refInfo = await refGetUserInfo()
-    if (refInfo) userStore.setRefUserInfo(refInfo)
     if (!userStore.isLoggedIn) {
       next({ path: '/login', query: { redirect: to.fullPath } })
       return

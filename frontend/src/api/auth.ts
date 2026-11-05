@@ -20,37 +20,38 @@ export function casLogin(): void {
 }
 
 // CAS 回调处理：用 token 获取用户信息（含权限档案）
-// 后端 /auth/me 返回 { user, roles, permissions }，此处映射为前端 UserInfo
+// 参考接口 /api/user/info 返回 { ok, data:{ account, roles, permissions, ... } }，此处映射为前端 UserInfo。
+// account 字段：id=账号、displayName=姓名、groupName=部门、orgCode=团队；role 取 roles 首个基础角色。
 export async function casCallback(token: string): Promise<ApiResponse<UserInfo>> {
   try {
-    const res = await axios.get('/api/v1/auth/me', {
+    const res = await axios.get('/api/user/info', {
       headers: { Authorization: `Bearer ${token}` },
     })
-    if (res.data?.code === 0 && res.data.data) {
+    if (res.data?.ok === true && res.data.data) {
       const d = res.data.data
-      const u = d.user || {}
+      const a = d.account || {}
       const info: UserInfo = {
-        id: String(u.id ?? ''),
-        username: u.username || '',
-        nickname: u.nickname || '',
-        role: u.role || 'operator',
-        department: u.department || '',
-        team: u.team || '',
-        email: u.email || '',
+        id: String(a.id ?? ''),
+        username: String(a.id ?? ''),
+        nickname: a.displayName || '',
+        role: (d.roles && d.roles[0]) || 'operator',
+        department: a.groupName || '',
+        team: a.orgCode || '',
+        email: a.email || '',
         roles: d.roles || [],
         permissions: d.permissions || [],
       }
       return { code: 200, message: 'success', data: info }
     }
-    // /auth/me 返回业务错误（如用户不存在/未识别到用户），保留后端消息便于定位
-    const bizMsg = res.data?.message || '获取用户信息失败（/auth/me 返回异常）'
-    console.error('[casCallback] /auth/me 业务失败:', bizMsg, res.data)
+    // /api/user/info 返回业务错误（如未识别到用户），保留后端消息便于定位
+    const bizMsg = res.data?.message || '获取用户信息失败（/api/user/info 返回异常）'
+    console.error('[casCallback] /api/user/info 业务失败:', bizMsg, res.data)
     return { code: 401, message: bizMsg, data: null as any }
   } catch (err: any) {
     // 网络/服务异常（接口 404、后端未启动、跨域等），打印完整信息辅助排查
     const status = err?.response?.status
-    const netMsg = err?.response?.data?.message || (status ? `认证服务异常（HTTP ${status}）` : '认证服务不可达（/auth/me 请求失败）')
-    console.error('[casCallback] /auth/me 请求异常:', status, err)
+    const netMsg = err?.response?.data?.message || (status ? `认证服务异常（HTTP ${status}）` : '认证服务不可达（/api/user/info 请求失败）')
+    console.error('[casCallback] /api/user/info 请求异常:', status, err)
     return { code: 401, message: netMsg, data: null as any }
   }
 }
