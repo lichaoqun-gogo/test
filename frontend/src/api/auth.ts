@@ -42,9 +42,16 @@ export async function casCallback(token: string): Promise<ApiResponse<UserInfo>>
       }
       return { code: 200, message: 'success', data: info }
     }
-    return { code: 401, message: res.data?.message || '获取用户信息失败', data: null as any }
+    // /auth/me 返回业务错误（如用户不存在/未识别到用户），保留后端消息便于定位
+    const bizMsg = res.data?.message || '获取用户信息失败（/auth/me 返回异常）'
+    console.error('[casCallback] /auth/me 业务失败:', bizMsg, res.data)
+    return { code: 401, message: bizMsg, data: null as any }
   } catch (err: any) {
-    return { code: 401, message: err?.response?.data?.message || '认证失败', data: null as any }
+    // 网络/服务异常（接口 404、后端未启动、跨域等），打印完整信息辅助排查
+    const status = err?.response?.status
+    const netMsg = err?.response?.data?.message || (status ? `认证服务异常（HTTP ${status}）` : '认证服务不可达（/auth/me 请求失败）')
+    console.error('[casCallback] /auth/me 请求异常:', status, err)
+    return { code: 401, message: netMsg, data: null as any }
   }
 }
 

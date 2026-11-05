@@ -41,6 +41,18 @@ auth:
     serviceURL: http://localhost:8080/api/v1/auth/cas/callback
     validateURL: http://localhost:8443/serviceValidate
     frontendURL: http://localhost:3000
+  # 统一权限系统：用户档案/角色/权限点/菜单/组织统一由其下发，后端只转发不落库。
+  # baseURL 为空 = 未对接（后端打印日志并返回兜底数据，登录与开发调试不受影响）；
+  # 对接后填写真实地址与各接口路径即可，只需对齐 service/permission/remote.go 中的字段。
+  permission:
+    baseURL: ""                       # 统一权限系统地址，如 http://iam.example.com
+    appId: osm                        # 本系统在权限系统的应用标识（有 app 即有默认角色）
+    profilePath: /user/profile        # 用户档案（GET ?username=xxx）→ {user, roles, permissions}
+    menusPath: /user/menus            # 菜单（GET ?username=xxx）→ {roles, menus: {<role>: [菜单树]}}
+    orgDeptsPath: /org/departments    # 部门-团队-成员
+    orgDeptTeamsPath: /org/departments/teams  # 部门-所属团队
+    teamUsersPath: /org/teams/users   # 团队人员（GET ?team=xxx&dept_name=xxx）
+    timeout: 5
   jwt:
     secret: osm-jwt-secret-key-change-in-production
     expiry: 86400

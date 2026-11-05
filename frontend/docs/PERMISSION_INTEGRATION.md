@@ -1,11 +1,37 @@
 # 前端权限对接说明（角色 / 菜单 / 按钮 / 组织架构）
 
-> 用途：把当前 osm-mngt 前端权限实现机制梳理清楚，便于在另一套环境对接统一权限系统时照此实现。
-> 核心结论：
-> - **动态路由**：后端按「角色→菜单树」下发（`/auth/menus`），前端把菜单树的 `component` 字段映射到 vue 组件并 `addRoute`；侧边菜单渲染同一个菜单树。
-> - **按钮权限**：框架代码**已落地**（`src/directives/auth.ts` + `main.ts` 注册 + `store.hasPerm`），在按钮上写 `v-auth="'权限编码'"` 即可；权限点由后端 `/auth/me` 的 `permissions[]` 下发。
-> - **组织架构**：后端 `/org/departments`、`/org/departments/teams`、`/users?team=` 已实现，前端 `src/api/org.ts` + `src/types/org.ts` 承接。
-> - **状态集中**：已集中在 `stores/user.ts`（token / userInfo / roles / permissions / roleMenus / viewMode / orgDepartments）。
+> 用途：把当前 osm-mngt 前端权限实现机制梳理清楚，便于在另一套环境对接统一权限系统时照此实现；
+> 并对照参考项目（osm-front，Vue2 + vue-cli）给出结构映射，便于页面/文件对位迁移。
+> 核心结论（当前架构）：
+> - **登录链路**：CAS 登录只签发基本身份 JWT → 前端登录回调请求权限接口 `/auth/me`（user/roles/permissions）、`/auth/menus`（roles + 各角色菜单树）；菜单完全由权限系统下发，后端只转发。
+> - **静态路由 + path 过滤**：前端静态定义全部业务路由（`router/index.ts` 的 `staticRoutes`），登录后按「可见菜单 path 集合」过滤注册（公司参考项目同逻辑）；侧边菜单渲染同一个菜单树。
+> - **多角色并集**：`/auth/menus` 返回 `{ roles[], menus: { <role>: [菜单树] } }`，侧边栏 = 各角色菜单按 path 去重合并；admin 菜单归「全局治理视图」，admin 用户个人工作台回退 specialist 菜单。
+> - **未对接兜底**：权限系统未对接（baseURL 空）时后端打印日志返回空菜单，前端按角色用本地映射 `src/router/menuMap.ts` 渲染（可整段删除）；`fetchMenus()` 失败不清 token（认证≠权限展示）。
+> - **按钮权限**：已落地（`src/directives/auth.ts` + `main.ts` 注册 + `store.hasPerm`），按钮写 `v-auth="'权限编码'"`；权限点由 `/auth/me` 的 `permissions[]` 下发。方法级判断用 `src/utils/auth.ts` 的 `hasPermission(code)`。
+> - **组织架构**：后端 `/org/departments`、`/org/departments/teams`、`/users?team=` 优先权限系统、未对接时兜底 users 表；前端 `src/api/org.ts` + `src/types/org.ts` 承接。
+> - **参考接口兼容层**：后端 `/api/env`、`/api/groups`、`/api/user/depts`、`/api/idcs`、`/api/user/info`、`/api/user/refresh`（`{ok,data}` 结构，handlers/reference.go），参考前端页面可直接对接。
+
+---
+
+## 附录：当前项目 ↔ 参考项目（osm-front）结构对照
+
+> 目的：参考前端页面/工具文件可对位迁移到本项目，或本项目文件替换到参考项目，便于开发对照。
+
+| 参考项目（Vue2 + vue-cli） | 当前项目（Vue3 + Vite） | 职责 |
+|---|---|---|
+| `src/main.js`（路由守卫 beforeEach + Vue.prototype.hasPermission） | `src/main.ts`（注册 v-auth 指令 + `utils/auth.ts` installPermission 注入） | 入口 + 全局权限 |
+| `src/App.vue`（全局初始化 dispatch initEnv/initGroupTree/initGroupName） | `src/App.vue` | 根组件 |
+| `src/router`（modules/每菜单一个 js，index 聚合） | `src/router/modules/*`（mytask/myops/asset/risk...每菜单一个 ts）+ `index.ts` 聚合，按可见 path 过滤注册 | 路由配置 |
+| `src/store`（Vuex：用户信息/全局数据） | `src/stores/user.ts`（Pinia：token/userInfo/roles/permissions/roleMenus） | 状态管理 |
+| `src/utils/request.js`（Axios 封装 + 拦截器） | `src/api/index.ts`（axios 实例 + 拦截器） | HTTP 请求封装 |
+| `src/utils/auth.js`（hasPriv/canRouter/v-auth） | `src/utils/auth.ts`（hasPermission/canRouter）+ `src/directives/auth.ts`（v-auth） | 权限判断 |
+| `src/components`（公共组件：顶部栏/左侧菜单） | `src/components/layout/MainLayout.vue` + `src/components/business/*` | 公共组件 |
+| `src/pages`（各业务页面） | `src/views/**`（operator/specialist/admin 各工作台页面） | 业务页面 |
+
+**对接要点**：
+- 参考前端页面组件（Options API 风格）迁移到 `src/views/**` 后，路由需在 `staticRoutes` 登记 path + 组件，菜单 path 由权限系统下发（或 menuMap 本地映射）
+- 权限判断代码统一走 `src/utils/auth.ts`（hasPermission/canRouter），与参考 `utils/auth.js` 职责一一对应
+- 请求封装统一走 `src/api/index.ts`（baseURL `/api/v1`）；参考项目请求的 `/api/user/info` 等 6 接口由后端 reference 兼容层提供
 
 ---
 

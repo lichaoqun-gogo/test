@@ -83,3 +83,26 @@ func (c *Client) GetOrgs(ctx context.Context, orgStatus, orgSourceType string) (
 	}
 	return orgs, nil
 }
+
+// Privs 用户权限（对应参考项目 osm-front 文档：/api/auth/privs 返回的权限信息）。
+// 字段按文档约定（roles/menus/buttons），具体结构与 IAM 实际返回核对后调整。
+type Privs struct {
+	Roles       []string `json:"roles"`       // 角色列表
+	Menus       []*Menu  `json:"menus"`       // 菜单权限（含路径与名称）
+	Buttons     []string `json:"buttons"`     // 按钮/操作权限码
+	Permissions []string `json:"permissions"` // 权限码集合
+}
+
+// GetPrivs 查询用户在指定应用/组织下的权限（对应参考项目 IAMAuthUtils 的权限查询能力）
+// GET /api/auth/privs?userName={userName}&appCode={appCode}&orgCode={orgCode}
+func (c *Client) GetPrivs(ctx context.Context, userName, orgCode string) (*Privs, error) {
+	params := map[string]any{"userName": userName, "appCode": c.appCode}
+	if orgCode != "" {
+		params["orgCode"] = orgCode
+	}
+	var privs Privs
+	if err := c.call(ctx, "/api/auth/privs", params, &privs); err != nil {
+		return nil, err
+	}
+	return &privs, nil
+}

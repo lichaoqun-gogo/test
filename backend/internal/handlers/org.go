@@ -1,7 +1,11 @@
 package handlers
 
 import (
+	"net/http"
+
+	"osm-mngt/internal/config"
 	"osm-mngt/internal/models"
+	"osm-mngt/internal/service/permission"
 	"osm-mngt/pkg/response"
 
 	"github.com/gin-gonic/gin"
@@ -9,17 +13,17 @@ import (
 )
 
 // ==================== 组织架构（部门 / 团队 / 成员） ====================
-// 数据来源：users 表（username/nickname/department/team）。
-// 对接外部权限系统时只需替换数据源（如改为请求 IAM 网关），保持响应结构不变，
-// 前端 src/types/org.ts 与 src/api/org.ts 承接结构不变。
+// 数据源：统一权限系统（组织接口透传，前端 src/types/org.ts 与 src/api/org.ts 承接结构不变）；
+// 权限系统未对接/失败时兜底查 users 表（保持开发调试可用），对接后此路径不再生效。
 
 // OrgHandler 组织架构查询处理器
 type OrgHandler struct {
-	db *gorm.DB
+	db      *gorm.DB
+	permSvc *permission.RemoteService // 统一权限系统转发客户端
 }
 
-func NewOrgHandler(db *gorm.DB) *OrgHandler {
-	return &OrgHandler{db: db}
+func NewOrgHandler(db *gorm.DB, permCfg config.PermissionConfig) *OrgHandler {
+	return &OrgHandler{db: db, permSvc: permission.NewRemoteService(permCfg)}
 }
 
 // OrgMember 团队成员
@@ -56,6 +60,13 @@ type deptTeamRow struct {
 // ListDepartmentsTeams 部门及其所属团队
 // GET /api/v1/org/departments/teams → [{ department, teams: [...] }]
 func (h *OrgHandler) ListDepartmentsTeams(c *gin.Context) {
+	// 优先从统一权限系统获取（透传）
+	if raw, err := h.permSvc.GetOrgDeptTeams(); err == nil && raw != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": raw})
+		return
+	}
+
+	// 兜底：users 表聚合（权限系统未对接时的本地数据）
 	rows := []deptTeamRow{}
 	if err := h.db.Table("users").
 		Select("department, team").
@@ -87,6 +98,13 @@ func (h *OrgHandler) ListDepartmentsTeams(c *gin.Context) {
 // ListDepartments 部门 → 团队 → 成员
 // GET /api/v1/org/departments → [{ department, teams: [{ team, members: [...] }] }]
 func (h *OrgHandler) ListDepartments(c *gin.Context) {
+	// 优先从统一权限系统获取（透传）
+	if raw, err := h.permSvc.GetOrgDepartments(); err == nil && raw != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": raw})
+		return
+	}
+
+	// 兜底：users 表聚合（权限系统未对接时的本地数据）
 	rows := []deptTeamRow{}
 	if err := h.db.Table("users").
 		Select("department, team").

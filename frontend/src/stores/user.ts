@@ -3,6 +3,8 @@ import { ref, computed } from 'vue'
 import type { UserInfo, RoleType } from '@/types'
 import { logoutApi, tokenManager } from '@/api/auth'
 import { registerDynamicRoutes, resetRouter, type MenuTreeNode } from '@/router'
+// ============ 兜底依赖：本地角色-菜单映射（权限系统未对接时使用，对接后可删除 import） ============
+import { getRoleMenuMap } from '@/router/menuMap'
 import { orgApi } from '@/api/org'
 import type { OrgDepartment, DeptTeams } from '@/types/org'
 import axios from 'axios'
@@ -31,6 +33,24 @@ export const useUserStore = defineStore('user', () => {
   const orgDepartments = ref<OrgDepartment[]>([])
   const deptTeams = ref<DeptTeams[]>([])
 
+  // ==================== 参考项目全局初始化数据 ====================
+  // App.vue 挂载时通过参考接口（/api/env、/api/groups、/api/user/depts、/api/idcs）加载；
+  // 路由守卫通过参考接口 /api/user/info 对位获取完整权限信息（refUserInfo）。
+  // 这些数据主要用于对位参考项目流程，权限系统未对接时后端兜底返回/失败，不影响登录。
+  const envProfiles = ref<any[]>([])   // 环境配置（/api/env）
+  const groupList = ref<any[]>([])     // 组/部门列表（/api/groups）
+  const deptTree = ref<any[]>([])      // 部门树（/api/user/depts）
+  const deptList = ref<any[]>([])      // 部门列表（/api/user/depts）
+  const idcList = ref<any[]>([])       // IDC 列表（/api/idcs）
+  const refUserInfo = ref<any | null>(null) // 参考接口 /api/user/info 返回（对位存储）
+
+  function setEnvProfiles(v: any[]) { envProfiles.value = v }
+  function setGroupList(v: any[]) { groupList.value = v }
+  function setDeptTree(v: any[]) { deptTree.value = v }
+  function setDeptList(v: any[]) { deptList.value = v }
+  function setIdcList(v: any[]) { idcList.value = v }
+  function setRefUserInfo(v: any | null) { refUserInfo.value = v }
+
   const isLoggedIn = computed(() => !!token.value)
   const role = computed<RoleType | undefined>(() => userInfo.value?.role)
   const isOperator = computed(() => role.value === 'operator')
@@ -45,14 +65,38 @@ export const useUserStore = defineStore('user', () => {
   const showAdminView = computed(() => viewMode.value === 'admin')
   // 当前视图显示的菜单：全局治理视图显示 admin 菜单，个人工作台显示自身角色菜单
   //（admin 用户的个人工作台显示 specialist 菜单）
+  // 多角色菜单并集（按 path 去重）：把用户全部角色的菜单树合并为侧边栏菜单
+  // （公司模型：权限系统按 roles 聚合返回，如 ["common","admin"]，可见菜单 = 各角色菜单并集）
+  function mergeRoleMenus(roles: string[]): MenuTreeNode[] {
+    const merged: MenuTreeNode[] = []
+    const seen = new Set<string>()
+    for (const r of roles) {
+      const tree = roleMenus.value[r] || []
+      for (const node of tree) {
+        const key = node.path || `${node.name}-${node.id}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        merged.push(node)
+      }
+    }
+    return merged
+  }
+
+  // 当前侧边栏菜单：
+  // - 全局治理视图 → 只看 admin 角色菜单
+  // - 个人视图 → 全部非 admin 角色菜单并集（admin 菜单归全局治理视图）；
+  //   用户仅 admin 角色时回退 specialist 菜单（管理员的个人工作台，原设计约定）
   const viewMenus = computed<MenuTreeNode[]>(() => {
     if (viewMode.value === 'admin') {
       return roleMenus.value['admin'] || []
     }
-    if (role.value === 'admin') {
-      return roleMenus.value['specialist'] || []
+    const roles = (userInfo.value?.roles?.length ? userInfo.value.roles : [userInfo.value?.role || 'operator'])
+      .filter(r => r !== 'admin')
+    let menus = mergeRoleMenus(roles)
+    if (menus.length === 0 && userInfo.value?.role === 'admin') {
+      menus = mergeRoleMenus(['specialist'])
     }
-    return roleMenus.value[role.value || 'operator'] || []
+    return menus
   })
 
   // 按钮权限判断（v-auth 指令底层）：admin 默认全权限，其余看权限点集合
@@ -131,11 +175,31 @@ export const useUserStore = defineStore('user', () => {
       const d = res.data?.data
       if (res.data?.code === 0 && d?.menus && typeof d.menus === 'object') {
         const menusByRole: Record<string, MenuTreeNode[]> = d.menus
-        roleMenus.value = menusByRole
-        // 全部角色的菜单路由均注册
-        for (const [menuRole, menuTree] of Object.entries(menusByRole)) {
-          if (Array.isArray(menuTree) && menuTree.length > 0) {
-            registerDynamicRoutes(menuTree, menuRole)
+
+        // 权限系统未下发任何菜单（所有角色菜单树均为空）→ 用前端本地角色映射兜底（menuMap.ts）
+        // ============ 兜底分支：权限系统未下发菜单时生效（对接后可整段删除）============
+        const allEmpty = Object.values(menusByRole).every(v => !Array.isArray(v) || v.length === 0)
+        if (allEmpty && Object.keys(menusByRole).length > 0) {
+          console.warn('[fetchMenus] 权限系统返回空菜单，使用前端本地角色映射（menuMap.ts 兜底）')
+          const fallbackRole = userInfo.value?.role || 'operator'
+          const fallbackMenus = getRoleMenuMap(fallbackRole)
+          roleMenus.value = { [fallbackRole]: fallbackMenus }
+          registerDynamicRoutes(fallbackMenus, fallbackRole)
+          // admin 角色的个人工作台使用 specialist 菜单（原设计约定），一并注册路由，保证视图切换可访问
+          if (fallbackRole === 'admin') {
+            const personalMenus = getRoleMenuMap('specialist')
+            roleMenus.value['specialist'] = personalMenus
+            registerDynamicRoutes(personalMenus, 'specialist')
+          }
+        } else {
+          roleMenus.value = menusByRole
+          // 全部角色的菜单路由均注册；角色菜单为空时由 registerDynamicRoutes 兜底注册默认首页路由
+          for (const [menuRole, menuTree] of Object.entries(menusByRole)) {
+            if (Array.isArray(menuTree) && menuTree.length > 0) {
+              registerDynamicRoutes(menuTree, menuRole)
+            } else {
+              registerDynamicRoutes([], menuRole)
+            }
           }
         }
         routesLoaded.value = true
@@ -145,14 +209,18 @@ export const useUserStore = defineStore('user', () => {
       console.error('获取菜单失败:', err)
     }
 
-    // 获取菜单失败：清空旧 token，强制重新登录
-    console.warn('菜单获取失败，清除认证状态')
-    userInfo.value = null
-    token.value = ''
-    roleMenus.value = {}
-    routesLoaded.value = false
-    tokenManager.removeToken()
-    tokenManager.removeUser()
+    // ============ 兜底分支：权限系统未对接/返回为空时生效 ============
+    // 对接真实权限系统后本分支不再进入，可整段删除。
+    // 菜单可见性属于"权限展示"而非"认证判定"：菜单拉取失败不登出用户；
+    // 按用户角色用前端本地菜单映射（menuMap.ts）提供默认菜单（公司模型：有 app 即有默认角色）。
+    console.warn('[fetchMenus] 权限系统未返回菜单，使用前端本地角色映射（menuMap.ts 兜底）')
+    if (roleMenus.value && Object.keys(roleMenus.value).length === 0) {
+      const fallbackRole = userInfo.value?.role || 'operator'
+      const fallbackMenus = getRoleMenuMap(fallbackRole)
+      roleMenus.value = { [fallbackRole]: fallbackMenus }
+      registerDynamicRoutes(fallbackMenus, fallbackRole)
+    }
+    routesLoaded.value = true
   }
 
   // CAS 模式登录（回调页面调用）
@@ -206,6 +274,18 @@ export const useUserStore = defineStore('user', () => {
     routesLoaded,
     orgDepartments,
     deptTeams,
+    envProfiles,
+    groupList,
+    deptTree,
+    deptList,
+    idcList,
+    refUserInfo,
+    setEnvProfiles,
+    setGroupList,
+    setDeptTree,
+    setDeptList,
+    setIdcList,
+    setRefUserInfo,
     isLoggedIn,
     role,
     isOperator,

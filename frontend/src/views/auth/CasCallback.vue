@@ -11,6 +11,7 @@
 import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { getDefaultHome } from '@/router'
 import { casCallback, tokenManager } from '@/api/auth'
 import { ElMessage } from 'element-plus'
 import { Loading } from '@element-plus/icons-vue'
@@ -37,14 +38,8 @@ onMounted(async () => {
     userStore.setCasUser(token, res.data)
     // 直接加载菜单和注册路由，避免路由守卫重复请求 /auth/me
     await userStore.fetchMenus()
-    // 根据角色跳转
-    if (res.data.role === 'admin') {
-      router.replace('/admin/asset/software-library')
-    } else if (res.data.role === 'specialist') {
-      router.replace('/specialist/my-ops')
-    } else {
-      router.replace('/operator/my-ops')
-    }
+    // 根据角色跳转默认首页（未知/空角色回退普通运维者首页，不强限制登录）
+    router.replace(getDefaultHome(res.data.role))
   } else {
     ElMessage.error(res.message || '登录失败')
     tokenManager.removeToken()

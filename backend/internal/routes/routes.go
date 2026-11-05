@@ -40,16 +40,29 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 		auth.GET("/menus", authHandler.GetUserMenus)
 	}
 
+	// 参考项目兼容接口（对应 osm-front 参考项目 Vue2 前端请求的 6 个接口，统一 {ok, data} 结构，
+	// 便于参考前端页面/文件对位迁移到本项目；数据源优先权限系统，未对接时兜底，见 handlers/reference.go）
+	refHandler := handlers.NewReferenceHandler(cfg, db)
+	ref := engine.Group("/api")
+	{
+		ref.GET("/env", refHandler.Env)
+		ref.GET("/groups", refHandler.Groups)
+		ref.GET("/user/depts", refHandler.UserDepts)
+		ref.GET("/idcs", refHandler.Idcs)
+		ref.GET("/user/info", refHandler.UserInfo)
+		ref.GET("/user/refresh", refHandler.UserRefresh)
+	}
+
 	// 业务 API 路由（应用认证中间件）
 	// CAS 模式下验证 JWT，local 模式下放行
 	protected := api.Group("")
 	protected.Use(middleware.AuthMiddleware(cfg))
 
-	// 用户列表（人员选择等场景，当前从 users 表查询，后期对接统一权限系统）
+	// 用户列表（人员选择等场景，优先统一权限系统，未对接时兜底 users 表）
 	protected.GET("/users", authHandler.GetUserList)
 
-	// 组织架构（部门/团队/成员）：数据源 users 表，对接外部权限系统时替换实现即可
-	orgHandler := handlers.NewOrgHandler(db)
+	// 组织架构（部门/团队/成员）：优先统一权限系统透传，未对接时兜底 users 表
+	orgHandler := handlers.NewOrgHandler(db, cfg.Auth.Permission)
 	org := protected.Group("/org")
 	{
 		org.GET("/departments/teams", orgHandler.ListDepartmentsTeams)

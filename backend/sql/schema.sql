@@ -599,25 +599,7 @@ CREATE TABLE `licensegroup_license` (
   UNIQUE KEY `uniq_licensegroup_license_idx` (`licensegroup_id`,`license_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30008 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='许可证及许可证分组关联表';
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `menus`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `menus` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint unsigned DEFAULT '0',
-  `name` varchar(50) COLLATE utf8mb4_bin NOT NULL,
-  `path` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
-  `component` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
-  `icon` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
-  `sort` bigint DEFAULT '0',
-  `menu_type` bigint DEFAULT '1',
-  `hidden` tinyint(1) DEFAULT '0',
-  `group` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_at` datetime(3) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_menus_parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- menus 表已废弃：菜单统一由「统一权限系统」按角色下发，不再存表（见 PLATFORM_DESIGN.md 第 11 章）
 DROP TABLE IF EXISTS `pre_eval_cache`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -734,18 +716,7 @@ CREATE TABLE `project_owner` (
   KEY `idx_owner` (`owner_username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `role_menus`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `role_menus` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `role` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL,
-  `menu_id` bigint unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_role_menus_role` (`role`),
-  KEY `idx_role_menus_menu_id` (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- role_menus 表已废弃：角色-菜单映射由「统一权限系统」下发或前端本地映射（见 PLATFORM_DESIGN.md 第 11 章）
 DROP TABLE IF EXISTS `specialist_resource_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

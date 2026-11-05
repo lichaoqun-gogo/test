@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"osm-mngt/internal/config"
@@ -20,11 +21,11 @@ import (
 type AuthHandler struct {
 	cfg     *config.Config
 	db      *gorm.DB
-	permSvc permission.Service
+	permSvc *permission.RemoteService // 统一权限系统转发客户端（用户档案/菜单/组织均由其下发）
 }
 
 func NewAuthHandler(cfg *config.Config, db *gorm.DB) *AuthHandler {
-	return &AuthHandler{cfg: cfg, db: db, permSvc: permission.NewLocalService(db)}
+	return &AuthHandler{cfg: cfg, db: db, permSvc: permission.NewRemoteService(cfg.Auth.Permission)}
 }
 
 // CAS XML 响应结构
@@ -45,6 +46,7 @@ type casAuthSuccess struct {
 	Phone       string `xml:"phone"`       // 电话
 	DepName     string `xml:"depName"`     // 部门
 	OrgName     string `xml:"orgName"`     // 组织/团队
+	Role        string `xml:"role"`        // 登录角色（本 app 的默认角色；真实 CAS 可在 attributes 中下发，无则默认 operator）
 }
 
 type casAuthFailure struct {
@@ -128,49 +130,43 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 		return
 	}
 
+	// 校验 CAS 响应必须包含登录账号（user 字段）。
+	// 真实公司 CAS 的 serviceValidate 返回结构可能与 mock 不同（cas: 命名空间、属性层级/名称差异），
+	// 若 user 解析为空，此前会创建 username 为空的用户并签发 JWT，导致前端 /auth/me 返回
+	// "未识别到用户"、判定认证失败清除 token、重新跳转 CAS 的死循环。
+	// 此处强制校验并打印原始响应，便于按真实 CAS 结构适配字段。
+	if strings.TrimSpace(casResp.Success.User) == "" {
+		bodyPreview := string(body)
+		if len(bodyPreview) > 800 {
+			bodyPreview = bodyPreview[:800]
+		}
+		fmt.Printf("[CAS] 响应缺少 user 字段，原始响应: %s\n", bodyPreview)
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "CAS 响应缺少用户标识（user 字段为空），请核对 CAS serviceValidate 返回的 XML 结构"})
+		return
+	}
+
 	// 打印 CAS 返回的用户信息
 	logBytes, _ := json.Marshal(casResp.Success)
 	fmt.Printf("[CAS] 认证通过，用户信息: %s\n", string(logBytes))
 
-	// 查找或创建用户（CAS 属性 → users 表：accountName→nickname、email、depName→department、orgName→team）
-	var user models.User
-	result := h.db.Where("username = ?", casResp.Success.User).First(&user)
-	if result.Error != nil {
-		// 首次登录，自动创建，默认 operator 角色
-		user = models.User{
-			Username:   casResp.Success.User,
-			Nickname:   casResp.Success.AccountName,
-			Email:      casResp.Success.Email,
-			Phone:      casResp.Success.Phone,
-			Department: casResp.Success.DepName,
-			Team:       casResp.Success.OrgName,
-			Role:       "operator",
-		}
-		h.db.Create(&user)
-	} else {
-		// 更新 CAS 返回的最新信息
-		user.Nickname = casResp.Success.AccountName
-		user.Email = casResp.Success.Email
-		user.Phone = casResp.Success.Phone
-		user.Department = casResp.Success.DepName
-		user.Team = casResp.Success.OrgName
-		h.db.Save(&user)
+	// 签发 JWT：身份凭证仅使用 CAS 返回的登录账号与角色（CAS 未下发角色时默认 operator）；
+	// 角色/权限/菜单等授权信息统一由「统一权限系统」下发（/auth/me、/auth/menus），
+	// 登录不再写入 users 表（废弃登录落库逻辑）。
+	role := casResp.Success.Role
+	if role == "" {
+		role = "operator"
 	}
-
-	// 签发 JWT
-	// 统一使用 CAS 用户名（username）作为全系统用户身份标识，
-	// 与 dept_specialist_mapping.specialist_id、approval_node.approver_id、governance_task.applicant_id 保持一致
 	token, err := jwt.GenerateToken(
 		h.cfg.Auth.JWT.Secret,
 		h.cfg.Auth.JWT.Expiry,
-		user.Username,
-		user.Username,
-		user.Nickname,
-		user.Email,
-		user.Role,
-		user.Department,
-		user.Team,
-		user.CanToggleAdminView,
+		casResp.Success.User,
+		casResp.Success.User,
+		casResp.Success.AccountName,
+		casResp.Success.Email,
+		role,
+		casResp.Success.DepName,
+		casResp.Success.OrgName,
+		false,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "生成 token 失败"})
@@ -204,30 +200,63 @@ func (h *AuthHandler) getRequestUsername(c *gin.Context) string {
 
 // GetUserInfo 获取当前登录用户信息（含权限档案）
 // 返回结构：{ user: 用户基本信息, roles: 角色编码, permissions: 权限点编码 }。
-// roles/permissions 由权限服务计算，前端据此渲染可见菜单与按钮；
-// 后续对接外部权限系统时仅需替换 permission.Service 实现，此接口契约不变。
+// 数据源：统一权限系统（user/roles/permissions 均由其下发，后端只转发）；
+// 权限系统未对接或调用失败时打印日志并返回兜底数据（JWT 身份 + 默认 operator 角色 + 空权限），
+// 保证登录与开发调试不被阻塞。
 func (h *AuthHandler) GetUserInfo(c *gin.Context) {
 	username := h.getRequestUsername(c)
 
+	log.Printf("[auth/me] 请求用户信息: username=%s", username)
 	if username == "" {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "未识别到用户"})
 		return
 	}
 
-	// 查询 users 表获取完整用户信息
-	var user models.User
-	if err := h.db.Where("username = ?", username).First(&user).Error; err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "用户不存在"})
+	// 优先从统一权限系统获取用户档案
+	if bundle, err := h.permSvc.GetUserProfile(username); err == nil && bundle != nil {
+		log.Printf("[auth/me] 数据源=统一权限系统, username=%s, roles=%v, permissions=%v", username, bundle.Roles, bundle.Permissions)
+		c.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"data": gin.H{
+				"user":        bundle.User,
+				"roles":       bundle.Roles,
+				"permissions": bundle.Permissions,
+			},
+		})
 		return
 	}
 
-	profile := h.permSvc.GetProfile(username)
+	// ============ 兜底分支：权限系统未对接/调用失败时生效 ============
+	// 对接真实权限系统后本分支不再进入，可整段删除。
+	// 基于 JWT 身份返回基础档案（角色 = CAS 下发角色或默认 operator，对应"有 app 即有默认角色"的本地等价）。
+	// 注意：/auth/me 不经过 AuthMiddleware（context 无身份信息），故从 Bearer JWT 解析身份。
+	nickname, email, department, team, role := "", "", "", "", ""
+	if authHeader := c.GetHeader("Authorization"); len(authHeader) > 7 && authHeader[:7] == "Bearer " {
+		if claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, authHeader[7:]); err == nil {
+			nickname = claims.Nickname
+			email = claims.Email
+			department = claims.Department
+			team = claims.Team
+			role = claims.Role
+		}
+	}
+	if role == "" {
+		role = "operator"
+	}
+	log.Printf("[auth/me] 数据源=JWT兜底(权限系统未对接), username=%s, role=%s", username, role)
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"data": gin.H{
-			"user":        user,
-			"roles":       profile.Roles,
-			"permissions": profile.Permissions,
+			"user": gin.H{
+				"username":   username,
+				"nickname":   nickname,
+				"email":      email,
+				"department": department,
+				"team":       team,
+				"role":       role,
+			},
+			"roles":       []string{role},
+			"permissions": []string{},
 		},
 	})
 }
@@ -263,9 +292,16 @@ type UserSimple struct {
 }
 
 // GetUserList 查询用户列表（用于人员选择等场景）
-// 当前数据源：users 表；后期对接统一权限系统时修改此方法即可
-// 支持 dept_name 参数过滤本部门人员
+// 数据源：统一权限系统团队人员接口（透传）；未对接/失败时兜底查 users 表（保持开发调试可用）。
+// 支持 team / dept_name 参数过滤（人员选择下拉框只显示本部门/团队人员）。
 func (h *AuthHandler) GetUserList(c *gin.Context) {
+	// 优先从统一权限系统获取团队人员（透传）
+	if raw, err := h.permSvc.GetTeamUsers(c.Query("team"), c.Query("dept_name")); err == nil && raw != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": raw})
+		return
+	}
+
+	// 兜底：users 表查询（权限系统未对接时的本地数据，对接后此路径不再生效）
 	query := h.db.Model(&models.User{})
 
 	// 按部门过滤（人员选择下拉框只显示本部门人员）
@@ -296,105 +332,54 @@ func (h *AuthHandler) GetUserList(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"code": 0, "data": list})
 }
 
-// MenuTreeNode 菜单树节点
-type MenuTreeNode struct {
-	ID        uint           `json:"id"`
-	Name      string         `json:"name"`
-	Path      string         `json:"path"`
-	Component string         `json:"component"`
-	Icon      string         `json:"icon"`
-	Sort      int            `json:"sort"`
-	Hidden    bool           `json:"hidden"`
-	Group     string         `json:"group"`
-	Children  []MenuTreeNode `json:"children"`
-}
-
-// GetUserMenus 获取当前用户的菜单（按用户全部角色返回并集，每角色一棵菜单树）
-// 模型：一个用户可具备多个角色，菜单可见性 = 全部角色菜单的并集，由后端统一计算下发，
-// 前端一次拉取全部菜单并注册路由，视图切换（个人工作台/全局治理）只是前端按角色分组展示。
-// 菜单角色本地映射规则（菜单-角色映射维护在本地 role_menus 表，对接外部权限系统时
-// 替换为接口返回的角色集即可）：
-//   - 基础角色：users.role（operator / specialist / admin）
-//   - 具备 global_governance_view 权限（如管理部门专员、单独授权）→ 附加 admin（全局治理菜单）
-//   - admin 用户 → 附加 specialist（系统管理员同样有个人工作台）
-// 响应结构：{ code, data: { roles: [角色编码], menus: { <role>: [菜单树] } } }
+// GetUserMenus 获取当前用户的菜单（按角色返回菜单树并集）
+// 返回结构：{ roles: 角色编码, menus: { <role>: [菜单树] } }。
+// 数据源：统一权限系统（菜单完全由其按角色下发，后端只做转发、不构建菜单、不再存表）；
+// 权限系统未对接或调用失败时打印日志并返回空菜单兜底（前端按默认角色进入空工作台，见前端兜底路由）。
 func (h *AuthHandler) GetUserMenus(c *gin.Context) {
 	username := h.getRequestUsername(c)
+
+	log.Printf("[auth/menus] 请求用户菜单: username=%s", username)
 	if username == "" {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "未识别到用户"})
 		return
 	}
 
-	var user models.User
-	if err := h.db.Where("username = ?", username).First(&user).Error; err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "用户不存在"})
+	// 优先从统一权限系统获取菜单（roles + 各角色菜单树，透传）
+	if bundle, err := h.permSvc.GetMenus(username); err == nil && bundle != nil {
+		menuCount := 0
+		for _, tree := range bundle.Menus {
+			menuCount += len(tree)
+		}
+		log.Printf("[auth/menus] 数据源=统一权限系统, username=%s, roles=%v, 菜单数=%d", username, bundle.Roles, menuCount)
+		c.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"data": gin.H{
+				"roles": bundle.Roles,
+				"menus": bundle.Menus,
+			},
+		})
 		return
 	}
 
-	// 计算用户的菜单角色集合（去重、保持顺序）
-	roleSet := make([]string, 0, 2)
-	seen := map[string]bool{}
-	addRole := func(r string) {
-		if r == "" || seen[r] {
-			return
+	// ============ 兜底分支：权限系统未对接/调用失败时生效 ============
+	// 对接真实权限系统后本分支不再进入，可整段删除。
+	// 返回空菜单（角色 = JWT/CAS 角色或默认 operator），前端按角色用本地菜单映射渲染（见前端 menuMap.ts）。
+	// 注意：/auth/menus 不经过 AuthMiddleware（context 无身份信息），故从 Bearer JWT 解析角色。
+	role := ""
+	if authHeader := c.GetHeader("Authorization"); len(authHeader) > 7 && authHeader[:7] == "Bearer " {
+		if claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, authHeader[7:]); err == nil {
+			role = claims.Role
 		}
-		seen[r] = true
-		roleSet = append(roleSet, r)
 	}
-	addRole(user.Role)
-	// admin 用户附加 specialist 菜单（个人工作台）
-	if user.Role == "admin" {
-		addRole("specialist")
+	if role == "" {
+		role = "operator"
 	}
-	// 具备全局治理权限 → 附加 admin 菜单（全局治理）
-	if h.permSvc.HasPermission(username, permission.PermGlobalGovernanceView) {
-		addRole("admin")
-	}
-
-	// 按角色查询菜单并构建树（并集）
-	menusByRole := gin.H{}
-	for _, role := range roleSet {
-		var roleMenus []models.RoleMenu
-		h.db.Where("role = ?", role).Find(&roleMenus)
-		if len(roleMenus) == 0 {
-			menusByRole[role] = []MenuTreeNode{}
-			continue
-		}
-		menuIDs := make([]uint, len(roleMenus))
-		for i, rm := range roleMenus {
-			menuIDs[i] = rm.MenuID
-		}
-		var menus []models.Menu
-		h.db.Where("id IN ?", menuIDs).Order("sort ASC").Find(&menus)
-		menusByRole[role] = buildMenuTree(menus, 0)
-	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"data": gin.H{
-			"roles": roleSet,
-			"menus": menusByRole,
+			"roles": []string{role},
+			"menus": gin.H{role: []permission.MenuNode{}},
 		},
 	})
-}
-
-func buildMenuTree(menus []models.Menu, parentID uint) []MenuTreeNode {
-	var tree []MenuTreeNode
-	for _, m := range menus {
-		if m.ParentID == parentID {
-			node := MenuTreeNode{
-				ID:        m.ID,
-				Name:      m.Name,
-				Path:      m.Path,
-				Component: m.Component,
-				Icon:      m.Icon,
-				Sort:      m.Sort,
-				Hidden:    m.Hidden,
-				Group:     m.Group,
-				Children:  buildMenuTree(menus, m.ID),
-			}
-			tree = append(tree, node)
-		}
-	}
-	return tree
 }

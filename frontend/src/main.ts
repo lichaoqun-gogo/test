@@ -13,6 +13,8 @@ import '@/styles/global.scss'
 
 // 全局权限指令（按钮级权限，见 directives/auth.ts）
 import { auth } from '@/directives/auth'
+// 全局权限方法注入（等价参考项目 Vue.prototype.hasPermission，见 utils/auth.ts）
+import { installPermission } from '@/utils/auth'
 
 const app = createApp(App)
 
@@ -28,6 +30,9 @@ app.use(ElementPlus, { locale: zhCn })
 
 // 注册全局权限指令（v-auth="'权限编码'"，无权限自动移除元素）
 app.directive('auth', auth)
+
+// 注入全局 hasPermission（对应参考项目 Vue.prototype.hasPermission）
+installPermission(app)
 
 // 注册全局业务组件
 import GradeTag from '@/components/business/GradeTag.vue'

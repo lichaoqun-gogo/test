@@ -12,16 +12,17 @@ const BASE = '/org'
 
 export const orgApi = {
   // 部门及其所属团队（不含成员）→ [{ department, teams: ['前端组', ...] }]
-  departmentsTeams: () => api.get<DeptTeams[]>(`${BASE}/departments/teams`),
+  // 泛型第二参 R=T：api 实例的响应拦截器已返回 data（原始响应体），无需再取 .data
+  departmentsTeams: () => api.get<DeptTeams[], DeptTeams[]>(`${BASE}/departments/teams`),
 
   // 部门 → 团队 → 成员 → [{ department, teams: [{ team, members: [...] }] }]
-  departments: () => api.get<OrgDepartment[]>(`${BASE}/departments`),
+  departments: () => api.get<OrgDepartment[], OrgDepartment[]>(`${BASE}/departments`),
 
   // 按团队取成员（复用 /users，新增 team 过滤参数）→ OrgMember[]
-  teamMembers: (team: string) => api.get<OrgMember[]>('/users', { params: { team } }),
+  teamMembers: (team: string) => api.get<OrgMember[], OrgMember[]>('/users', { params: { team } }),
 }
 
 // 按部门取成员（复用 /users 的 dept_name 过滤，人员选择下拉等场景）
 export function usersByDept(dept: string) {
-  return api.get<OrgMember[]>('/users', { params: { dept_name: dept } })
+  return api.get<OrgMember[], OrgMember[]>('/users', { params: { dept_name: dept } })
 }

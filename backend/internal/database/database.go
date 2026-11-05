@@ -106,11 +106,6 @@ func initDatabase(db *gorm.DB) error {
 	// 预置 CAS 测试用户及其角色（幂等）
 	initUserMockData(db)
 
-	// 自动迁移菜单权限表
-	if err := db.AutoMigrate(&models.Menu{}, &models.RoleMenu{}); err != nil {
-		return fmt.Errorf("failed to migrate menus table: %w", err)
-	}
-
 	// 自动迁移项目-负责人关联表
 	if err := db.AutoMigrate(&models.ProjectOwner{}); err != nil {
 		return fmt.Errorf("failed to migrate project_owner table: %w", err)
@@ -136,9 +131,6 @@ func initDatabase(db *gorm.DB) error {
 
 	// 初始化自研项目与组件依赖测试数据（组件缺陷自动匹配处置人链路）
 	initComponentDependencyMockData(db)
-
-	// 初始化菜单及角色菜单关联数据
-	initMenuData(db)
 
 	return nil
 }
@@ -695,137 +687,9 @@ func ensureProject(db *gorm.DB, name, maintDept, useDept, license, desc string) 
 	`, name, maintDept, useDept, license, desc)
 }
 
-// menuDef 菜单定义（用于初始化数据，支持嵌套子菜单）
-type menuDef struct {
-	Name      string
-	Path      string
-	Component string
-	Icon      string
-	Sort      int
-	MenuType  int
-	Hidden    bool
-	Group     string
-	Children  []menuDef
-}
-
-// createMenuTree 递归创建菜单及角色-菜单关联（幂等，存在则更新）
-func createMenuTree(db *gorm.DB, defs []menuDef, parentID uint, role string) {
-	for _, d := range defs {
-		m := models.Menu{
-			ParentID:  parentID,
-			Name:      d.Name,
-			Path:      d.Path,
-			Component: d.Component,
-			Icon:      d.Icon,
-			Sort:      d.Sort,
-			MenuType:  d.MenuType,
-			Hidden:    d.Hidden,
-			Group:     d.Group,
-		}
-		// 先查找，存在则更新，不存在则创建
-		var existing models.Menu
-		if db.Where("name = ? AND parent_id = ? AND path = ?", d.Name, parentID, d.Path).First(&existing).Error == nil {
-			// 更新 icon、component、sort 等字段
-			db.Model(&existing).Updates(map[string]interface{}{
-				"icon":      d.Icon,
-				"component": d.Component,
-				"sort":      d.Sort,
-				"menu_type": d.MenuType,
-				"hidden":    d.Hidden,
-				"group":     d.Group,
-			})
-			m.ID = existing.ID
-		} else {
-			db.Create(&m)
-		}
-		// 建立角色-菜单关联
-		db.FirstOrCreate(&models.RoleMenu{}, models.RoleMenu{Role: role, MenuID: m.ID})
-		// 递归创建子菜单
-		createMenuTree(db, d.Children, m.ID, role)
-	}
-}
-
-// initMenuData 初始化菜单及角色菜单关联数据
-func initMenuData(db *gorm.DB) {
-	// 清理废弃菜单（缺陷入口回归「我的运维-缺陷管理」tab，不再单独挂菜单）
-	db.Where("path IN ?", []string{"/specialist/defect-records", "/operator/defect-records"}).
-		Delete(&models.Menu{})
-	// 清理废弃菜单（违规拦截/资产健康度/治理工作量看板已从决策与洞察中心下线）
-	db.Where("path IN ?", []string{"/admin/decision/interception", "/admin/decision/health-distribution", "/admin/decision/workload"}).
-		Delete(&models.Menu{})
-	// 清理废弃菜单（活跃度健康度监测 / SCA 自动化解析入库已下线）
-	db.Where("path IN ?", []string{"/admin/risk/activity-monitor", "/admin/risk/sca-parser"}).
-		Delete(&models.Menu{})
-	// 清理废弃菜单结构（治理效能看板中间层已下线，缺陷修复效能提升为决策与洞察中心直接子菜单，
-	// 旧的缺陷修复效能记录（挂在治理效能看板下）一并删除，由下方 createMenuTree 按新结构重建）
-	db.Where("name = ?", "治理效能看板").Delete(&models.Menu{})
-	db.Where("path = ?", "/admin/decision/repair-efficiency").Delete(&models.Menu{})
+// ===== 菜单数据初始化已废弃 =====
+// 菜单统一由「统一权限系统」按角色下发（见 internal/service/permission/remote.go），
+// 不再写入 menus / role_menus 表（废弃菜单存表逻辑）。
 
 	// ===== admin 角色菜单（完整管理菜单树） =====
-	adminMenus := []menuDef{
-		{
-			Name: "台账管理", MenuType: 1, Group: "asset", Sort: 1, Icon: "Coin",
-			Children: []menuDef{
-				{Name: "开源基础软件", Path: "/admin/asset/software-library", Component: "views/admin/asset/SoftwareLibrary", MenuType: 2, Sort: 1},
-				{Name: "开源依赖包", Path: "/admin/asset/dependency-library", Component: "views/admin/asset/DependencyLibrary", MenuType: 2, Sort: 2},
-				{Name: "开源工具", Path: "/admin/asset/tool-library", Component: "views/admin/asset/ToolLibrary", MenuType: 2, Sort: 3},
-				{Name: "自研项目", Path: "/admin/asset/self-developed", Component: "views/admin/asset/SelfDevelopedProjects", MenuType: 2, Sort: 4},
-				{Name: "源码备份", Path: "/admin/asset/source-backup", Component: "views/admin/asset/SourceBackup", MenuType: 2, Sort: 5},
-			},
-		},
-		{Name: "可信仓库", Path: "/admin/trusted-repo", Component: "views/admin/asset/TrustedRepository", Icon: "Files", MenuType: 2, Sort: 2},
-		{
-			Name: "风险管理", MenuType: 1, Group: "risk", Sort: 3, Icon: "Warning",
-			Children: []menuDef{
-				{Name: "名单管理", Path: "/admin/risk/blacklist", Component: "views/admin/risk/Blacklist", MenuType: 2, Sort: 1},
-				{Name: "CICD检查", Path: "/admin/risk/cicd-check", Component: "views/admin/risk/CicdCheck", MenuType: 2, Sort: 2},
-				{Name: "许可证信息库", Path: "/admin/risk/license-library", Component: "views/admin/risk/LicenseLibrary", MenuType: 2, Sort: 3},
-				{Name: "缺陷台账", Path: "/admin/risk/defect-ledger", Component: "views/admin/risk/DefectLedger", MenuType: 2, Sort: 4},
-			},
-		},
-		{
-			Name: "治理中心", MenuType: 1, Group: "governance", Sort: 4, Icon: "Setting",
-			Children: []menuDef{
-				{Name: "任务列表", Path: "/admin/governance/task-list", Component: "views/admin/governance/TaskList", MenuType: 2, Sort: 1},
-			},
-		},
-		{
-			Name: "决策与洞察中心", MenuType: 1, Group: "decision", Sort: 5, Icon: "DataAnalysis",
-			Children: []menuDef{
-				{Name: "缺陷修复效能", Path: "/admin/decision/repair-efficiency", Component: "views/admin/decision/repair-efficiency", MenuType: 2, Sort: 1},
-				{Name: "供应链安全洞察", Path: "/admin/decision/core-dependencies", Component: "views/admin/decision/core-dependencies", MenuType: 2, Sort: 2},
-			},
-		},
-	}
 
-	// ===== specialist 角色菜单 =====
-	specialistMenus := []menuDef{
-		{Name: "我的项目", Path: "/specialist/my-projects", Component: "views/operator/my-assets/MyProjects", Icon: "Monitor", MenuType: 2, Sort: 1},
-		{Name: "我的任务", Path: "/specialist/my-task", Component: "views/specialist/MyTask", Icon: "List", MenuType: 2, Sort: 2},
-		{
-			Name: "我的运维", MenuType: 1, Sort: 3, Icon: "Setting",
-			Children: []menuDef{
-				{Name: "运维台账", Path: "/specialist/my-ops", Component: "views/specialist/MyOps", MenuType: 2, Sort: 1},
-				{Name: "人员管理", Path: "/specialist/personnel-mgmt", Component: "views/operator/PersonnelMgmt", MenuType: 2, Sort: 2},
-			},
-		},
-		{Name: "我的使用", Path: "/specialist/my-usage", Component: "views/operator/MyUsage", Icon: "Files", MenuType: 2, Sort: 4},
-		{Name: "可信仓库", Path: "/specialist/trusted-repo", Component: "views/operator/TrustedRepo", Icon: "Files", MenuType: 2, Sort: 5},
-	}
-
-	// ===== operator 角色菜单 =====
-	operatorMenus := []menuDef{
-		{Name: "我的项目", Path: "/operator/my-projects", Component: "views/operator/my-assets/MyProjects", Icon: "Monitor", MenuType: 2, Sort: 1},
-		{Name: "我的任务", Path: "/operator/my-task", Component: "views/operator/MyTask", Icon: "List", MenuType: 2, Sort: 2},
-		{Name: "我的运维", Path: "/operator/my-ops", Component: "views/operator/MyOps", Icon: "Setting", MenuType: 2, Sort: 3},
-		{Name: "我的使用", Path: "/operator/my-usage", Component: "views/operator/MyUsage", Icon: "Files", MenuType: 2, Sort: 4},
-		{Name: "可信仓库", Path: "/operator/trusted-repo", Component: "views/operator/TrustedRepo", Icon: "Files", MenuType: 2, Sort: 5},
-	}
-
-	createMenuTree(db, adminMenus, 0, "admin")
-	createMenuTree(db, specialistMenus, 0, "specialist")
-	createMenuTree(db, operatorMenus, 0, "operator")
-
-	// 清理角色-菜单关联中的孤儿记录（菜单已删除但关联残留），需在 createMenuTree 之后执行
-	db.Exec("DELETE rm FROM role_menus rm LEFT JOIN menus m ON m.id = rm.menu_id WHERE m.id IS NULL")
-}

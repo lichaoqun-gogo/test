@@ -2,6 +2,23 @@ import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
+// 参考接口对位调用（对应参考项目 main.js 路由守卫访问 /user/info；失败不阻断登录）
+import { getUserInfo as refGetUserInfo } from '@/api/reference'
+
+// 各菜单模块路由（router/modules/*，对应参考项目 router/modules 每菜单一个 js，index 聚合）
+// 菜单模块按业务划分（我的任务/我的运维/台账管理/风险管理...），角色不参与文件组织：
+// 角色由统一权限系统动态定义（可自由关联菜单/按钮资源），前端按「可见菜单 path 集合」过滤注册。
+import { myTaskRoutes, myTaskHiddenRoutes } from './modules/mytask'
+import { myOpsRoutes, myOpsHiddenRoutes } from './modules/myops'
+import { myUsageRoutes, myUsageHiddenRoutes } from './modules/myusage'
+import { myProjectsRoutes, myProjectsHiddenRoutes } from './modules/myprojects'
+import { trustedRepoRoutes, trustedRepoHiddenRoutes } from './modules/trustedrepo'
+import { personnelRoutes, personnelHiddenRoutes } from './modules/personnel'
+import { assetRoutes, assetHiddenRoutes } from './modules/asset'
+import { riskRoutes, riskHiddenRoutes } from './modules/risk'
+import { governanceRoutes, governanceHiddenRoutes } from './modules/governance'
+import { decisionRoutes, decisionHiddenRoutes } from './modules/decision'
+
 const Layout = () => import('@/components/layout/MainLayout.vue')
 
 // ========== 基础路由（静态注册，启动时加载） ==========
@@ -63,9 +80,8 @@ const baseRoutes: RouteRecordRaw[] = [
 ]
 
 // ========== 动态路由映射表（component 路径 -> 实际组件） ==========
-// 后端菜单返回的 component 字段对应这里的 key
+// 后端菜单返回的 component 字段对应这里的 key（隐藏路由组件解析用）
 const componentMaps: Record<string, () => Promise<any>> = {
-  // operator
   'views/operator/my-assets/MyProjects': () => import('@/views/operator/my-assets/MyProjects.vue'),
   'views/operator/my-assets/ProjectDetail': () => import('@/views/operator/my-assets/ProjectDetail.vue'),
   'views/operator/MyTask': () => import('@/views/operator/MyTask.vue'),
@@ -97,22 +113,66 @@ const componentMaps: Record<string, () => Promise<any>> = {
   'views/admin/decision/core-dependencies': () => import('@/views/admin/decision/core-dependencies.vue'),
 }
 
-// ========== 隐藏路由（不在菜单显示但需要注册的路由） ==========
-// 这些路由没有对应的菜单项，但需要动态注册
-const hiddenRoutes: Record<string, { path: string; name: string; component: string }[]> = {
-  operator: [
-    { path: 'project-detail/:id', name: 'OperatorProjectDetail', component: 'views/operator/my-assets/ProjectDetail' },
-    { path: 'my-task/:id', name: 'OperatorTaskDetail', component: 'views/operator/TaskDetail' },
-    { path: 'software-service', name: 'OperatorSoftwareService', component: 'views/operator/software-service/SoftwareService' },
-  ],
-  specialist: [
-    { path: 'project-detail/:id', name: 'SpecialistProjectDetail', component: 'views/operator/my-assets/ProjectDetail' },
-    { path: 'my-task/:id', name: 'SpecialistTaskDetail', component: 'views/operator/TaskDetail' },
-    { path: 'software-service', name: 'SpecialistSoftwareService', component: 'views/operator/software-service/SoftwareService' },
-  ],
-  admin: [
-    { path: 'governance/task-list/:id', name: 'AdminTaskDetail', component: 'views/operator/TaskDetail' },
-  ],
+// ========== 静态业务路由表（按模块拆分，index 聚合） ==========
+// 公司参考项目逻辑：router/modules 每模块一个 js（operator/specialist/admin），index.js 聚合；
+// 前端所有业务路由静态定义（含 path），登录后按「可见菜单 path 集合」过滤注册。
+// 可见 path 集合来源：统一权限系统菜单（/auth/menus）或前端本地角色映射（menuMap.ts 兜底）。
+// 注意：path 必须与菜单树/权限系统下发的菜单 path 完全一致，匹配上的路由才注册可见。
+export interface StaticRouteDef {
+  path: string
+  name: string
+  component: () => Promise<any>
+  title: string
+}
+
+// 隐藏路由定义（不在菜单中、始终注册的详情页等路由）
+// layout：注册到哪个工作台布局（operator/specialist/admin），对应基础路由中的父路由
+export interface HiddenRouteDef {
+  path: string
+  name: string
+  component: string // componentMaps 的 key
+  layout?: string // 缺省按 name 前缀推断（Operator*/Specialist*/Admin*）
+}
+
+// 聚合各菜单模块可见路由（所有业务路由静态定义，登录后按可见菜单 path 过滤注册）
+const staticRoutes: StaticRouteDef[] = [
+  ...myProjectsRoutes,
+  ...myTaskRoutes,
+  ...myOpsRoutes,
+  ...myUsageRoutes,
+  ...trustedRepoRoutes,
+  ...personnelRoutes,
+  ...assetRoutes,
+  ...riskRoutes,
+  ...governanceRoutes,
+  ...decisionRoutes,
+]
+
+// ========== 隐藏路由（不在菜单显示但需要注册的路由，各菜单模块定义后按 layout 归组） ==========
+const hiddenRoutes: Record<string, HiddenRouteDef[]> = {}
+const allHiddenRoutes: HiddenRouteDef[] = [
+  ...myProjectsHiddenRoutes,
+  ...myTaskHiddenRoutes,
+  ...myOpsHiddenRoutes,
+  ...myUsageHiddenRoutes,
+  ...trustedRepoHiddenRoutes,
+  ...personnelHiddenRoutes,
+  ...assetHiddenRoutes,
+  ...riskHiddenRoutes,
+  ...governanceHiddenRoutes,
+  ...decisionHiddenRoutes,
+]
+for (const h of allHiddenRoutes) {
+  const layout = h.layout || inferLayout(h.name)
+  if (!hiddenRoutes[layout]) hiddenRoutes[layout] = []
+  hiddenRoutes[layout].push(h)
+}
+
+// 从路由 name 前缀推断布局（Operator*/Specialist*/Admin*）
+function inferLayout(name: string): string {
+  if (name.startsWith('Admin')) return 'admin'
+  if (name.startsWith('Specialist')) return 'specialist'
+  return 'operator'
 }
 
 // ========== 菜单树节点类型（后端返回） ==========
@@ -141,29 +201,44 @@ export function registerDynamicRoutes(menus: MenuTreeNode[], role: string) {
 
   console.log(`[registerDynamicRoutes] role=${role}, parentName=${parentName}, menus=${menus.length}`)
 
-  // 递归注册菜单路由
-  function registerMenu(menu: MenuTreeNode) {
-    if (menu.component && componentMaps[menu.component]) {
-      const routePath = menu.path.replace(`${parentPath}/`, '')
-      const route: RouteRecordRaw = {
-        path: routePath,
-        name: `${role}_${menu.path.replace(/\//g, '_')}`,
-        component: componentMaps[menu.component],
-        meta: { title: menu.name, role },
-      }
-      router.addRoute(parentName, route)
-      console.log(`[registerDynamicRoutes] 注册路由: parent=${parentName}, path=${routePath}, name=${String(route.name)}, fullPath=${menu.path}`)
-    } else if (menu.component) {
-      console.warn(`[registerDynamicRoutes] 组件未找到: ${menu.component} (menu: ${menu.name})`)
-    }
-    if (menu.children?.length) {
-      menu.children.forEach(child => registerMenu(child))
-    }
+  // 兜底默认路由：角色无任何可见路由时保证默认首页可访问，避免无路由落到 404。
+  // 设计原则：无角色/菜单为空不代表不能登录，用户应能进入空工作台（默认普通运维者体验）。
+  const fallbackRoutes: Record<string, { path: string; component: string; title: string }> = {
+    operator: { path: 'my-ops', component: 'views/operator/MyOps', title: '我的运维' },
+    specialist: { path: 'my-ops', component: 'views/specialist/MyOps', title: '我的运维' },
+    admin: { path: 'asset/software-library', component: 'views/admin/asset/SoftwareLibrary', title: '软件台账' },
   }
 
-  menus.forEach(menu => registerMenu(menu))
+  let registeredCount = 0
 
-  // 注册隐藏路由
+  // 收集菜单树中所有可见 path（含子节点；目录节点 path 为空则跳过）
+  const visiblePaths = new Set<string>()
+  const collectPaths = (nodes: MenuTreeNode[]) => {
+    for (const n of nodes) {
+      if (n.path) visiblePaths.add(n.path)
+      if (n.children?.length) collectPaths(n.children)
+    }
+  }
+  collectPaths(menus)
+  // 隐藏路由 path（不受菜单过滤，始终可见）加入集合便于统计，但不影响其独立注册
+  hiddenRoutes[role]?.forEach(h => visiblePaths.add(`${parentPath}/${h.path}`))
+
+  // 按「可见菜单 path 集合」过滤注册静态路由（公司逻辑：前端静态路由 + 权限系统菜单 path 匹配）
+  for (const def of staticRoutes) {
+    if (!visiblePaths.has(def.path)) continue
+    const routePath = def.path.replace(`${parentPath}/`, '')
+    const route: RouteRecordRaw = {
+      path: routePath,
+      name: def.name,
+      component: def.component,
+      meta: { title: def.title, role },
+    }
+    router.addRoute(parentName, route)
+    registeredCount++
+    console.log(`[registerDynamicRoutes] 注册路由: parent=${parentName}, path=${routePath}, name=${def.name}`)
+  }
+
+  // 注册隐藏路由（详情页等带参路由，不在菜单中，始终注册）
   const hidden = hiddenRoutes[role] || []
   hidden.forEach(h => {
     const route: RouteRecordRaw = {
@@ -173,18 +248,32 @@ export function registerDynamicRoutes(menus: MenuTreeNode[], role: string) {
       meta: { title: h.name, role, hidden: true },
     }
     router.addRoute(parentName, route)
+    registeredCount++
   })
+
+  // 菜单树为空（主页面一个都没注册）或没有任何路由注册时，兜底注册默认首页，避免落到 404
+  // ============ 兜底分支：角色无可见菜单时生效（对接真实权限系统后可整段删除）============
+  if ((menus.length === 0 || registeredCount === 0) && fallbackRoutes[role]) {
+    const fb = fallbackRoutes[role]
+    const route: RouteRecordRaw = {
+      path: fb.path,
+      name: `${role}_fallback_home`,
+      component: componentMaps[fb.component],
+      meta: { title: fb.title, role, fallback: true },
+    }
+    router.addRoute(parentName, route)
+    console.log(`[registerDynamicRoutes] 兜底注册默认首页: parent=${parentName}, path=${fb.path}`)
+  }
 }
 
 // 清除动态路由（登出或切换角色时调用）
 export function resetRouter() {
-  // 移除所有动态路由，保留基础路由
+  // 移除所有动态注册的路由，保留基础路由
   const dynamicNames: string[] = []
   router.getRoutes().forEach(r => {
     if (r.name && (
-      r.name.toString().startsWith('operator_/') ||
-      r.name.toString().startsWith('specialist_/') ||
-      r.name.toString().startsWith('admin_/') ||
+      staticRoutes.some(s => s.name === r.name) ||
+      r.name.toString().endsWith('_fallback_home') ||
       hiddenRoutes.operator?.some(h => h.name === r.name) ||
       hiddenRoutes.specialist?.some(h => h.name === r.name) ||
       hiddenRoutes.admin?.some(h => h.name === r.name)
@@ -247,6 +336,9 @@ router.beforeEach(async (to, _from, next) => {
     // 先从后端获取最新用户信息（部门、团队等），再加载菜单
     await userStore.fetchUserInfo()
     await userStore.fetchMenus()
+    // 对位参考项目：路由守卫访问 /user/info（参考接口，失败不阻断，后端兜底；数据存 refUserInfo）
+    const refInfo = await refGetUserInfo()
+    if (refInfo) userStore.setRefUserInfo(refInfo)
     if (!userStore.isLoggedIn) {
       next({ path: '/login', query: { redirect: to.fullPath } })
       return

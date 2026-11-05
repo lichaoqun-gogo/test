@@ -183,3 +183,25 @@ approving --驳回--> rejected(已驳回/可重提) --编辑+提交--> approving
 - 缺陷状态就高不就低等级：待研判(1) < 忽略(2) < 待上会(3) < 已分配(4) < 已闭环(5)
 - 组件快照历史表 = 原表去掉 is_delete，含 create_time
 - 前端 operator / specialist 角色各有一份 MyOps / MyTask 页面（改动需同步两份）
+
+---
+
+## 11. 认证与权限（统一权限系统下发，后端只转发）
+
+**核心模型：平台所有权限类信息由外部「统一权限系统」下发，后端只做转发、不落库。**
+
+- **涉及的权限接口（共 5 个，均 GET，后端透传/兜底）**：
+  1. 用户档案 `{baseURL}/user/profile?username=xxx&appId=xxx` → `{user, roles, permissions}`（/auth/me）
+  2. 菜单 `{baseURL}/user/menus?username=xxx&appId=xxx` → `{roles, menus: {<role>: [菜单树]}}`（/auth/menus）
+  3. 部门-团队-成员（/org/departments）
+  4. 部门-所属团队（/org/departments/teams）
+  5. 团队人员（/users?team=xxx&dept_name=xxx）
+- **app 模型**：权限系统为每个系统分配一个 app（config `auth.permission.appId`），所有请求统一带 appId；**用户有该 app 权限即有默认角色**（未对接兜底 = CAS 返回角色或默认 operator）。
+- **后端实现**：`service/permission/remote.go`（RemoteService 统一客户端），地址/接口路径在 config 的 `auth.permission` 段配置；对接后只需对齐该文件承接结构与字段。
+- **废弃的表逻辑**：CAS 登录不再写 users 表（JWT 只承载身份凭证 + CAS 角色）；菜单不再存 menus/role_menus 表（模型、种子、DDL 已删除）。
+- **前端菜单模型（公司参考项目同逻辑）**：
+  - 前端静态定义全部业务路由（router/index.ts `staticRoutes`，含 path），登录后按「可见菜单 path 集合」过滤注册
+  - 可见 path 集合来源 = 权限系统菜单树（/auth/menus 透传）或前端本地角色映射（router/menuMap.ts 兜底）
+  - **多角色并集**：权限系统按 roles 聚合返回（如 `["common","admin"]`），侧边栏 = 各角色菜单按 path 去重合并；admin 菜单归「全局治理视图」
+  - **按钮权限**：v-auth 指令 + 权限点编码匹配（permissions 来自 /auth/me）
+- **兜底原则（不阻塞登录与开发调试）**：权限系统未对接（baseURL 为空）或调用失败时，后端打印警告日志并返回兜底数据——/auth/me 用 JWT 身份（角色=CAS 角色或 operator）；/auth/menus 返回空菜单（前端按角色用 menuMap.ts 本地映射渲染）；org/团队人员接口兜底查 users 表（保持人员选择可用）。兜底分支均以「可整段删除」注释标注。**前端 fetchMenus() 失败不清 token 登出**（认证=身份判定，权限展示=菜单可见性，二者分离）。
