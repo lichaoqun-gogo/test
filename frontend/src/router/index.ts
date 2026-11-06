@@ -331,7 +331,7 @@ router.beforeEach(async (to, _from, next) => {
   // 已登录但尚未加载动态路由 -> 先加载用户信息和菜单
   if (!userStore.routesLoaded) {
     // 先从后端获取最新用户信息（部门、团队等），再加载菜单
-    await userStore.fetchUserInfo()
+    await userStore.initUserInfo()
     await userStore.fetchMenus()
     if (!userStore.isLoggedIn) {
       next({ path: '/login', query: { redirect: to.fullPath } })

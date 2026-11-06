@@ -10,8 +10,8 @@ import (
 )
 
 // AuthMiddleware JWT 认证中间件
-// CAS 模式下验证 Authorization Bearer token
-// local 模式下兼容前端 X-User-* 请求头（开发用）
+// CAS 模式下验证 JWT：优先取 Authorization Bearer token，无则从 Cookie osm_token 读取（HttpOnly，浏览器自动携带）。
+// local 模式下兼容前端 X-User-* 请求头（开发用）。
 func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// local 模式：兼容前端 mock 请求头，不做强制认证
@@ -21,22 +21,28 @@ func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
 		}
 
 		// CAS 模式：验证 JWT
+		token := ""
 		authHeader := c.GetHeader("Authorization")
-		if authHeader == "" {
+		if authHeader != "" {
+			// 提取 Bearer token
+			parts := strings.SplitN(authHeader, " ", 2)
+			if len(parts) == 2 && parts[0] == "Bearer" {
+				token = parts[1]
+			}
+		}
+		// Authorization 头缺失/格式不对时，回退到 Cookie（HttpOnly，浏览器自动携带）
+		if token == "" {
+			if ck, err := c.Cookie("osm_token"); err == nil {
+				token = ck
+			}
+		}
+		if token == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "未登录"})
 			c.Abort()
 			return
 		}
 
-		// 提取 Bearer token
-		parts := strings.SplitN(authHeader, " ", 2)
-		if len(parts) != 2 || parts[0] != "Bearer" {
-			c.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "token 格式错误"})
-			c.Abort()
-			return
-		}
-
-		claims, err := jwt.ParseToken(cfg.Auth.JWT.Secret, parts[1])
+		claims, err := jwt.ParseToken(cfg.Auth.JWT.Secret, token)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "token 无效或已过期"})
 			c.Abort()

@@ -43,11 +43,17 @@ func okData(c *gin.Context, data any) {
 	c.JSON(http.StatusOK, gin.H{"ok": true, "data": data})
 }
 
-// jwtClaimsFromRequest 从 Authorization Bearer JWT 解析身份（参考接口不经过 AuthMiddleware）
+// jwtClaimsFromRequest 从 Authorization Bearer JWT 或 Cookie osm_token 解析身份（参考接口不经过 AuthMiddleware）
 func (h *ReferenceHandler) jwtClaimsFromRequest(c *gin.Context) *jwt.Claims {
 	authHeader := c.GetHeader("Authorization")
 	if len(authHeader) > 7 && authHeader[:7] == "Bearer " {
 		if claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, authHeader[7:]); err == nil {
+			return claims
+		}
+	}
+	// 无 Authorization 头时回退到 Cookie（HttpOnly，浏览器自动携带）
+	if ck, err := c.Cookie("osm_token"); err == nil && ck != "" {
+		if claims, err := jwt.ParseToken(h.cfg.Auth.JWT.Secret, ck); err == nil {
 			return claims
 		}
 	}

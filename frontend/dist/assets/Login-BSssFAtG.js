@@ -1,0 +1,1 @@
+import{d as o,X as s,c as n,e as t,V as a,_ as c}from"./index-BdGe6TTF.js";const r={class:"login-redirecting"},_=o({__name:"Login",setup(i){return s(),(p,e)=>(a(),n("div",r,[...e[0]||(e[0]=[t("p",null,"正在跳转至 CAS 统一认证中心...",-1)])]))}}),l=c(_,[["__scopeId","data-v-5732b4c1"]]);export{l as default};

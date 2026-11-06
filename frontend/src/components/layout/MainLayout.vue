@@ -143,7 +143,6 @@ import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
-import { casLogin } from '@/api/auth'
 import {
   Management, User, SwitchButton, ArrowDown,
   Coin, Warning, Setting,
@@ -229,13 +228,11 @@ function handleMenuSelect(index: string) {
 async function handleCommand(command: string) {
   if (command === 'logout') {
     try {
+      // store.logout 内会调用后端 logout 并整页跳转 CAS 登出页（清除 SSO 会话后回登录页）
       await userStore.logout()
     } catch (err) {
       console.error('[MainLayout] logout error:', err)
     }
-    ElMessage.success('已退出登录')
-    // 直接跳转 CAS 认证中心，不经过 /login 路由（避免中间页闪烁）
-    casLogin()
   }
 }
 </script>

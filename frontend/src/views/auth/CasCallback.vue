@@ -12,7 +12,7 @@ import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { getDefaultHome } from '@/router'
-import { casCallback, tokenManager } from '@/api/auth'
+import { tokenManager } from '@/api/auth'
 import { ElMessage } from 'element-plus'
 import { Loading } from '@element-plus/icons-vue'
 
@@ -21,28 +21,28 @@ const route = useRoute()
 const userStore = useUserStore()
 
 onMounted(async () => {
+  // 新流程：后端已写 Cookie 并 302 直达角色首页，此页不再进入。
+  // 兼容旧链接：带 ?token= 参数时（旧后端/手动拼接）处理登录，否则按 Cookie 恢复登录态。
   const token = (route.query.token as string) || ''
 
-  if (!token) {
-    ElMessage.error('登录失败：未收到认证令牌')
-    router.replace('/login')
+  if (token) {
+    // 兼容旧链接：token 来自 URL 参数，写入 Cookie 后走登录流程
+    tokenManager.setToken(token)
+    const ok = await userStore.loginWithToken(token)
+    if (ok) {
+      router.replace(getDefaultHome(userStore.userInfo?.role))
+    } else {
+      ElMessage.error('登录失败')
+      router.replace('/login')
+    }
     return
   }
 
-  // 存储 token
-  tokenManager.setToken(token)
-
-  // 用 token 获取用户信息
-  const res = await casCallback(token)
-  if (res.code === 200 && res.data) {
-    userStore.setCasUser(token, res.data)
-    // 直接加载菜单和注册路由，避免路由守卫重复请求 /auth/me
+  // 无 token 参数：从 Cookie 恢复登录态并加载菜单（后端 302 直达首页时，守卫已处理；此处兜底）
+  if (userStore.isLoggedIn) {
     await userStore.fetchMenus()
-    // 根据角色跳转默认首页（未知/空角色回退普通运维者首页，不强限制登录）
-    router.replace(getDefaultHome(res.data.role))
+    router.replace(getDefaultHome(userStore.userInfo?.role))
   } else {
-    ElMessage.error(res.message || '登录失败')
-    tokenManager.removeToken()
     router.replace('/login')
   }
 })

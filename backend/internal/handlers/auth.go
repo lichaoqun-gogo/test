@@ -36,17 +36,16 @@ type casServiceResponse struct {
 }
 
 // casAuthSuccess CAS 认证成功响应的用户属性。
-// 属性名与 IAM Account 模型字段对齐（与 mock CAS 测试服务 users.json 返回保持一致），
-// 登录后映射到 users 表与 JWT：User→username、AccountName→nickname、Email→email、
-// DepName→department、OrgName→team；后续 IAM 接入时同一份数据可直接承接 Account。
+// 字段名与公司内网 CAS serviceValidate 返回结构对齐（User/AccountName/DeptName/OrgName），
+// 登录后映射到 JWT：User→username、AccountName→nickname、DeptName→department、OrgName→team。
 type casAuthSuccess struct {
 	User        string `xml:"user"`        // 登录账号
 	AccountName string `xml:"accountName"` // 姓名
-	Email       string `xml:"email"`       // 邮箱
+	Email       string `xml:"email"`       // 邮箱（真实 CAS 无此字段时为空，不影响登录）
 	Phone       string `xml:"phone"`       // 电话
-	DepName     string `xml:"depName"`     // 部门
+	DeptName    string `xml:"deptName"`    // 部门
 	OrgName     string `xml:"orgName"`     // 组织/团队
-	Role        string `xml:"role"`        // 登录角色（本 app 的默认角色；真实 CAS 可在 attributes 中下发，无则默认 operator）
+	Role        string `xml:"role"`        // 登录角色（真实 CAS 未下发时默认 operator）
 }
 
 type casAuthFailure struct {
@@ -131,8 +130,8 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 	}
 
 	// 校验 CAS 响应必须包含登录账号（user 字段）。
-	// 真实公司 CAS 的 serviceValidate 返回结构可能与 mock 不同（cas: 命名空间、属性层级/名称差异），
-	// 若 user 解析为空，此前会创建 username 为空的用户并签发 JWT，导致前端 /auth/me 返回
+	// 若 user 解析为空，说明 serviceValidate 返回结构与 casAuthSuccess 字段名不匹配，
+	// 此前会创建 username 为空的用户并签发 JWT，导致前端 /auth/me 返回
 	// "未识别到用户"、判定认证失败清除 token、重新跳转 CAS 的死循环。
 	// 此处强制校验并打印原始响应，便于按真实 CAS 结构适配字段。
 	if strings.TrimSpace(casResp.Success.User) == "" {
@@ -145,7 +144,12 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 		return
 	}
 
-	// 打印 CAS 返回的用户信息
+	// 打印 CAS 返回的原始响应与解析后的用户信息（辅助排查真实 CAS 结构差异）
+	bodyPreview := string(body)
+	if len(bodyPreview) > 800 {
+		bodyPreview = bodyPreview[:800]
+	}
+	fmt.Printf("[CAS] 原始响应: %s\n", bodyPreview)
 	logBytes, _ := json.Marshal(casResp.Success)
 	fmt.Printf("[CAS] 认证通过，用户信息: %s\n", string(logBytes))
 
@@ -164,7 +168,7 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 		casResp.Success.AccountName,
 		casResp.Success.Email,
 		role,
-		casResp.Success.DepName,
+		casResp.Success.DeptName,
 		casResp.Success.OrgName,
 		false,
 	)
@@ -173,10 +177,48 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 		return
 	}
 
-	// 重定向到前端，携带 token（frontendURL 为空时用相对路径，前后端同域时自动生效）
+	// 将 JWT 写入 HttpOnly Cookie（JS 无法读取 → XSS 窃取不到登录凭证；SameSite=Lax 降低 CSRF 风险）。
+	// 同域部署下浏览器每次请求自动携带 Cookie，后端从 Cookie 解析 JWT（见 AuthMiddleware）。
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie(
+		"osm_token",        // Cookie 名，与后端认证中间件读取保持一致
+		token,              // JWT
+		h.cfg.Auth.JWT.Expiry, // Max-Age（秒）
+		"/",                // Path：全站生效（含 /api 接口与前端页面）
+		"",                 // Domain：留空=当前域名（同域自动携带）
+		false,              // Secure：内网 HTTP 部署不开；HTTPS 部署需改为 true
+		true,               // HttpOnly：true=JS 不可读，防 XSS 窃取
+	)
+	// 额外写一个非 HttpOnly 标记 Cookie（仅表示"已登录"，不含任何凭证）。
+	// 前端 JS 用 document.cookie 无法读到 HttpOnly 的 osm_token，只能感知此标记；
+	// 标记被 XSS 读到也无害（真正凭证仍在 HttpOnly Cookie 里）。
+	c.SetCookie(
+		"osm_logged",       // 登录标记 Cookie（前端感知登录态用）
+		"1",
+		h.cfg.Auth.JWT.Expiry,
+		"/",
+		"",
+		false,
+		false,              // HttpOnly：false=JS 可读（仅标记，无敏感信息）
+	)
+
+	// 重定向到前端默认首页（按角色直达，不经过中间页）
+	homePath := getDefaultHomePath(role)
 	frontendURL := h.cfg.Auth.CAS.FrontendURL
-	redirectURL := fmt.Sprintf("%s/auth/cas-callback?token=%s", frontendURL, url.QueryEscape(token))
+	redirectURL := frontendURL + homePath
 	c.Redirect(http.StatusFound, redirectURL)
+}
+
+// getDefaultHomePath 角色对应的默认首页（与前端 getDefaultHome 保持一致）
+func getDefaultHomePath(role string) string {
+	switch role {
+	case "admin":
+		return "/admin/asset/software-library"
+	case "specialist":
+		return "/specialist/my-ops"
+	default:
+		return "/operator/my-ops"
+	}
 }
 
 // getRequestUsername 从 context/JWT/请求头提取当前用户名（CAS username，全系统用户唯一标识）
@@ -262,12 +304,23 @@ func (h *AuthHandler) GetUserInfo(c *gin.Context) {
 }
 
 // Logout 登出
+// 清除本系统登录 Cookie，并重定向到 CAS 登出页（清除 CAS SSO 会话），
+// service 参数让 CAS 登出后跳回前端登录页；未配置 frontendURL 时从请求 Host 推导。
 func (h *AuthHandler) Logout(c *gin.Context) {
+	// 清除本系统登录 Cookie（凭证 + 登录标记，无论 local/cas 模式都清，避免残留登录态）
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("osm_token", "", -1, "/", "", false, true)
+	c.SetCookie("osm_logged", "", -1, "/", "", false, false)
+
 	// CAS 模式下重定向到 CAS 登出页
 	if h.cfg.Auth.Mode == "cas" {
+		service := h.cfg.Auth.CAS.FrontendURL
+		if service == "" {
+			service = h.getServiceURL(c)
+		}
 		casLogoutURL := fmt.Sprintf("%s/logout?service=%s",
 			h.cfg.Auth.CAS.ServerURL,
-			url.QueryEscape(h.cfg.Auth.CAS.FrontendURL),
+			url.QueryEscape(service),
 		)
 		c.Redirect(http.StatusFound, casLogoutURL)
 		return

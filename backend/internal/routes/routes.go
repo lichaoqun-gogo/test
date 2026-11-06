@@ -35,6 +35,7 @@ func Setup(db *gorm.DB, minioClient *minio.Client, cfg *config.Config) *gin.Engi
 		auth.GET("/mode", authHandler.GetAuthMode)
 		auth.GET("/cas/login", authHandler.CasLogin)
 		auth.GET("/cas/callback", authHandler.CasCallback)
+		auth.GET("/logout", authHandler.Logout)
 		auth.POST("/logout", authHandler.Logout)
 		auth.GET("/me", authHandler.GetUserInfo)
 		auth.GET("/menus", authHandler.GetUserMenus)

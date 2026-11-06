@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { tokenManager } from '@/api/auth'
 
 // 创建axios实例
 const api = axios.create({
@@ -10,10 +11,10 @@ const api = axios.create({
 })
 
 // 请求拦截器：添加用户信息（从localStorage获取）
-// CAS 模式下使用 Authorization Bearer token，同时保留 X-User-* 请求头兼容
+// CAS 模式（HttpOnly Cookie）：localStorage 无 token，不加 Authorization 头，浏览器自动携带 Cookie，后端从 Cookie 认证；
+// local 开发模式：token 在 localStorage，附加到 Authorization 头。
 api.interceptors.request.use(config => {
   const userInfo = localStorage.getItem('osm_user')
-  const token = localStorage.getItem('osm_token')
   if (userInfo) {
     const user = JSON.parse(userInfo)
     const userName = user.nickname || user.name || ''
@@ -23,7 +24,8 @@ api.interceptors.request.use(config => {
     config.headers['X-User-Role'] = user.role || ''
     config.headers['X-User-Dept'] = encodeURIComponent(user.department || '')
   }
-  // CAS 模式下 token 是 JWT，附加到 Authorization 头
+  // HttpOnly Cookie 模式下 localStorage 无 token（getToken 返回 null），不加 Authorization 头
+  const token = tokenManager.getToken()
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }
