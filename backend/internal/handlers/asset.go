@@ -505,11 +505,17 @@ func (h *AssetHandler) DeleteInnerProject(c *gin.Context) {
 func (h *AssetHandler) ListComponents(c *gin.Context) {
 	keyword := c.Query("keyword")
 	classifierFilter := c.Query("classifier")
+	// 依赖来源（开源依赖包页数据范围）：inner=自研项目组件（component_snapshot，默认）/ software=开源软件组件（component）
+	source := c.Query("source")
+	table := "component_snapshot"
+	if source == "software" {
+		table = "component"
+	}
 
 	// 按 _group + _name + _version 去重，取每组最新记录
-	query := h.db.Table("component_snapshot").
+	query := h.db.Table(table).
 		Where("id IN (?)",
-			h.db.Table("component_snapshot").
+			h.db.Table(table).
 				Select("MAX(id)").
 				Group("_group, _name, _version"))
 
@@ -550,7 +556,8 @@ func (h *AssetHandler) GetComponent(c *gin.Context) {
 	response.Success(c, component)
 }
 
-// GetRelatedProjects 获取依赖包关联的自研项目
+// GetRelatedProjects 获取依赖包关联的项目（按依赖来源）
+// source=software：component 表 PROJECT_ID → project（开源软件）；默认：component_snapshot → project_inner（自研项目）
 func (h *AssetHandler) GetRelatedProjects(c *gin.Context) {
 	componentID, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -558,22 +565,43 @@ func (h *AssetHandler) GetRelatedProjects(c *gin.Context) {
 		return
 	}
 
-	// 查询component_snapshot表中该依赖包的PROJECT_ID
-	var componentSnapshot models.ComponentSnapshot
-	if err := h.db.First(&componentSnapshot, componentID).Error; err != nil {
+	source := c.Query("source")
+	table := "component_snapshot"
+	if source == "software" {
+		table = "component"
+	}
+
+	// 查询对应表中该依赖包的 PROJECT_ID
+	var component models.ComponentSnapshot
+	if err := h.db.Table(table).First(&component, componentID).Error; err != nil {
 		response.Error(c, 404, "依赖包不存在")
 		return
 	}
 
 	// 如果没有关联项目，返回空列表
-	if componentSnapshot.ProjectID == nil || *componentSnapshot.ProjectID == 0 {
-		response.Success(c, []models.ProjectInner{})
+	if component.ProjectID == nil || *component.ProjectID == 0 {
+		response.Success(c, []gin.H{})
 		return
 	}
 
-	// 根据PROJECT_ID查询关联的自研项目
+	// 开源软件组件：关联 project（开源基础软件）表
+	if source == "software" {
+		var project models.Project
+		if err := h.db.Where("id = ?", *component.ProjectID).First(&project).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				response.Success(c, []gin.H{})
+				return
+			}
+			response.Error(c, 500, "查询失败")
+			return
+		}
+		response.Success(c, []models.Project{project})
+		return
+	}
+
+	// 自研项目组件：关联 project_inner 表
 	var project models.ProjectInner
-	if err := h.db.Where("id = ? AND active = ?", componentSnapshot.ProjectID, 1).First(&project).Error; err != nil {
+	if err := h.db.Where("id = ? AND active = ?", *component.ProjectID, 1).First(&project).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			response.Success(c, []models.ProjectInner{})
 			return

@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"osm-mngt/internal/config"
-	"osm-mngt/internal/models"
 	"osm-mngt/internal/service/permission"
 	"osm-mngt/pkg/response"
 
@@ -14,7 +13,7 @@ import (
 
 // ==================== 组织架构（部门 / 团队 / 成员） ====================
 // 数据源：统一权限系统（组织接口透传，前端 src/types/org.ts 与 src/api/org.ts 承接结构不变）；
-// 权限系统未对接/失败时兜底查 users 表（保持开发调试可用），对接后此路径不再生效。
+// 权限系统未对接/失败时返回静态用户数据（users 表已废弃），对接后此路径不再生效。
 
 // OrgHandler 组织架构查询处理器
 type OrgHandler struct {
@@ -51,12 +50,6 @@ type DeptTeams struct {
 	Teams      []string `json:"teams"`
 }
 
-// deptTeamRow 部门/团队聚合行（按 department + team 去重）
-type deptTeamRow struct {
-	Department string
-	Team       string
-}
-
 // ListDepartmentsTeams 部门及其所属团队
 // GET /api/v1/org/departments/teams → [{ department, teams: [...] }]
 func (h *OrgHandler) ListDepartmentsTeams(c *gin.Context) {
@@ -66,33 +59,34 @@ func (h *OrgHandler) ListDepartmentsTeams(c *gin.Context) {
 		return
 	}
 
-	// 兜底：users 表聚合（权限系统未对接时的本地数据）
-	rows := []deptTeamRow{}
-	if err := h.db.Table("users").
-		Select("department, team").
-		Where("department <> ''").
-		Group("department, team").
-		Order("department ASC, team ASC").
-		Scan(&rows).Error; err != nil {
-		response.Error(c, 500, "查询部门团队失败")
-		return
-	}
-
-	// 按部门分组（保持顺序）
+	// 兜底：静态用户数据（users 表已废弃），按部门分组
 	out := []DeptTeams{}
 	idx := map[string]int{}
-	for _, r := range rows {
-		i, ok := idx[r.Department]
+	for _, u := range staticUsers {
+		if u.Department == "" {
+			continue
+		}
+		i, ok := idx[u.Department]
 		if !ok {
-			idx[r.Department] = len(out)
-			out = append(out, DeptTeams{Department: r.Department, Teams: []string{}})
+			idx[u.Department] = len(out)
+			out = append(out, DeptTeams{Department: u.Department, Teams: []string{}})
 			i = len(out) - 1
 		}
-		if r.Team != "" {
-			out[i].Teams = append(out[i].Teams, r.Team)
+		if u.Team != "" && !contains(out[i].Teams, u.Team) {
+			out[i].Teams = append(out[i].Teams, u.Team)
 		}
 	}
 	response.Success(c, out)
+}
+
+// contains 判断字符串切片是否包含某元素
+func contains(s []string, e string) bool {
+	for _, v := range s {
+		if v == e {
+			return true
+		}
+	}
+	return false
 }
 
 // ListDepartments 部门 → 团队 → 成员
@@ -104,41 +98,37 @@ func (h *OrgHandler) ListDepartments(c *gin.Context) {
 		return
 	}
 
-	// 兜底：users 表聚合（权限系统未对接时的本地数据）
-	rows := []deptTeamRow{}
-	if err := h.db.Table("users").
-		Select("department, team").
-		Where("department <> ''").
-		Group("department, team").
-		Order("department ASC, team ASC").
-		Scan(&rows).Error; err != nil {
-		response.Error(c, 500, "查询部门团队失败")
-		return
-	}
-
+	// 兜底：静态用户数据（users 表已废弃），按 部门→团队→成员 构建
 	out := []OrgDepartment{}
 	idx := map[string]int{}
-	for _, r := range rows {
-		i, ok := idx[r.Department]
-		if !ok {
-			idx[r.Department] = len(out)
-			out = append(out, OrgDepartment{Department: r.Department, Teams: []OrgTeam{}})
-			i = len(out) - 1
-		}
-		team := OrgTeam{Team: r.Team, Members: []OrgMember{}}
-		var members []models.User
-		if err := h.db.Where("department = ? AND team = ?", r.Department, r.Team).
-			Order("id ASC").Find(&members).Error; err != nil {
+	for _, u := range staticUsers {
+		if u.Department == "" {
 			continue
 		}
-		for _, m := range members {
-			team.Members = append(team.Members, OrgMember{
-				Username: m.Username,
-				Nickname: m.Nickname,
-				Email:    m.Email,
-			})
+		i, ok := idx[u.Department]
+		if !ok {
+			idx[u.Department] = len(out)
+			out = append(out, OrgDepartment{Department: u.Department, Teams: []OrgTeam{}})
+			i = len(out) - 1
 		}
-		out[i].Teams = append(out[i].Teams, team)
+		// 团队聚合（同一部门下相同团队合并，成员追加）
+		var team *OrgTeam
+		for j := range out[i].Teams {
+			if out[i].Teams[j].Team == u.Team {
+				team = &out[i].Teams[j]
+				break
+			}
+		}
+		if team == nil {
+			team = &OrgTeam{Team: u.Team, Members: []OrgMember{}}
+			out[i].Teams = append(out[i].Teams, *team)
+			team = &out[i].Teams[len(out[i].Teams)-1]
+		}
+		team.Members = append(team.Members, OrgMember{
+			Username: u.Username,
+			Nickname: u.Nickname,
+			Email:    u.Email,
+		})
 	}
 	response.Success(c, out)
 }

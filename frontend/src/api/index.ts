@@ -24,9 +24,11 @@ api.interceptors.request.use(config => {
     config.headers['X-User-Role'] = user.role || ''
     config.headers['X-User-Dept'] = encodeURIComponent(user.department || '')
   }
-  // HttpOnly Cookie 模式下 localStorage 无 token（getToken 返回 null），不加 Authorization 头
+  // HttpOnly Cookie 模式（osm_logged 标记存在）下认证走 Cookie（浏览器自动携带），
+  // localStorage token 仅 local 开发模式使用；若同时存在（历史遗留）以 Cookie 模式为准，避免旧 token 干扰认证。
+  const hasCookie = tokenManager.hasCookie()
   const token = tokenManager.getToken()
-  if (token) {
+  if (token && !hasCookie) {
     config.headers['Authorization'] = `Bearer ${token}`
   }
   return config
@@ -81,10 +83,6 @@ export const getSoftwareList = async (params?: any): Promise<SoftwareItem[]> => 
   return await api.get('/asset/projects', { params })
 }
 
-export const getSoftwareDetail = async (id: number): Promise<SoftwareItem> => {
-  return await api.get(`/asset/projects/${id}`)
-}
-
 export const createSoftware = async (data: any): Promise<void> => {
   await api.post('/asset/projects', data)
 }
@@ -123,15 +121,15 @@ export const assetApi = {
   // 开源依赖包
   getComponents: (params: any) => api.get('/asset/components', { params }),
   getComponent: (id: number) => api.get(`/asset/components/${id}`),
-  getRelatedProjects: (componentId: number) => api.get(`/asset/components/${componentId}/related-projects`),
+  getRelatedProjects: (componentId: number, source?: string) => api.get(`/asset/components/${componentId}/related-projects`, { params: source ? { source } : {} }),
 }
 
 export const getDependencies = async (params?: any) => {
   return await api.get('/asset/components', { params })
 }
 
-export const getRelatedProjects = async (componentId: number) => {
-  return await api.get(`/asset/components/${componentId}/related-projects`)
+export const getRelatedProjects = async (componentId: number, source?: string) => {
+  return await api.get(`/asset/components/${componentId}/related-projects`, { params: source ? { source } : {} })
 }
 
 // 自研项目API
@@ -201,22 +199,6 @@ export const taskApi = {
   rejectTask: (id: number, data: any) => api.post(`/workflow/tasks/${id}/reject`, data),
   getApprovalNodes: (id: number) => api.get(`/workflow/tasks/${id}/nodes`),
   getApprovalHistory: (id: number) => api.get(`/workflow/tasks/${id}/history`),
-}
-
-// 审批管理API
-export const approvalApi = {
-  approve: (taskId: number, data: any) => api.post(`/approvals/${taskId}/approve`, data),
-  reject: (taskId: number, data: any) => api.post(`/approvals/${taskId}/reject`, data),
-  getApprovalHistory: (taskId: number) => api.get(`/approvals/${taskId}/history`),
-}
-
-// 文件管理API
-export const fileApi = {
-  upload: (formData: FormData) => api.post('/files/upload', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  }),
-  download: (id: number) => api.get(`/files/${id}/download`, { responseType: 'blob' }),
-  delete: (id: number) => api.delete(`/files/${id}`),
 }
 
 // 人员管理API

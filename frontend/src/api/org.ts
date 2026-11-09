@@ -21,8 +21,3 @@ export const orgApi = {
   // 按团队取成员（复用 /users，新增 team 过滤参数）→ OrgMember[]
   teamMembers: (team: string) => api.get<OrgMember[], OrgMember[]>('/users', { params: { team } }),
 }
-
-// 按部门取成员（复用 /users 的 dept_name 过滤，人员选择下拉等场景）
-export function usersByDept(dept: string) {
-  return api.get<OrgMember[], OrgMember[]>('/users', { params: { dept_name: dept } })
-}

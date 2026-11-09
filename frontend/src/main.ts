@@ -34,19 +34,11 @@ app.directive('auth', auth)
 // 注入全局 hasPermission（对应参考项目 Vue.prototype.hasPermission）
 installPermission(app)
 
-// 注册全局业务组件
+// 注册全局业务组件（仅保留仍在使用的；其余业务组件在各页面局部 import）
 import GradeTag from '@/components/business/GradeTag.vue'
 import RiskTag from '@/components/business/RiskTag.vue'
-import TicketStatusTag from '@/components/business/TicketStatusTag.vue'
-import TaskStatusTag from '@/components/business/TaskStatusTag.vue'
-import PreEvalProgress from '@/components/business/PreEvalProgress.vue'
-import ActivityTrendChart from '@/components/business/ActivityTrendChart.vue'
 
 app.component('GradeTag', GradeTag)
 app.component('RiskTag', RiskTag)
-app.component('TicketStatusTag', TicketStatusTag)
-app.component('TaskStatusTag', TaskStatusTag)
-app.component('PreEvalProgress', PreEvalProgress)
-app.component('ActivityTrendChart', ActivityTrendChart)
 
 app.mount('#app')

@@ -63,6 +63,73 @@ type MenusBundle struct {
 	Menus map[string][]MenuNode `json:"menus"` // key=角色编码，value=该角色菜单树
 }
 
+// ==================== 权限系统完整权限信息结构（对齐 /api/user/info 返回） ====================
+// 权限系统对接后，GetUserInfo 一次透传 account/roles/menus/orgs/buttons 五个字段，
+// 前端按此结构渲染菜单（menus 数组）与控制按钮（buttons 数组），结构见 handlers/reference.go UserInfo。
+
+// UserAccount 用户档案 account（对齐权限系统返回字段）
+type UserAccount struct {
+	AccountCode    string   `json:"accountCode"`
+	AccountName    string   `json:"accountName"`
+	Email          string   `json:"email"`
+	DepCode        string   `json:"depCode"`
+	DepName        string   `json:"depName"`
+	OrgCode        string   `json:"orgCode"`
+	CustomOrgCode  string   `json:"customOrgCode"`
+	OrgName        string   `json:"orgName"`
+	OrgDisplayName string   `json:"orgDisplayName"`
+	PartOrgCodes   []string `json:"partOrgCodes"`
+}
+
+// PermMenuNode 权限系统菜单节点（对齐 /api/user/info 的 menus 数组结构）
+type PermMenuNode struct {
+	ID        uint           `json:"id"`
+	Name      string         `json:"name"`
+	AppCode   string         `json:"appCode"`
+	AppModule string         `json:"appModule"`
+	ParentID  uint           `json:"parentId"`
+	OrderNum  int            `json:"orderNum"`
+	Path      string         `json:"path"`
+	Icon      string         `json:"icon"`
+	Visible   bool           `json:"visible"`
+	Children  []PermMenuNode `json:"children"`
+}
+
+// PermButton 权限系统按钮资源（对齐 /api/user/info 的 buttons 数组结构）
+type PermButton struct {
+	ID           uint     `json:"id"`
+	Resource     string   `json:"resource"`
+	ResourceType string   `json:"resourceType"`
+	Visible      bool     `json:"visible"`
+	Actions      []string `json:"actions"`
+	Conditions   []any    `json:"conditions"`
+}
+
+// PermOrg 权限系统组织资源（对齐 /api/user/info 的 orgs 数组结构）
+type PermOrg struct {
+	AppCode       string    `json:"appCode"`
+	AppOrg        string    `json:"appOrg"`
+	OrgCode       string    `json:"orgCode"`
+	OrgName       string    `json:"orgName"`
+	OrgPrincipal  string    `json:"orgPrincipal"`
+	ParentOrgCode string    `json:"parentOrgCode"`
+	ParentOrgName string    `json:"parentOrgName"`
+	OrgType       string    `json:"orgType"`
+	OrgLevel      string    `json:"orgLevel"`
+	DepCode       string    `json:"depCode"`
+	DepName       string    `json:"depName"`
+	Children      []PermOrg `json:"children"`
+}
+
+// UserInfoResp /api/user/info 完整响应（权限系统对接时一次透传）
+type UserInfoResp struct {
+	Account UserAccount     `json:"account"`
+	Roles   []string        `json:"roles"`
+	Menus   []PermMenuNode  `json:"menus"`
+	Orgs    []PermOrg       `json:"orgs"`
+	Buttons []PermButton    `json:"buttons"`
+}
+
 // RemoteService 统一权限系统转发客户端
 type RemoteService struct {
 	cfg    config.PermissionConfig
@@ -137,6 +204,17 @@ func (s *RemoteService) GetMenus(username string) (*MenusBundle, error) {
 		return nil, err
 	}
 	return &bundle, nil
+}
+
+// GetUserInfo 获取用户完整权限信息（account/roles/menus/orgs/buttons 一次透传，结构对齐 /api/user/info）；
+// 未对接/失败返回 nil（由 handler 兜底静态权限资源）。
+func (s *RemoteService) GetUserInfo(username string) (*UserInfoResp, error) {
+	var info UserInfoResp
+	if err := s.getJSON(s.cfg.ProfilePath, url.Values{"username": {username}}, &info); err != nil {
+		s.warn(err)
+		return nil, err
+	}
+	return &info, nil
 }
 
 // GetOrgDeptTeams 部门-所属团队（透传 JSON）；未对接/失败返回 nil

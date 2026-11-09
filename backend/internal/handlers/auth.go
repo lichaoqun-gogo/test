@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"osm-mngt/internal/config"
-	"osm-mngt/internal/models"
 	"osm-mngt/internal/service/permission"
 	"osm-mngt/pkg/jwt"
 	"strings"
@@ -87,7 +86,13 @@ func (h *AuthHandler) CasLogin(c *gin.Context) {
 func (h *AuthHandler) CasCallback(c *gin.Context) {
 	ticket := c.Query("ticket")
 	if ticket == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "缺少 ticket 参数"})
+		// 无 ticket 到达回调：可能是 CAS 登出后按 service 跳回（或直接访问），
+		// 此时已处于未登录状态，把浏览器送回前端登录页即可（避免停在错误页）。
+		frontendURL := h.cfg.Auth.CAS.FrontendURL
+		if frontendURL == "" {
+			frontendURL = h.getServiceURL(c)
+		}
+		c.Redirect(http.StatusFound, frontendURL)
 		return
 	}
 
@@ -210,11 +215,10 @@ func (h *AuthHandler) CasCallback(c *gin.Context) {
 }
 
 // getDefaultHomePath 角色对应的默认首页（与前端 getDefaultHome 保持一致）
+// 所有角色默认进入个人工作台"我的运维"（管理部门专员 admin 也默认个人工作台，全局治理视图通过前端顶部切换进入）
 func getDefaultHomePath(role string) string {
 	switch role {
-	case "admin":
-		return "/admin/asset/software-library"
-	case "specialist":
+	case "admin", "specialist":
 		return "/specialist/my-ops"
 	default:
 		return "/operator/my-ops"
@@ -304,8 +308,10 @@ func (h *AuthHandler) GetUserInfo(c *gin.Context) {
 }
 
 // Logout 登出
-// 清除本系统登录 Cookie，并重定向到 CAS 登出页（清除 CAS SSO 会话），
-// service 参数让 CAS 登出后跳回前端登录页；未配置 frontendURL 时从请求 Host 推导。
+// 清除本系统登录 Cookie，并重定向到 CAS 登出页（清除 CAS SSO 会话）。
+// 注意：CAS 登出的 service 参数必须与登录时注册的 service（serviceURL，即回调地址）一致，
+// 否则真实公司 CAS 会拒绝登出（service 未注册）或不清除 SSO 会话，导致"退出后又被自动登录"。
+// CAS 登出后按 service 跳回回调接口，后端再把浏览器送回前端（见 CasCallback 无 ticket 兜底）。
 func (h *AuthHandler) Logout(c *gin.Context) {
 	// 清除本系统登录 Cookie（凭证 + 登录标记，无论 local/cas 模式都清，避免残留登录态）
 	c.SetSameSite(http.SameSiteLaxMode)
@@ -314,10 +320,7 @@ func (h *AuthHandler) Logout(c *gin.Context) {
 
 	// CAS 模式下重定向到 CAS 登出页
 	if h.cfg.Auth.Mode == "cas" {
-		service := h.cfg.Auth.CAS.FrontendURL
-		if service == "" {
-			service = h.getServiceURL(c)
-		}
+		service := h.getServiceURL(c) // 与登录一致的回调地址（CAS 注册过的 service）
 		casLogoutURL := fmt.Sprintf("%s/logout?service=%s",
 			h.cfg.Auth.CAS.ServerURL,
 			url.QueryEscape(service),
@@ -345,7 +348,7 @@ type UserSimple struct {
 }
 
 // GetUserList 查询用户列表（用于人员选择等场景）
-// 数据源：统一权限系统团队人员接口（透传）；未对接/失败时兜底查 users 表（保持开发调试可用）。
+// 数据源：统一权限系统团队人员接口（透传）；未对接/失败时返回静态用户数据（users 表已废弃）。
 // 支持 team / dept_name 参数过滤（人员选择下拉框只显示本部门/团队人员）。
 func (h *AuthHandler) GetUserList(c *gin.Context) {
 	// 优先从统一权限系统获取团队人员（透传）
@@ -354,25 +357,19 @@ func (h *AuthHandler) GetUserList(c *gin.Context) {
 		return
 	}
 
-	// 兜底：users 表查询（权限系统未对接时的本地数据，对接后此路径不再生效）
-	query := h.db.Model(&models.User{})
-
-	// 按部门过滤（人员选择下拉框只显示本部门人员）
-	if deptName := c.Query("dept_name"); deptName != "" {
-		query = query.Where("department = ?", deptName)
-	}
-	// 按团队过滤（组织架构-团队人员查询）
-	if team := c.Query("team"); team != "" {
-		query = query.Where("team = ?", team)
-	}
-
-	var users []models.User
-	if err := query.Find(&users).Error; err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "message": "查询用户列表失败"})
-		return
-	}
-	list := make([]UserSimple, 0, len(users))
-	for _, u := range users {
+	// 兜底：静态用户数据（权限系统未对接时的本地数据，对接后此路径不再生效）
+	deptName := c.Query("dept_name")
+	team := c.Query("team")
+	list := make([]UserSimple, 0, len(staticUsers))
+	for _, u := range staticUsers {
+		// 按部门过滤（人员选择下拉框只显示本部门人员）
+		if deptName != "" && u.Department != deptName {
+			continue
+		}
+		// 按团队过滤（组织架构-团队人员查询）
+		if team != "" && u.Team != team {
+			continue
+		}
 		list = append(list, UserSimple{
 			ID:         u.ID,
 			Username:   u.Username,

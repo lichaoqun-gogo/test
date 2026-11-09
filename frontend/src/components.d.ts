@@ -7,9 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ActivityTrendChart: typeof import('./components/business/ActivityTrendChart.vue')['default']
     ApprovalDialog: typeof import('./components/business/ApprovalDialog.vue')['default']
-    AssignDialog: typeof import('./components/specialist/AssignDialog.vue')['default']
     DisposalAssignPicker: typeof import('./components/business/DisposalAssignPicker.vue')['default']
     ElAlert: typeof import('element-plus/es')['ElAlert']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -47,7 +45,6 @@ declare module 'vue' {
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElProgress: typeof import('element-plus/es')['ElProgress']
     ElRadio: typeof import('element-plus/es')['ElRadio']
-    ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSelect: typeof import('element-plus/es')['ElSelect']
@@ -67,10 +64,6 @@ declare module 'vue' {
     GradeTag: typeof import('./components/business/GradeTag.vue')['default']
     InnerProjectDetailDialog: typeof import('./components/business/InnerProjectDetailDialog.vue')['default']
     MainLayout: typeof import('./components/layout/MainLayout.vue')['default']
-    NewTaskDialog: typeof import('./components/operator/NewTaskDialog.vue')['default']
-    PreEvalConclusion: typeof import('./components/eval/PreEvalConclusion.vue')['default']
-    PreEvalProgress: typeof import('./components/business/PreEvalProgress.vue')['default']
-    PreEvalReport: typeof import('./components/eval/PreEvalReport.vue')['default']
     ProjectDetailDialog: typeof import('./components/business/ProjectDetailDialog.vue')['default']
     RiskReportDialog: typeof import('./components/business/RiskReportDialog.vue')['default']
     RiskTag: typeof import('./components/business/RiskTag.vue')['default']
@@ -78,8 +71,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     TaskForm: typeof import('./components/operator/TaskForm.vue')['default']
     TaskStatusIndicator: typeof import('./components/operator/TaskStatusIndicator.vue')['default']
-    TaskStatusTag: typeof import('./components/business/TaskStatusTag.vue')['default']
-    TicketStatusTag: typeof import('./components/business/TicketStatusTag.vue')['default']
     VulnIntelPreviewDialog: typeof import('./components/business/VulnIntelPreviewDialog.vue')['default']
   }
   export interface ComponentCustomProperties {

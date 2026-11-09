@@ -61,63 +61,91 @@ func (h *ReferenceHandler) jwtClaimsFromRequest(c *gin.Context) *jwt.Claims {
 }
 
 // Env GET /api/env 环境配置（参考前端 App.vue 初始化时调用）
-// {ok, data:{profiles:[{name, active}], tips:[]}}
+// {ok, data:{profiles:["dev"], tips:"本地环境"}}，结构对齐权限系统；未对接时返回静态环境配置。
 func (h *ReferenceHandler) Env(c *gin.Context) {
-	profiles := []gin.H{
-		{"name": "dev", "active": true},
-	}
-	okData(c, gin.H{"profiles": profiles, "tips": []string{}})
+	okData(c, gin.H{
+		"profiles": []string{"dev"},
+		"tips":     "本地环境",
+	})
 }
 
 // Groups GET /api/groups 组/部门列表（参考前端 App.vue 初始化时调用）
-// {ok, data:[{code, name}]}
-// 数据源：优先权限系统（orgDeptTeams 透传），未对接时兜底 users 表按部门聚合。
+// {ok, data:[{code, name}]}，结构对齐权限系统；
+// 数据源：优先权限系统（orgDeptTeams 透传），未对接时返回静态组数据（贴近内网示例）。
 func (h *ReferenceHandler) Groups(c *gin.Context) {
-	// ============ 兜底分支：权限系统未对接/失败时生效（对接后可整段删除）============
-	// 未对接时从 users 表按部门聚合（本地开发数据）
-	var rows []struct {
-		Department string
+	// 静态组列表（对齐权限系统 groups 返回，未对接时兜底）
+	staticGroups := []gin.H{
+		{"code": "middleware", "name": "基础组件"},
+		{"code": "dba", "name": "DBA"},
+		{"code": "sa", "name": "基础设施"},
+		{"code": "qa", "name": "质量测试"},
+		{"code": "sec", "name": "安全管理"},
 	}
-	if err := h.db.Table("users").Select("department").Where("department <> ''").Group("department").Order("department ASC").Scan(&rows).Error; err != nil {
-		okData(c, []gin.H{})
-		return
-	}
-	out := make([]gin.H, 0, len(rows))
-	for _, r := range rows {
-		out = append(out, gin.H{"code": r.Department, "name": r.Department})
-	}
-	okData(c, out)
+	okData(c, staticGroups)
 }
 
-// UserDepts GET /api/user/depts 部门树/部门列表（参考前端渲染左侧部门树）
-// {ok, data:{deptTree:[], deptList:[{code, name, parentCode}]}}
-// 数据源：未对接时兜底 users 表按 部门→团队 构建。
+// UserDepts GET /api/user/depts 部门树/部门列表（对应参考项目部门树组件 + 自研项目台账查询栏级联下拉）
+// {ok, data:{deptTree:[{id, orgCode, groupCode, groupName, parentId, ldapDomain, orderNum, children}], deptList:[...]}}
+// 返回结构对齐统一权限系统；数据源：未对接时按 staticUsers 的部门/团队构造树。
 func (h *ReferenceHandler) UserDepts(c *gin.Context) {
-	// ============ 兜底分支：权限系统未对接/失败时生效（对接后可整段删除）============
-	type row struct {
-		Department string
-		Team       string
+	// 部门 → 团队映射（来自 staticUsers）
+	deptTeams := map[string][]string{}
+	deptOrder := []string{}
+	for _, u := range staticUsers {
+		if u.Department == "" {
+			continue
+		}
+		if _, ok := deptTeams[u.Department]; !ok {
+			deptOrder = append(deptOrder, u.Department)
+			deptTeams[u.Department] = []string{}
+		}
+		if u.Team != "" {
+			exists := false
+			for _, t := range deptTeams[u.Department] {
+				if t == u.Team {
+					exists = true
+					break
+				}
+			}
+			if !exists {
+				deptTeams[u.Department] = append(deptTeams[u.Department], u.Team)
+			}
+		}
 	}
-	var rows []row
-	h.db.Table("users").Select("department, team").Where("department <> ''").Group("department, team").Order("department ASC, team ASC").Scan(&rows)
 
-	// deptList：部门列表（code=部门名，parentCode 空=顶级）
-	deptList := []gin.H{}
-	seen := map[string]bool{}
-	for _, r := range rows {
-		if !seen[r.Department] {
-			seen[r.Department] = true
-			deptList = append(deptList, gin.H{"code": r.Department, "name": r.Department, "parentCode": ""})
-		}
-	}
-	// deptTree：简化为一层部门树（团队作为子节点）
+	// 构造部门树（部门 → 团队两级）+ 拍平列表，字段对齐权限系统
 	deptTree := []gin.H{}
-	seenTree := map[string]bool{}
-	for _, r := range rows {
-		if !seenTree[r.Department] {
-			seenTree[r.Department] = true
-			deptTree = append(deptTree, gin.H{"code": r.Department, "name": r.Department, "children": []gin.H{}})
+	deptList := []gin.H{}
+	for _, dept := range deptOrder {
+		deptID := deptCodeMap[dept]
+		if deptID == "" {
+			deptID = dept
 		}
+		children := []gin.H{}
+		for _, team := range deptTeams[dept] {
+			teamID := teamCodeMap[team]
+			if teamID == "" {
+				teamID = team
+			}
+			children = append(children, gin.H{
+				"id": teamID, "orgCode": "nucc", "groupCode": teamID,
+				"groupName": team, "parentId": deptID, "ldapDomain": nil, "orderNum": nil,
+				"children": []gin.H{},
+			})
+			deptList = append(deptList, gin.H{
+				"id": teamID, "orgCode": "nucc", "groupCode": teamID,
+				"groupName": team, "parentId": deptID, "ldapDomain": nil, "orderNum": nil,
+			})
+		}
+		deptTree = append(deptTree, gin.H{
+			"id": deptID, "orgCode": "nucc", "groupCode": deptID,
+			"groupName": dept, "parentId": "", "ldapDomain": nil, "orderNum": nil,
+			"children": children,
+		})
+		deptList = append(deptList, gin.H{
+			"id": deptID, "orgCode": "nucc", "groupCode": deptID,
+			"groupName": dept, "parentId": "", "ldapDomain": nil, "orderNum": nil,
+		})
 	}
 	okData(c, gin.H{"deptTree": deptTree, "deptList": deptList})
 }
@@ -129,11 +157,14 @@ func (h *ReferenceHandler) Idcs(c *gin.Context) {
 }
 
 // UserInfo GET /api/user/info 当前用户完整权限信息（对应参考项目 main.js 路由守卫访问 /user/info）
-// {ok, data:{account, roles, permissions, menus, menusByRole, orgs, buttons}}
-// account 字段对齐参考项目：id=账号、displayName=姓名、groupName=组/部门、groupCode、orgCode。
-// roles/permissions 对应权限档案；menusByRole 为多角色菜单树（承载原 /auth/menus 职责，前端按角色并集渲染）；
-// menus 为参考项目扁平菜单结构（{path, name, children}，参考页面使用）。
-// 数据源：优先权限系统（GetUserProfile/GetMenus），未对接时兜底 JWT 身份 + 空权限（前端本地映射兜底菜单）。
+// {ok, data:{account, roles, menus, orgs, buttons}}
+// 返回结构对齐统一权限系统（内网示例）：
+//   - account: {accountCode, accountName, email, depCode, depName, orgCode, customOrgCode, orgName, orgDisplayName, partOrgCodes}
+//   - roles:   权限系统角色编码（如 COMMON/SPECIALIST/ADMIN）
+//   - menus:   该用户可见菜单树数组（{id, name, appCode, appModule, parentId, orderNum, path, icon, visible, children}）
+//   - orgs:    组织资源数组
+//   - buttons: 按钮资源数组（{id, resource, resourceType, visible, actions, conditions}），前端 v-auth 按 resource 控制按钮
+// 数据源：优先权限系统（GetUserInfo 一次透传），未对接时兜底静态权限资源（perm_mock.go，按角色返回对应菜单/按钮）。
 func (h *ReferenceHandler) UserInfo(c *gin.Context) {
 	claims := h.jwtClaimsFromRequest(c)
 	username := ""
@@ -145,83 +176,14 @@ func (h *ReferenceHandler) UserInfo(c *gin.Context) {
 	}
 	log.Printf("[user-info] 请求用户信息: username=%s", username)
 
-	// 默认兜底数据（权限系统未对接时）
-	account := gin.H{
-		"id":          username,
-		"displayName": "",
-		"groupName":   "",
-		"groupCode":   "",
-		"orgCode":     "",
-	}
-	roles := []string{}
-	permissions := []string{}
-	buttons := []string{}
-	if claims != nil {
-		account = gin.H{
-			"id":          claims.Username,
-			"displayName": claims.Nickname,
-			"groupName":   claims.Department,
-			"groupCode":   claims.Department,
-			"orgCode":     claims.Team,
-		}
-		roles = []string{claims.Role}
+	// 优先从统一权限系统获取完整权限信息（结构对齐：account/roles/menus/orgs/buttons）
+	if info, err := h.permSvc.GetUserInfo(username); err == nil && info != nil {
+		okData(c, info)
+		return
 	}
 
-	// 优先从统一权限系统获取用户档案（user/roles/permissions）
-	if profile, err := h.permSvc.GetUserProfile(username); err == nil && profile != nil {
-		if profile.User.Nickname != "" {
-			account["displayName"] = profile.User.Nickname
-		}
-		if profile.User.Department != "" {
-			account["groupName"] = profile.User.Department
-			account["groupCode"] = profile.User.Department
-		}
-		if profile.User.Team != "" {
-			account["orgCode"] = profile.User.Team
-		}
-		roles = profile.Roles
-		permissions = profile.Permissions
-		buttons = profile.Permissions
-	}
-
-	// 菜单：权限系统按角色下发菜单树（menusByRole）与参考扁平结构（menus）；未对接时为空（前端按角色本地映射兜底）
-	menusByRole := gin.H{}
-	refMenus := []gin.H{}
-	if bundle, err := h.permSvc.GetMenus(username); err == nil && bundle != nil {
-		for role, tree := range bundle.Menus {
-			menusByRole[role] = tree
-		}
-		refMenus = flattenMenus(bundle)
-	}
-
-	okData(c, gin.H{
-		"account":     account,
-		"roles":       roles,
-		"permissions": permissions,
-		"menus":       refMenus,
-		"menusByRole": menusByRole,
-		"orgs":        []gin.H{},
-		"buttons":     buttons,
-	})
-}
-
-// flattenMenus 把权限系统各角色菜单树拍平为参考项目 menus 结构（{path, name, children}）
-func flattenMenus(bundle *permission.MenusBundle) []gin.H {
-	out := []gin.H{}
-	for _, tree := range bundle.Menus {
-		for _, node := range tree {
-			out = append(out, menuNodeToRef(node))
-		}
-	}
-	return out
-}
-
-func menuNodeToRef(node permission.MenuNode) gin.H {
-	children := []gin.H{}
-	for _, ch := range node.Children {
-		children = append(children, menuNodeToRef(ch))
-	}
-	return gin.H{"path": node.Path, "name": node.Name, "children": children}
+	// ===== 兜底：权限系统未对接 → 静态权限资源（perm_mock.go，按用户角色返回菜单/按钮）=====
+	okData(c, staticPermInfo(username, claims))
 }
 
 // UserRefresh GET /api/user/refresh 刷新权限缓存（参考前端手动刷新权限时调用）

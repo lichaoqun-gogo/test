@@ -64,7 +64,7 @@
                   <div class="expand-disposals" style="padding: 12px 24px 12px 48px; background: #fafafa">
                     <div class="section-title" style="display: flex; align-items: center; justify-content: space-between">
                       <span>处置工单</span>
-                      <el-button v-if="canAutoAssignDisposals(row)" type="success" size="small" plain @click="autoAssignDisposals(row)">一键自动分配</el-button>
+                      <el-button v-if="canAutoAssignDisposals(row)" type="success" size="small" plain v-auth="'risk_auto_assign'" @click="autoAssignDisposals(row)">一键自动分配</el-button>
                     </div>
                     <el-table v-if="disposalsOf(row).length > 0" :data="disposalsOf(row)" size="small" border style="margin-top: 8px">
                       <el-table-column prop="disposalNo" label="工单编号" width="170" />
@@ -152,7 +152,7 @@
                   <div class="expand-disposals" style="padding: 12px 24px 12px 48px; background: #fafafa">
                     <div class="section-title" style="display: flex; align-items: center; justify-content: space-between">
                       <span>处置工单</span>
-                      <el-button v-if="canAutoAssignDisposals(row)" type="success" size="small" plain @click="autoAssignDisposals(row)">一键自动分配</el-button>
+                      <el-button v-if="canAutoAssignDisposals(row)" type="success" size="small" plain v-auth="'risk_auto_assign'" @click="autoAssignDisposals(row)">一键自动分配</el-button>
                     </div>
                     <el-table v-if="disposalsOf(row).length > 0" :data="disposalsOf(row)" size="small" border style="margin-top: 8px">
                       <el-table-column prop="disposalNo" label="工单编号" width="170" />

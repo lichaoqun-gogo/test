@@ -5,6 +5,10 @@
         <el-input v-model="searchText" placeholder="搜索组件名称" clearable style="width: 200px" @clear="handleSearch" @keyup.enter="handleSearch">
           <template #prefix><el-icon><Search /></el-icon></template>
         </el-input>
+        <el-select v-model="filterSource" placeholder="依赖范围" style="width: 120px; margin-left: 12px" @change="handleSearch">
+          <el-option label="自研项目" value="inner" />
+          <el-option label="开源软件" value="software" />
+        </el-select>
         <el-select v-model="filterClassifier" placeholder="组件类型" clearable style="width: 130px; margin-left: 12px" @change="handleSearch">
           <el-option label="library" value="library" />
           <el-option label="framework" value="framework" />
@@ -43,19 +47,27 @@
       />
     </div>
 
-    <!-- 关联项目对话框 -->
-    <el-dialog v-model="relatedProjectsDialogVisible" title="关联内部项目" width="700px">
+    <!-- 关联项目对话框（自研项目/开源软件两套列，按依赖范围切换） -->
+    <el-dialog v-model="relatedProjectsDialogVisible" :title="filterSource === 'software' ? '关联开源软件' : '关联自研项目'" width="700px">
       <el-table :data="relatedProjects" stripe v-loading="loadingProjects">
-        <el-table-column prop="pro_code" label="项目名称" min-width="150" />
-        <el-table-column prop="group_name" label="项目团队" width="120" />
-        <el-table-column prop="dept_name" label="项目部门" width="140" />
-        <el-table-column label="项目分类" width="120">
-          <template #default="{ row }">
-            <el-tag :type="row.is_boundary === 1 ? 'warning' : 'info'" size="small">
-              {{ row.is_boundary === 1 ? '边界系统' : '非边界系统' }}
-            </el-tag>
-          </template>
-        </el-table-column>
+        <template v-if="filterSource === 'software'">
+          <el-table-column prop="_name" label="软件名称" min-width="150" />
+          <el-table-column prop="_version" label="版本" width="110" />
+          <el-table-column prop="maint_dept" label="维护部门" width="140" />
+          <el-table-column prop="applicable_level" label="适用等级" width="120" />
+        </template>
+        <template v-else>
+          <el-table-column prop="pro_code" label="项目名称" min-width="150" />
+          <el-table-column prop="group_name" label="项目团队" width="120" />
+          <el-table-column prop="dept_name" label="项目部门" width="140" />
+          <el-table-column label="项目分类" width="120">
+            <template #default="{ row }">
+              <el-tag :type="row.is_boundary === 1 ? 'warning' : 'info'" size="small">
+                {{ row.is_boundary === 1 ? '边界系统' : '非边界系统' }}
+              </el-tag>
+            </template>
+          </el-table-column>
+        </template>
       </el-table>
       <div class="total-info">共 {{ relatedProjects.length }} 个项目</div>
     </el-dialog>
@@ -71,6 +83,8 @@ import { getDependencies, getRelatedProjects } from '@/api'
 const loading = ref(false)
 const loadingProjects = ref(false)
 const searchText = ref('')
+// 依赖范围：inner=自研项目组件（component_snapshot，默认）/ software=开源软件组件（component 表）
+const filterSource = ref('inner')
 const filterClassifier = ref('')
 const relatedProjectsDialogVisible = ref(false)
 const currentComponent = ref<any>(null)
@@ -106,7 +120,7 @@ onMounted(() => {
 async function loadDependencies() {
   loading.value = true
   try {
-    const params: any = {}
+    const params: any = { source: filterSource.value }
     if (searchText.value) params.keyword = searchText.value
     if (filterClassifier.value) params.classifier = filterClassifier.value
     
@@ -128,6 +142,7 @@ function handleSearch() {
 
 function handleReset() {
   searchText.value = ''
+  filterSource.value = 'inner'
   filterClassifier.value = ''
   handleSearch()
 }
@@ -143,7 +158,7 @@ async function viewRelatedProjects(row: any) {
   relatedProjectsDialogVisible.value = true
   loadingProjects.value = true
   try {
-    const res = await getRelatedProjects(row.id)
+    const res = await getRelatedProjects(row.id, filterSource.value)
     relatedProjects.value = res || []
   } catch (error) {
     console.error('加载关联项目失败:', error)

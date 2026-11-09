@@ -43,10 +43,95 @@ const PERM_GLOBAL_GOVERNANCE_VIEW = 'global_governance_view'
 // 视图模式持久化 key（记住用户上次的 全局治理/个人工作台 选择）
 const VIEW_MODE_STORAGE_KEY = 'osm_view_mode'
 
+// ==================== 权限系统角色编码 → 项目三类角色 映射 ====================
+// 后端 /api/user/info 返回的 roles 为统一权限系统编码（贴近内网 COMMON/SPECIALIST/ADMIN），
+// 前端据此划分为三类角色形态：operator 普通用户 / specialist 部门治理专员 / admin 管理部门专员。
+// 用户约定：权限系统把管理部门专员编码叫 admin 也行，关键是能划分清楚三类角色。
+// 对接内网后若出现新编码，在此表补充映射即可（映射不到的按 operator 兜底）。
+const ROLE_CODE_MAP: Record<string, RoleType> = {
+  COMMON: 'operator',
+  SPECIALIST: 'specialist',
+  ADMIN: 'admin',
+  // 兼容小写/全拼（CAS/JWT 兜底、开发环境直接下发小写编码的场景）
+  common: 'operator',
+  specialist: 'specialist',
+  admin: 'admin',
+  operator: 'operator',
+}
+function mapRoleCode(code?: string): RoleType {
+  return ROLE_CODE_MAP[code || ''] || 'operator'
+}
+
 // 判断用户信息是否具备视图切换能力（admin 角色，或权限体系授予 global_governance_view）
 function canToggleByInfo(info?: UserInfo | null): boolean {
   if (!info) return false
   return info.role === 'admin' || (info.permissions || []).includes(PERM_GLOBAL_GOVERNANCE_VIEW)
+}
+
+// ==================== 菜单解析辅助函数（对齐后端 /api/user/info 的 menus 数组结构） ====================
+// 内网菜单节点结构：{id, name, appCode, appModule, parentId, orderNum, path, icon, visible, children}
+// → 映射为前端 MenuTreeNode（component 由前端 staticRoutes 按 path 匹配，菜单节点无需携带）。
+
+// normalizeMenus 后端 menus 数组 → MenuTreeNode 数组
+function normalizeMenus(menus: any[]): MenuTreeNode[] {
+  return (menus || []).map(m => ({
+    id: m.id ?? 0,
+    name: m.name || '',
+    path: m.path || '',
+    component: m.component || '',
+    icon: m.icon || '',
+    sort: m.orderNum ?? 0,
+    hidden: m.visible === false,
+    group: m.appModule || '',
+    children: normalizeMenus(m.children),
+  }))
+}
+
+// 菜单 path 前缀 → 角色（本项目静态路由按 operator/specialist/admin 前缀组织，见 router/modules）
+function inferMenuRole(path: string): string {
+  if (path.startsWith('/admin')) return 'admin'
+  if (path.startsWith('/specialist')) return 'specialist'
+  return 'operator'
+}
+
+// 节点及子节点归属的角色集合（目录节点 path 可能为空，以子节点 path 为准）
+function collectNodeRoles(node: MenuTreeNode): Set<string> {
+  const roles = new Set<string>()
+  if (node.path) roles.add(inferMenuRole(node.path))
+  ;(node.children || []).forEach(ch => {
+    collectNodeRoles(ch).forEach(r => roles.add(r))
+  })
+  return roles
+}
+
+// groupMenusByRole 按 path 前缀把 menus 数组分为 {角色: [菜单树]}，用于按角色注册动态路由
+function groupMenusByRole(menus: MenuTreeNode[]): Record<string, MenuTreeNode[]> {
+  const grouped: Record<string, MenuTreeNode[]> = {}
+  for (const node of menus) {
+    const role = [...collectNodeRoles(node)][0] || 'operator'
+    if (!grouped[role]) grouped[role] = []
+    grouped[role].push(node)
+  }
+  return grouped
+}
+
+// menuScope 菜单归属：全局治理（存在 /admin 前缀路径）或个人工作台，用于视图模式过滤
+function menuScope(node: MenuTreeNode): 'global' | 'personal' {
+  const hasAdmin = (n: MenuTreeNode): boolean => {
+    if (n.path && n.path.startsWith('/admin')) return true
+    return (n.children || []).some(hasAdmin)
+  }
+  return hasAdmin(node) ? 'global' : 'personal'
+}
+
+// extractPermissions 从权限系统 buttons 提取按钮权限编码（resource）作为权限点集合，供 v-auth/hasPerm 判断
+function extractPermissions(data: any): string[] {
+  const perms = [...(data.permissions || [])]
+  const buttons = data.buttons || []
+  ;(Array.isArray(buttons) ? buttons : []).forEach((b: any) => {
+    if (b && b.visible !== false && b.resource) perms.push(b.resource)
+  })
+  return perms
 }
 
 // ==================== user store（对应参考项目 store/index.js 的 state/mutations/actions） ====================
@@ -88,6 +173,11 @@ export const useUserStore = defineStore('user', {
     viewMode: 'personal' as 'personal' | 'admin',
     // 各角色的菜单树：后端按用户全部角色返回菜单并集（{ <role>: [菜单树] }）
     roleMenus: {} as Record<string, MenuTreeNode[]>,
+    // 后端 /api/user/info 返回的完整菜单数组（权限系统结构，对齐内网）：登录后按视图过滤渲染侧边栏、按 path 注册路由
+    menus: [] as MenuTreeNode[],
+    // /api/user/info 完整响应缓存：initUserInfo 一次请求后供 fetchMenus 复用，
+    // 避免登录时对同一接口发两次请求（原实现 initUserInfo + fetchMenus 各请求一次）。
+    userInfoResp: null as any,
     routesLoaded: false,
     // 组织架构数据（部门→团队→成员），登录后按需拉取缓存
     orgDepartments: [] as OrgDepartment[],
@@ -102,7 +192,7 @@ export const useUserStore = defineStore('user', {
         id: state.user.id,
         username: state.user.id,
         nickname: state.user.displayName,
-        role: (state.user.roles && state.user.roles[0]) || 'operator',
+        role: mapRoleCode((state.user.roles && state.user.roles[0]) as string),
         department: state.user.groupName,
         team: state.user.orgCode,
         email: state.user.email,
@@ -136,10 +226,17 @@ export const useUserStore = defineStore('user', {
       return this.viewMode === 'admin'
     },
     // 当前侧边栏菜单：
-    // - 全局治理视图 → 只看 admin 角色菜单
-    // - 个人视图 → 全部非 admin 角色菜单并集（admin 菜单归全局治理视图）；
-    //   用户仅 admin 角色时回退 specialist 菜单（管理员的个人工作台，原设计约定）
+    // - 权限系统菜单（menus 数组，后端 /api/user/info 下发）：按视图模式过滤个人工作台/全局治理
+    //   （个人=path 以 /operator|/specialist 开头，全局=path 以 /admin 开头，见 menuScope）
+    // - 兜底：menuMap 本地角色映射（权限系统未下发菜单时，见 fetchMenus）
     viewMenus(): MenuTreeNode[] {
+      if (this.menus.length > 0) {
+        const list = this.viewMode === 'admin'
+          ? this.menus.filter(n => menuScope(n) === 'global')
+          : this.menus.filter(n => menuScope(n) !== 'global')
+        // 过滤结果为空（如兜底菜单未含对应视图）时回退角色分组逻辑，保证侧边栏有内容可渲染
+        if (list.length > 0) return list
+      }
       const merge = (roles: string[]): MenuTreeNode[] => {
         const merged: MenuTreeNode[] = []
         const seen = new Set<string>()
@@ -158,6 +255,7 @@ export const useUserStore = defineStore('user', {
         return this.roleMenus['admin'] || []
       }
       const roles = (this.userInfo?.roles?.length ? this.userInfo.roles : [this.userInfo?.role || 'operator'])
+        .map(r => mapRoleCode(r))
         .filter(r => r !== 'admin')
       let menus = merge(roles)
       if (menus.length === 0 && this.userInfo?.role === 'admin') {
@@ -206,6 +304,8 @@ export const useUserStore = defineStore('user', {
     },
     // 当前用户完整权限信息（对应参考项目 initUserInfo）：/api/user/info → 写入 state.user
     // 返回 true=成功（后续调 fetchMenus 加载菜单），false=失败（调用方负责跳转 /login）
+    // account 对齐权限系统结构：accountCode/accountName/depCode/depName/orgCode/orgName/orgDisplayName
+    // buttons 对齐权限系统结构：resource 编码提取到 permissions，供 v-auth/hasPerm 判断按钮显隐
     async initUserInfo(): Promise<boolean> {
       if (!this.token) return false
       // HttpOnly Cookie 模式（__cookie__ 标记）不构造 Authorization 头，后端从 Cookie 认证
@@ -213,19 +313,25 @@ export const useUserStore = defineStore('user', {
         ? await getUserInfo()
         : await getUserInfo({ Authorization: `Bearer ${this.token}` })
       if (!data) return false
+      // 缓存完整响应，fetchMenus 直接复用，避免对同一接口二次请求
+      this.userInfoResp = data
+      // HttpOnly Cookie 模式下认证走 Cookie，清理 localStorage 中历史遗留的旧 token（避免 axios 误带旧 Authorization 头）
+      if (this.token === '__cookie__') {
+        tokenManager.removeToken()
+      }
       const a = data.account || {}
       this.user = {
         load: true,
-        id: String(a.id ?? ''),
-        displayName: a.displayName || '',
-        groupName: a.groupName || '',
-        groupCode: a.groupCode || '',
-        orgCode: a.orgCode || '',
-        groupDisplayName: a.groupDisplayName || '',
-        email: a.email || '',
+        id: String(a.accountCode ?? a.id ?? ''),
+        displayName: a.accountName ?? a.displayName ?? '',
+        groupName: a.depName ?? a.groupName ?? '',
+        groupCode: a.depCode ?? a.groupCode ?? '',
+        orgCode: a.orgCode ?? '',
+        groupDisplayName: a.orgDisplayName ?? a.groupDisplayName ?? '',
+        email: a.email ?? '',
         roles: data.roles || [],
-        permissions: data.permissions || [],
-        menus: data.menus || [],
+        permissions: extractPermissions(data),
+        menus: [],
         buttons: data.buttons || [],
       }
       tokenManager.setUser(this.userInfo as UserInfo)
@@ -234,74 +340,67 @@ export const useUserStore = defineStore('user', {
       return true
     },
     // 获取菜单并动态注册路由
-    // /api/user/info 的 menusByRole 字段：{ <role>: [菜单树] }（承载原 /auth/menus 职责）
-    // 前端一次拉取，全部角色的菜单路由均注册；视图切换（个人工作台/全局治理）只是按角色分组展示
+    // 数据源：后端 /api/user/info 的 menus 数组（权限系统结构，对齐内网），前端按 path 前缀分组注册；
+    // 权限系统未下发菜单时走前端本地角色映射兜底（menuMap.ts，对接后可删除）。
     async fetchMenus() {
       if (!this.token) return
       try {
-        const headers: Record<string, string> = {}
-        if (this.token && this.token !== '__cookie__') {
-          // 非 HttpOnly Cookie 模式才构造 Authorization 头；Cookie 模式后端从 Cookie 认证
-          headers['Authorization'] = `Bearer ${this.token}`
-        }
-        if (this.userInfo) {
-          // X-User-ID 统一使用 CAS 用户名（username），与后端用户唯一标识保持一致
-          headers['X-User-ID'] = this.userInfo.username || ''
-          headers['X-User-Role'] = this.userInfo.role || ''
-          headers['X-User-Name'] = encodeURIComponent(this.userInfo.nickname || '')
-          headers['X-User-Dept'] = encodeURIComponent(this.userInfo.department || '')
-        }
-        const data = await getUserInfo(headers)
-
-        if (data?.menusByRole && typeof data.menusByRole === 'object') {
-          const menusByRole: Record<string, MenuTreeNode[]> = data.menusByRole
-
-          // 权限系统未下发任何菜单（menusByRole 为空对象、或所有角色菜单树均为空）
-          // → 用前端本地角色映射兜底（menuMap.ts）
-          // ============ 兜底分支：权限系统未下发菜单时生效（对接后可整段删除）============
-          const allEmpty = Object.keys(menusByRole).length === 0 || Object.values(menusByRole).every(v => !Array.isArray(v) || v.length === 0)
-          if (allEmpty) {
-            console.warn('[fetchMenus] 权限系统返回空菜单，使用前端本地角色映射（menuMap.ts 兜底）')
-            const fallbackRole = this.userInfo?.role || 'operator'
-            const fallbackMenus = getRoleMenuMap(fallbackRole)
-            this.roleMenus = { [fallbackRole]: fallbackMenus }
-            registerDynamicRoutes(fallbackMenus, fallbackRole)
-            // admin 角色的个人工作台使用 specialist 菜单（原设计约定），一并注册路由，保证视图切换可访问
-            if (fallbackRole === 'admin') {
-              const personalMenus = getRoleMenuMap('specialist')
-              this.roleMenus['specialist'] = personalMenus
-              registerDynamicRoutes(personalMenus, 'specialist')
-            }
-          } else {
-            this.roleMenus = menusByRole
-            // 全部角色的菜单路由均注册；角色菜单为空时由 registerDynamicRoutes 兜底注册默认首页路由
-            for (const [menuRole, menuTree] of Object.entries(menusByRole)) {
-              if (Array.isArray(menuTree) && menuTree.length > 0) {
-                registerDynamicRoutes(menuTree, menuRole)
-              } else {
-                registerDynamicRoutes([], menuRole)
-              }
-            }
+        // 优先复用 initUserInfo 已缓存的完整响应（同一接口只请求一次）；
+        // 单独调用本方法（如 CasCallback 兜底、无 token 参数场景）时才自行请求。
+        let data = this.userInfoResp
+        if (!data) {
+          const headers: Record<string, string> = {}
+          if (this.token && this.token !== '__cookie__') {
+            // 非 HttpOnly Cookie 模式才构造 Authorization 头；Cookie 模式后端从 Cookie 认证
+            headers['Authorization'] = `Bearer ${this.token}`
           }
-          this.routesLoaded = true
-          return
+          if (this.userInfo) {
+            // X-User-ID 统一使用 CAS 用户名（username），与后端用户唯一标识保持一致
+            headers['X-User-ID'] = this.userInfo.username || ''
+            headers['X-User-Role'] = this.userInfo.role || ''
+            headers['X-User-Name'] = encodeURIComponent(this.userInfo.nickname || '')
+            headers['X-User-Dept'] = encodeURIComponent(this.userInfo.department || '')
+          }
+          data = await getUserInfo(headers)
+          this.userInfoResp = data
         }
+        if (!data) return
+
+        // ===== 主分支：权限系统下发菜单（menus 数组，对齐内网结构）=====
+        if (Array.isArray(data.menus)) {
+          const normalized = normalizeMenus(data.menus).filter(n => !n.hidden)
+          if (normalized.length > 0) {
+            this.menus = normalized
+            // 按 path 前缀分组角色，分别注册动态路由（admin 菜单注册到 AdminLayout 等）
+            const grouped = groupMenusByRole(normalized)
+            for (const [menuRole, tree] of Object.entries(grouped)) {
+              registerDynamicRoutes(tree, menuRole)
+            }
+            this.routesLoaded = true
+            return
+          }
+        }
+
+        // ============ 兜底分支：权限系统未下发菜单时生效（对接后可整段删除）============
+        // 菜单可见性属于"权限展示"而非"认证判定"：菜单拉取失败不登出用户；
+        // 按用户角色用前端本地菜单映射（menuMap.ts）提供默认菜单（公司模型：有 app 即有默认角色）。
+        console.warn('[fetchMenus] 权限系统未返回菜单，使用前端本地角色映射（menuMap.ts 兜底）')
+        const fallbackRole = this.userInfo?.role || 'operator'
+        const fallbackMenus = getRoleMenuMap(fallbackRole)
+        this.menus = [...fallbackMenus]
+        this.roleMenus = { [fallbackRole]: fallbackMenus }
+        registerDynamicRoutes(fallbackMenus, fallbackRole)
+        // admin 角色的个人工作台使用 specialist 菜单（原设计约定），并入 menus（个人视图可渲染）并注册路由
+        if (fallbackRole === 'admin') {
+          const personalMenus = getRoleMenuMap('specialist')
+          this.roleMenus['specialist'] = personalMenus
+          this.menus = [...fallbackMenus, ...personalMenus]
+          registerDynamicRoutes(personalMenus, 'specialist')
+        }
+        this.routesLoaded = true
       } catch (err) {
         console.error('获取菜单失败:', err)
       }
-
-      // ============ 兜底分支：权限系统未对接/返回为空时生效 ============
-      // 对接真实权限系统后本分支不再进入，可整段删除。
-      // 菜单可见性属于"权限展示"而非"认证判定"：菜单拉取失败不登出用户；
-      // 按用户角色用前端本地菜单映射（menuMap.ts）提供默认菜单（公司模型：有 app 即有默认角色）。
-      console.warn('[fetchMenus] 权限系统未返回菜单，使用前端本地角色映射（menuMap.ts 兜底）')
-      if (this.roleMenus && Object.keys(this.roleMenus).length === 0) {
-        const fallbackRole = this.userInfo?.role || 'operator'
-        const fallbackMenus = getRoleMenuMap(fallbackRole)
-        this.roleMenus = { [fallbackRole]: fallbackMenus }
-        registerDynamicRoutes(fallbackMenus, fallbackRole)
-      }
-      this.routesLoaded = true
     },
 
     // ---------- 登录 / 登出 ----------
@@ -318,8 +417,8 @@ export const useUserStore = defineStore('user', {
         this.token = ''
         return false
       }
-      // admin 默认进入全局治理视图；其他用户（含具备全局治理权限的专员）默认个人工作台
-      this.viewMode = this.userInfo?.role === 'admin' ? 'admin' : 'personal'
+      // 所有角色默认进入个人工作台（管理部门专员同样默认个人工作台，可手动切换全局治理）
+      this.viewMode = 'personal'
       this.routesLoaded = false
       await this.fetchMenus()
       return true
@@ -354,6 +453,8 @@ export const useUserStore = defineStore('user', {
       }
       this.token = ''
       this.roleMenus = {}
+      this.menus = []
+      this.userInfoResp = null
       this.routesLoaded = false
       resetRouter()
       tokenManager.removeToken()
@@ -395,6 +496,9 @@ export const useUserStore = defineStore('user', {
         const savedMode = localStorage.getItem(VIEW_MODE_STORAGE_KEY)
         this.viewMode = canToggleByInfo(savedUser) && savedMode === 'admin' ? 'admin' : 'personal'
         this.routesLoaded = false
+        // 用户信息缓存置空：恢复登录态后由路由守卫走 initUserInfo 重新拉取（一次请求，避免用旧缓存）
+        this.userInfoResp = null
+        this.menus = []
       }
     },
   },

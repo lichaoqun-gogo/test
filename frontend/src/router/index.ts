@@ -287,10 +287,10 @@ const router = createRouter({
 })
 
 // 获取角色对应的默认首页
+// 所有角色默认进入个人工作台"我的运维"（管理部门专员 admin 也默认个人工作台，全局治理视图通过顶部切换进入）
 export function getDefaultHome(role: string | undefined): string {
   switch (role) {
     case 'admin':
-      return '/admin/asset/software-library'
     case 'specialist':
       return '/specialist/my-ops'
     case 'operator':

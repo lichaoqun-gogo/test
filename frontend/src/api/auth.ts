@@ -1,19 +1,6 @@
 import type { UserInfo } from '@/types'
 import axios from 'axios'
 
-// 获取认证模式
-export async function getAuthMode(): Promise<'local' | 'cas'> {
-  try {
-    const res = await axios.get('/api/v1/auth/mode')
-    if (res.data?.mode === 'cas') {
-      return 'cas'
-    }
-  } catch {
-    // 接口不可用时默认 local
-  }
-  return 'local'
-}
-
 // CAS 登录：重定向到后端 CAS 入口
 export function casLogin(): void {
   window.location.href = '/api/v1/auth/cas/login'

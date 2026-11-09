@@ -9,18 +9,11 @@
       <el-input v-model="searchText" placeholder="搜索项目名称" clearable style="width: 200px" @clear="handleSearch" @keyup.enter="handleSearch">
         <template #prefix><el-icon><Search /></el-icon></template>
       </el-input>
-      <el-select v-model="filterDept" placeholder="项目部门" clearable style="width: 150px; margin-left: 12px" @change="handleSearch">
-        <el-option label="技术研发部" value="技术研发部" />
-        <el-option label="平台研发部" value="平台研发部" />
-        <el-option label="运维部" value="运维部" />
-        <el-option label="安全部" value="安全部" />
-        <el-option label="质量管理部" value="质量管理部" />
+      <el-select v-model="filterDept" placeholder="项目部门" clearable style="width: 150px; margin-left: 12px" @change="handleDeptChange">
+        <el-option v-for="d in deptOptions" :key="d.id" :label="d.groupName" :value="d.groupName" />
       </el-select>
       <el-select v-model="filterTeam" placeholder="项目团队" clearable style="width: 150px; margin-left: 12px" @change="handleSearch">
-        <el-option label="订单团队" value="订单团队" />
-        <el-option label="支付团队" value="支付团队" />
-        <el-option label="用户团队" value="用户团队" />
-        <el-option label="基础架构团队" value="基础架构团队" />
+        <el-option v-for="t in teamOptions" :key="t.id" :label="t.groupName" :value="t.groupName" />
       </el-select>
       <el-button type="primary" plain @click="handleSearch" style="margin-left: 12px">
         <el-icon><Search /></el-icon> 查询
@@ -191,11 +184,31 @@ import { Search, Plus, Setting } from '@element-plus/icons-vue'
 import { getInnerProjects, updateInnerProject } from '@/api'
 import InnerProjectDetailDialog from '@/components/business/InnerProjectDetailDialog.vue'
 import { formatTime } from '@/utils/format'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 const loading = ref(false)
 const searchText = ref('')
 const filterDept = ref('')
 const filterTeam = ref('')
+
+// 部门/团队级联下拉（数据源：/api/user/depts 部门树，见 store.groupTree，App.vue 登录后已加载）
+// deptTree 节点：{id, orgCode, groupCode, groupName, parentId, ldapDomain, orderNum, children}
+const deptOptions = computed(() =>
+  (userStore.groupTree || []).map((d: any) => ({ id: d.id, groupName: d.groupName }))
+)
+const teamOptions = computed(() => {
+  if (!filterDept.value) return []
+  const dept = (userStore.groupTree || []).find((d: any) => d.groupName === filterDept.value)
+  return (dept?.children || []).map((t: any) => ({ id: t.id, groupName: t.groupName }))
+})
+
+// 切换部门后重置团队（级联联动）并触发查询
+function handleDeptChange() {
+  filterTeam.value = ''
+  handleSearch()
+}
 const detailDialogVisible = ref(false)
 const currentProject = ref<any | null>(null)
 const batchSetBoundaryDialogVisible = ref(false)
@@ -287,6 +300,10 @@ watch(filteredProjects, (list) => {
 })
 
 onMounted(() => {
+  // 部门树未加载时补拉（正常登录后 App.vue 已 initGroupTree；直入页面时兜底）
+  if (!userStore.groupTree || userStore.groupTree.length === 0) {
+    userStore.initGroupTree()
+  }
   loadProjects()
 })
 
